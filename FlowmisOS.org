@@ -56,9 +56,10 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
 2. Bootreihenfolge einstellen um auf Stick zu booten oder Einstellungen in VM machen
 3. Entweder <archinstall> und automatisches Setup mitmachen oder wie folgt fortsetzen
 4. folgende Befehle eingeben:
+
  #+begin_src
  loadkeys de-latin1
- fdisk //dev/sda/             -> p n Enter Enter w
+ fdisk /dev/sda             -> n p Enter Enter w
  mkfs.ext4 /dev/sda1
  mount /dev/sda1 /mnt
  pacstrap /mnt base linux linux-firmware
@@ -66,7 +67,7 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  arch-chroot /mnt
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  hwclock --systohc
- pacman -S neovim sudo git grub efibootmgr dosfstools os-prober mtools
+ pacman -S neovim sudo git grub efibootmgr dosfstools os-prober mtools networkmanager
  vim /etc/locale.conf       -> LANG=de_DE.UTF-8
  vim /etc/locale.gen        -> Den # vor #de_DE.UTF-8 UTF-8 entfernen
  locale-gen
@@ -86,15 +87,15 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  grub-mkconfig -o /boot/grub/grub.cfg
  exit
  umount /mnt
+ systemctl enable NetworkManager
+ systemctl enable lightdm
+ systemctl reboot -> emacs in FlowmisOS.org und org-babel-tangle um configs an ihren Ort zu bringen und erneut reboot
  ###reboot and login into arch
  cs ~
  git clone https://github.com/flowmis/FlowmisOS.git
  cd ~
  cd ~ FlowmisOS
  . install.sh (oder: . installvm.sh)
- systemctl enable NetworkManager
- systemctl enable lightdm
- systemctl reboot -> emacs in FlowmisOS.org und org-babel-tangle um configs an ihren Ort zu bringen und erneut reboot
  #+end_src
 
 ** Genauer Guide
