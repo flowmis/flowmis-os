@@ -4516,8 +4516,8 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 #+end_src
 * Git
 #+begin_src shell :tangle ~/.git-credentials
-https://flowmis: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@github.com
-#+end_src
+https://flowmis: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@github.com
+#+end_src  
 #+begin_src shell :tangle ~/.gitconfig
 [user]
 	name = flowmis
