@@ -32,131 +32,73 @@ Eine EMACS-Funktion erstellen die meine gewohnte Ordnerstruktur herstellt und in
 (directory-files-recursively "~" "\\.org$")                     ;gibt alle .org files aus die man in irgendwelchen Ordnern und Unterordnern im home Ordner hat
 #+end_src
 
-* Übersicht :toc:
-- [[#flowmisos][FlowmisOS]]
-- [[#export-configs][Export Configs]]
-- [[#arch][Arch]]
-- [[#simple-vm-install][Simple VM Install]]
-- [[#installation-guide][Installation Guide]]
-- [[#installationsskript-und-programme-für-linux][Installationsskript und Programme für Linux]]
-  - [[#setup-linux][Setup Linux]]
-- [[#windowmanager-qtile][Windowmanager Qtile]]
-  - [[#allgemeines-zu-qtile][Allgemeines zu Qtile]]
-  - [[#standard-qtile-config][Standard Qtile Config]]
-  - [[#dt-config][DT Config]]
-  - [[#meine-config][Meine Config]]
-- [[#alacritty-config][Alacritty Config]]
-- [[#bash][Bash]]
-- [[#picom-config][Picom Config]]
-- [[#rofi][Rofi]]
-- [[#emacs-config-von-0][EMACS Config von 0]]
-- [[#doomemacs-config][DoomEmacs config]]
-  - [[#bookmarks-and-buffers][BOOKMARKS AND BUFFERS]]
-  - [[#calendar][CALENDAR]]
-  - [[#centaur-tabs][CENTAUR-TABS]]
-  - [[#dashboard][DASHBOARD]]
-  - [[#dired][DIRED]]
-  - [[#doom-theme][DOOM THEME]]
-  - [[#elfeed][ELFEED]]
-  - [[#emms][EMMS]]
-  - [[#emojis][EMOJIS]]
-  - [[#evaluate-elisp-expressions][EVALUATE ELISP EXPRESSIONS]]
-  - [[#eww][EWW]]
-  - [[#fonts][FONTS]]
-  - [[#ivy][IVY]]
-  - [[#line-settings][LINE SETTINGS]]
-  - [[#mouse-support][MOUSE SUPPORT]]
-  - [[#neotree][NEOTREE]]
-  - [[#open-specific-files][OPEN SPECIFIC FILES]]
-  - [[#org-mode][ORG MODE]]
-  - [[#password-store][PASSWORD STORE]]
-  - [[#registers][REGISTERS]]
-  - [[#shells][SHELLS]]
-  - [[#splits][SPLITS]]
-  - [[#winner-mode][WINNER MODE]]
-  - [[#mane-hinzugefügt][Mane hinzugefügt]]
-- [[#doomemacs-packages][DoomEmacs packages]]
-- [[#doomemacs-init][DoomEmacs init]]
-- [[#git][Git]]
-- [[#startup-skript][Startup Skript]]
-
 * TODO FlowmisOS
-+ Eigene FlowmisOS Repo auf Github erstellen mit Installationsskript, Dotfiles, Packages etc.
 + Alacritty grundlegende Config (Aliase, Keybindings, Aussehen)
-+ Richtiger Exportpfad für Neuinstallation
-+ vimrc und .bashrc alles im Home Verzeichnis speichern und in wiefern nötig für Alacritty oder anderes?
-* Export Configs
-| Src-Block                      | momentaner Exportpfad (Space mB) | Zielpfad                                     |
-|                                | :tangle <NameFile>               | :tangle <Pfad+NameFile>                      |
-|--------------------------------+----------------------------------+----------------------------------------------|
-| QTILE                          | gleicher Ordner                  | home/flowmis/.config/qtile/config.py         |
-| ALACRITTY                      | gleicher Ordner                  | home/flowmis/.config/alacritty/alacritty.yml |
-| Picom                          | gleicher Ordner                  | home/flowmis/.config/picom/picom.conf        |
-| EMACS                          | not available                    | home/flowmis/.emacs.d/config.el?             |
-| Achtung bei DOOM anderer Pfad? |                                  | home/flowmis/.emacs.d/init.el                |
-|                                |                                  | home/flowmis/.emacs.d/packages.el?           |
-| ROFI                           | not available                    | ?                                            |
-| Conky                          | not available                    | ?                                            |
-| STARTUP SKRIPT                 | gleicher Ordner                  | home/flowmis/.xprofile                       |
-| Login Manager                  | not available                    | ?                                            |
-* Arch
-Ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
-* Simple VM Install
-+ Arch iso in VM und Einstellungen VM      -> simplest solution ist der Befehl 'archinstall' gleich zu Beginn nach booten auf Iso einzugeben und dem Guide folgen
-+ loadkeys de-latin1
-+ fdisk //dev/sda/             -> p n Enter Enter w
-+ mkfs.ext4 /dev/sda1
-+ mount /dev/sda1 /mnt
-+ pacstrap /mnt base linux linux-firmware
-+ genfstab -U /mnt >> /mnt/etc/fstab
-+ arch-chroot /mnt
-+ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-+ hwclock --systohc
-+ pacman -S vim
-+ vim /etc/locale.conf       -> LANG=de_DE.UTF-8
-+ vim /etc/locale.gen        -> Den # vor #de_DE.UTF-8 UTF-8 entfernen
-+ locale-gen
-+ vim /etc/hostname          -> NamePC
-+ vim /etc/hosts             -> Einfügen: 127.0.0.1   localhost
-                                          ::1         localhost
-                                          127.0.1.1   NamePC.localdomain   NamePC
-+ passwd
-+ useradd -m flowmis
-+ passwd flowmis
-+ usermod -aG wheel,audio,video,optical,storage flowmis
-+ pacman -S sudo
-+ EDITOR=vim visudo          -> uncomment #%wheel ALL=(ALL) ALL
-+ pacman -S efibootmgr dosfstools os-prober mtools
-+ mkdir /boot/EFI
-+ mount /dev/sda1 boot/EFI
-+ pacman -S grub
-+ grub-install /dev/sda
-+ grub-mkconfig -o /boot/grub/grub.cfg
-+ exit
-+ umount /mnt
-+ reboot and login into arch
-+ sudo pacman -S
-    xf86-video-fbdev      -> bei physischen Maschinen Intel, AMD oder Nividia Treiber (siehe ArchWiki)
-    xorg                  -> xrandr etc
-    nitrogen              -> Wallpaper
-    picom                 -> Kompositor for windowmanagment (hilft qtile)
-    git
-    alacritty
-    qtile
-    base-devel            -> for makepkg -si
-    lightdm               -> Login into Windowmanager
-    lightdm-gtk-greeter   -> Startbildschirm Loginmanager
-    networkmanager
-    emacs
-+ systemctl enable NetworkManager
-+ systemctl enable lightdm
-+ git clone https://aur.archlinux.org/brave-bin.git
-+ cd brave-bin/
-+ makepkg -si
-+ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-~/.emacs.d/bin/doom install
-+ systemctl reboot and install what you want
-* Installation Guide
++ Installationsskript überarbeiten: Soll Ordnerstruktur die ich haben mag herstellen und Grundlegende Programme installieren
++ .bashrc mit aliase überarbeiten und wie ist zusammenspiel mit Alacritty?
++ Pfade conifgs passt?
+ | Src-Block                      | momentaner Exportpfad (Space mB) | Zielpfad                          |
+ |                                | :tangle <NameFile>               | :tangle <Pfad+NameFile>           |
+ |--------------------------------+----------------------------------+-----------------------------------|
+ | QTILE                          | gleicher Ordner                  | ~/.config/qtile/config.py         |
+ | ALACRITTY                      | gleicher Ordner                  | ~/.config/alacritty/alacritty.yml |
+ | Picom                          | gleicher Ordner                  | ~/.config/picom/picom.conf        |
+ | EMACS                          | not available                    | ~/.emacs.d/config.el?             |
+ | Achtung bei DOOM anderer Pfad? |                                  | ~/.emacs.d/init.el                |
+ |                                |                                  | ~/.emacs.d/packages.el?           |
+ | ROFI                           | not available                    | ~/.config/rofi                    |
+ | Conky                          | not available                    | ~/.config/conky                   |
+ | STARTUP SKRIPT                 | gleicher Ordner                  | ~/.xprofile           |
+ | Login Manager                  | not available                    | ?                                 |
+* Install Arch
+Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
+1. Arch ISO downloaden & auf Stick oder in VM
+2. Bootreihenfolge einstellen um auf Stick zu booten oder Einstellungen in VM machen 
+3. Entweder <archinstall> und automatisches Setup mitmachen oder wie folgt fortsetzen
+4. folgende Befehle eingeben: 
+ #+begin_src 
+ loadkeys de-latin1
+ fdisk //dev/sda/             -> p n Enter Enter w
+ mkfs.ext4 /dev/sda1
+ mount /dev/sda1 /mnt
+ pacstrap /mnt base linux linux-firmware
+ genfstab -U /mnt >> /mnt/etc/fstab
+ arch-chroot /mnt
+ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+ hwclock --systohc
+ pacman -S neovim sudo git grub efibootmgr dosfstools os-prober mtools
+ vim /etc/locale.conf       -> LANG=de_DE.UTF-8
+ vim /etc/locale.gen        -> Den # vor #de_DE.UTF-8 UTF-8 entfernen
+ locale-gen
+ vim /etc/hostname          -> NamePC
+ vim /etc/hosts             -> Einfügen: 127.0.0.1   localhost
+                                         ::1         localhost
+                                         127.0.1.1   NamePC.localdomain   NamePC
+ passwd
+ useradd -m flowmis
+ passwd flowmis
+ usermod -aG wheel,audio,video,optical,storage flowmis
+ EDITOR=vim visudo          -> uncomment #%wheel ALL=(ALL) ALL
+ mkdir /boot/EFI
+ mount /dev/sda1 boot/EFI
+#löschen wenn es hier nicht nötig ist, aber vll erst hier sinnvoll zu installieren?:    pacman -S grub
+ grub-install /dev/sda
+ grub-mkconfig -o /boot/grub/grub.cfg
+ exit
+ umount /mnt
+ ###reboot and login into arch
+ cs ~
+ git clone https://github.com/flowmis/FlowmisOS.git
+ cd ~
+ cd ~ FlowmisOS
+ . install.sh (oder: . installvm.sh) 
+ systemctl enable NetworkManager
+ systemctl enable lightdm
+ systemctl reboot -> emacs in FlowmisOS.org und org-babel-tangle um configs an ihren Ort zu bringen und erneut reboot
+ #+end_src
+
+** Genauer Guide
+
 1. Arch InstallationGuide (https://wiki.archlinux.org/title/Installation_guide):
 2. Bootstick mit ArchLinux erstellen:
    - Iso downloaden (für VM ausreichend) https://archlinux.org/download/ und Bootstick erstellen (In Windows mit Rufus oder Etcher - Alternativen: https://wiki.archlinux.org/title/USB_flash_installation_medium)
@@ -167,6 +109,7 @@ Ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit ci
     #+end_src
    - Anmerkung: Arch Linux installation images supporten kein Secure Boot (-> disable Secure Boot to boot the installation medium). Auch auf Boot device Reihenfolge im Bios achten/anpassen um auf Stick zu booten. Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann.
 3. Installation in der virtuellen Konsole:
+   
     #+begin_src shell
     #Keyboard konfigurieren
         ls /sys/firmware/efi/efivars                                # kein Error = System is booted in UEFI mode. Falls directory nicht existiert, ist system vll im BIOS (or CSM) mode.
@@ -262,9 +205,11 @@ Ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit ci
         cd dtos/                                                    # in OS Ordner navigieren
         ./dtos                                                      # starten des Installationsskripts
     #+end_src
-4. Alternative Arch GUI Installation (nicht FlowmisOS):
-   Mit komfortabler GUI und float Window Manager wie man es von Windows kennt:
-   - Arch wie oben beschrieben zum laufen bekommen und statt git clone einfach gnome installieren und konfigurieren
+
+** Alternative Arch GUI Installation (nicht FlowmisOS):
+
+Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist dies für Anfänger besser:
+   - Arch wie oben beschrieben zum laufen bekommen und statt git clone FlowmisOS repo einfach gnome installieren und konfigurieren
     #+begin_src shell
     sudo pacman -S gnome                                             # intsalliert gnome Zeug für gui
     sudo pacman -S gnome-extra                                       # weitere dependencies und Zeug ~2GB
@@ -283,17 +228,58 @@ Ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit ci
 * Installationsskript und Programme für Linux
 1. Gute Linux Programme
    - Minimal Installation beinhaltet immer?: xorg server(dmenu xterm xmobar sind für xmonad nötig!?), window manager, login manager, browser, terminal(Terminal Emulator) und Texteditor
-#+begin_src shell :tangle installationsskript.sh
-sudo pacman -Syu
-sudo pacman -S git python python-pip vlc libreoffice flameshot gimp alacritty pinta htop kdenlive virtualbox nitrogen qtile rofi deepin-screen-recorder neovim thunderbird emacs
-sudo pip install jupyter notebook
-cd ~
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-~/.emacs.d/bin/doom install
-git clone https://github.com/flowmis/FlowmisOS.git
-git clone https://github.com/flowmis/DLT.git
-git clone https://github.com/flowmis/pres.git
-git clone https://aur.archlinux.org/brave-bin.git
+
+#+begin_src shell :tangle install.sh
+ # Achtung Video/Grafik Treiber je nach Gerät wechseln 
+ git clone https://github.com/flowmis/DLT.git
+ git clone https://github.com/flowmis/pres.git
+ git clone https://github.com/flowmis/Kivy.git
+ git clone https://github.com/flowmis/Sonstiges.git
+ git clone https://github.com/flowmis/Beachvolleyballfeld.git 
+ sudo pacman -S xf86-video-nouveau xorg alacritty base-devel lightdm lightdm-gtk-greeter networkmanager picom pinta htop kdenlive nitrogen qtile rofi deepin-screen-recorder thunderbird emacs flameshot libreoffice gimp vlc
+ # xf86-video-fbdev > bei physischen Maschinen Intel, AMD oder Nividia Treiber (siehe ArchWiki)
+ # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
+ # Nvidia-Grafiktreiber (Open Source): sudo pacman -S xf86-video-nouveau
+ # Nvidia (proprietäre) Grafiktreiber: sudo pacman -S nvidia nvidia-utils
+ # ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
+ # Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
+ # Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
+ # base-devel            -> for makepkg -si
+ # lightdm               -> Login into Windowmanager
+ # lightdm-gtk-greeter   -> Startbildschirm Loginmanager
+ # python python-pip virtualbox noch hinzufügen?
+ # sudo pip install jupyter notebook
+ git clone https://aur.archlinux.org/brave-bin.git
+ cd brave-bin/
+ makepkg -si
+ mv ~/.emacs.d ~/.backupemacs.d
+ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+ ~/.emacs.d/bin/doom install
+ ~/.emacs.d/bin/doom refresh
+#+end_src     
+
+#+begin_src shell :tangle installvm.sh
+ git clone https://github.com/flowmis/DLT.git
+ git clone https://github.com/flowmis/pres.git
+ git clone https://github.com/flowmis/Kivy.git
+ git clone https://github.com/flowmis/Sonstiges.git
+ git clone https://github.com/flowmis/Beachvolleyballfeld.git 
+ git clone https://aur.archlinux.org/brave-bin.git
+ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+ sudo pacman -S xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter networkmanager picom pinta htop kdenlive nitrogen qtile rofi deepin-screen-recorder thunderbird emacs flameshot libreoffice gimp vlc
+ # xf86-video-fbdev > bei physischen Maschinen Intel, AMD oder Nividia Treiber (siehe ArchWiki)
+ # base-devel            -> for makepkg -si
+ # lightdm               -> Login into Windowmanager
+ # lightdm-gtk-greeter   -> Startbildschirm Loginmanager
+ #python python-pip virtualbox noch hinzufügen?
+ #sudo pip install jupyter notebook
+ git clone https://aur.archlinux.org/brave-bin.git
+ cd brave-bin/
+ makepkg -si
+ mv ~/.emacs.d ~/.backupemacs.d
+ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+ ~/.emacs.d/bin/doom install
+ ~/.emacs.d/bin/doom refresh
 #+end_src
 ** Setup Linux
 *** Programme
