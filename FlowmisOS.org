@@ -52,11 +52,11 @@ Eine EMACS-Funktion erstellen die meine gewohnte Ordnerstruktur herstellt und in
  | Login Manager                  | not available                    | ?                                 |
 * Install Arch
 Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
-1. Arch ISO downloaden & auf Stick oder in VM
-2. Bootreihenfolge einstellen um auf Stick zu booten oder Einstellungen in VM machen 
+1. Arch ISO downloaden & auf Stick oder in VM(other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
+2. Bootreihenfolge einstellen um auf Stick zu booten oder Einstellungen in VM machen
 3. Entweder <archinstall> und automatisches Setup mitmachen oder wie folgt fortsetzen
-4. folgende Befehle eingeben: 
- #+begin_src 
+4. folgende Befehle eingeben:
+ #+begin_src
  loadkeys de-latin1
  fdisk //dev/sda/             -> p n Enter Enter w
  mkfs.ext4 /dev/sda1
@@ -91,7 +91,7 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  git clone https://github.com/flowmis/FlowmisOS.git
  cd ~
  cd ~ FlowmisOS
- . install.sh (oder: . installvm.sh) 
+ . install.sh (oder: . installvm.sh)
  systemctl enable NetworkManager
  systemctl enable lightdm
  systemctl reboot -> emacs in FlowmisOS.org und org-babel-tangle um configs an ihren Ort zu bringen und erneut reboot
@@ -109,7 +109,7 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
     #+end_src
    - Anmerkung: Arch Linux installation images supporten kein Secure Boot (-> disable Secure Boot to boot the installation medium). Auch auf Boot device Reihenfolge im Bios achten/anpassen um auf Stick zu booten. Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann.
 3. Installation in der virtuellen Konsole:
-   
+
     #+begin_src shell
     #Keyboard konfigurieren
         ls /sys/firmware/efi/efivars                                # kein Error = System is booted in UEFI mode. Falls directory nicht existiert, ist system vll im BIOS (or CSM) mode.
@@ -230,12 +230,12 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
    - Minimal Installation beinhaltet immer?: xorg server(dmenu xterm xmobar sind für xmonad nötig!?), window manager, login manager, browser, terminal(Terminal Emulator) und Texteditor
 
 #+begin_src shell :tangle install.sh
- # Achtung Video/Grafik Treiber je nach Gerät wechseln 
+ # Achtung Video/Grafik Treiber je nach Gerät wechseln
  git clone https://github.com/flowmis/DLT.git
  git clone https://github.com/flowmis/pres.git
  git clone https://github.com/flowmis/Kivy.git
  git clone https://github.com/flowmis/Sonstiges.git
- git clone https://github.com/flowmis/Beachvolleyballfeld.git 
+ git clone https://github.com/flowmis/Beachvolleyballfeld.git
  sudo pacman -S xf86-video-nouveau xorg alacritty base-devel lightdm lightdm-gtk-greeter networkmanager picom pinta htop kdenlive nitrogen qtile rofi deepin-screen-recorder thunderbird emacs flameshot libreoffice gimp vlc
  # xf86-video-fbdev > bei physischen Maschinen Intel, AMD oder Nividia Treiber (siehe ArchWiki)
  # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
@@ -256,14 +256,14 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  ~/.emacs.d/bin/doom install
  ~/.emacs.d/bin/doom refresh
-#+end_src     
+#+end_src
 
 #+begin_src shell :tangle installvm.sh
  git clone https://github.com/flowmis/DLT.git
  git clone https://github.com/flowmis/pres.git
  git clone https://github.com/flowmis/Kivy.git
  git clone https://github.com/flowmis/Sonstiges.git
- git clone https://github.com/flowmis/Beachvolleyballfeld.git 
+ git clone https://github.com/flowmis/Beachvolleyballfeld.git
  git clone https://aur.archlinux.org/brave-bin.git
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  sudo pacman -S xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter networkmanager picom pinta htop kdenlive nitrogen qtile rofi deepin-screen-recorder thunderbird emacs flameshot libreoffice gimp vlc
