@@ -1,0 +1,63 @@
+#+TITLE: Emacs Conf
+* General Configurations
+Ziel ist es bei Start von Arch ein Skript automatisch auszuführen dass alle Einstellungen so wie ich es gerne habe direkt lädt
+xrandr -s 1920
+Hintergrund festlegen
+Doom-Emacs starten und mit Filemanager links und wichtigen Pfaden sowie geilem Design
+-> emacs vanilla installieren und die hier gegebenen Codeänderungen in init.el einfügen
+** User Interface
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t)                                        ;sorgt dafür dass keine unnötige Meldungen zu beginn erscheinen
+(scroll-bar-mode -1)                                                    ;disable visual scrollbar
+(tool-bar-mode -1)                                                      ;disable toolbar
+(tooltip-mode -1)                                                       ;disable tooltip
+(set-fringe-mode 10)                                                    ;give some breaving room
+(menu-bar-mode -1)                                                      ;disable menu bar
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 280)  ;Schriftgröße und Schriftart einstellen
+(load-theme 'tango-dark)                                                ;load theme (nachdem ivy installiert ist mit: M-x coun lo the -->load theme)
+(global-set-key (kdb "<escape>") 'keyboard-escape-quit)                 ;Wenn ESC gedrückt wird führt es escape-quit command aus und spart einem Zeit
+#+end_src
+** packages
+Meta x list-packages öffnet eine Liste aller Standard Emacs packages (ELPA). MELPA ist ein Archiv das mehr packages enthält, weshalb es sinnvoll ist dieses zu installieren
+#+begin_src emacs-lisp
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)                                      ;Hier gibt es vll ein Problem da Variable nicht bekannt ist??
+#+end_src
+** ivy and/or helm als completion frameworks installieren
+Ich nehme erstmal ivy!
+#+begin_src emacs-lisp
+(use-package ivy                                                        ;ermöglicht das
+  :diminish                                                             ;keeps it minimal und sorgt dafür dass ivy nicht unnötig in Modeline angezeigt wird
+  :blind (("C-s" . swiper)                                              ;emöglicht das erstellen von Keybindings
+          :map ivy-minibuffer-map                                       ;nur in diesem Buffer ist Keybinding aktiv
+          ("TAB" . ivy-alt-done)
+          ("C-l" . ivy-alt-done)
+          ("C-j" . ivy-next-line)
+          ("C-k" . ivy-previous-line)
+          :map ivy-switch-buffer-map
+          ("C-k" . ivy-previous-line)
+          ("C-l" . ivy-done)
+          ("C-d" . ivy-switch-buffer-kill)
+          :map ivy-reverse-i-search-map
+          ("C-k" . ivy-previous-line)
+          ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+#+end_src
+** Modeline
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))                                  ;Eine Klammer überflüssig im Code?
+
+#+end_src

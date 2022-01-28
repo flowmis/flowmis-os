@@ -1,0 +1,40 @@
+#+TITLE: Dotfiles
+Hierin speichere ich alle Dotfiles um überall leicht neue System mit meinen Konfigurationen erstellen zu können
+siehe auch: https://gitlab.com/dwt1/dotfiles
+
+* Table of Contents :toc:
+- [[#what-are-dotfiles][What Are Dotfiles?]]
+- [[#für-neues-setup-mit-meinen-dotfiles][für neues Setup mit meinen dotfiles:]]
+
+* What Are Dotfiles?
+Dotfiles are the customization files that are used to personalize your Linux or other Unix-based system. A dot at the beginning of a filename or directory name indicates that it is a hidden file or directory. See: https://wiki.archlinux.org/title/Dotfiles
+* TODO für neues Setup mit meinen dotfiles:
+    1. list -a (zeigt alle Dotfiles im momentanen Verzeichnis)
+    2. Im Home Verzeichnis sollte ich folgende Dotfiles nach meinen volieben anpassen und auf Git speichern
+       - .bashrc
+       - .vimrc
+       - .Xresources (managed terminal colours)
+       - .emacs.d
+       - .xmonad
+       - .git-credentials
+       - Alle wichtigen die in .config sind (alacritty, xmobar, fish, doom, conky)
+    3. Erstellen eines Git Bare Repository
+       - Keine symlinks und extra tooling nötig
+       - Dadurch dass es ein bare repository ist kommt es zu keinen Konflikten mit anderen git repos in Unterordnern!
+       - Befehle:
+         #+begin_src sh :tangle yes
+         git init --bare $HOME/dotfiles #erstellen eines Git bare repositorys to track my Dotfiles
+         alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'   #create an alias config which we will use instead of the regular git when we want to interact with our configuration repository -> statt git status wäre jetzt also immer config status einzugeben etc.
+         config config --local status.showUntrackedFiles no  #We set a flag - local to the repository - to hide files we are not explicitly tracking yet. This is so that when you type config status and other commands later, files you are not interested in tracking will not show up as untracked.
+         echo "alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'" >> $HOME/.bashrc  # Fügt der .bashrc den entsprechenden alias zu(oder der .zsh jenachdem) um es in bash ausführen zu können. Also you can add the alias definition by hand to your .bashrc
+         #+end_src
+       - After you've executed the setup any file within the $HOME folder can be versioned with normal commands, replacing git with your newly created config alias, like:
+        #+begin_src sh :tangle yes
+        config status
+        config add .vimrc
+        config commit -m "Add vimrc"
+        config add .bashrc
+        config commit -m "Add bashrc"
+        config push
+        #+end_src
+    4. Falls Dinge unklar sind: https://www.atlassian.com/git/tutorials/dotfiles
