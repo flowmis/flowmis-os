@@ -19,35 +19,35 @@ from typing import List  # noqa: F401from typing import List  # noqa: F401
 
 ** Keys
 #+begin_src python :tangle config.py
-    mod = "mod4"              # mod4 = WINDOWS
-    myTerm = "alacritty"      # globale Variable für mein Standard Terminal
-    keys = [Key([mod], "Return", lazy.spawn(myTerm), desc='Launches My Terminal'),
-            Key([mod, "shift"], "Return", lazy.spawn("rofi -show"), desc='Run Launcher'),
-            Key([mod], "b", lazy.spawn(brave), desc='Brave öffnen'),
-            Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
-            Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
-            Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
-            Key([mod, "shift"], "q", lazy.shutdown(), desc='Shutdown Qtile'),
-            Key([mod], "e", lazy.spawn("emacsclient -c -a emacs"), desc='Doom Emacs'),
-            Key([mod], "n", lazy.layout.normalize(), desc='normalize window size ratios'),
-            Key([mod], "m", lazy.layout.maximize(), desc='toggle window between minimum and maximum sizes'),
-            Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc='toggle floating'),
-            Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
-            Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-            Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-            Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-            Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-            Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-            Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-            Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-            Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-            Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-            Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-            Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-            Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-            Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-            Key([mod, "shift"], "Return", lazy.layout.toggle_split(), desc="Toggle between split and unsplit sides of stack"),
-            Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),]
+mod = "mod4"              # mod4 = WINDOWS
+myTerm = "alacritty"      # globale Variable für mein Standard Terminal
+keys = [Key([mod], "Return", lazy.spawn(myTerm), desc='Launches My Terminal'),
+        Key([mod, "shift"], "Return", lazy.spawn("rofi -show"), desc='Run Launcher'),
+        Key([mod], "b", lazy.spawn(brave), desc='Brave öffnen'),
+        Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
+        Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
+        Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
+        Key([mod, "shift"], "q", lazy.shutdown(), desc='Shutdown Qtile'),
+        Key([mod], "e", lazy.spawn("emacsclient -c -a emacs"), desc='Doom Emacs'),
+        Key([mod], "n", lazy.layout.normalize(), desc='normalize window size ratios'),
+        Key([mod], "m", lazy.layout.maximize(), desc='toggle window between minimum and maximum sizes'),
+        Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc='toggle floating'),
+        Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
+        Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+        Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+        Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+        Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+        Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+        Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+        Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+        Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
+        Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+        Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+        Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+        Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+        Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+        Key([mod, "shift"], "Return", lazy.layout.toggle_split(), desc="Toggle between split and unsplit sides of stack"),
+        Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),]
 #+end_src
 
 ** Arbeitsräume
@@ -57,7 +57,7 @@ groups = [Group("1", layout='tile'),
           Group("2", layout='tile'), # Alternativ falls nicht klappt mit Tile Group("2", layout='monadtall'),
           Group("3", layout='tile'),
           Group("4", layout='tile'),
-          Group("5", layout='tile'),
+          Group("5", layout='tile'),]
 from libqtile.dgroups import simple_key_binder
 dgroups_key_binder = simple_key_binder("mod4")
 #+end_src
@@ -66,44 +66,44 @@ dgroups_key_binder = simple_key_binder("mod4")
 
 #+begin_src python :tangle config.py
 layout_theme = {"border_width": 2, "margin": 8, "border_focus": "e1acff", "border_normal": "1D2330"}
-    layouts = [
-        #layout.MonadWide(**layout_theme),
-        #layout.Bsp(**layout_theme),
-        #layout.Stack(stacks=2, **layout_theme),
-        #layout.Columns(**layout_theme),
-        #layout.RatioTile(**layout_theme),
-        #layout.VerticalTile(**layout_theme),
-        #layout.Matrix(**layout_theme),
-        #layout.Zoomy(**layout_theme),
-        #layout.MonadTall(**layout_theme),
-        #layout.Max(**layout_theme),
-        #layout.Stack(num_stacks=2),
-        #layout.RatioTile(**layout_theme),
-        #layout.Tile(shift_windows = True, border_width = 1, margin = 4,
-        #    border_focus = 'e1acff', border_normal = '1D2330'),
-        layout.Tile(shift_windows=True, **layout_theme),
-        layout.TreeTab(
-            font = "Ubuntu",
-            fontsize = 10,
-            sections = ["--1--", "--2--", "--3--", "--4--"],
-            section_fontsize = 10,
-            border_width = 2,
-            bg_color = "1c1f24",
-            active_bg = "c678dd",
-            active_fg = "000000",
-            inactive_bg = "a9a1e1",
-            inactive_fg = "1c1f24",
-            padding_left = 0,
-            padding_x = 0,
-            padding_y = 5,
-            section_top = 10,
-            section_bottom = 20,
-            level_shift = 8,
-            vspace = 3,
-            panel_width = 200
-            ),
-        layout.Floating(**layout_theme)
-        ]
+layouts = [
+    #layout.MonadWide(**layout_theme),
+    #layout.Bsp(**layout_theme),
+    #layout.Stack(stacks=2, **layout_theme),
+    #layout.Columns(**layout_theme),
+    #layout.RatioTile(**layout_theme),
+    #layout.VerticalTile(**layout_theme),
+    #layout.Matrix(**layout_theme),
+    #layout.Zoomy(**layout_theme),
+    #layout.MonadTall(**layout_theme),
+    #layout.Max(**layout_theme),
+    #layout.Stack(num_stacks=2),
+    #layout.RatioTile(**layout_theme),
+    #layout.Tile(shift_windows = True, border_width = 1, margin = 4,
+    #    border_focus = 'e1acff', border_normal = '1D2330'),
+    layout.Tile(shift_windows=True, **layout_theme),
+    layout.TreeTab(
+        font = "Ubuntu",
+        fontsize = 10,
+        sections = ["--1--", "--2--", "--3--", "--4--"],
+        section_fontsize = 10,
+        border_width = 2,
+        bg_color = "1c1f24",
+        active_bg = "c678dd",
+        active_fg = "000000",
+        inactive_bg = "a9a1e1",
+        inactive_fg = "1c1f24",
+        padding_left = 0,
+        padding_x = 0,
+        padding_y = 5,
+        section_top = 10,
+        section_bottom = 20,
+        level_shift = 8,
+        vspace = 3,
+        panel_width = 200
+    ),
+    layout.Floating(**layout_theme)
+]
 #+end_src
 
 ** Widgets/Taskleiste
@@ -167,7 +167,8 @@ def init_widgets_list():
 #        widget.TextBox(text = '', background = colors[4], foreground = colors[5], padding = 0, fontsize = 37),
 #        widget.Clock(foreground = colors[2], background = colors[5], format = "%A, %B %d - %H:%M "),
         ]
-return widgets_list
+    return widgets_list
+
 def window_to_prev_group(qtile):
     if qtile.currentWindow is not None:
         i = qtile.groups.index(qtile.currentGroup)
@@ -207,8 +208,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-    ]
-)
+    ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
