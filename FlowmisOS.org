@@ -7,31 +7,6 @@ Diese Datei dient der Übersicht über FlowmisOS und exportiert den Code momenta
  2. Bootstick mit ArchLinux ist nötig um in ein live system booten zu können von dem aus man Arch installieren kann
  3. Ist Arch installiert kann ich über git clone ein Installationsskript laden und ausführen, sodass alle Pakete/Programme und config Dateien erstellt werden und ich mein selbst zusammengestelltes Betriebssystem habe
 
-Eine EMACS-Funktion erstellen die meine gewohnte Ordnerstruktur herstellt und in die ich mit org-babel-tangle dann im Anschluss alles rein schreibe. Hier einfach evaluieren sollte ausreichen um Funktion auszuführen und Zeug zu erstellen(<Space el> auf Funktionsklammer).
-#+begin_src emacs-lisp
-(make-directory "~/.config/rofi" t)                         ;error da Teile des gegebenen Pfads noch gar nicht vorhanden sind. Mit t kommt error nicht und sie werden mit erstellt
-(make-directory "~/.config/alacritty" t)                       
-(make-directory "~/.config/qtile" t)                         
-(make-directory "~/.config/picom" t)                         
-;(make-directory "~/.config/conky" t)                         
-;(make-directory "~/.config/pcmanfm" t)                         
-;(make-directory "~/.config/doom" t)                         
-;(make-directory "~/.config/dmscripts" t)                         
-;(make-directory "~/.config/fish" t)                         
-;(make-directory "~/.config/nitogen" t)                         
-;(make-directory "~/.config/htop" t)                         
-#+end_src
-
-#+begin_src emacs-lisp
-(expand-file-name "mane_denkt_sich_was_aus.py" "~/Skripte")     ;erzeugt Path auch wenn noch nicht vorhanden und ist so ganz nützlich für Erstellung meiner gewünschten Funktion -> Rest siehe Lisp und probier bisschen rum
-(file-exists-p "~/Skripte/mane_denkt_sich_was_aus.py")          ;nil da ich es ja nicht erstellt hab sondern nur den Pfad dafür gecalled habe -> Auch nützlich ist file-readable-p, file-executable-p, file-writable-p
-(make-directory "~/Skripte")                                    ;Beim ersten ausführen erstellt es das dir. Erneut ausführen gibt error da es bereits vorhanden ist. Ergänzt man t kommt kein Error mehr
-(delete-directory "~/Skripte")                                  ;ist klar oder
-(delete-directory "~/Skripte" t)                                ;löscht das ganze Verzeichnis mit den Unterordnern falls t angegeben ist --> Siehe auch make-file aufschriebe bei proggen_lernen lisp, wobei die Dateit ja auch eh doch org-babel-tangle von allein erstellt wird
-(directory-files "~/Skripte" t ".org" nil 3)                    ;gibt maximal 3 .org files in diesem dir aus geordnet(wegen nil). Erstes t sagt dass voller Pfad ausgegeben wird - Parameter den eigenen Wünschen anpassen
-(directory-files-recursively "~" "\\.org$")                     ;gibt alle .org files aus die man in irgendwelchen Ordnern und Unterordnern im home Ordner hat
-#+end_src
-
 * TODO FlowmisOS
 + Alacritty grundlegende Config (Aliase, Keybindings, Aussehen)
 + Installationsskript überarbeiten: Soll Ordnerstruktur die ich haben mag herstellen und Grundlegende Programme installieren
@@ -3942,10 +3917,12 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 #+end_src
 * Git
 Über SSH funktioniert es denk besser also lieber ssh Keys einrichten
+
 #+begin_src shell :tangle ~/.git-credentials :tangle .git-credentials
 https://flowmis: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@github.com
 #+end_src  
-#+begin_src shell :tangle ~/.gitconfig
+
+#+begin_src shell :tangle ~/.gitconfig :tangle .gitconfig
 [user]
 	name = flowmis
 	email = hedwig.lanter@gmx.de
