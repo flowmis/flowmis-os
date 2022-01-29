@@ -411,9 +411,7 @@ Anmerkung: Wenn ich bei Projekt mitarbeite werd ich nie auf Main Branch direkt p
 *** Einrichtung
 https://docs.qtile.org für die offizielle Dokumentation in der man eigentlich echt alles easy findet!
 - Installation in Arch: sudo pacman -S qtile
-- Die Qtile Konfigurationsdatei muss in /home/flowmis//.config/qtile kopiert werden (eventuell mit org-babel-tangle (Space m B) (Exportpfad kann über src-Block angegeben werden)
-- sudo pacman -S nitogen gnome-backbrounds
-- nitrogen über Konsole öffnen und den Pfad /usr/share/backgrounds auswählen um einige Wallpapers auszuwählen (eigene von mir aus Github dort hinzufügen über Installationsskript?)
+- Die Qtile Konfigurationsdatei muss in /home/flowmis//.config/qtile kopiert werden
 ** Standard Qtile Config
 + Nach der Qtile Installation (sudo pacman -S qtile und Anmeldung in qtile) findet man die Standard Qtile Config hier: home/flowmis/.config/qtile -> Falls keine vorhanden ist erstellt es eine neue aus dem Ursprungspfad.
 + Qtile will try to create the configuration file as a copy of the default config, if it doesn't exist yet: https://docs.qtile.org/en/latest/manual/config/#configuration-lookup-order
