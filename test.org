@@ -21,33 +21,35 @@ from typing import List  # noqa: F401from typing import List  # noqa: F401
 #+begin_src python :tangle config.py
 mod = "mod4"              # mod4 = WINDOWS
 myTerm = "alacritty"      # globale Variable für mein Standard Terminal
-keys = [Key([mod], "Return", lazy.spawn(myTerm), desc='Launches My Terminal'),
-        Key([mod, "shift"], "Return", lazy.spawn("rofi -show"), desc='Run Launcher'),
-        Key([mod], "b", lazy.spawn(brave), desc='Brave öffnen'),
-        Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
-        Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
-        Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
-        Key([mod, "shift"], "q", lazy.shutdown(), desc='Shutdown Qtile'),
-        Key([mod], "e", lazy.spawn("emacsclient -c -a emacs"), desc='Doom Emacs'),
-        Key([mod], "n", lazy.layout.normalize(), desc='normalize window size ratios'),
-        Key([mod], "m", lazy.layout.maximize(), desc='toggle window between minimum and maximum sizes'),
-        Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc='toggle floating'),
-        Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
-        Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-        Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-        Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-        Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-        Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-        Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-        Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-        Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-        Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-        Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-        Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-        Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-        Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-        Key([mod, "shift"], "Return", lazy.layout.toggle_split(), desc="Toggle between split and unsplit sides of stack"),
-        Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),]
+keys = [
+    Key([mod], "Return", lazy.spawn(myTerm), desc="Launches My Terminal"),
+    Key([mod, "shift"], "Return", lazy.spawn("rofi -show"), desc="Run Launcher"),
+    Key([mod], "b", lazy.spawn(brave), desc="Brave öffnen"),
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle through layouts"),
+    Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill active window"),
+    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod], "e", lazy.spawn("emacsclient -c -a emacs"), desc="Doom Emacs"),
+    Key([mod], "n", lazy.layout.normalize(), desc="normalize window size ratios"),
+    Key([mod], "m", lazy.layout.maximize(), desc="toggle window between minimum and maximum sizes"),
+    Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc="toggle floating"),
+    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="toggle fullscreen"),
+    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod, "shift"], "Return", lazy.layout.toggle_split(), desc="Toggle between split and unsplit sides of stack"),
+    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget")
+]
 #+end_src
 
 ** Arbeitsräume
@@ -109,7 +111,7 @@ layouts = [
 ** Widgets/Taskleiste
 
 #+begin_src python :tangle config.py
-colors = [["#282c34", "#282c34"], ["#3d3f4b", "#434758"], ["#ffffff", "#ffffff"], ["#ff5555", "#ff5555"], ["#74438f", "#74438f"], ["#4f76c7", "#4f76c7"], ["#e1acff", "#e1acff"], ["#ecbbfb", "#ecbbfb"]]
+colors = [ ["#282c34", "#282c34"], ["#3d3f4b", "#434758"], ["#ffffff", "#ffffff"], ["#ff5555", "#ff5555"], ["#74438f", "#74438f"], ["#4f76c7", "#4f76c7"], ["#e1acff", "#e1acff"], ["#ecbbfb", "#ecbbfb"] ]
  # color[0] = panel background; color[1] = background for current screen tab; color[2] = Schriftfarbe Arbeitsbereiche; color[3] border line color for current tab
  # color[4] = border line color for 'other tabs' and color for 'odd widgets'; color[5] = color for the 'even widgets'; color [6] = Name offenes Fenster
 widget_defaults = dict(font="Ubuntu Mono", fontsize = 12, padding = 2, background=colors[2])
@@ -143,29 +145,29 @@ def init_widgets_list():
         widget.WindowName(foreground = colors[6], background = colors[0], padding = 0),
         widget.Systray(background = colors[0], padding = 5),
         widget.Sep(linewidth = 0, padding = 6, foreground = colors[0], background = colors[0]),
-        widget.CurrentLayout(),
-        widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-        widget.QuickExit(),
-#        widget.TextBox(text = '', background = colors[0], foreground = colors[5], padding = 0, fontsize = 37),
-#        widget.Net(interface = "enp6s0", format = '{down} ↓↑ {up}', foreground = colors[2], background = colors[5], padding = 5),
-#        widget.TextBox(text = '', background = colors[5], foreground = colors[4], padding = 0, fontsize = 37),
-#        widget.TextBox(text = " 🌡", padding = 2, foreground = colors[2], background = colors[4], fontsize = 11),
-#        widget.ThermalSensor(foreground = colors[2], background = colors[4], threshold = 90, padding = 5),
-#        widget.TextBox(text='', background = colors[4], foreground = colors[5], padding = 0, fontsize = 37),
-#        widget.TextBox(text = " ⟳", padding = 2, foreground = colors[2], background = colors[5], fontsize = 14),
-#        widget.CheckUpdates(update_interval = 1800, distro = "Arch_checkupdates", display_format = "{updates} Updates", foreground = colors[2],
-#            mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')}, background = colors[5]),
-#        widget.TextBox(text = '', background = colors[5], foreground = colors[4], padding = 0, fontsize = 37),
-#        widget.TextBox(text = " 🖬", foreground = colors[2], background = colors[4], padding = 0, fontsize = 14),
-#        widget.Memory(foreground = colors[2], background = colors[4], mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')}, padding = 5),
-#        widget.TextBox(text = '', background = colors[4], foreground = colors[5], padding = 0, fontsize = 37),
-#        widget.TextBox(text = " Vol:", foreground = colors[2], background = colors[5], padding = 0),
-#        widget.Volume(foreground = colors[2], background = colors[5], padding = 5),
-#        widget.TextBox(text = '', background = colors[5], foreground = colors[4], padding = 0, fontsize = 37),
-#        widget.CurrentLayoutIcon(custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")], foreground = colors[0], background = colors[4], padding = 0, scale = 0.7),
-#        widget.CurrentLayout(foreground = colors[2], background = colors[4], padding = 5),
-#        widget.TextBox(text = '', background = colors[4], foreground = colors[5], padding = 0, fontsize = 37),
-#        widget.Clock(foreground = colors[2], background = colors[5], format = "%A, %B %d - %H:%M "),
+#        widget.CurrentLayout(),
+#        widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+#        widget.QuickExit(),
+        widget.TextBox(text = '', background = colors[0], foreground = colors[5], padding = 0, fontsize = 37),
+        widget.Net(interface = "enp6s0", format = '{down} ↓↑ {up}', foreground = colors[2], background = colors[5], padding = 5),
+        widget.TextBox(text = '', background = colors[5], foreground = colors[4], padding = 0, fontsize = 37),
+        widget.TextBox(text = " 🌡", padding = 2, foreground = colors[2], background = colors[4], fontsize = 11),
+        widget.ThermalSensor(foreground = colors[2], background = colors[4], threshold = 90, padding = 5),
+        widget.TextBox(text='', background = colors[4], foreground = colors[5], padding = 0, fontsize = 37),
+        widget.TextBox(text = " ⟳", padding = 2, foreground = colors[2], background = colors[5], fontsize = 14),
+        widget.CheckUpdates(update_interval = 1800, distro = "Arch_checkupdates", display_format = "{updates} Updates", foreground = colors[2],
+            mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')}, background = colors[5]),
+        widget.TextBox(text = '', background = colors[5], foreground = colors[4], padding = 0, fontsize = 37),
+        widget.TextBox(text = " 🖬", foreground = colors[2], background = colors[4], padding = 0, fontsize = 14),
+        widget.Memory(foreground = colors[2], background = colors[4], mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')}, padding = 5),
+        widget.TextBox(text = '', background = colors[4], foreground = colors[5], padding = 0, fontsize = 37),
+        widget.TextBox(text = " Vol:", foreground = colors[2], background = colors[5], padding = 0),
+        widget.Volume(foreground = colors[2], background = colors[5], padding = 5),
+        widget.TextBox(text = '', background = colors[5], foreground = colors[4], padding = 0, fontsize = 37),
+        widget.CurrentLayoutIcon(custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")], foreground = colors[0], background = colors[4], padding = 0, scale = 0.7),
+        widget.CurrentLayout(foreground = colors[2], background = colors[4], padding = 5),
+        widget.TextBox(text = '', background = colors[4], foreground = colors[5], padding = 0, fontsize = 37),
+        widget.Clock(foreground = colors[2], background = colors[5], format = "%A, %B %d - %H:%M "),
         ]
     return widgets_list
 
@@ -198,17 +200,6 @@ dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(
-    float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        ,*layout.Floating.default_float_rules,
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
-    ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
@@ -219,14 +210,6 @@ auto_minimize = True
 def start_once():
     home = os.path.expanduser('~')
     subprocess.call([home + '/.config/qtile/autostart.sh'])
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"
 #+end_src
 ** Alternative Taskleiste
