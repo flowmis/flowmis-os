@@ -2,12 +2,12 @@
  usermod -aG wheel,audio,video,optical,storage flowmis
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  hwclock --systohc
- mv ~/FlowmisOS/locale.conf ~/etc/locale.conf
+ mv /home/flowmis/FlowmisOS/locale.conf /etc/locale.conf
  sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen
  locale-gen
  touch /etc/hostname        #nötig oder kann weg?
  echo FlowmisPC | cat > /etc/hostname
- mv ~/FlowmisOS/hosts ~/etc/hosts
+ mv /home/flowmis/FlowmisOS/hosts /etc/hosts
  pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs ripgrep
  # Achtung richtige Videotreiber je nachdem wo installiert wird: xf86-video-fbdev für VM -> bei physischen Maschinen siehe unten
  # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
