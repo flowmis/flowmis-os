@@ -54,10 +54,10 @@ Eine EMACS-Funktion erstellen die meine gewohnte Ordnerstruktur herstellt und in
 + was kann ich noch in install script rein und was muss ich raus nehmen und in zusatz install skript schreiben -> schneller basis installation ohne schnickschnak zum check ob alles passt und dann großes Installationsskript für alle Programme falls ich es brauch (bestenfalls leicht anpassbar)
 * Install Arch
 Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
-1. Arch ISO downloaden & auf Stick oder in VM(other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
+1. Arch ISO downloaden & auf Stick oder in VM(other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben) - wenn man auf bootstick booted wird eine vtruelle zshell Umgebung erstellt von der aus man dann sein System mittels Befehlen einrichten kann! Prinzipiell kann man hier auch direkt ein autoinstall skript ausführen
 2. Bootreihenfolge einstellen um auf Stick zu booten oder Einstellungen in VM machen
 3. Entweder <archinstall> und automatisches Setup mitmachen oder wie folgt fortsetzen
-4. folgende Befehle eingeben:
+4. folgende Befehle eingeben(Befehle kann ich auch als shell script auf Bootstick und von dort aus starten):
 
  #+begin_src
  loadkeys de-latin1
@@ -265,21 +265,21 @@ LC_CTYPE=de_DE.UTF-8
  localectl --no-convert set-x11-keymap de pc105 deadgraveacute
  localectl status
  mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
- git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
- cp ~/.emacs.d ~/.backupemacs.d                             #macht es nicht weil zu der Zeit noch kein solcher Ordner vorhanden ist?
- ~/.emacs.d/bin/doom install
- cp ~/FlowmisOS/init.el ~/.config/doom/init.el
- cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el
- cp ~/FlowmisOS/config.el ~/.config/doom/config.el
- cp ~/FlowmisOS/.xprofile ~/.xprofile
- cp ~/FlowmisOS/config.py ~/.config/qtile/config.py
- cp ~/FlowmisOS/config.rasi ~/.config/rofi/config.rasi
- ~/.emacs.d/bin/doom sync
- cd ~
+ git clone --depth 1 https://github.com/hlissner/doom-emacs /home/flowmis/.emacs.d
+ cp /home/flowmis/.emacs.d /home/flowmis/.backupemacs.d                             #macht es nicht weil zu der Zeit noch kein solcher Ordner vorhanden ist?
+ /home/flowmis/.emacs.d/bin/doom install
+ cp /home/flowmis/FlowmisOS/init.el /home/flowmis/.config/doom/init.el
+ cp /home/flowmis/FlowmisOS/packages.el /home/flowmis/.config/doom/packages.el
+ cp /home/flowmis/FlowmisOS/config.el /home/flowmis/.config/doom/config.el
+ cp /home/flowmis/FlowmisOS/.xprofile /home/flowmis/.xprofile
+ cp /home/flowmis/FlowmisOS/config.py /home/flowmis/.config/qtile/config.py
+ cp /home/flowmis/FlowmisOS/config.rasi /home/flowmis/.config/rofi/config.rasi
+ /home/flowmis/.emacs.d/bin/doom sync
+ cd /home/flowmis
  git clone https://aur.archlinux.org/brave-bin.git
  cd brave-bin/
  makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
- nitrogen --random --set-scaled ~/FlowmisOS/Backgrounds
+ nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
 #+end_src
 
  #+begin_src shell :tangle fullinstall.sh
@@ -4230,7 +4230,7 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 
 (use-package ox-reveal
     :ensure ox-reveal)
-    (setq org-reveal-root "file:///~/pres/reveal") ;ist Pfad wo ich reveal repo hin geklont hab und die css Dateien etc. sind die ich für export brauche -> "https://cdn.jsdelivr.net/npm/reveal.js" -> ist online Pfad falls offline nicht geht oder Pfadangabe auf anderen Betriebssystemen Probleme machen
+    (setq org-reveal-root "https://github.com/flowmis/pres/reveal") ;ist Pfad wo ich reveal repo hin geklont hab und die css Dateien etc. sind die ich für export brauche -> "https://cdn.jsdelivr.net/npm/reveal.js" -> ist online Pfad falls offline nicht geht oder Pfadangabe auf anderen Betriebssystemen Probleme machen
     ;(setq org-reveal-mathjax t)    ;math type ermöglicht - genauer einlesen
     (use-package htmlize
     :ensure t)
@@ -4530,6 +4530,7 @@ https://flowmis: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@github.com
   
 #+begin_src sh :tangle ~/.xprofile :tangle .xprofile
 xrandr -s 1920x1080                                # In VM aktivieren
+nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist

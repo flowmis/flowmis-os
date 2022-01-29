@@ -1,4 +1,5 @@
 xrandr -s 1920x1080                                # In VM aktivieren
+nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
