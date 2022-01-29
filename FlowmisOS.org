@@ -227,9 +227,6 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
 * Installationsskript und Programme für Linux
 1. Gute Linux Programme
    - Minimal Installation beinhaltet immer?: xorg server(dmenu xterm xmobar sind für xmonad nötig!?), window manager, login manager, browser, terminal(Terminal Emulator) und Texteditor
-#+begin_src shell :tangle test.sh
-#+end_src
-
 #+begin_src shell :tangle install.sh
  # Achtung Video/Grafik Treiber je nach Gerät wechseln
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
@@ -4491,7 +4488,7 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 #+end_src
 * Git
 #+begin_src shell :tangle ~/.git-credentials
-https://flowmis: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@github.com
+https://flowmis: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@github.com
 #+end_src  
 #+begin_src shell :tangle ~/.gitconfig
 [user]
