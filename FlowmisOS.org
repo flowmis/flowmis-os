@@ -50,6 +50,7 @@ Eine EMACS-Funktion erstellen die meine gewohnte Ordnerstruktur herstellt und in
  | Conky                          | not available                    | ~/.config/conky                   |
  | STARTUP SKRIPT                 | gleicher Ordner                  | ~/.xprofile           |
  | Login Manager                  | not available                    | ?                                 |
++ qtile lädt, aber ich kann nichts öffnen -> config anpassen dass es ohne dmenu geht und ich zumindest ein terminal aufbekomme -> git credentials und .xprofile sowie automatisch kopieren der emacs config sachen
 * Install Arch
 Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
 1. Arch ISO downloaden & auf Stick oder in VM(other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
@@ -68,34 +69,34 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  hwclock --systohc
  pacman -S neovim sudo git grub efibootmgr dosfstools os-prober mtools networkmanager
- vim /etc/locale.conf       -> LANG=de_DE.UTF-8
- vim /etc/locale.gen        -> Den # vor #de_DE.UTF-8 UTF-8 entfernen
+ nvim /etc/locale.conf       -> LANG=de_DE.UTF-8
+ nvim /etc/locale.gen        -> Den # vor #de_DE.UTF-8 UTF-8 entfernen
  locale-gen
- vim /etc/hostname          -> NamePC
- vim /etc/hosts             -> Einfügen: 127.0.0.1   localhost
+ nvim /etc/hostname          -> NamePC
+ nvim /etc/hosts             -> Einfügen: 127.0.0.1   localhost
                                          ::1         localhost
                                          127.0.1.1   NamePC.localdomain   NamePC
  passwd
  useradd -m flowmis
  passwd flowmis
  usermod -aG wheel,audio,video,optical,storage flowmis
- EDITOR=vim visudo          -> uncomment #%wheel ALL=(ALL) ALL
+ EDITOR=nvim visudo          -> uncomment #%wheel ALL=(ALL) ALL
  mkdir /boot/EFI
  mount /dev/sda1 boot/EFI
 #löschen wenn es hier nicht nötig ist, aber vll erst hier sinnvoll zu installieren?:    pacman -S grub
  grub-install /dev/sda
  grub-mkconfig -o /boot/grub/grub.cfg
  exit
- umount /mnt
- systemctl enable NetworkManager
- systemctl enable lightdm
- systemctl reboot -> emacs in FlowmisOS.org und org-babel-tangle um configs an ihren Ort zu bringen und erneut reboot
+ umount -l /mnt
+#reboot & login
+ sudo systemctl enable NetworkManager
+ sudo systemctl reboot
  ###reboot and login into arch
- cs ~
  git clone https://github.com/flowmis/FlowmisOS.git
- cd ~
  cd ~ FlowmisOS
  . install.sh (oder: . installvm.sh)
+ sudo systemctl enable lightdm
+ sudo systemctl reboot -> emacs in FlowmisOS.org und org-babel-tangle um configs an ihren Ort zu bringen und erneut reboot
  #+end_src
 
 ** Genauer Guide
@@ -232,7 +233,8 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
 
 #+begin_src shell :tangle install.sh
  # Achtung Video/Grafik Treiber je nach Gerät wechseln
- git clone https://github.com/flowmis/DLT.git
+ mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
+ git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
  git clone https://github.com/flowmis/pres.git
  git clone https://github.com/flowmis/Kivy.git
  git clone https://github.com/flowmis/Sonstiges.git
@@ -256,18 +258,19 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  mv ~/.emacs.d ~/.backupemacs.d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  ~/.emacs.d/bin/doom install
- ~/.emacs.d/bin/doom refresh
+ ~/.emacs.d/bin/doom sync
 #+end_src
 
 #+begin_src shell :tangle installvm.sh
- git clone https://github.com/flowmis/DLT.git
+ mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
+ git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
  git clone https://github.com/flowmis/pres.git
  git clone https://github.com/flowmis/Kivy.git
  git clone https://github.com/flowmis/Sonstiges.git
  git clone https://github.com/flowmis/Beachvolleyballfeld.git
  git clone https://aur.archlinux.org/brave-bin.git
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
- sudo pacman -S xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter networkmanager picom pinta htop kdenlive nitrogen qtile rofi deepin-screen-recorder thunderbird emacs flameshot libreoffice gimp vlc
+ sudo pacman -S xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter networkmanager picom pinta htop kdenlive nitrogen qtile pcmanfm rofi deepin-screen-recorder thunderbird emacs flameshot libreoffice gimp vlc
  # xf86-video-fbdev > bei physischen Maschinen Intel, AMD oder Nividia Treiber (siehe ArchWiki)
  # base-devel            -> for makepkg -si
  # lightdm               -> Login into Windowmanager
@@ -280,7 +283,7 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  mv ~/.emacs.d ~/.backupemacs.d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  ~/.emacs.d/bin/doom install
- ~/.emacs.d/bin/doom refresh
+ ~/.emacs.d/bin/doom sync
 #+end_src
 ** Setup Linux
 *** Programme
