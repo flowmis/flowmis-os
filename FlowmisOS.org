@@ -67,7 +67,7 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  pacstrap /mnt base linux linux-firmware
  genfstab -U /mnt >> /mnt/etc/fstab
  arch-chroot /mnt
- pacman -S neovim sudo git
+ pacman -S neovim sudo git   ->hier kommt Fehlermeldung perl: locale settings passen nicht -> wird das dann im Anschluss geregelt oder muss ich aufpassen
  # Achtung richtige Videotreiber je nachdem wo installiert wird: xf86-video-fbdev für VM -> bei physischen Maschinen siehe unten
  # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
  # Nvidia-Grafiktreiber (Open Source): sudo pacman -S xf86-video-nouveau
@@ -81,11 +81,12 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  passwd
  useradd -m flowmis
  passwd flowmis
- EDITOR=nvim visudo          -> uncomment #%wheel ALL=(ALL) ALL
  cd /home/flowmis
  git clone https://github.com/flowmis/FlowmisOS.git
  cd FlowmisOS
  . rootinstall.sh
+ EDITOR=nvim visudo          -> uncomment #%wheel ALL=(ALL) ALL
+ exit
  umount -l /mnt
 #reboot & login
  sudo systemctl enable NetworkManager lightdm
@@ -233,6 +234,7 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  echo LANG=de_DE.UTF-8 | cat > /etc/locale.conf
  sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen
  locale-gen
+ touch /etc/hostname
  echo FlowmisPC | cat /etc/hostname
  echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
  pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
@@ -240,7 +242,6 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  mount /dev/sda1 boot/EFI
  grub-install /dev/sda
  grub-mkconfig -o /boot/grub/grub.cfg
- exit
  #+end_src
 + non root install soll noch .xprofile an seinen Ort shieben sodass Nitrogen und Auflösung passt
 #+begin_src shell :tangle nonrootinstall.sh
@@ -252,6 +253,8 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el
  cp ~/FlowmisOS/config.el ~/.config/doom/config.el
  cp ~/FlowmisOS/.xprofile ~/.xprofile
+ cp ~/FlowmisOS/config.py ~/.config/qtile/config.py
+ cp ~/FlowmisOS/config.rasi ~/.config/rofi/config.rasi
  ~/.emacs.d/bin/doom sync
  cd ~
  git clone https://aur.archlinux.org/brave-bin.git
