@@ -1,26 +1,27 @@
- # Achtung Video/Grafik Treiber je nach Gerät wechseln 
- git clone https://github.com/flowmis/DLT.git
- git clone https://github.com/flowmis/pres.git
- git clone https://github.com/flowmis/Kivy.git
- git clone https://github.com/flowmis/Sonstiges.git
- git clone https://github.com/flowmis/Beachvolleyballfeld.git 
- sudo pacman -S xf86-video-nouveau xorg alacritty base-devel lightdm lightdm-gtk-greeter networkmanager picom pinta htop kdenlive nitrogen qtile rofi deepin-screen-recorder thunderbird emacs flameshot libreoffice gimp vlc
- # xf86-video-fbdev > bei physischen Maschinen Intel, AMD oder Nividia Treiber (siehe ArchWiki)
- # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
- # Nvidia-Grafiktreiber (Open Source): sudo pacman -S xf86-video-nouveau
- # Nvidia (proprietäre) Grafiktreiber: sudo pacman -S nvidia nvidia-utils
- # ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
- # Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
- # Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
- # base-devel            -> for makepkg -si
- # lightdm               -> Login into Windowmanager
- # lightdm-gtk-greeter   -> Startbildschirm Loginmanager
- # python python-pip virtualbox noch hinzufügen?
- # sudo pip install jupyter notebook
+ # Achtung Video/Grafik Treiber je nach Gerät wechseln
+ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+ hwclock --systohc
+ echo LANG=de_DE.UTF-8 | cat > /etc/locale.conf
+ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen
+ locale-gen
+ echo FlowmisPC | cat /etc/hostname
+ echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
+ mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
  git clone https://aur.archlinux.org/brave-bin.git
  cd brave-bin/
  makepkg -si
  mv ~/.emacs.d ~/.backupemacs.d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  ~/.emacs.d/bin/doom install
- ~/.emacs.d/bin/doom refresh
+ cp ~/FlowmisOS/init.el ~/.config/doom/init.el
+ cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el
+ cp ~/FlowmisOS/config.el ~/.config/doom/config.el
+ ~/.emacs.d/bin/doom sync
+ cd ..
+ cd ..
+ cd ..
+ mkdir /boot/EFI
+ mount /dev/sda1 boot/EFI
+ grub-install /dev/sda
+ grub-mkconfig -o /boot/grub/grub.cfg
+ exit
