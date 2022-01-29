@@ -2,12 +2,12 @@
  usermod -aG wheel,audio,video,optical,storage flowmis
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  hwclock --systohc
- echo LANG=de_DE.UTF-8 | cat > /etc/locale.conf
+ mv ~/FlowmisOS/locale.conf ~/etc/locale.conf
  sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen
  locale-gen
- touch /etc/hostname
- echo FlowmisPC | cat /etc/hostname
- echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
+ touch /etc/hostname        #nötig oder kann weg?
+ echo FlowmisPC | cat > /etc/hostname
+ mv ~/FlowmisOS/hosts ~/etc/hosts
  pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
  mkdir /boot/EFI
  mount /dev/sda1 boot/EFI

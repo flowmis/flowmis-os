@@ -68,16 +68,6 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  genfstab -U /mnt >> /mnt/etc/fstab
  arch-chroot /mnt
  pacman -S neovim sudo git   ->hier kommt Fehlermeldung perl: locale settings passen nicht -> wird das dann im Anschluss geregelt oder muss ich aufpassen
- # Achtung richtige Videotreiber je nachdem wo installiert wird: xf86-video-fbdev für VM -> bei physischen Maschinen siehe unten
- # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
- # Nvidia-Grafiktreiber (Open Source): sudo pacman -S xf86-video-nouveau
- # Nvidia (proprietäre) Grafiktreiber: sudo pacman -S nvidia nvidia-utils
- # ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
- # Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
- # Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
- # base-devel            -> for makepkg -si
- # lightdm               -> Login into Windowmanager
- # lightdm-gtk-greeter   -> Startbildschirm Loginmanager
  passwd
  useradd -m flowmis
  passwd flowmis
@@ -226,18 +216,46 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
 * Installationsskript und Programme für Linux
 1. Gute Linux Programme
    - Minimal Installation beinhaltet immer?: xorg server(dmenu xterm xmobar sind für xmonad nötig!?), window manager, login manager, browser, terminal(Terminal Emulator) und Texteditor
+
+#+begin_src shell :tangle hosts
+# Static table lookup for hostnames.
+# See hosts(5) for detailsh
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	FlowmisPC.localdomain	FlowmisPC
+#+end_src
+
+#+begin_src shell :tangle locale.conf
+LANG=de_DE.UTF-8
+LC_CTYPE=de_DE.UTF-8
+#+end_src
+
+
+
+
 #+begin_src shell :tangle rootinstall.sh
  # Achtung Video/Grafik Treiber je nach Gerät wechseln
  usermod -aG wheel,audio,video,optical,storage flowmis
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  hwclock --systohc
- echo LANG=de_DE.UTF-8 | cat > /etc/locale.conf
+ mv ~/FlowmisOS/locale.conf ~/etc/locale.conf
  sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen
  locale-gen
- touch /etc/hostname
- echo FlowmisPC | cat /etc/hostname
- echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
- pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
+ touch /etc/hostname        #nötig oder kann weg?
+ echo FlowmisPC | cat > /etc/hostname
+ mv ~/FlowmisOS/hosts ~/etc/hosts
+ pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs ripgrep
+ # Achtung richtige Videotreiber je nachdem wo installiert wird: xf86-video-fbdev für VM -> bei physischen Maschinen siehe unten
+ # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
+ # Nvidia-Grafiktreiber (Open Source): sudo pacman -S xf86-video-nouveau
+ # Nvidia (proprietäre) Grafiktreiber: sudo pacman -S nvidia nvidia-utils
+ # ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
+ # Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
+ # Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
+ # base-devel            -> for makepkg -si
+ # lightdm               -> Login into Windowmanager
+ # lightdm-gtk-greeter   -> Startbildschirm Loginmanager
+ # ripgrep ist für doom emacs nötig (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
  mkdir /boot/EFI
  mount /dev/sda1 boot/EFI
  grub-install /dev/sda
@@ -245,9 +263,12 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  #+end_src
 + non root install soll noch .xprofile an seinen Ort shieben sodass Nitrogen und Auflösung passt
 #+begin_src shell :tangle nonrootinstall.sh
+ localectl --no-convert set-keymap de-latin1-nodeadkeys
+ localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+ localectl status
  mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
- mv ~/.emacs.d ~/.backupemacs.d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+ cp ~/.emacs.d ~/.backupemacs.d                             #macht es nicht weil zu der Zeit noch kein solcher Ordner vorhanden ist?
  ~/.emacs.d/bin/doom install
  cp ~/FlowmisOS/init.el ~/.config/doom/init.el
  cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el
@@ -4508,7 +4529,7 @@ https://flowmis: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@github.com
 + Erstelle Skript und aktiviere es indem man sudo chmod +x /etc/systemd/system/my-startup.service "NameSkript" macht und es mit . "NameSkript" ausführt
 + simple solution: diesen Code mit tangle als Datei in Homverzeichnis schreiben - sollte dann mit Start von allein ausgeführt werden
   
-#+begin_src sh :tangle ~/.xprofile
+#+begin_src sh :tangle ~/.xprofile :tangle .xprofile
 xrandr -s 1920x1080                                # In VM aktivieren
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows

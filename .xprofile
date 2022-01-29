@@ -1,9 +1,5 @@
-nitrogen --restore $                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
-=======
-#+begin_src sh :tangle /home/flowmis/.xprofile
-#xrandr -s 1920x1080
+xrandr -s 1920x1080                                # In VM aktivieren
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
->>>>>>> origin/main
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
-#echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> /home/flowmis/bootup.log
+#echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
