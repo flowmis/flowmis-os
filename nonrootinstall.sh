@@ -2,8 +2,8 @@
  localectl --no-convert set-x11-keymap de pc105 deadgraveacute
  localectl status
  mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
- mv ~/.emacs.d ~/.backupemacs.d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+ cp ~/.emacs.d ~/.backupemacs.d                             #macht es nicht weil zu der Zeit noch kein solcher Ordner vorhanden ist?
  ~/.emacs.d/bin/doom install
  cp ~/FlowmisOS/init.el ~/.config/doom/init.el
  cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el

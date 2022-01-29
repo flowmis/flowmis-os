@@ -4514,7 +4514,7 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 #+end_src
 * Git
 Über SSH funktioniert es denk besser also lieber ssh Keys einrichten
-#+begin_src shell :tangle ~/.git-credentials
+#+begin_src shell :tangle ~/.git-credentials :tangle .git-credentials
 https://flowmis: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@github.com
 #+end_src  
 #+begin_src shell :tangle ~/.gitconfig
