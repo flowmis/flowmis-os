@@ -85,9 +85,11 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  cd /home/flowmis
  git clone https://github.com/flowmis/FlowmisOS.git
  cd FlowmisOS
- . rootinstall.sh (oder: . installvm.sh)
+ . rootinstall.sh
  umount -l /mnt
 #reboot & login
+ sudo systemctl enable NetworkManager lightdm
+ sudo systemctl reboot
  cd FlowmisOS
  . nonrootinstall.sh
  #+end_src
@@ -233,33 +235,28 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  locale-gen
  echo FlowmisPC | cat /etc/hostname
  echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
- mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
  pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
- mv ~/.emacs.d ~/.backupemacs.d
- git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
- ~/.emacs.d/bin/doom install
- cp ~/FlowmisOS/init.el ~/.config/doom/init.el
- cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el
- cp ~/FlowmisOS/config.el ~/.config/doom/config.el
- ~/.emacs.d/bin/doom sync
- cd ..
- cd ..
- cd ..
  mkdir /boot/EFI
  mount /dev/sda1 boot/EFI
  grub-install /dev/sda
  grub-mkconfig -o /boot/grub/grub.cfg
  exit
  #+end_src
-
++ non root install soll noch .xprofile an seinen Ort shieben sodass Nitrogen und Auflösung passt
 #+begin_src shell :tangle nonrootinstall.sh
+ mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
+ mv ~/.emacs.d ~/.backupemacs.d
+ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+ ~/.emacs.d/bin/doom install
+ cp ~/FlowmisOS/init.el ~/.config/doom/init.el
+ cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el
+ cp ~/FlowmisOS/config.el ~/.config/doom/config.el
+ cp ~/FlowmisOS/.xprofile ~/.xprofile
+ ~/.emacs.d/bin/doom sync
+ cd ~
  git clone https://aur.archlinux.org/brave-bin.git
  cd brave-bin/
  makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
- sudo systemctl enable NetworkManager
- sudo systemctl enable lightdm
- sudo systemctl reboot
-
 #+end_src
 
  #+begin_src shell :tangle fullinstall.sh
@@ -4492,6 +4489,7 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 
 #+end_src
 * Git
+Über SSH funktioniert es denk besser also lieber ssh Keys einrichten
 #+begin_src shell :tangle ~/.git-credentials
 https://flowmis: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@github.com
 #+end_src  
@@ -4508,7 +4506,7 @@ https://flowmis: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@github.com
 + simple solution: diesen Code mit tangle als Datei in Homverzeichnis schreiben - sollte dann mit Start von allein ausgeführt werden
   
 #+begin_src sh :tangle ~/.xprofile
-#xrandr -s 1920x1080                                # In VM aktivieren
+xrandr -s 1920x1080                                # In VM aktivieren
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist

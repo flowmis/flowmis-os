@@ -7,18 +7,7 @@
  locale-gen
  echo FlowmisPC | cat /etc/hostname
  echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
- mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
  pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
- mv ~/.emacs.d ~/.backupemacs.d
- git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
- ~/.emacs.d/bin/doom install
- cp ~/FlowmisOS/init.el ~/.config/doom/init.el
- cp ~/FlowmisOS/packages.el ~/.config/doom/packages.el
- cp ~/FlowmisOS/config.el ~/.config/doom/config.el
- ~/.emacs.d/bin/doom sync
- cd ..
- cd ..
- cd ..
  mkdir /boot/EFI
  mount /dev/sda1 boot/EFI
  grub-install /dev/sda
