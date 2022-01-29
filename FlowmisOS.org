@@ -61,13 +61,13 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
 
  #+begin_src
  loadkeys de-latin1
- fdisk /dev/sda             -> n p Enter Enter w
+ fdisk /dev/sda             -> n p Enter Enter Enter w
  mkfs.ext4 /dev/sda1
  mount /dev/sda1 /mnt
  pacstrap /mnt base linux linux-firmware
  genfstab -U /mnt >> /mnt/etc/fstab
  arch-chroot /mnt
- pacman -S neovim sudo git grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
+ pacman -S neovim sudo git
  # Achtung richtige Videotreiber je nachdem wo installiert wird: xf86-video-fbdev für VM -> bei physischen Maschinen siehe unten
  # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
  # Nvidia-Grafiktreiber (Open Source): sudo pacman -S xf86-video-nouveau
@@ -81,19 +81,15 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  passwd
  useradd -m flowmis
  passwd flowmis
- usermod -aG wheel,audio,video,optical,storage flowmis
  EDITOR=nvim visudo          -> uncomment #%wheel ALL=(ALL) ALL
  cd /home/flowmis
  git clone https://github.com/flowmis/FlowmisOS.git
  cd FlowmisOS
- . install.sh (oder: . installvm.sh)
+ . rootinstall.sh (oder: . installvm.sh)
  umount -l /mnt
 #reboot & login
- sudo systemctl enable NetworkManager
- sudo systemctl reboot
- ###reboot and login into arch
- sudo systemctl enable lightdm
- sudo systemctl reboot -> emacs in FlowmisOS.org und org-babel-tangle um configs an ihren Ort zu bringen und erneut reboot
+ cd FlowmisOS
+ . nonrootinstall.sh
  #+end_src
 
 ** Genauer Guide
@@ -227,8 +223,9 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
 * Installationsskript und Programme für Linux
 1. Gute Linux Programme
    - Minimal Installation beinhaltet immer?: xorg server(dmenu xterm xmobar sind für xmonad nötig!?), window manager, login manager, browser, terminal(Terminal Emulator) und Texteditor
-#+begin_src shell :tangle install.sh
+#+begin_src shell :tangle rootinstall.sh
  # Achtung Video/Grafik Treiber je nach Gerät wechseln
+ usermod -aG wheel,audio,video,optical,storage flowmis
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  hwclock --systohc
  echo LANG=de_DE.UTF-8 | cat > /etc/locale.conf
@@ -237,9 +234,7 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  echo FlowmisPC | cat /etc/hostname
  echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
  mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
- git clone https://aur.archlinux.org/brave-bin.git
- cd brave-bin/
- makepkg -si
+ pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
  mv ~/.emacs.d ~/.backupemacs.d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  ~/.emacs.d/bin/doom install
@@ -256,6 +251,16 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
  grub-mkconfig -o /boot/grub/grub.cfg
  exit
  #+end_src
+
+#+begin_src shell :tangle nonrootinstall.sh
+ git clone https://aur.archlinux.org/brave-bin.git
+ cd brave-bin/
+ makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
+ sudo systemctl enable NetworkManager
+ sudo systemctl enable lightdm
+ sudo systemctl reboot
+
+#+end_src
 
  #+begin_src shell :tangle fullinstall.sh
  git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???

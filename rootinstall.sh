@@ -1,4 +1,5 @@
  # Achtung Video/Grafik Treiber je nach Gerät wechseln
+ usermod -aG wheel,audio,video,optical,storage flowmis
  ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  hwclock --systohc
  echo LANG=de_DE.UTF-8 | cat > /etc/locale.conf
@@ -7,9 +8,7 @@
  echo FlowmisPC | cat /etc/hostname
  echo 127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tFlowmisPC.localdomain\tFlowmisPC | cat > /etc/hosts
  mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
- git clone https://aur.archlinux.org/brave-bin.git
- cd brave-bin/
- makepkg -si
+ pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs
  mv ~/.emacs.d ~/.backupemacs.d
  git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  ~/.emacs.d/bin/doom install
