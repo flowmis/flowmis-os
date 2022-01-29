@@ -3,5 +3,5 @@
  git clone https://github.com/flowmis/Kivy.git
  git clone https://github.com/flowmis/Sonstiges.git
  git clone https://github.com/flowmis/Beachvolleyballfeld.git
- sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc  pinta htop kdenlive python python-pip virtualbox
+ sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python python-pip virtualbox
  sudo pip install jupyter notebook
