@@ -6,11 +6,13 @@ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen          # suc
 locale-gen                                                                 # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                       # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager lightdm lightdm-gtk-greeter xf86-video-fbdev
+systemctl enable NetworkManager lightdm
 mkdir /boot/EFI
 mount /dev/sda1 boot/EFI
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
-localectl --no-convert set-keymap de-latin1-nodeadkeys
-localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-localectl status
+cd /home/flowmis
+chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
+chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
+cd ~/FlowmisOS/tangle

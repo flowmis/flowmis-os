@@ -1,7 +1,6 @@
-cd /home/flowmis
-sudo chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
-sudo chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
-cd ~/FlowmisOS/tangle
+localectl --no-convert set-keymap de-latin1-nodeadkeys
+localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+localectl status
 
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile}
 # doom conky dmlight pcmanfm ,...???
