@@ -1,3 +1,4 @@
+cd /home/flowmis/
 chown flowmis FlowmisOS/                                                  # owner root -> owner flowmis
 chgrp flowmis FlowmisOS/                                                  # Gruppe root -> Gruppe flowmis
 usermod -aG wheel,audio,video,optical,storage flowmis                      # Erteilen der Rechte bzw. in welcher Gruppe der User ist
