@@ -1,32 +1,37 @@
 #+TITLE: Install FlowmisOS
 #+STARTUP: fold
 
-Diese Datei dient der Übersicht über FlowmisOS und exportiert den Code momentan noch in den FlowmisOS Ordner soll aber später mit Space mB allen Code direkt an die richtige Stelle exportieren (vll ist noch ein bash Skript nötig das Standard configs als backup speichert und alle nötigen Directories erstellt etc.)
+Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfigurationsdateien und Skripte gebildet. Diese werden in den Ordner tangle exportiert. In diesem Ordner wird auch ein verschieben.sh Skript erstellt welches beim ausführen die Konfigurationen an den richtigen Pfad bringt und die fehlende Ordnerstruktur erstellt.
 
- 1. Grundlage von FlowmisOS ist ArchLinux
- 2. Bootstick mit ArchLinux ist nötig um in ein live system booten zu können von dem aus man Arch installieren kann
- 3. Ist Arch installiert kann ich über git clone ein Installationsskript laden und ausführen, sodass alle Pakete/Programme und config Dateien erstellt werden und ich mein selbst zusammengestelltes Betriebssystem habe
+ 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
+ 2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell executen muss.
 
 * TODO FlowmisOS
-+ Alacritty grundlegende Config (Aliase, Keybindings, Aussehen)
++ Alacritty sweeter machen und autofill (vll auch mit fish oder durch fish ersetzen)
 + Installationsskript überarbeiten: Soll Ordnerstruktur die ich haben mag herstellen und Grundlegende Programme installieren
-+ .bashrc mit aliase überarbeiten und wie ist zusammenspiel mit Alacritty?
-+ Pfade conifgs passt?
- | Src-Block                      | momentaner Exportpfad (Space mB) | Zielpfad                          |
- |                                | :tangle <NameFile>               | :tangle <Pfad+NameFile>           |
- |--------------------------------+----------------------------------+-----------------------------------|
- | QTILE                          | gleicher Ordner                  | ~/.config/qtile/config.py         |
- | ALACRITTY                      | gleicher Ordner                  | ~/.config/alacritty/alacritty.yml |
- | Picom                          | gleicher Ordner                  | ~/.config/picom/picom.conf        |
- | EMACS                          | not available                    | ~/.emacs.d/config.el?             |
- | Achtung bei DOOM anderer Pfad? |                                  | ~/.emacs.d/init.el                |
- |                                |                                  | ~/.emacs.d/packages.el?           |
- | ROFI                           | not available                    | ~/.config/rofi                    |
- | Conky                          | not available                    | ~/.config/conky                   |
- | STARTUP SKRIPT                 | gleicher Ordner                  | ~/.xprofile           |
- | Login Manager                  | not available                    | ?                                 |
-+ qtile lädt, aber ich kann nichts öffnen -> config anpassen dass es ohne dmenu geht und ich zumindest ein terminal aufbekomme -> git credentials und .xprofile sowie automatisch kopieren der emacs config sachen
-+ was kann ich noch in install script rein und was muss ich raus nehmen und in zusatz install skript schreiben -> schneller basis installation ohne schnickschnak zum check ob alles passt und dann großes Installationsskript für alle Programme falls ich es brauch (bestenfalls leicht anpassbar)
++ .bashrc bashprofile und bashhistory zu configs
+- was brauche ich um qtile config funktionieren zu lassen
+#+begin_src sh :tangle tangle/verschieben.sh
+mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
+cp -r /home/flowmis/FlowmisOS/init.el /home/flowmis/.config/doom/init.el
+cp -r /home/flowmis/FlowmisOS/packages.el /home/flowmis/.config/doom/packages.el
+cp -r /home/flowmis/FlowmisOS/config.el /home/flowmis/.config/doom/config.el
+cp -r /home/flowmis/FlowmisOS/.xprofile /home/flowmis/.xprofile
+cp -r /home/flowmis/FlowmisOS/config.py /home/flowmis/.config/qtile/config.py
+cp -r /home/flowmis/FlowmisOS/config.rasi /home/flowmis/.config/rofi/config.rasi
+
+#+end_src
+ | Src-Block      | momentaner Exportpfad (Space mB) | Zielpfad                          |
+ |                | :tangle <NameFile>               | :tangle <Pfad+NameFile>           |
+ |----------------+----------------------------------+-----------------------------------|
+ | QTILE          | gleicher Ordner                  | ~/.config/qtile/config.py         |
+ | ALACRITTY      | gleicher Ordner                  | ~/.config/alacritty/alacritty.yml |
+ | Picom          | gleicher Ordner                  | ~/.config/picom/picom.conf        |
+ | EMACS          | not available                    | ~/.emacs.d/config.el?             |
+ | ROFI           | not available                    | ~/.config/rofi                    |
+ | Conky          | not available                    | ~/.config/conky                   |
+ | STARTUP SKRIPT | gleicher Ordner                  | ~/.xprofile                       |
+ | Login Manager  | not available                    | ?                                 |
 * Install Arch
 Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
 1. Arch ISO downloaden & auf Stick oder in VM(other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben) - wenn man auf bootstick booted wird eine vtruelle zshell Umgebung erstellt von der aus man dann sein System mittels Befehlen einrichten kann! Prinzipiell kann man hier auch direkt ein autoinstall skript ausführen
@@ -36,13 +41,13 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
 
  #+begin_src
  loadkeys de-latin1
- fdisk /dev/sda             -> n p Enter Enter Enter w
+ fdisk /dev/sda              -> n p Enter Enter Enter w
  mkfs.ext4 /dev/sda1
  mount /dev/sda1 /mnt
  pacstrap /mnt base linux linux-firmware
  genfstab -U /mnt >> /mnt/etc/fstab
  arch-chroot /mnt
- pacman -S neovim sudo git   ->hier kommt Fehlermeldung perl: locale settings passen nicht -> wird das dann im Anschluss geregelt oder muss ich aufpassen (perl nicht installieren?)
+ pacman -S neovim sudo git
  passwd
  useradd -m flowmis
  passwd flowmis
@@ -50,12 +55,10 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  git clone https://github.com/flowmis/FlowmisOS.git
  cd FlowmisOS
  . rootinstall.sh
- EDITOR=nvim visudo          -> uncomment #%wheel ALL=(ALL) ALL
+ #geht durch Skript?  EDITOR=nvim visudo          -> uncomment #%wheel ALL=(ALL) ALL
  exit
  umount -l /mnt
-#reboot & login
- sudo systemctl enable NetworkManager lightdm
- sudo systemctl reboot
+ reboot                      -> & login
  cd FlowmisOS
  . nonrootinstall.sh
  #+end_src
@@ -189,42 +192,50 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
         tint2                   # setzt Taskleiste/Panel
         #+end_src
 * Installationsskript und Programme für Linux
-1. Gute Linux Programme
-   - Minimal Installation beinhaltet immer?: xorg server(dmenu xterm xmobar sind für xmonad nötig!?), window manager, login manager, browser, terminal(Terminal Emulator) und Texteditor
+1. Installation eines Linux Betriebssystems
+   + Minimal Installation benötigt:
+     - Bootmanager (grub)
+     - xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
+     - window/desktop manager (qtile, openbox, xmonad)
+     - login manager (lightdm)
+     - Browser (Brave)
+     - Terminal/Terminal Emulator (Alacritty, Fish, zshell)
+     - Texteditor (Emacs)
 
-#+begin_src shell :tangle hosts
-# Static table lookup for hostnames.
-# See hosts(5) for detailsh
-127.0.0.1	localhost
-::1		localhost
-127.0.1.1	FlowmisPC.localdomain	FlowmisPC
-#+end_src
+2. Erstelle Dateien für die Installation
+   1. Datei die dem Gerät einen Namen gibt
+    #+begin_src shell :tangle tangle/locale.conf
+    LANG=de_DE.UTF-8
+    LC_CTYPE=de_DE.UTF-8
+    #+end_src
+   2. Datei die den localhost und die localdomain festlegt
+    #+begin_src shell :tangle tangle/hosts
+    # Static table lookup for hostnames.
+    # See hosts(5) for detailsh
+    127.0.0.1	localhost
+    ::1		localhost
+    127.0.1.1	FlowmisPC.localdomain	FlowmisPC
+    #+end_src
 
-#+begin_src shell :tangle locale.conf
-LANG=de_DE.UTF-8
-LC_CTYPE=de_DE.UTF-8
-#+end_src
-
-
-#+begin_src shell :tangle rootinstall.sh
- # Achtung Video/Grafik Treiber je nach Gerät wechseln
- usermod -aG wheel,audio,video,optical,storage flowmis
- ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
- hwclock --systohc
- mv /home/flowmis/FlowmisOS/locale.conf /etc/locale.conf
- sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen
- locale-gen
- touch /etc/hostname        #nötig oder kann weg?
- echo FlowmisPC | cat > /etc/hostname
+3. Root Installationsskript: ~Achtung!!!~ bei Installation Video/Grafiktreiber muss Skript auf VM/physisches Gerät angepasst werden!
+  - Bei VM: xf86-video-fbdev
+  - Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
+  - Intel (Open Source): sudo pacman -S xf86-video-intel
+  - Nvidia (Open Source): sudo pacman -S xf86-video-nouveau
+  - Nvidia (proprietäre): sudo pacman -S nvidia nvidia-utils
+  - ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
+  - Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
+ #+begin_src shell :tangle tangle/rootinstall.sh
+ usermod -aG wheel,audio,video,optical,storage flowmis                      # Erteilen der Rechte bzw. in welcher Gruppe der User ist
+ sed -i 's/ #%wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers      # Ermöglicht sudo usern der Gruppe wheel alle sudo Befehle auszuführen wenn sie das sudo passwort haben
+ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                    # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+ hwclock --systohc                                                          # setzt Zeit
+ mv /home/flowmis/FlowmisOS/locale.conf /etc/locale.conf                    # verschiebt die hier im Dokument erstellte Datei locale.conf mit richtigem Inhalt an den richtigen Ort
+ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen          # sucht einen String und ersetzt ihn
+ locale-gen                                                                 # generiert die locales
+ echo FlowmisPC | cat > /etc/hostname                                       # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt (touch nötig wenn Datei noch nicht vorhanden ist?)
  mv /home/flowmis/FlowmisOS/hosts /etc/hosts
- pacman -S grub pcmanfm efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev xorg alacritty base-devel lightdm lightdm-gtk-greeter picom nitrogen qtile rofi emacs ripgrep
- # Achtung richtige Videotreiber je nachdem wo installiert wird: xf86-video-fbdev für VM -> bei physischen Maschinen siehe unten
- # Intel-Grafiktreiber (Open Source): sudo pacman -S xf86-video-intel
- # Nvidia-Grafiktreiber (Open Source): sudo pacman -S xf86-video-nouveau
- # Nvidia (proprietäre) Grafiktreiber: sudo pacman -S nvidia nvidia-utils
- # ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
- # Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
- # Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
+ pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev
  # base-devel            -> for makepkg -si
  # lightdm               -> Login into Windowmanager
  # lightdm-gtk-greeter   -> Startbildschirm Loginmanager
@@ -234,21 +245,18 @@ LC_CTYPE=de_DE.UTF-8
  grub-install /dev/sda
  grub-mkconfig -o /boot/grub/grub.cfg
  #+end_src
-+ non root install soll noch .xprofile an seinen Ort shieben sodass Nitrogen und Auflösung passt
-#+begin_src shell :tangle nonrootinstall.sh
+
+4. Installationsskript
+ #+begin_src shell :tangle tangle/install.sh
  localectl --no-convert set-keymap de-latin1-nodeadkeys
  localectl --no-convert set-x11-keymap de pc105 deadgraveacute
  localectl status
- mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom}
+ sudo pacman -S pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
+ sudo systemctl enable NetworkManager lightdm
+ #nötig? sudo systemctl reboot
  git clone --depth 1 https://github.com/hlissner/doom-emacs /home/flowmis/.emacs.d
  cp /home/flowmis/.emacs.d /home/flowmis/.backupemacs.d                             #macht es nicht weil zu der Zeit noch kein solcher Ordner vorhanden ist?
  /home/flowmis/.emacs.d/bin/doom install
- cp /home/flowmis/FlowmisOS/init.el /home/flowmis/.config/doom/init.el
- cp /home/flowmis/FlowmisOS/packages.el /home/flowmis/.config/doom/packages.el
- cp /home/flowmis/FlowmisOS/config.el /home/flowmis/.config/doom/config.el
- cp /home/flowmis/FlowmisOS/.xprofile /home/flowmis/.xprofile
- cp /home/flowmis/FlowmisOS/config.py /home/flowmis/.config/qtile/config.py
- cp /home/flowmis/FlowmisOS/config.rasi /home/flowmis/.config/rofi/config.rasi
  /home/flowmis/.emacs.d/bin/doom sync
  cd /home/flowmis
  git clone https://aur.archlinux.org/brave-bin.git
@@ -257,7 +265,7 @@ LC_CTYPE=de_DE.UTF-8
  nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
 #+end_src
 
- #+begin_src shell :tangle fullinstall.sh
+ #+begin_src shell :tangle tangle/installmore.sh
  git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
  git clone https://github.com/flowmis/pres.git
  git clone https://github.com/flowmis/Kivy.git
@@ -310,7 +318,7 @@ LC_CTYPE=de_DE.UTF-8
 | Desktopaussehen verändern                               | Gnome Tweak Tool                                                                        | Macht mit Windowmanager wie qtile keinen Sinn?                                     |
 | System optimzer and application monitor                 | Stacer                                                                                  | https://github.com/oguzhaninan/Stacer                                              |
 
-*** Keyboard
+*** Tastaturlayout Probleme
 1. Befehl "localectl status" --> Abfrage momentane Keyboardeinstellungen
 2. System Locales sollte bereits bei Locales eingestellt worden sein sodass nun nur noch folgende 2 Befehle ausgeführt werden müssen
    - localectl --no-convert set-keymap de-latin1-nodeadkeys
@@ -323,6 +331,7 @@ LC_CTYPE=de_DE.UTF-8
             X11 Model: pc105
             X11 Variant: deadgraveacute
 4. Reboot!! (sonst sieht man keine Änderung)
+5. Wenn locales alle passen es aber immer noch nicht geht probiere: setxkbmap -layout de
 *** Pacman
 https://wiki.archlinux.de/title/Pacman
 - Spiegelserver richtif einrichten dass hier keine Probleme entstehen
@@ -353,20 +362,13 @@ sudo snap install pycharm-community --classic
 #+end_src
 Öffnen falls anders nicht möglich über: snap run pycharm-community (snap help zeigt alles was man zu snap benötigt!)
 
-*** Jupyter Notebook
-- sudo pacman -Syu
-- sudo pacman -S python-pip
-- pip install jupyter notebook
-- jupyter notebook (öffnet es im browser)
---> man kann Jupyter durch org-Mode auch ersetzen und braucht es nicht mehr: https://www.youtube.com/watch?v=dh5dtKDWgyM -> Interactive inputs gehen im org mode aber nicht so wie bei jupyter
 *** TODO Jupyter, WolframAplpha und Coding richtig einrichten in OrgMode -> und Brave in Buffer öffnen statt seperat
+- Jupyter mit Emacs ersetzen: https://www.youtube.com/watch?v=dh5dtKDWgyM -> Problem?: Interactive inputs gehen im org mode nicht so wie easy wie bei jupyter
 - https://github.com/ravarspath/emacs-conf
 - https://github.com/ravarspath/ob-wolfram
 so sollte ich es dann benutzen können:
 - https://www.youtube.com/watch?v=RD0o2pkJBaI
 - Jupyter hieß mal IPython und das konnte man auf jedenfall installieren und in Emacs nutzen - In Jupyter kann man Extensions importieren wie z.B. qgrid (ermöglich interaktiv mit Tabellen in Zelle zu agieren bissl wie in Excel) und SQL
-- xwidgets erlaubt WebKit dinge wie videos einbinden etc. -> keine Ahnung wie gut es funktioniert und installiert wird etc.
-
 *** Git
 1. Neuer Token(ist als Passw. für remote zugriff auf Repo nötig): UserIcon oben rechts auf Hompage -> Settings -> Developer --> Neuer Token (Ablaufdatum eingeben und repo ankreuzen - sollte als Rechtevergabe ausreichen)
 2. Git installieren: sudo pacman -S git
@@ -3850,6 +3852,7 @@ https://flowmis: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@github.com
 xrandr -s 1920x1080                                # In VM aktivieren
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
+setxkbmap -layout de &
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
 #echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
