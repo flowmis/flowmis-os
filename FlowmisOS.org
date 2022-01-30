@@ -227,13 +227,10 @@ LC_CTYPE=de_DE.UTF-8
    - Nvidia (proprietäre): sudo pacman -S nvidia nvidia-utils
    - ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
    - Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
-   - lightdm(Login-Manager) + lightdm-gtk-greeter(Start-Bildschirm) sind nötig um ein Login das System zu haben
 
 #+begin_src shell :tangle tangle/rootinstall.sh
-cd /home/flowmis
-chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
-chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
-cd ~/FlowmisOS/tangle
+chown flowmis FlowmisOS/                                                  # owner root -> owner flowmis
+chgrp flowmis FlowmisOS/                                                  # Gruppe root -> Gruppe flowmis
 usermod -aG wheel,audio,video,optical,storage flowmis                      # Erteilen der Rechte bzw. in welcher Gruppe der User ist
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                    # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
 hwclock --systohc                                                          # setzt Zeit
@@ -242,8 +239,7 @@ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen          # suc
 locale-gen                                                                 # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                       # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager lightdm lightdm-gtk-greeter qtile xf86-video-fbdev
-systemctl enable NetworkManager lightdm
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev
 mkdir /boot/EFI
 mount /dev/sda1 boot/EFI
 grub-install /dev/sda
@@ -253,18 +249,19 @@ grub-mkconfig -o /boot/grub/grub.cfg
 1. Installationsskript
    - base-devel ermöglicht den Befehl <makepkg -si> der nötig ist um aus den Brave Binaries ein Paket zu machen das im Anschluss installiert wird
    - ripgrep braucht man für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
+   - lightdm(Login-Manager) + lightdm-gtk-greeter(Start-Bildschirm) sind nötig um ein Login das System zu haben
 
 #+begin_src shell :tangle tangle/install.sh
-sudo chown flowmis FlowmisOS
-sudo chgrp flowmis FlowmisOS
-sudo pacman -S pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel
+sudo pacman -S pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
+sudo systemctl enable NetworkManager lightdm
 git clone https://aur.archlinux.org/brave-bin.git
 cd brave-bin/
 makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
-localectl --no-convert set-keymap de-latin1-nodeadkeys
-localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-localectl status
+#localctl noch oben in root ohne sudo???
+sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
+sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+sudo localectl status
 #+end_src
 
 #+begin_src shell :tangle tangle/installmore.sh
@@ -277,7 +274,8 @@ git clone https://github.com/flowmis/pres.git
 git clone https://github.com/flowmis/Kivy.git
 git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python python-pip virtualbox
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox
+#python müsste durch qtile bereits installiert worden sein
 sudo pip install jupyter notebook
 #+end_src
 
