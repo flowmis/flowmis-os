@@ -205,17 +205,17 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
 
 2. Erstelle Dateien für die Installation
    1. Datei die dem Gerät einen Namen gibt
-    #+begin_src shell :tangle tangle/locale.conf
-    LANG=de_DE.UTF-8
-    LC_CTYPE=de_DE.UTF-8
-    #+end_src
+#+begin_src shell :tangle tangle/locale.conf
+LANG=de_DE.UTF-8
+LC_CTYPE=de_DE.UTF-8
+#+end_src
    2. Datei die den localhost und die localdomain festlegt
-    #+begin_src shell :tangle tangle/hosts
-    # Static table lookup for hostnames.
-    # See hosts(5) for detailsh
-    127.0.0.1	localhost
-    ::1		    localhost
-    127.0.1.1	FlowmisPC.localdomain	FlowmisPC
+#+begin_src shell :tangle tangle/hosts
+# Static table lookup for hostnames.
+# See hosts(5) for detailsh
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	FlowmisPC.localdomain	FlowmisPC
     #+end_src
 
 3. Root Installationsskript: ~Achtung!!!~ bei Installation Video/Grafiktreiber muss Skript auf VM/physisches Gerät angepasst werden!
@@ -241,10 +241,7 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
    mount /dev/sda1 boot/EFI
    grub-install /dev/sda
    grub-mkconfig -o /boot/grub/grub.cfg
-   cd /home/flowmis
-   sudo chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
-   sudo chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
-   #+end_src
+     #+end_src
 
 4. Installationsskript
    - base-devel ermöglicht den Befehl <makepkg -si> der nötig ist um aus den Brave Binaries ein Paket zu machen das im Anschluss installiert wird
@@ -252,9 +249,9 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
    - ripgrep braucht man für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
 
    #+begin_src shell :tangle tangle/install.sh
-   localectl --no-convert set-keymap de-latin1-nodeadkeys
-   localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-   localectl status
+   sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
+   sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+   sudo localectl status
    sudo pacman -S pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
    sudo systemctl enable NetworkManager lightdm
    #nötig? sudo systemctl reboot
@@ -262,6 +259,9 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
    cd brave-bin/
    makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
    nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
+   cd /home/flowmis
+   sudo chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
+   sudo chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
    cd ~/FlowmisOS/tangle
    . verschieben.sh
    reboot

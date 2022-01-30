@@ -11,6 +11,3 @@
    mount /dev/sda1 boot/EFI
    grub-install /dev/sda
    grub-mkconfig -o /boot/grub/grub.cfg
-   cd /home/flowmis
-   sudo chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
-   sudo chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
