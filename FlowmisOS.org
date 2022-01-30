@@ -20,6 +20,7 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 
 #+begin_src sh :tangle tangle/verschieben.sh
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile}
+# doom conky dmlight pcmanfm ,...???
 #cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
 #cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 #cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
@@ -32,17 +33,6 @@ cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 #+end_src
- | Src-Block      | momentaner Exportpfad (Space mB) | Zielpfad                          |
- |                | :tangle <NameFile>               | :tangle <Pfad+NameFile>           |
- |----------------+----------------------------------+-----------------------------------|
- | QTILE          | gleicher Ordner                  | ~/.config/qtile/config.py         |
- | ALACRITTY      | gleicher Ordner                  | ~/.config/alacritty/alacritty.yml |
- | Picom          | gleicher Ordner                  | ~/.config/picom/picom.conf        |
- | EMACS          | not available                    | ~/.emacs.d/config.el?             |
- | ROFI           | not available                    | ~/.config/rofi                    |
- | Conky          | not available                    | ~/.config/conky                   |
- | STARTUP SKRIPT | gleicher Ordner                  | ~/.xprofile                       |
- | Login Manager  | not available                    | ?                                 |
 * Install Arch
 Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
 1. Arch ISO downloaden & auf Stick oder in VM(other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben) - wenn man auf bootstick booted wird eine vtruelle zshell Umgebung erstellt von der aus man dann sein System mittels Befehlen einrichten kann! Prinzipiell kann man hier auch direkt ein autoinstall skript ausführen
@@ -64,13 +54,13 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
  passwd flowmis
  cd /home/flowmis
  git clone https://github.com/flowmis/FlowmisOS.git
- cd FlowmisOS
+ cd FlowmisOS/tangle
  . rootinstall.sh
- ??????geht durch Skript?  EDITOR=nvim visudo                -> uncomment #%wheel ALL=(ALL) ALL
+ EDITOR=nvim visudo                                     -> uncomment #%wheel ALL=(ALL) ALL
  exit
  umount -l /mnt
  reboot                                                 -> & login
- cd FlowmisOS
+ cd FlowmisOS/tangle
  . install.sh
  #+end_src
 
@@ -239,19 +229,21 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
 
    #+begin_src shell :tangle tangle/rootinstall.sh
    usermod -aG wheel,audio,video,optical,storage flowmis                      # Erteilen der Rechte bzw. in welcher Gruppe der User ist
-   sed -i 's/ #%wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers      # Ermöglicht sudo usern der Gruppe wheel alle sudo Befehle auszuführen wenn sie das sudo passwort haben
    ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                    # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
    hwclock --systohc                                                          # setzt Zeit
-   mv /home/flowmis/FlowmisOS/locale.conf /etc/locale.conf                    # verschiebt die hier im Dokument erstellte Datei locale.conf mit richtigem Inhalt an den richtigen Ort
+   mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf                    # verschiebt die hier im Dokument erstellte Datei locale.conf mit richtigem Inhalt an den richtigen Ort
    sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen          # sucht einen String und ersetzt ihn
    locale-gen                                                                 # generiert die locales
-   echo FlowmisPC | cat > /etc/hostname                                       # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt (touch nötig wenn Datei noch nicht vorhanden ist?)
-   mv /home/flowmis/FlowmisOS/hosts /etc/hosts
+   echo FlowmisPC | cat > /etc/hostname                                       # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+   mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts
    pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev
    mkdir /boot/EFI
    mount /dev/sda1 boot/EFI
    grub-install /dev/sda
    grub-mkconfig -o /boot/grub/grub.cfg
+   cd /home/flowmis
+   sudo chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
+   sudo chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
    #+end_src
 
 4. Installationsskript
@@ -259,20 +251,20 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
    - lightdm(Login-Manager) + lightdm-gtk-greeter(Start-Bildschirm) sind nötig um ein Login das System zu haben
    - ripgrep braucht man für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
 
-    #+begin_src shell :tangle tangle/install.sh
-    localectl --no-convert set-keymap de-latin1-nodeadkeys
-    localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-    localectl status
-    sudo pacman -S pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
-    sudo systemctl enable NetworkManager lightdm
-    #nötig? sudo systemctl reboot
-    cd /home/flowmis
-    sudo chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
-    sudo chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
-    git clone https://aur.archlinux.org/brave-bin.git
-    cd brave-bin/
-    makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
-    nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
+   #+begin_src shell :tangle tangle/install.sh
+   localectl --no-convert set-keymap de-latin1-nodeadkeys
+   localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+   localectl status
+   sudo pacman -S pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
+   sudo systemctl enable NetworkManager lightdm
+   #nötig? sudo systemctl reboot
+   git clone https://aur.archlinux.org/brave-bin.git
+   cd brave-bin/
+   makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
+   nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
+   cd ~/FlowmisOS/tangle
+   . verschieben.sh
+   reboot
    #+end_src
 
     #+begin_src shell :tangle tangle/installmore.sh
