@@ -1,3 +1,8 @@
+cd /home/flowmis
+sudo chown flowmis FlowmisOS                                                  # owner root -> owner flowmis
+sudo chgrp flowmis FlowmisOS                                                  # Gruppe root -> Gruppe flowmis
+cd ~/FlowmisOS/tangle
+
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile}
 # doom conky dmlight pcmanfm ,...???
 #cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
