@@ -41,29 +41,31 @@ Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen m
 3. Entweder <archinstall> und automatisches Setup mitmachen oder wie folgt fortsetzen
 4. folgende Befehle eingeben(Befehle kann ich auch als shell script auf Bootstick und von dort aus starten):
 
- #+begin_src
- loadkeys de-latin1
- fdisk /dev/sda                                         -> n p Enter Enter Enter w
- mkfs.ext4 /dev/sda1
- mount /dev/sda1 /mnt
- pacstrap /mnt base linux linux-firmware
- genfstab -U /mnt >> /mnt/etc/fstab
- arch-chroot /mnt
- pacman -S neovim sudo git
- passwd
- useradd -m flowmis
- passwd flowmis
- cd /home/flowmis
- git clone https://github.com/flowmis/FlowmisOS.git
- cd FlowmisOS/tangle
- . rootinstall.sh
- EDITOR=nvim visudo                                     -> uncomment #%wheel ALL=(ALL) ALL
- exit
- umount -l /mnt
- reboot                                                 -> & login
- cd FlowmisOS/tangle
- . install.sh
- #+end_src
+#+begin_src
+loadkeys de-latin1
+fdisk /dev/sda                                         -> n p Enter Enter Enter w
+mkfs.ext4 /dev/sda1
+mount /dev/sda1 /mnt
+pacstrap /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+pacman -S neovim sudo git
+passwd
+useradd -m flowmis
+passwd flowmis
+cd /home/flowmis
+git clone https://github.com/flowmis/FlowmisOS.git
+cd FlowmisOS/tangle
+. rootinstall.sh
+EDITOR=nvim visudo                                     -> uncomment #%wheel ALL=(ALL) ALL
+exit
+umount -l /mnt
+reboot                                                 -> & login
+cd FlowmisOS/tangle
+. install.sh
+. verschieben.sh
+reboot und genießen :)
+#+end_src
 
 ** Genauer Guide
 
