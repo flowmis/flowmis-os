@@ -240,7 +240,8 @@ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen          # suc
 locale-gen                                                                 # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                       # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
+systemctl enable NetworkManager lightdm
 mkdir /boot/EFI
 mount /dev/sda1 boot/EFI
 grub-install /dev/sda
@@ -253,14 +254,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
    - lightdm(Login-Manager) + lightdm-gtk-greeter(Start-Bildschirm) sind nötig um ein Login das System zu haben
 
 #+begin_src shell :tangle tangle/install.sh
-sudo pacman -S pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
 sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
 sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
 sudo localectl status
-sudo systemctl enable NetworkManager lightdm
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
 #localctl noch oben in root ohne sudo???
-sudo systemctl reboot
 #+end_src
 
 #+begin_src shell :tangle tangle/installmore.sh
