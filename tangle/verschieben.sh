@@ -1,7 +1,3 @@
-localectl --no-convert set-keymap de-latin1-nodeadkeys
-localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-localectl status
-
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile}
 # doom conky dmlight pcmanfm ,...???
 #cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
