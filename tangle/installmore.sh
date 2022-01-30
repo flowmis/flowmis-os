@@ -1,3 +1,6 @@
+git clone https://aur.archlinux.org/brave-bin.git /home/flowmis/
+cd /home/flowmis/brave-bin/
+makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
 git clone --depth 1 https://github.com/hlissner/doom-emacs /home/flowmis/.emacs.d
 cp /home/flowmis/.emacs.d /home/flowmis/.backupemacs.d                             #macht es nicht weil zu der Zeit noch kein solcher Ordner vorhanden ist?
 /home/flowmis/.emacs.d/bin/doom install
