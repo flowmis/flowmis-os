@@ -44,15 +44,15 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 
 5. In VM (other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
 
-6. Nach Boot und falls man nicht das archinstall skript verwenden will folgende Befehle eingeben um eigenes System aufzusetzen: *Befehle für quick setup sind bold*
+6. Nach Boot und falls man nicht das archinstall skript verwenden will folgende Befehle eingeben um eigenes System aufzusetzen: *Befehle für quick setup sind mit * markiert*
 
-#+begin_verse
-_Keyboard konfigurieren:_
+#+begin_example
+Keyboard konfigurieren:
   ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
   #ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
   loadkeys de-latin1                                        # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
 
-_Internet konfigurieren:_
+Internet konfigurieren:
   ip link                                                   # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird (Achtung dass rfkill die Karte nicht blockiert) und mit welchem Namen man es ansprechen kann (oft wlan0)
   iwctl                                                     # Einloggen ins Wlan (Ethernet macht es einfacher) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
   device list                                               # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
@@ -63,8 +63,8 @@ _Internet konfigurieren:_
   #DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and systemd-resolved) should work out of the box for Ethernet, WLAN, and WWAN network interfaces.
   ping archlinux.org                                        # Internetcheck -> ISO hat systemd mit Internet etc. (später installiertes System hat es nicht) -> NetworkManager enablen mit systemctl
 
-_Speicher formatieren:_
-  *fdisk /dev/sda                                            # In VM: <n> <p> <Enter> <Enter> <Enter> <w>*
+Speicher formatieren:
+  *fdisk /dev/sda                                           # In VM: <n> <p> <Enter> <Enter> <Enter> <w>
     wenn keine VM:
       fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
       fdisk //dev//"Partitionsname"                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
@@ -75,34 +75,34 @@ _Speicher formatieren:_
       <t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
       <t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
       <w>                                                   # write changes und fdisk verlassen
-      mkfs.fat -F32 /dev/"EFI_Partitionsname/Partition1"      # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
+      mkfs.fat -F32 /dev/"EFI_Partitionsname/Partition1"    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
       mkswap /dev/"swap_Partitionsname/Partition2"
       swapon /dev/"swap_Partitionsname/Partition2"
   *mkfs.ext4 /dev/sda1                                       # ACHTUNG: sda1 umbenennen in Namen der Partition 3 die mit Linux Filesystem erstellt wurde -> Linux Filesystem wird im Speicher angelegt
-  *mount /dev/sda1 /mnt                                      # ACHTUNG: sda1 umbenenn in Namen der Partition 3 -> Einhängen des Speichers um Veränderungen vornehmen zu können*
-  *pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können*
+  *mount /dev/sda1 /mnt                                      # ACHTUNG: sda1 umbenenn in Namen der Partition 3 -> Einhängen des Speichers um Veränderungen vornehmen zu können
+  *pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
   *genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
-  *arch-chroot /mnt                                          # Mit root in /mnt gehen*
-  *pacman -S neovim sudo git*
-  *passwd*
-  *useradd -m flowmis*
-  *passwd flowmis*
-  *cd /home/flowmis*
-  *git clone https://github.com/flowmis/FlowmisOS.git*
-  *cd FlowmisOS/tangle*
-  *. rootinstall.sh*
-  *EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL*
-  *exit*
-  *umount -l /mnt*
-  *reboot & login*
-  *cd FlowmisOS/tangle*
-  *. install.sh*
-  *reboot und genießen :)*
+  *arch-chroot /mnt                                          # Mit root in /mnt gehen
+  *pacman -S neovim sudo git
+  *passwd
+  *useradd -m flowmis
+  *passwd flowmis
+  *cd /home/flowmis
+  *git clone https://github.com/flowmis/FlowmisOS.git
+  *cd FlowmisOS/tangle
+  *. rootinstall.sh
+  *EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
+  *exit
+  *umount -l /mnt
+  *reboot & login
+  *cd FlowmisOS/tangle
+  *. install.sh
+  *reboot und genießen :)
     #Eventuell neu in Wlan anmelden (nun mit NetworkManager statt wie zuvor mit iwctl)
     NetworkManager                                          # keine Fehlermeldung = past alles
     sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
     sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
-#+end_verse
+#+end_example
 ** Troubleshooting:
 _Zeit und Datum:_
   timedatectl set-ntp true                                    # Zeit und Datum über das network transfer protocol einholen
