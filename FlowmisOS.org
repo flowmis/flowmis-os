@@ -49,7 +49,7 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 #+begin_example
 Keyboard konfigurieren:
   ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
-  #ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
+  ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
   loadkeys de-latin1                                        # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
 
 Internet konfigurieren:
@@ -180,7 +180,7 @@ cd brave-bin/
 makepkg -si                                                     #soll nicht als root installiert werden
 cd ~
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-cp ~/.emacs.d ~/.backupemacs.d                                  #macht es?
+cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
 ~/.emacs.d/bin/doom install
 ~/.emacs.d/bin/doom doctor
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
@@ -2970,9 +2970,9 @@ https://flowmis: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@github.com
   
 #+begin_src sh :tangle tangle/.xprofile
 xrandr -s 1920x1080                                # In VM aktivieren
+setxkbmap -layout de
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
-setxkbmap -layout de &
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
 #echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
