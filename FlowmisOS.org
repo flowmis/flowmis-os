@@ -168,12 +168,24 @@ grub-mkconfig -o /boot/grub/grub.cfg                                # Ohne diese
 #+begin_src shell :tangle tangle/install.sh
 sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
 sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-sudo localectl status                                               #localctl noch oben in root ohne sudo???
+sudo localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
+sudo timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
+sudo timedatectl status                                             # Check ob alles pass
+setxkbmap -layout de                                                # Tastaturlayout auf Deutsch
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
+cd ~
+git clone https://aur.archlinux.org/brave-bin.git
+cd brave-bin/
+makepkg -si                                                     #soll nicht als root installiert werden
+cd ~
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+cp ~/.emacs.d ~/.backupemacs.d                                  #macht es?
+~/.emacs.d/bin/doom install
+~/.emacs.d/bin/doom doctor
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
-#cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
-#cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
-#cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
+#cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el            # ändern zu ~/.doom.d
+#cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el    # ändern zu ~/.doom.d
+#cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el        # ändern zu ~/.doom.d
 cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 #cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
@@ -188,22 +200,17 @@ cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
   - noch so gestalten dass ich alles leicht uncommenten kann ?
 
 #+begin_src shell :tangle tangle/installmore.sh
-git clone https://aur.archlinux.org/brave-bin.git /home/flowmis/
-cd /home/flowmis/brave-bin/
-makepkg -si        #soll nicht als root deshalb ahb ich es aus install skript raus
-git clone --depth 1 https://github.com/hlissner/doom-emacs /home/flowmis/.emacs.d
-cp /home/flowmis/.emacs.d /home/flowmis/.backupemacs.d                             #macht es nicht weil zu der Zeit noch kein solcher Ordner vorhanden ist?
-/home/flowmis/.emacs.d/bin/doom install
-/home/flowmis/.emacs.d/bin/doom sync
 git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
 git clone https://github.com/flowmis/pres.git
 git clone https://github.com/flowmis/Kivy.git
 git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa
 #python müsste durch qtile bereits installiert worden sein
 sudo pip install jupyter notebook
 #+end_src
+
+#+RESULTS:
 
 ** Skript 5: Tangled Dateien verschieben
 Geht der Befehl auch wenn Dateien bereits vorhanden sind - werden diese dann ersetzt?
