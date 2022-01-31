@@ -157,7 +157,7 @@ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen   # sucht eine
 locale-gen                                                          # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                  # verschiebt vorab erstellte Datei
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg-server alacritty base-devel lightdm lightdm-gtk-greeter qtile
 systemctl enable NetworkManager lightdm                             # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
 mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
 mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
@@ -183,7 +183,7 @@ cd ~
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
 ~/.emacs.d/bin/doom install
-sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude
+sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
 sudo pip install jupyter notebook
 ~/.emacs.d/bin/doom doctor
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
@@ -1449,7 +1449,7 @@ fi
 + Installation mit: sudo pacman -S picom      (picom ist fork von compton)
 + Die picom.conf muss in //home/flowmis//.config/picom/ kopiert werden. Falls directory nicht vorhanden muss es erstellt werden (mkdir //home/flowmis//.config/picom). Falls man neue config Datei erstellen will ist es sinnvoll die Beispiel config die mit installiert wird zu kopieren und zu modifizieren: sudo cp //etc/xdg/picom.conf //home/flowmis//.config/picom/picom.conf
 + Weitere Infos unter: https://wiki.archlinux.org/title/picom
-+ In VM muss man in config hier das vsync von true auf false umstellen!
++ Für Installation auf physischem Gerät, also nicht VM muss man in config hier das vsync von false auf true umstellen!
 + Meine config:
 #+begin_src sh :tangle tangle/picom.conf
 #################################
@@ -1670,8 +1670,8 @@ blur-background-exclude = [
 backend = "xrender";
 
 # Enable/disable VSync.
-# vsync = false
-vsync = true                # Achtung in vm das hier inaktiv machen mit # und line eins oberhalb mit vsync = false uncommenten
+vsync = false
+# vsync = true                # Achtung falls nicht in vm das hier aktiv machen und oberes inaktiv machen mit # und
 
 # Enable remote control via D-Bus. See the *D-BUS API* section below for more details.
 # dbus = false
