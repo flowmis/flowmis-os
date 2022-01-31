@@ -127,7 +127,8 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
         tint2                   # setzt Taskleiste/Panel
         #+end_src
 * Skripte
-Mit vim in Installationsskript gehen und es an das vorliegende System anpassen
++ Mit vim in Installationsskript gehen und es an das vorliegende System anpassen
++ ~Achtung!!!~ wenn ich ein englisches Keyboard-Layout verwenden will muss ich <s/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g> aus Root Skript und <sudo localectl --no-convert set-keymap de-latin1-nodeadkeys>, <sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute> <setxkbmap -layout de> ändern auf die Werte für eine englische Tastaut!
 ** Skript 1: Root Installationsskript
    - base-devel: ermöglicht <makepkg -si> um aus Brave Binaries ein Paket zu machen das im Anschluss installiert wird
    - ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
@@ -182,6 +183,8 @@ cd ~
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
 ~/.emacs.d/bin/doom install
+sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude
+sudo pip install jupyter notebook
 ~/.emacs.d/bin/doom doctor
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
 #cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el            # ändern zu ~/.doom.d
@@ -208,7 +211,6 @@ git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
 sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa
 #python müsste durch qtile bereits installiert worden sein
-sudo pip install jupyter notebook
 #+end_src
 
 #+RESULTS:
