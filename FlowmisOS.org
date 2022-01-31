@@ -45,7 +45,7 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 5. In VM (other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
 
 6. Nach Boot und falls man nicht das archinstall skript verwenden will folgende Befehle eingeben um eigenes System aufzusetzen: *Befehle für quick setup sind bold*
-#+begin_center
+#+begin_comment
 _Keyboard konfigurieren:_
   ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
   #ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
@@ -101,7 +101,7 @@ _Speicher formatieren:_
     NetworkManager                                          # keine Fehlermeldung = past alles
     sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
     sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
-#+end_center
+#+end_comment
 ** Troubleshooting:
 _Zeit und Datum:_
   timedatectl set-ntp true                                    # Zeit und Datum über das network transfer protocol einholen
