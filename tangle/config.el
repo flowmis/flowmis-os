@@ -3,7 +3,6 @@
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
-;; https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months
 (defun dt/year-calendar (&optional year)
   (interactive)
   (require 'calendar)
@@ -35,35 +34,6 @@
     (widen)
     (goto-char (point-min))
     (setq buffer-read-only t)))
-
-(defun dt/scroll-year-calendar-forward (&optional arg event)
-  "Scroll the yearly calendar by year in a forward direction."
-  (interactive (list (prefix-numeric-value current-prefix-arg)
-                     last-nonmenu-event))
-  (unless arg (setq arg 0))
-  (save-selected-window
-    (if (setq event (event-start event)) (select-window (posn-window event)))
-    (unless (zerop arg)
-      (let* (
-              (year (+ displayed-year arg)))
-        (dt/year-calendar year)))
-    (goto-char (point-min))
-    (run-hooks 'calendar-move-hook)))
-
-(defun dt/scroll-year-calendar-backward (&optional arg event)
-  "Scroll the yearly calendar by year in a backward direction."
-  (interactive (list (prefix-numeric-value current-prefix-arg)
-                     last-nonmenu-event))
-  (dt/scroll-year-calendar-forward (- (or arg 1)) event))
-
-(map! :leader
-      :desc "Scroll year calendar backward" "<left>" #'dt/scroll-year-calendar-backward
-      :desc "Scroll year calendar forward" "<right>" #'dt/scroll-year-calendar-forward)
-
-(defalias 'year-calendar 'dt/year-calendar)
-
-(use-package! calfw)
-(use-package! calfw-org)
 
 (setq centaur-tabs-set-bar 'over
       centaur-tabs-set-icons t
@@ -150,52 +120,6 @@
 (map! :leader
       :desc "Load new theme" "h t" #'counsel-load-theme)
 
-(use-package! elfeed-goodies)
-(elfeed-goodies/setup)
-(setq elfeed-goodies/entry-pane-size 0.5)
-(add-hook 'elfeed-show-mode-hook 'visual-line-mode)
-(evil-define-key 'normal elfeed-show-mode-map
-  (kbd "J") 'elfeed-goodies/split-show-next
-  (kbd "K") 'elfeed-goodies/split-show-prev)
-(evil-define-key 'normal elfeed-search-mode-map
-  (kbd "J") 'elfeed-goodies/split-show-next
-  (kbd "K") 'elfeed-goodies/split-show-prev)
-(setq elfeed-feeds (quote
-                    (("https://www.reddit.com/r/linux.rss" reddit linux)
-                     ("https://www.reddit.com/r/commandline.rss" reddit commandline)
-                     ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
-                     ("https://www.reddit.com/r/emacs.rss" reddit emacs)
-                     ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
-                     ("https://hackaday.com/blog/feed/" hackaday linux)
-                     ("https://opensource.com/feed" opensource linux)
-                     ("https://linux.softpedia.com/backend.xml" softpedia linux)
-                     ("https://itsfoss.com/feed/" itsfoss linux)
-                     ("https://www.zdnet.com/topic/linux/rss.xml" zdnet linux)
-                     ("https://www.phoronix.com/rss.php" phoronix linux)
-                     ("http://feeds.feedburner.com/d0od" omgubuntu linux)
-                     ("https://www.computerworld.com/index.rss" computerworld linux)
-                     ("https://www.networkworld.com/category/linux/index.rss" networkworld linux)
-                     ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
-                     ("https://betanews.com/feed" betanews linux)
-                     ("http://lxer.com/module/newswire/headlines.rss" lxer linux)
-                     ("https://distrowatch.com/news/dwd.xml" distrowatch linux))))
-
-(emms-all)
-(emms-default-players)
-(emms-mode-line 1)
-(emms-playing-time 1)
-(setq emms-source-file-default-directory "~/Music/"
-      emms-playlist-buffer-name "*Music*"
-      emms-info-asynchronously t
-      emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
-(map! :leader
-      (:prefix ("a" . "EMMS audio player")
-       :desc "Go to emms playlist" "a" #'emms-playlist-mode-go
-       :desc "Emms pause track" "x" #'emms-pause
-       :desc "Emms stop track" "s" #'emms-stop
-       :desc "Emms play previous track" "p" #'emms-previous
-       :desc "Emms play next track" "n" #'emms-next))
-
 (use-package emojify
   :hook (after-init . global-emojify-mode))
 
@@ -207,17 +131,6 @@
        :desc "Evaluate last sexpression" "l" #'eval-last-sexp
        :desc "Evaluate elisp in region" "r" #'eval-region))
 
-(setq browse-url-browser-function 'eww-browse-url)
-(map! :leader
-      :desc "Search web for text between BEG/END"
-      "s w" #'eww-search-words
-      (:prefix ("e" . "evaluate/EWW")
-       :desc "Eww web browser" "w" #'eww
-       :desc "Eww reload page" "R" #'eww-reload))
-
-(setq doom-font (font-spec :family "Source Code Pro" :size 15)
-      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
-      doom-big-font (font-spec :family "Source Code Pro" :size 24))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -235,11 +148,9 @@
         (counsel-find-file          . ivy-display-function-fallback)
         (counsel-recentf            . ivy-display-function-fallback)
         (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
-        (dmenu                      . ivy-posframe-display-at-frame-top-center)
         (nil                        . ivy-posframe-display))
       ivy-posframe-height-alist
       '((swiper . 20)
-        (dmenu . 20)
         (t . 10)))
 (ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
 
@@ -320,27 +231,15 @@
 (use-package ox-man)
 (use-package ox-gemini)
 (use-package ox-publish)
+(use-package ox-reveal
+    :ensure ox-reveal)
+    (setq org-reveal-root "https://github.com/flowmis/pres/reveal") ;ist Pfad wo ich reveal repo hin geklont hab und die css Dateien etc. sind die ich für export brauche -> "https://cdn.jsdelivr.net/npm/reveal.js" -> ist online Pfad falls offline nicht geht oder Pfadangabe auf anderen Betriebssystemen Probleme machen
+    ;(setq org-reveal-mathjax t)    ;math type ermöglicht - genauer einlesen
+    (use-package htmlize
+    :ensure t)
 
 (setq org-publish-use-timestamps-flag nil)
 (setq org-export-with-broken-links t)
-(setq org-publish-project-alist
-      '(("distro.tube"
-         :base-directory "~/gitlab-repos/distro.tube/"
-         :base-extension "org"
-         :publishing-directory "~/gitlab-repos/distro.tube/html/"
-         :recursive t
-         :exclude "org-html-themes/.*"
-         :publishing-function org-html-publish-to-html
-         :headline-levels 4             ; Just the default for this project.
-         :auto-preamble t)
-         ("org-static"
-         :base-directory "~/Org/website"
-         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-         :publishing-directory "~/public_html/"
-         :recursive t
-         :exclude ".*/org-html-themes/.*"
-         :publishing-function org-publish-attachment)
-      ))
 
 (use-package! password-store)
 
@@ -358,8 +257,6 @@
        :desc "Increment register" "+" #'increment-register
        :desc "Point to register" "SPC" #'point-to-register))
 
-(setq shell-file-name "/bin/fish"
-      vterm-max-scrollback 5000)
 (setq eshell-rc-script "~/.config/doom/eshell/profile"
       eshell-aliases-file "~/.config/doom/eshell/aliases"
       eshell-history-size 5000
@@ -367,7 +264,7 @@
       eshell-hist-ignoredups t
       eshell-scroll-to-bottom-on-input t
       eshell-destroy-buffer-when-process-dies t
-      eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+      eshell-visual-commands'("bash" "htop" "ssh" "top" "zsh"))
 (map! :leader
       :desc "Eshell" "e s" #'eshell
       :desc "Counsel eshell history" "e h" #'counsel-esh-history)
@@ -385,6 +282,7 @@
        :desc "Winner undo" "<left>" #'winner-undo))
 
 (use-package hide-mode-line)
+
 (defun efs/presentation-setup ()
   (hide-mode-line-mode 1)
   (org-display-inline-images)                                           ;<M-x org-toggle-inline-images> sollte vor dem öffnen des Präsentationsmodus <M-x org-tree-slide-mode> ausgeführt um sicher zu sein dass alle Bilder angezeigt werde und dieser code sorgt dafür dass dies der Fall ist  -> alternativ vll auch mal org-startup-with-inline-images anschauen
@@ -403,10 +301,3 @@
   (org-tree-slide-header t)
   (org-tree-slide-breadcrumbs " > ")
   (org-image-actual-width nil))
-
-(use-package ox-reveal
-    :ensure ox-reveal)
-    (setq org-reveal-root "https://github.com/flowmis/pres/reveal") ;ist Pfad wo ich reveal repo hin geklont hab und die css Dateien etc. sind die ich für export brauche -> "https://cdn.jsdelivr.net/npm/reveal.js" -> ist online Pfad falls offline nicht geht oder Pfadangabe auf anderen Betriebssystemen Probleme machen
-    ;(setq org-reveal-mathjax t)    ;math type ermöglicht - genauer einlesen
-    (use-package htmlize
-    :ensure t)

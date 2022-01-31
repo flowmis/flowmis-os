@@ -5,4 +5,3 @@ git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
 sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa
 #python müsste durch qtile bereits installiert worden sein
-sudo pip install jupyter notebook

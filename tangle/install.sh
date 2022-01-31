@@ -11,8 +11,10 @@ cd brave-bin/
 makepkg -si                                                     #soll nicht als root installiert werden
 cd ~
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-cp ~/.emacs.d ~/.backupemacs.d                                  #macht es?
+cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
 ~/.emacs.d/bin/doom install
+sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude
+sudo pip install jupyter notebook
 ~/.emacs.d/bin/doom doctor
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
 #cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el            # ändern zu ~/.doom.d
