@@ -99,7 +99,7 @@ Speicher formatieren:
   *. install.sh
   *reboot und genießen :)
     #Eventuell neu in Wlan anmelden (nun mit NetworkManager statt wie zuvor mit iwctl)
-    NetworkManager                                          # keine Fehlermeldung = past alles
+    sudo NetworkManager                                          # keine Fehlermeldung = past alles
     sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
     sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
 #+end_example
@@ -161,7 +161,7 @@ pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-
 systemctl enable NetworkManager lightdm                             # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
 mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
 mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
-grub-install /dev/sda                                               # Achtung3!!! Geht grub install ohne Pfad(man ist ja eingehängt)? Ansonsten siehe Achtung3!!! oben für alternative Eingabe
+grub-install                                                        # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
 grub-mkconfig -o /boot/grub/grub.cfg                                # Ohne diese wird es zu Problemen beim booten kommen
 #+end_src
 
