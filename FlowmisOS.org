@@ -2575,8 +2575,8 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 Über SSH funktioniert es denk besser also lieber ssh Keys einrichten
 
 #+begin_src shell :tangle tangle/.git-credentials
-https://flowmis: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@github.com
-#+end_src  
+https://flowmis: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@github.com
+#+end_src
 
 #+begin_src shell :tangle tangle/.gitconfig
 [user]
