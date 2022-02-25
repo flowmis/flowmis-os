@@ -209,7 +209,7 @@ git clone https://github.com/flowmis/pres.git
 git clone https://github.com/flowmis/Kivy.git
 git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-u pulseaudio-bluetooth
 #python müsste durch qtile bereits installiert worden sein
 #+end_src
 
@@ -2600,6 +2600,5 @@ loadkeys de-latin1 &
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
 #echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
 #+end_src
-
 
 
