@@ -37,7 +37,6 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-
 (package! gitconfig-mode
 	  :recipe (:host github :repo "magit/git-modes"
 			 :files ("gitconfig-mode.el")))
@@ -50,7 +49,6 @@
 (package! calfw-org)
 (package! dashboard)
 (package! dired-open)
-(package! elfeed-goodies)
 (package! elpher)
 (package! emojify)
 (package! evil-tutor)
@@ -66,3 +64,6 @@
 (package! hide-mode-line)
 (package! org-tree-slide)
 (package! ox-reveal)
+(package! org-ref)
+(package! ivy-bibtex)
+(package! org-roam)
