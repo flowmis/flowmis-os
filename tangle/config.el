@@ -3,6 +3,9 @@
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
+(setq bibtex-completion-bibliography '("~/Beachvolleyballfeld/bibliography.bib"))  ;; braucht org-refhier den Pfad für meine bibtex files rein um dann leicht Zitate einfügen zu können(org-ref-insert-cite-link)!!
+;;Zudem muss ich in die file gehen und org-bibtex-red-file machen um die links einfügen zu können
+
 (defun dt/year-calendar (&optional year)
   (interactive)
   (require 'calendar)

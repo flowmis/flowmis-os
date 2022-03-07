@@ -2012,6 +2012,9 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
+(setq bibtex-completion-bibliography '("~/Beachvolleyballfeld/bibliography.bib"))  ;; braucht org-refhier den Pfad für meine bibtex files rein um dann leicht Zitate einfügen zu können(org-ref-insert-cite-link)!!
+;;Zudem muss ich in die file gehen und org-bibtex-red-file machen um die links einfügen zu können
+
 (defun dt/year-calendar (&optional year)
   (interactive)
   (require 'calendar)
@@ -2311,6 +2314,10 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
   (org-tree-slide-breadcrumbs " > ")
   (org-image-actual-width nil))
 #+end_src
+
+#+RESULTS:
+| efs/presentation-end |
+
 * DoomEmacs packages
 #+BEGIN_SRC emacs-lisp :tangle tangle/packages.el
 ;; Um ein neues Packet zu installieren muss man es hier einfügen und doomsync ausführen & restarten
