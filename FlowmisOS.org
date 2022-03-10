@@ -22,6 +22,9 @@ cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
 echo done
 #+end_src
 
+#+RESULTS:
+: done
+
 * TODO FlowmisOS
 + Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
 + Alacritty sweeter machen und autofill (vll auch mit fish oder durch fish ersetzen)
@@ -2636,10 +2639,6 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 #+end_src
 * Git
 Über SSH funktioniert es denk besser also lieber ssh Keys einrichten
-
-#+begin_src shell :tangle tangle/.git-credentials
-https://flowmis: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@github.com
-#+end_src
 
 #+begin_src shell :tangle tangle/.gitconfig
 [user]
