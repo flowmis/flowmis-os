@@ -3,6 +3,17 @@
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
+;;org roam
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory "~/Dropbox/emacs/org-roam/Notizen")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup))
+
 ;;org ref Einstellungen
 (setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
 	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
@@ -89,7 +100,7 @@
   (setq dashboard-set-file-icons t)
   (setq dashboard-banner-logo-title "\nKEYBINDINGS:\nOpen dired file manager  (SPC .)\nOpen buffer list         (SPC b i)\nFind recent files        (SPC f r)\nOpen the eshell          (SPC e s)\nToggle big font mode     (SPC t b)")
   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-  (setq dashboard-startup-banner "~/.config/doom/doom-emacs-dash.png")  ;; use custom image as banner
+  (setq dashboard-startup-banner "~/.config/doom/banner.png")  ;; use custom image as banner
   (setq dashboard-center-content nil) ;; set to 't' for centered content
   (setq dashboard-items '((recents . 5)
                           (agenda . 5 )

@@ -6,6 +6,25 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell executen muss.
 
+#+begin_src shell
+cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
+cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
+cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
+cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
+cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
+cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
+cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
+echo done
+#+end_src
+
+#+RESULTS:
+: done
+
 * TODO FlowmisOS
 + Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
 + Alacritty sweeter machen und autofill (vll auch mit fish oder durch fish ersetzen)
@@ -220,23 +239,6 @@ makepkg -si
 yay -Syu
 yay -S dropbox
 #python müsste durch qtile bereits installiert worden sein
-#+end_src
-
-** Skript 5: Tangled Dateien verschieben
-Geht der Befehl auch wenn Dateien bereits vorhanden sind - werden diese dann ersetzt?
-
-#+begin_src sh :tangle tangle/verschieben.sh
-cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
-cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
-cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
-cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
-cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 #+end_src
 
 * Dateien für die Installation
@@ -2019,6 +2021,17 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
+;;org roam
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory "~/Dropbox/emacs/org-roam/Notizen")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup))
+
 ;;org ref Einstellungen
 (setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
 	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
@@ -2105,7 +2118,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
   (setq dashboard-set-file-icons t)
   (setq dashboard-banner-logo-title "\nKEYBINDINGS:\nOpen dired file manager  (SPC .)\nOpen buffer list         (SPC b i)\nFind recent files        (SPC f r)\nOpen the eshell          (SPC e s)\nToggle big font mode     (SPC t b)")
   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-  (setq dashboard-startup-banner "~/.config/doom/doom-emacs-dash.png")  ;; use custom image as banner
+  (setq dashboard-startup-banner "~/.config/doom/banner.png")  ;; use custom image as banner
   (setq dashboard-center-content nil) ;; set to 't' for centered content
   (setq dashboard-items '((recents . 5)
                           (agenda . 5 )
