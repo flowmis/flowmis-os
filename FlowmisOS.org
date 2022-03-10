@@ -22,9 +22,6 @@ cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
 echo done
 #+end_src
 
-#+RESULTS:
-: done
-
 * TODO FlowmisOS
 + Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
 + Alacritty sweeter machen und autofill (vll auch mit fish oder durch fish ersetzen)
@@ -2016,6 +2013,11 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und bissl was von SystemCrafter
 
 #+begin_src emacs-lisp :tangle tangle/config.el
+;;Yasnippets
+(yas-global-mode 1)
+(add-hook 'yas-minor-mode-hook(lambda()
+                                (yas-activate-extra-mode 'fundamental-mode)))
+
 ;;Rechtschreibprüfung vorerst aus weil noch nicht auf deutsch
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 (setq global-spell-fu-mode 0)
