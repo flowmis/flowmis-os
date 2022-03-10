@@ -1,3 +1,7 @@
+;;Rechtschreibprüfung vorerst aus weil noch nicht auf deutsch
+(remove-hook 'text-mode-hook #'spell-fu-mode)
+(setq global-spell-fu-mode 0)
+;;
 (map! :leader
       (:prefix ("b". "buffer")
        :desc "List bookmarks" "L" #'list-bookmarks

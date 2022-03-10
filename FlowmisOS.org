@@ -231,7 +231,7 @@ git clone https://github.com/flowmis/Kivy.git
 git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
 sudo pacman -Syu
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch
 cd ~/Downloads
 git clone https://aur.archlinux.org/yay-git.git
 cd yay-git/
@@ -2016,6 +2016,10 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und bissl was von SystemCrafter
 
 #+begin_src emacs-lisp :tangle tangle/config.el
+;;Rechtschreibprüfung vorerst aus weil noch nicht auf deutsch
+(remove-hook 'text-mode-hook #'spell-fu-mode)
+(setq global-spell-fu-mode 0)
+;;
 (map! :leader
       (:prefix ("b". "buffer")
        :desc "List bookmarks" "L" #'list-bookmarks
@@ -2632,7 +2636,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 Über SSH funktioniert es denk besser also lieber ssh Keys einrichten
 
 #+begin_src shell :tangle tangle/.git-credentials
-https://flowmis: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@github.com
+https://flowmis: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@github.com
 #+end_src
 
 #+begin_src shell :tangle tangle/.gitconfig
