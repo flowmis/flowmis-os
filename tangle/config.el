@@ -2,7 +2,7 @@
 (yas-global-mode 1)
 (add-hook 'yas-minor-mode-hook(lambda()
                                 (yas-activate-extra-mode 'fundamental-mode)))
-
+(setq yas--loaddir '("~/Dropbox/emacs/yasnippets/"))
 ;;Rechtschreibprüfung vorerst aus weil noch nicht auf deutsch
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 (setq global-spell-fu-mode 0)
