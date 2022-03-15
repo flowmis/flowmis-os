@@ -1,10 +1,7 @@
 #+TITLE: Install FlowmisOS
 #+STARTUP: fold
 
-Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfigurationsdateien und Skripte gebildet. Diese werden in den Ordner tangle exportiert. In diesem Ordner wird auch ein verschieben.sh Skript erstellt welches beim ausführen die Konfigurationen an den richtigen Pfad bringt und die fehlende Ordnerstruktur erstellt.
-
- 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
- 2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell executen muss.
+Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfigurationsdateien und Skripte gebildet <Space-mB> und in Ordner tangle exportiert. Der hier am Anfang vorhandene shell SourceBlock verschiebt alles aus dem tangle Ordner an die richtigen Orte (ausführbar mit <C-c C-c> mit Cursor innerhalb des SourceBlock).
 
 #+begin_src shell
 cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
@@ -25,6 +22,9 @@ echo done
 #+RESULTS:
 : done
 
+ 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
+ 2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
+
 * TODO FlowmisOS
 + Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
 + Alacritty sweeter machen und autofill (vll auch mit fish oder durch fish ersetzen)
@@ -35,7 +35,7 @@ echo done
 + Qtile Widgets überarbeiten
 + Emacs eigene Modi einrichten und Skript so ändern dass von Beginn an funktioniert
 + .bashrc bashprofile und bashhistory zu configs
-+ Dependencys für Qtile und Emacs dass es von Beginn an top funzt
++ Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen
 
 * Installation
 
