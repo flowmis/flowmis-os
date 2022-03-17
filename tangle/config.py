@@ -13,6 +13,7 @@ from typing import List
 mod = "mod4"
 keys = [Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal'),
          Key([mod, "shift"], "Return", lazy.spawn("rofi -show drun"), desc='Rofi'),
+         Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
          Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
          Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
          Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
@@ -42,8 +43,8 @@ keys = [Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal
 groups = [Group("-1-", layout='monadtall'),
           Group("-2-", layout='monadtall'),
           Group("-3-", layout='monadtall'),
-          Group("-4-", layout='monadtall'),
-          Group("-5-", layout='monadtall'),
+          Group("-4-", layout='floating'),
+          Group("-5-", layout='floating'),
           Group("-6-", layout='floating')]
 
 # Allow MODKEY+[0 through 9] to bind to groups, see https://docs.qtile.org/en/stable/manual/config/groups.html
