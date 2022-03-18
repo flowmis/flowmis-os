@@ -223,7 +223,7 @@ cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
   - noch so gestalten dass ich alles leicht uncommenten kann ?
   - gehen alle USB und auch SD Karten oder nur die normalen USB A?
   - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
-  - ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
+  - ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
 #+begin_src shell :tangle tangle/installmore.sh
 git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
 git clone https://github.com/flowmis/pres.git
@@ -2017,6 +2017,20 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und bissl was von SystemCrafter
 
 #+begin_src emacs-lisp :tangle tangle/config.el
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 ;;Yasnippets
 (use-package yasnippet
   :config
@@ -2448,6 +2462,8 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (package! org-ref)
 (package! ivy-bibtex)
 (package! org-roam)
+(unpin! org-roam)
+(package! org-roam-ui)
 #+end_src
 * DoomEmacs init
 #+BEGIN_SRC emacs-lisp :tangle tangle/init.el
