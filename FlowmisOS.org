@@ -224,6 +224,8 @@ cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
   - gehen alle USB und auch SD Karten oder nur die normalen USB A?
   - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
   - ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
+  - Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
+
 #+begin_src shell :tangle tangle/installmore.sh
 git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
 git clone https://github.com/flowmis/pres.git
@@ -231,7 +233,7 @@ git clone https://github.com/flowmis/Kivy.git
 git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
 sudo pacman -Syu
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot lxappearance qt5ct adapta-gtk-theme
 cd ~/Downloads
 git clone https://aur.archlinux.org/yay-git.git
 cd yay-git/
