@@ -38,6 +38,16 @@
          ("C-c n i" . org-roam-node-insert))
   :config
   (org-roam-setup))
+(setq org-roam-capture-templates
+        '(("b" "book notes" plain (file "~/Dropbox/emacs/org-roam/templates/BookTemplate.org")
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("org" "org-mode Tipps and Tricks" plain (file "~/Dropbox/emacs/org-roam/templates/org-mode.org")
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("Emacs" "Emacs Tipps and Tricks" plain (file "~/Dropbox/emacs/org-roam/templates/emacs.org")
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)))
 
 ;;org ref Einstellungen
 (setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
