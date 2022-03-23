@@ -239,6 +239,9 @@ alias l.='exa -a | egrep "^\."'
 # pacman and yay
 alias pacsyu='sudo pacman -Syu'                  # update only standard pkgs
 alias pacsyyu='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
+alias install='sudo pacman -S'
+alias search='sudo pacman -Ss'
+alias delete='sudo pacman -R'
 alias yaysua='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
 alias yaysyu='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
 alias parsua='paru -Sua --noconfirm'             # update only AUR pkgs (paru)
@@ -346,10 +349,6 @@ alias dtoscopy='[ -d ~/.config ] || mkdir ~/.config && cp -Rf ~/.config ~/.confi
 # Backup contents of /etc/dtos to a backup folder in $HOME.
 alias dtosbackup='cp -Rf /etc/dtos ~/dtos-backup-(date +%Y.%m.%d-%H.%M.%S)'
 
-### RANDOM COLOR SCRIPT ###
-# Get this script from my GitLab: gitlab.com/dwt1/shell-color-scripts
-# Or install it from the Arch User Repository: shell-color-scripts
-colorscript random
 
 ### SETTING THE STARSHIP PROMPT ###
 starship init fish | source

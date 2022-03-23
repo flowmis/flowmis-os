@@ -1,4 +1,0 @@
-#+TITLE: How to make Github-Repo for own OS
-
-* TODO Pakete dem Pacman installer hinzufügen
-- https://www.youtube.com/watch?v=CYqd2AHXosk

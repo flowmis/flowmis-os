@@ -227,6 +227,9 @@ cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
   - ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
   - Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
     -> Falls qt5ct die Umgebungsvariable nicht findet: Einfach eine neue Zeile aufmachen in der Datei /etc/environment und dort folgendes reinschreiben: QT_QPA_PLATFORMTHEME=qt5ct
+  - exa ist besserer Command als ls und in meinen aliases gesetzt -> zeigt alle Ergebnisse mit Farben und schöne aufgelistet wenn ich ls eingeben
+  - fish ist bei Vorschlägen super und einfach für Beginner -> läuft bei mir über alacritty
+  - starship macht mir meine Eingabe im Terminal schöner (< und > statt sinnloser Angabe vom Standardpfad) und ist in meinen Terminal configs vorhanden so dass diese das brauchen
 
 #+begin_src shell :tangle tangle/installmore.sh
 git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
@@ -235,7 +238,7 @@ git clone https://github.com/flowmis/Kivy.git
 git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
 sudo pacman -Syu
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot lxappearance qt5ct adapta-gtk-theme exa fish
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot lxappearance qt5ct adapta-gtk-theme exa fish starship
 cd ~/Downloads
 git clone https://aur.archlinux.org/yay-git.git
 cd yay-git/
@@ -988,10 +991,11 @@ wmname = "LG3D"
 
 * Terminal
 Qtile startet Alacritty da es der effizienteste Terminal Emulator ist. In der Alacritty Config habe ich alle bash aliases die in der .bashrc stehen. Allerdings habe ich in die alacritty config geschrieben dass sofort fish gestartet wird und ich dadurch die coolen autofilldinge von fish habe. Bei fish muss ich dann aber in der config zu fish die aliase extra setzen, also wenn es zu Problemen kommt ist es nicht ganz einfach durchzusteigen, aber an sich ist das Setup geil da es das beste von allem hat. Themes muss ich in der Alacritty config ändern wenn ich will.
+Mit ESC im Terminal komm ich in den vim Mode und kann dort dann wie in emacs markieren kopieren etc.! Mit i komme ich wieder in den insert Mode. < und > am Anfang im Terminal kennzeichnen den Modus.
 ** Alacritty Config
 + Alacritty ist auf allen wichtigen Plattformen vorhanden. Nutzt GPU für rendern -> sehr schneller Terminal Emulator (je nach Befehl kann man sich hier echt einige Minuten sparen!)!
 + Achtung config File ist sehr anfällig für falsch gesetzte Leerzeichen, Spacing etc.! -> gibt es ein in Python programmierten Terminal Emulator?
-** Grundlegende Einstellungen
+*** Grundlegende Einstellungen
 #+begin_src sh :tangle tangle/alacritty.yml
 env:
   TERM: xterm-256color
@@ -1028,7 +1032,7 @@ shell:
   program: /bin/fish
 #+end_src
 Mit shell: und dann program: /bin/fish mach ich dass alacritty gleich mit fish startet -> fish hilft mir bessere Vorschläge zu bekommen etc.
-** Farbschema
+*** Farbschema
 #+begin_src sh :tangle tangle/alacritty.yml
 ##      START OF COLOR SCHEMES       ##
 schemes:
@@ -1271,7 +1275,7 @@ window.opacity: 1.0 #picom sollte es machen, sodass ich hier nichts ändern muss
 # window.opacity: 0.80
 #+end_src
 
-** Key-Bindings
+*** Key-Bindings
 #+begin_src sh :tangle tangle/alacritty.yml
 key_bindings:
     # (Windows, Linux, and BSD only)
@@ -1536,6 +1540,9 @@ alias l.='exa -a | egrep "^\."'
 # pacman and yay
 alias pacsyu='sudo pacman -Syu'                  # update only standard pkgs
 alias pacsyyu='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
+alias install='sudo pacman -S'
+alias search='sudo pacman -Ss'
+alias delete='sudo pacman -R'
 alias yaysua='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
 alias yaysyu='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
 alias parsua='paru -Sua --noconfirm'             # update only AUR pkgs (paru)
@@ -1643,10 +1650,6 @@ alias dtoscopy='[ -d ~/.config ] || mkdir ~/.config && cp -Rf ~/.config ~/.confi
 # Backup contents of /etc/dtos to a backup folder in $HOME.
 alias dtosbackup='cp -Rf /etc/dtos ~/dtos-backup-(date +%Y.%m.%d-%H.%M.%S)'
 
-### RANDOM COLOR SCRIPT ###
-# Get this script from my GitLab: gitlab.com/dwt1/shell-color-scripts
-# Or install it from the Arch User Repository: shell-color-scripts
-colorscript random
 
 ### SETTING THE STARSHIP PROMPT ###
 starship init fish | source
