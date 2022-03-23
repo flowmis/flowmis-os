@@ -13,7 +13,6 @@ cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
 cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
@@ -2346,6 +2345,7 @@ wintypes:
     #+end_src
 + picom in Terminal eingeben um zu aktivieren (oder picom -f)
 * Rofi
+Falls ich diese config will muss ich oben das verschiebungsskript ergänzen. Momentan benutze ich diese flexiblere Variante: https://github.com/adi1090x/rofi
 #+begin_src sh :tangle tangle/config.rasi
   configuration {
     display-drun: "Applications:";
