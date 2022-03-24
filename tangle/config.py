@@ -13,6 +13,11 @@ from typing import List
 mod = "mod4"
 keys = [Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal'),
          Key([mod, "shift"], "Return", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='Rofi'),
+         Key([mod], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
+         Key([mod], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
+         Key([mod], "XF86AudioMute", lazy.spawn('pamixer -t'), desc='leiser'),
+         Key([mod], "XF86MonBrightnessUp", lazy.spawn('brightnessctl s 5%+'), desc='heller'),
+         Key([mod], "XF86MonBrightnessDown", lazy.spawn('brightnessctl s 5%-'), desc='dunkler'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
          Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
          Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
