@@ -7,12 +7,13 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
 cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
-cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+#cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
-cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
-cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
+cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+#cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
+#cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+#cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
+#cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
@@ -3141,7 +3142,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
   
 #+begin_src sh :tangle tangle/.xprofile
 setxkbmap -layout de &
-xrandr -s 1920x1080 &                               # In VM aktivieren
+#xrandr -s 1920x1080 &                               # In VM aktivieren
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
