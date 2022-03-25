@@ -41,7 +41,7 @@ keys = [Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal
          Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
          ### Stack controls
          Key([mod, "shift"], "Tab", lazy.layout.rotate(), lazy.layout.flip(), desc='Switch which side main pane occupies (XmonadTall)'),
-          Key([mod], "space", lazy.layout.next(), desc='Switch window focus to other pane(s) of stack'),
+         Key([mod], "space", lazy.layout.next(), desc='Switch window focus to other pane(s) of stack'),
          Key([mod, "shift"], "space", lazy.layout.toggle_split(), desc='Toggle between split and unsplit sides of stack'),
          ]
 

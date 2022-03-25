@@ -7,6 +7,8 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
 cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
+cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
+cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 #cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
@@ -207,17 +209,14 @@ sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier t
 sudo pip install jupyter notebook
 ~/.emacs.d/bin/doom doctor
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
-#cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el            # ändern zu ~/.doom.d
-#cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el    # ändern zu ~/.doom.d
-#cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el        # ändern zu ~/.doom.d
-cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-#cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-#cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
-cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
-cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+cd ~/.config/rofi
+git clone --depth=1 https://github.com/adi1090x/rofi.git
+cd rofi
+mkdir -p ~/.local/share/fonts
+cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
+cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
+cd ~/.config/rofi/
+rm -rf rofi/
 #+end_src
 
 ** Skript 3: Installiere alle meine Programme
@@ -622,7 +621,7 @@ keys = [Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal
          Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
          ### Stack controls
          Key([mod, "shift"], "Tab", lazy.layout.rotate(), lazy.layout.flip(), desc='Switch which side main pane occupies (XmonadTall)'),
-          Key([mod], "space", lazy.layout.next(), desc='Switch window focus to other pane(s) of stack'),
+         Key([mod], "space", lazy.layout.next(), desc='Switch window focus to other pane(s) of stack'),
          Key([mod, "shift"], "space", lazy.layout.toggle_split(), desc='Toggle between split and unsplit sides of stack'),
          ]
 #+end_src
@@ -2351,7 +2350,6 @@ wintypes:
     #+end_src
 + picom in Terminal eingeben um zu aktivieren (oder picom -f)
 * Rofi
-Falls ich diese config will muss ich oben das verschiebungsskript ergänzen. Momentan benutze ich diese flexiblere Variante: https://github.com/adi1090x/rofi
 #+begin_src sh :tangle tangle/config.rasi
   configuration {
     display-drun: "Applications:";
@@ -2415,6 +2413,152 @@ Falls ich diese config will muss ich oben das verschiebungsskript ergänzen. Mom
     text-color: @fg;
   }
   /* vim: ft=sass
+#+end_src
+- Falls ich diese config will muss ich oben das verschiebungsskript ergänzen. Momentan benutze ich diese flexiblere Variante: https://github.com/adi1090x/rofi mit den folgenden zwei Sourceblocks (qtile ist momentan auf diese angepasst)
+#+begin_src rasi :tangle tangle/mane.rasi
+/*
+ *
+ * Config bearbeitet von Mane
+ *
+ */
+
+configuration {
+	font:							"Noto Sans Bold 10";
+    show-icons:                     true;
+	icon-theme: 					"Papirus";
+    display-drun: 					"";
+    drun-display-format:            "{name}";
+    disable-history:                false;
+	sidebar-mode: 					false;
+}
+
+ * {
+    background:                     #282c34a7;
+    background-alt:              	#00000000;
+    background-bar:                 #f2f2f215;
+    foreground:                     #f2f2f2EE;
+    accent:			            	#3DAEE966;
+}
+
+window {
+    transparency:                   "real";
+    background-color:               @background;
+    text-color:                     @foreground;
+	border:							0px;
+	border-color:					@border;
+    border-radius:                  0px;
+	width:							100%;
+	height:							100%;
+}
+
+prompt {
+    enabled: 						true;
+	padding: 						0.30% 1% 0% -0.5%;
+	background-color: 				@background-alt;
+	text-color: 					@foreground;
+	font:							"FantasqueSansMono Nerd Font 12";
+}
+
+entry {
+    background-color:               @background-alt;
+    text-color:                     @foreground;
+    placeholder-color:              @foreground;
+    expand:                         true;
+    horizontal-align:               0;
+    placeholder:                    "Search";
+    padding:                        0.10% 0% 0% 0%;
+    blink:                          true;
+}
+
+inputbar {
+	children: 						[ prompt, entry ];
+    background-color:               @background-bar;
+    text-color:                     @foreground;
+    expand:                         false;
+	border:							0% 0% 0% 0%;
+    border-radius:                  12px;
+	border-color:					@accent;
+    margin:                         0% 25% 0% 25%;
+    padding:                        1.5%;
+}
+
+listview {
+    background-color:               @background-alt;
+    columns:                        6;
+    lines:                          4;
+    spacing:                        0%;
+    cycle:                          false;
+    dynamic:                        true;
+    layout:                         vertical;
+}
+
+mainbox {
+    background-color:               @background;
+	border:							0% 0% 0% 0%;
+    border-radius:                  0% 0% 0% 0%;
+	border-color:					@accent;
+    children:                       [ inputbar, listview ];
+    spacing:                       	8%;
+    padding:                        10% 12.5% 10% 12.5%;
+}
+
+element {
+    background-color:               @background-alt;
+    text-color:                     @foreground;
+    orientation:                    vertical;
+    border-radius:                  0%;
+    padding:                        2.5% 0% 2.5% 0%;
+}
+
+element-icon {
+    background-color: 				@background-alt;
+    text-color:       				inherit;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    size:                           60px;
+    border:                         0px;
+}
+
+element-text {
+    background-color: 				@background-alt;
+    text-color:       				inherit;
+    expand:                         true;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    margin:                         0.5% 0.5% -0.5% 0.5%;
+}
+
+element selected {
+    background-color:               @background-bar;
+    text-color:                     @foreground;
+	border:							0% 0% 0% 0%;
+    border-radius:                  12px;
+    border-color:                  	@accent;
+}
+#+end_src
+#+begin_src sh :tangle tangle/launcher.sh
+#!/usr/bin/env bash
+
+## Author  : Aditya Shakya
+## Mail    : adi1090x@gmail.com
+## Github  : @adi1090x
+## Twitter : @adi1090x
+
+# Available Styles
+# >> Created and tested on : rofi 1.6.0-1
+#
+# blurry	blurry_full		kde_simplemenu		kde_krunner		launchpad
+# gnome_do	slingshot		appdrawer			appdrawer_alt	appfolder
+# column	row				row_center			screen			row_dock		row_dropdown
+
+theme="mane"
+dir="$HOME/.config/rofi/launchers/misc"
+
+# comment these lines to disable random style
+#themes=($(ls -p --hide="launcher.sh" $dir))
+#theme="${themes[$(( $RANDOM % 16 ))]}"
+
+rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
 #+end_src
 * EMACS Config von 0
 Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doom Emacs erleichtert einem schon einiges und hat das wichtigste und vll daher sinnvoll dort einfach noch meine gewünschten Veränderungen durchzuführen und nicht hier weiter zu machen.
