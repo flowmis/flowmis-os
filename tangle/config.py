@@ -42,13 +42,12 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([mod, "shift"], "space", lazy.layout.toggle_split(), desc='Toggle between split and unsplit sides of stack'),
         ]
 
-groups = [Group("-1-", layout='tile'),
-          Group("-2-", layout='tile'),
-          Group("-3-", layout='tile'),
-          Group("-4-", layout='floating'),
-          Group("-5-", layout='floating'),
+groups = [Group("-1-", layout='monadtall'),
+          Group("-2-", layout='monadtall'),
+          Group("-3-", layout='monadwide'),
+          Group("-4-", layout='monadwide'),
+          Group("-5-", layout='zoomy'),
           Group("-6-", layout='floating')]
-
 # Allow MODKEY+[0 through 9] to bind to groups, see https://docs.qtile.org/en/stable/manual/config/groups.html
 # MOD4 + index Number : Switch to Group[index]
 # MOD4 + shift + index Number : Send active window to another Group
@@ -57,42 +56,42 @@ dgroups_key_binder = simple_key_binder("mod4")
 
 layout_theme = {"border_width": 2, "margin": 8, "border_focus": "e1acff", "border_normal": "1D2330"}
 layouts = [
-    #layout.MonadWide(**layout_theme),
     #layout.Bsp(**layout_theme),
     #layout.Stack(stacks=2, **layout_theme),
     #layout.Columns(**layout_theme),
     #layout.RatioTile(**layout_theme),
     #layout.VerticalTile(**layout_theme),
     #layout.Matrix(**layout_theme),
-    #layout.Zoomy(**layout_theme),
-    #layout.MonadTall(**layout_theme),
     #layout.Max(**layout_theme),
     #layout.Stack(num_stacks=2),
     #layout.RatioTile(**layout_theme),
     #layout.Tile(shift_windows = True, border_width = 1, margin = 4,
     #    border_focus = 'e1acff', border_normal = '1D2330'),
-    layout.Tile(shift_windows=True, **layout_theme),
-    layout.TreeTab(
-        font = "Ubuntu",
-        fontsize = 10,
-        sections = ["--1--", "--2--", "--3--", "--4--"],
-        section_fontsize = 10,
-        border_width = 2,
-        bg_color = "1c1f24",
-        active_bg = "c678dd",
-        active_fg = "000000",
-        inactive_bg = "a9a1e1",
-        inactive_fg = "1c1f24",
-        padding_left = 0,
-        padding_x = 0,
-        padding_y = 5,
-        section_top = 10,
-        section_bottom = 20,
-        level_shift = 8,
-        vspace = 3,
-        panel_width = 200
-    ),
+    #layout.Tile(shift_windows=True, **layout_theme),
+    layout.MonadWide(**layout_theme),
+    layout.MonadTall(**layout_theme),
+    layout.Zoomy(**layout_theme),
     layout.Floating(**layout_theme)
+    #layout.TreeTab(
+    #    font = "Ubuntu",
+    #    fontsize = 10,
+    #    sections = ["--1--", "--2--", "--3--", "--4--"],
+    #    section_fontsize = 10,
+    #    border_width = 2,
+    #    bg_color = "1c1f24",
+    #    active_bg = "c678dd",
+    #    active_fg = "000000",
+    #    inactive_bg = "a9a1e1",
+    #    inactive_fg = "1c1f24",
+    #    padding_left = 0,
+    #    padding_x = 0,
+    #    padding_y = 5,
+    #    section_top = 10,
+    #    section_bottom = 20,
+    #    level_shift = 8,
+    #    vspace = 3,
+    #    panel_width = 200
+    #),
 ]
 
 colors = [["#282c34", "#282c34"],
