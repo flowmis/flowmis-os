@@ -11,43 +11,40 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from typing import List
 mod = "mod4"
-keys = [Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal'),
-         Key([mod, "shift"], "Return", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='Rofi'),
-         Key([mod], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
-         Key([mod], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
-         Key([mod], "XF86AudioMute", lazy.spawn('pamixer -t'), desc='leiser'),
-         Key([mod], "XF86MonBrightnessUp", lazy.spawn('brightnessctl s 5%+'), desc='heller'),
-         Key([mod], "XF86MonBrightnessDown", lazy.spawn('brightnessctl s 5%-'), desc='dunkler'),
+keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal'),
+         Key([], "XF86Launch1", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
+        #weiss nicht weshalb aber macht irgendwie dass ich mit doppel Fn Taste den App Launcher starten kann
+         Key([], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
+         Key([], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
+         Key([], "XF86AudioMute", lazy.spawn('pamixer -t'), desc='leiser'),
+         Key([], "XF86MonBrightnessUp", lazy.spawn('brightnessctl s 5%+'), desc='heller'),
+         Key([], "XF86MonBrightnessDown", lazy.spawn('brightnessctl s 5%-'), desc='dunkler'),
+         Key([], "XF86Cut", lazy.spawn('simplescreenrecorder'), desc='Screenrecord'),
+         Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
+         Key([], "F11", lazy.spawn('deepin-screen-recorder -f'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
          Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
          Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
-         Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
-         Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
-         Key([mod, "shift"], "q", lazy.shutdown(), desc='Shutdown Qtile'),
-         Key(["control", "shift"], "e", lazy.spawn("emacsclient -c -a emacs"), desc='Doom Emacs'),
+         Key([mod], "c", lazy.window.kill(), desc='Kill active window'),
+         Key([mod], "r", lazy.restart(), desc='Restart Qtile'),
+         Key([mod], "q", lazy.shutdown(), desc='Shutdown Qtile'),
          ### Treetab controls
          Key([mod, "shift"], "h", lazy.layout.move_left(), desc='Move up a section in treetab'),
          Key([mod, "shift"], "l", lazy.layout.move_right(), desc='Move down a section in treetab'),
          ### Window controls
-         Key([mod], "j", lazy.layout.down(), desc='Move focus down in current stack pane'),
-         Key([mod], "k", lazy.layout.up(), desc='Move focus up in current stack pane'),
-         Key([mod, "shift"], "j", lazy.layout.shuffle_down(), lazy.layout.section_down(), desc='Move windows down in current stack'),
-         Key([mod, "shift"], "k", lazy.layout.shuffle_up(), lazy.layout.section_up(), desc='Move windows up in current stack'),
+         Key([mod], "j", lazy.layout.shuffle_down(), lazy.layout.section_down(), desc='Move windows down in current stack'),
+         Key([mod], "k", lazy.layout.shuffle_up(), lazy.layout.section_up(), desc='Move windows up in current stack'),
          Key([mod], "h", lazy.layout.shrink(), lazy.layout.decrease_nmaster(), desc='Shrink window (MonadTall), decrease number in master pane (Tile)'),
          Key([mod], "l", lazy.layout.grow(), lazy.layout.increase_nmaster(), desc='Expand window (MonadTall), increase number in master pane (Tile)'),
-         Key([mod], "n", lazy.layout.normalize(), desc='normalize window size ratios'),
-         Key([mod], "m", lazy.layout.maximize(), desc='toggle window between minimum and maximum sizes'),
-         Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc='toggle floating'),
          Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
          ### Stack controls
-         Key([mod, "shift"], "Tab", lazy.layout.rotate(), lazy.layout.flip(), desc='Switch which side main pane occupies (XmonadTall)'),
          Key([mod], "space", lazy.layout.next(), desc='Switch window focus to other pane(s) of stack'),
          Key([mod, "shift"], "space", lazy.layout.toggle_split(), desc='Toggle between split and unsplit sides of stack'),
-         ]
+        ]
 
-groups = [Group("-1-", layout='monadtall'),
-          Group("-2-", layout='monadtall'),
-          Group("-3-", layout='monadtall'),
+groups = [Group("-1-", layout='tile'),
+          Group("-2-", layout='tile'),
+          Group("-3-", layout='tile'),
           Group("-4-", layout='floating'),
           Group("-5-", layout='floating'),
           Group("-6-", layout='floating')]

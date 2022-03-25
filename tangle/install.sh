@@ -13,18 +13,17 @@ cd ~
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
 ~/.emacs.d/bin/doom install
-sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
+sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop lightdm-gtk-greeter-settings
 sudo pip install jupyter notebook
 ~/.emacs.d/bin/doom doctor
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
-#cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el            # ändern zu ~/.doom.d
-#cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el    # ändern zu ~/.doom.d
-#cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el        # ändern zu ~/.doom.d
-cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-#cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-#cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
-cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
-cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+cd ~/.config/rofi
+git clone --depth=1 https://github.com/adi1090x/rofi.git
+cd rofi
+mkdir -p ~/.local/share/fonts
+cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
+cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
+cd ~/.config/rofi/
+rm -rf rofi/
+sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor
+yay -S date termite
