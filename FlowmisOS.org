@@ -710,10 +710,22 @@ widget_defaults = dict(
     background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
-
 def init_widgets_list():
     widgets_list = [
-            widget.Sep(linewidth = 0, padding = 20, foreground = colors[2], background = colors[0]),
+            widget.WindowCount(
+                       background = colors[1],
+                       foreground = colors[6],
+                       fontsize = 12,
+                       padding = 10
+                       ),
+            widget.Clock(
+                       background = colors[0],
+                       foreground = colors[6],
+                       format = "%A, %B %d - %H:%M ",
+                       fontsize = 12,
+                       padding = 10
+                       ),
+            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
             widget.GroupBox(
                        active = colors[2],
                        inactive = colors[7],
@@ -735,11 +747,6 @@ def init_widgets_list():
                        ),
             widget.CurrentLayout(
                        foreground = colors[2],
-                       background = colors[0],
-                       padding = 5
-                       ),
-            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
-            widget.Systray(
                        background = colors[0],
                        padding = 5
                        ),
@@ -766,12 +773,7 @@ def init_widgets_list():
                        background = colors[0],
                        padding = 10
                        ),
-            widget.PulseVolume(
-                       background = colors[0],
-                       fmt = 'Vol: {}',
-                       padding = 10
-                       ),
-            widget.Sep(linewidth = 0, padding =100, foreground = colors[2], background = colors[0]),
+            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
             widget.CryptoTicker(
                        background = colors[0],
                        padding = 10
@@ -786,18 +788,19 @@ def init_widgets_list():
                        padding = 10,
                        crypto = "ADA"
                        ),
-            widget.Sep(linewidth = 0, padding =100, foreground = colors[2], background = colors[0]),
+            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
+            widget.Systray(
+                       background = colors[0],
+                       padding = 5
+                       ),
+            widget.PulseVolume(
+                       background = colors[0],
+                       fmt = 'Vol: {}',
+                       padding = 5
+                       ),
             widget.BatteryIcon(
-                       background = colors[1],
-                       ),
-            widget.Clock(
-                       background = colors[1],
-                       format = "%A, %B %d - %H:%M ",
-                       padding = 10
-                       ),
-            widget.WindowCount(
-                       background = colors[1],
-                       padding = 10
+                       background = colors[0],
+                       padding = 5
                        ),
             ]
     return widgets_list
