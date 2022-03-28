@@ -717,7 +717,8 @@ def init_widgets_list():
                        background = colors[1],
                        foreground = colors[6],
                        fontsize = 12,
-                       padding = 10
+                       padding = 10,
+                       mouse_callbacks = {"Button1": lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh")}
                        ),
             widget.Clock(
                        background = colors[0],
@@ -760,6 +761,7 @@ def init_widgets_list():
             widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
             widget.Net(
                        background = colors[0],
+                       mouse_callbacks = {"Button1": lazy.spawn("/home/flowmis/.config/rofi/bin/menu_network")}
                        ),
             widget.Memory(
                        background = colors[0],
@@ -802,7 +804,7 @@ def init_widgets_list():
                        background = colors[0],
                        padding = 5,
                        scale = 1.1,
-                       mouse_callbacks = {"Button1": lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh")}
+                       mouse_callbacks = {"Button1": lazy.spawn("/home/flowmis/.config/rofi/bin/menu_powermenu")}
                        ),
             ]
     return widgets_list
