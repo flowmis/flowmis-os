@@ -4,22 +4,22 @@
 Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfigurationsdateien und Skripte gebildet <Space-mB> und in Ordner tangle exportiert. Der hier am Anfang vorhandene shell SourceBlock verschiebt alles aus dem tangle Ordner an die richtigen Orte (ausführbar mit <C-c C-c> mit Cursor innerhalb des SourceBlock).
 
 #+begin_src shell
-cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
-cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
-cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
-cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
+#cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
+#cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
+#cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
+#cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
+#cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 #cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+#cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+#cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 #cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 #cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 #cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
 #cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
-cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
-cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
+#cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
+#cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+#cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
+#cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
 echo done
 #+end_src
 
@@ -218,7 +218,7 @@ cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
 cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
 cd ~/.config/rofi/
 rm -rf rofi/
-sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor
+sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet
 yay -S date termite
 #+end_src
 
@@ -595,7 +595,6 @@ from libqtile.utils import guess_terminal
 from typing import List
 mod = "mod4"
 keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal'),
-         Key([], "XF86Launch1", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
         #weiss nicht weshalb aber macht irgendwie dass ich mit doppel Fn Taste den App Launcher starten kann
          Key([], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
          Key([], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
@@ -607,6 +606,8 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
+         Key([mod], "t", lazy.spawn("alacritty"), desc='Alacritty'),
+         Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
          Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
          Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
          Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
@@ -3193,13 +3194,14 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 + simple solution: diesen Code mit tangle als Datei in Homverzeichnis schreiben - sollte dann mit Start von allein ausgeführt werden
   
 #+begin_src sh :tangle tangle/.xprofile
-setxkbmap -layout de &
+#setxkbmap -layout de &
 #xrandr -s 1920x1080 &                               # In VM aktivieren
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
-loadkeys de-latin1 &
+#loadkeys de-latin1 &
 /usr/bin/emacs --daemon
+nm-applet
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
 #echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
 #+end_src
