@@ -118,6 +118,7 @@ widget_defaults = dict(
     background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
+
 def init_widgets_list():
     widgets_list = [
             widget.WindowCount(
@@ -170,7 +171,6 @@ def init_widgets_list():
                        ),
             widget.Memory(
                        background = colors[0],
-                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
                        fmt = 'Mem: {}',
                        padding = 10
                        ),
@@ -208,7 +208,9 @@ def init_widgets_list():
                        ),
             widget.BatteryIcon(
                        background = colors[0],
-                       padding = 5
+                       padding = 5,
+                       scale = 1.1,
+                       mouse_callbacks = {"Button1": lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh")}
                        ),
             ]
     return widgets_list

@@ -9,14 +9,14 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 #cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
 #cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 #cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
-cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+#cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 #cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 #cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 #cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 #cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 #cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
 #cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-#cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
+cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 #cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 #cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
 #cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
@@ -710,6 +710,7 @@ widget_defaults = dict(
     background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
+
 def init_widgets_list():
     widgets_list = [
             widget.WindowCount(
@@ -762,7 +763,6 @@ def init_widgets_list():
                        ),
             widget.Memory(
                        background = colors[0],
-                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
                        fmt = 'Mem: {}',
                        padding = 10
                        ),
@@ -800,7 +800,9 @@ def init_widgets_list():
                        ),
             widget.BatteryIcon(
                        background = colors[0],
-                       padding = 5
+                       padding = 5,
+                       scale = 1.1,
+                       mouse_callbacks = {"Button1": lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh")}
                        ),
             ]
     return widgets_list
