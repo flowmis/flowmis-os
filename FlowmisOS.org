@@ -3203,14 +3203,11 @@ picom -f &                                          # setzt Einstellungen des Co
 /usr/bin/emacs --daemon
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
 #echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
-#+end_src
-#+begin_src sh
-cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
-cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
-cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
+#cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
+#cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
+#cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
 #+end_src
 
-#+RESULTS:
 
 + Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
   -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
