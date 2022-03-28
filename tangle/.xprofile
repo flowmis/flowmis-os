@@ -4,7 +4,13 @@ nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #loadkeys de-latin1 &
-/usr/bin/emacs --daemon
-nm-applet
+/usr/bin/emacs --daemon &
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
 #echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
+#cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
+#cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
+#cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
+#chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
+gtk-launch dropbox.desktop &
+gtk-launch nm-applet.desktop &
+gtk-launch volumeicon.desktop
