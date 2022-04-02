@@ -220,6 +220,9 @@ alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
+# Change Wallpaper
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
+
 # vim and emacs
 alias vim='nvim'
 alias em='/usr/bin/emacs -nw'

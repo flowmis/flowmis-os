@@ -23,6 +23,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
+         Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn("alacritty"), desc='Alacritty'),
          Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
          Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),

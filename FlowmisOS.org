@@ -606,6 +606,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
+         Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn("alacritty"), desc='Alacritty'),
          Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
          Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
@@ -1436,6 +1437,9 @@ alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
+# Change Wallpaper
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
+
 # vim and emacs
 alias vim='nvim'
 alias em='/usr/bin/emacs -nw'
@@ -1697,6 +1701,9 @@ alias doomsync="~/.emacs.d/bin/doom sync"
 alias doomdoctor="~/.emacs.d/bin/doom doctor"
 alias doomupgrade="~/.emacs.d/bin/doom upgrade"
 alias doompurge="~/.emacs.d/bin/doom purge"
+
+# Change Wallpaper
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
 
 # Changing "ls" to "exa"
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
@@ -2993,6 +3000,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (package! org-roam-ui)
 (package! org-noter)
 (package! org-pdftools)
+(package! org-super-agenda)
 #+end_src
 * DoomEmacs init
 #+BEGIN_SRC emacs-lisp :tangle tangle/init.el

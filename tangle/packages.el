@@ -71,3 +71,4 @@
 (package! org-roam-ui)
 (package! org-noter)
 (package! org-pdftools)
+(package! org-super-agenda)
