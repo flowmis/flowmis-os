@@ -658,10 +658,46 @@ from libqtile import layout, bar, widget, hook
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from typing import List
+
+###Start Verbesserung Floating Windows###
+floating_window_index = 0
+
+def float_cycle(qtile, forward: bool):
+    global floating_window_index
+    floating_windows = []
+    for window in qtile.current_group.windows:
+        if window.floating:
+            floating_windows.append(window)
+    if not floating_windows:
+        return
+    floating_window_index = min(floating_window_index, len(floating_windows) -1)
+    if forward:
+        floating_window_index += 1
+    else:
+        floating_window_index += 1
+    if floating_window_index >= len(floating_windows):
+        floating_window_index = 0
+    if floating_window_index < 0:
+        floating_window_index = len(floating_windows) - 1
+    win = floating_windows[floating_window_index]
+    win.cmd_bring_to_front()
+    win.cmd_focus()
+
+@lazy.function
+def float_cycle_backward(qtile):
+    float_cycle(qtile, False)
+
+@lazy.function
+def float_cycle_forward(qtile):
+    float_cycle(qtile, True)
+###Ende Verbesserung Floating Windows (2 Keybindings mit den hier definierten Funktionen machen es dann anwendbar!)###
+
 mod = "mod4"
 keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal'),
         #weiss nicht weshalb aber macht irgendwie dass ich mit doppel Fn Taste den App Launcher starten kann
          Key([], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
+         Key([mod], "period", float_cycle_forward, desc='FloatingWindow vor/hinter ein anderes bringen'),
+         Key([mod], "comma", float_cycle_backward, desc='FloatingWindow vor/hinter ein anderes bringen'),
          Key([], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
          Key([], "XF86AudioMute", lazy.spawn('pamixer -t'), desc='leiser'),
          Key([], "XF86MonBrightnessUp", lazy.spawn('brightnessctl s 5%+'), desc='heller'),
