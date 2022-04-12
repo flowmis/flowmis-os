@@ -19,6 +19,7 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 #cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 #cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 #cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
+#cp -r ~/FlowmisOS/tangle/themes/ ~/.config/doom/themes
 #cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
 # wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
 echo done
