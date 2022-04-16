@@ -42,15 +42,13 @@
         '(("b" "book notes" plain (file "~/Dropbox/emacs/org-roam/templates/BookTemplate.org")
            :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
-          ("o" "org-mode Tipps and Tricks" plain (file "~/Dropbox/emacs/org-roam/templates/org-mode.org")
+          ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/emacs/org-roam/templates/normal.org")
            :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
           ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
            :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
-          ("e" "Emacs Tipps and Tricks" plain (file "~/Dropbox/emacs/org-roam/templates/emacs.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)))
+          ))
 
 ;;org ref Einstellungen
 (setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
@@ -198,7 +196,7 @@
                               ("mkv" . "mpv")
                               ("mp4" . "mpv")))
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'molokai)
 (map! :leader
       :desc "Load new theme" "h t" #'counsel-load-theme)
 
