@@ -196,7 +196,7 @@
                               ("mkv" . "mpv")
                               ("mp4" . "mpv")))
 
-(setq doom-theme 'molokai)
+(setq doom-theme 'doom-molokai)
 (map! :leader
       :desc "Load new theme" "h t" #'counsel-load-theme)
 
