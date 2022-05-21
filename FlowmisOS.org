@@ -18,7 +18,7 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 #cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
 #cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 #cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-#cp -r ~/FlowmisOS/tangle/banner.png ~/.config/doom/banner.png
+cp -rf ~/FlowmisOS/tangle/banner ~/.config/doom/banner
 #cp -r ~/FlowmisOS/tangle/themes/ ~/.config/doom/themes
 #cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
 # wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
@@ -2799,15 +2799,13 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
   :init      ;; tweak dashboard config before loading it
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-banner-logo-title "\nKEYBINDINGS:\nOpen dired file manager  (SPC .)\nOpen buffer list         (SPC b i)\nFind recent files        (SPC f r)\nOpen the eshell          (SPC e s)\nToggle big font mode     (SPC t b)")
   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-  (setq dashboard-startup-banner "~/.config/doom/banner.png")  ;; use custom image as banner
+  (setq dashboard-startup-banner "~/.config/doom/banner/banner.png")  ;; use custom image as banner
   (setq dashboard-center-content nil) ;; set to 't' for centered content
   (setq dashboard-items '((recents . 5)
-                          (agenda . 5 )
-                          (bookmarks . 5)
-                          (projects . 5)
-                          (registers . 5)))
+                          (agenda . 5)
+                          (bookmarks . 3)
+                          (projects . 3)))
   :config
   (dashboard-setup-startup-hook)
   (dashboard-modify-heading-icons '((recents . "file-text")
