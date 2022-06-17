@@ -5,9 +5,9 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 
 #+begin_src shell
 #cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
-#cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
 #cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
-#cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
+cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 #cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 #cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 #cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
@@ -18,7 +18,7 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 #cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
 #cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 #cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-cp -rf ~/FlowmisOS/tangle/banner ~/.config/doom/banner
+#cp -rf ~/FlowmisOS/tangle/banner ~/.config/doom/banner
 #cp -r ~/FlowmisOS/tangle/themes/ ~/.config/doom/themes
 #cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
 # wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
@@ -2663,6 +2663,8 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und bissl was von SystemCrafter
 
 #+begin_src emacs-lisp :tangle tangle/config.el
+(beacon-mode 1)
+
 (use-package! websocket
     :after org-roam)
 
@@ -3122,6 +3124,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (package! org-noter)
 (package! org-pdftools)
 (package! org-super-agenda)
+(package! beacon)
 #+end_src
 * DoomEmacs init
 #+BEGIN_SRC emacs-lisp :tangle tangle/init.el

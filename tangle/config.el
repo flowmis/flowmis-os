@@ -1,3 +1,5 @@
+(beacon-mode 1)
+
 (use-package! websocket
     :after org-roam)
 
