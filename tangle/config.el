@@ -1,5 +1,16 @@
 (beacon-mode 1)
 
+(use-package multiple-cursors
+  :config
+  (setq mc/always-run-for-all 1)
+  (global-set-key (kbd "C-c m m") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-c m M") 'mc/mark-all-dwim)
+  (global-set-key (kbd "C-c m a") 'mc/edit-lines)
+  (global-set-key (kbd "C-c m q") 'mc/keyboard-quit)
+  (global-set-key (kbd "C-c m n") 'mc/skip-to-next-like-this)
+  (global-set-key (kbd "C-c m p") 'mc/skip-to-previous-like-this)
+  (define-key mc/keymap (kbd "<return>") nil))
+
 (use-package! websocket
     :after org-roam)
 
