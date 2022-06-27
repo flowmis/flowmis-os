@@ -1,5 +1,8 @@
 (beacon-mode 1)
 
+(setq ispell-program-name "aspell")
+(global-set-key (kbd "s-\\") 'ispell-word)
+
 (use-package multiple-cursors
   :config
   (setq mc/always-run-for-all 1)
