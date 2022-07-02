@@ -1,18 +1,22 @@
-(beacon-mode 1)
+(setq org-log-into-drawer 1)    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
+
+(set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
+
+(beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
 
 (setq ispell-program-name "aspell")
 (global-set-key (kbd "s-\\") 'ispell-word)
 
-(use-package multiple-cursors
-  :config
-  (setq mc/always-run-for-all 1)
-  (global-set-key (kbd "C-c m m") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-c m M") 'mc/mark-all-dwim)
-  (global-set-key (kbd "C-c m a") 'mc/edit-lines)
-  (global-set-key (kbd "C-c m q") 'mc/keyboard-quit)
-  (global-set-key (kbd "C-c m n") 'mc/skip-to-next-like-this)
-  (global-set-key (kbd "C-c m p") 'mc/skip-to-previous-like-this)
-  (define-key mc/keymap (kbd "<return>") nil))
+;; (use-package multiple-cursors        ;Habe das Paket von hlissner in init.el aktiviert weil ich es besser finde!
+;;   :config
+;;   (setq mc/always-run-for-all 1)
+;;   (global-set-key (kbd "C-c m m") 'mc/mark-next-like-this)
+;;   (global-set-key (kbd "C-c m M") 'mc/mark-all-dwim)
+;;   (global-set-key (kbd "C-c m a") 'mc/edit-lines)
+;;   (global-set-key (kbd "C-c m q") 'mc/keyboard-quit)
+;;   (global-set-key (kbd "C-c m n") 'mc/skip-to-next-like-this)
+;;   (global-set-key (kbd "C-c m p") 'mc/skip-to-previous-like-this)
+;;   (define-key mc/keymap (kbd "<return>") nil))
 
 (use-package! websocket
     :after org-roam)
