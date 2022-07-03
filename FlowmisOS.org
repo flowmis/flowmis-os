@@ -225,7 +225,7 @@ cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
 cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
 cd ~/.config/rofi/
 rm -rf rofi/
-sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet
+sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en
 yay -S date termite
 #+end_src
 
@@ -2663,15 +2663,13 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und bissl was von SystemCrafter
 
 #+begin_src emacs-lisp :tangle tangle/config.el
-
 (setq org-log-into-drawer 1)    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
 
 (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
 
 (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
-
-(setq ispell-program-name "aspell")
-(global-set-key (kbd "s-\\") 'ispell-word)
+(setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
+(global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
 
 ;; (use-package multiple-cursors        ;Habe das Paket von hlissner in init.el aktiviert weil ich es besser finde!
 ;;   :config
@@ -2714,60 +2712,38 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
-;;org roam
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory "~/Dropbox/emacs/org-roam/Notizen")
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert))
-  :config
-  (org-roam-setup))
-(setq org-roam-capture-templates
-        '(("b" "book notes" plain (file "~/Dropbox/emacs/org-roam/templates/BookTemplate.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)
-          ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/emacs/org-roam/templates/normal.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)
-          ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)
-          ))
-
-;;org ref Einstellungen
-(setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
-	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
-	bibtex-completion-notes-path "~/Dropbox/emacs/bib/notes/"
-	bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-	bibtex-completion-additional-search-fields '(keywords)
-	bibtex-completion-display-formats
-	'((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-	  (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-	  (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	  (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	  (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-	bibtex-completion-pdf-open-function
-	(lambda (fpath)
-	  (call-process "open" nil 0 nil fpath)))
-(require 'bibtex)
-(setq bibtex-autokey-year-length 4
-	bibtex-autokey-name-year-separator "-"
-	bibtex-autokey-year-title-separator "-"
-	bibtex-autokey-titleword-separator "-"
-	bibtex-autokey-titlewords 2
-	bibtex-autokey-titlewords-stretch 1
-	bibtex-autokey-titleword-length 5
-	org-ref-bibtex-hydra-key-binding (kbd "H-b"))
-(define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
- (require 'org-ref-ivy)
-(setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-      org-ref-insert-label-function 'org-ref-insert-label-link
-      org-ref-insert-ref-function 'org-ref-insert-ref-link
-      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
-(setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
+;; ;;org ref Einstellungen
+;; (setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
+;; 	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
+;; 	bibtex-completion-notes-path "~/Dropbox/emacs/bib/notes/"
+;; 	bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+;; 	bibtex-completion-additional-search-fields '(keywords)
+;; 	bibtex-completion-display-formats
+;; 	'((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+;; 	  (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+;; 	  (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;; 	  (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;; 	  (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+;; 	bibtex-completion-pdf-open-function
+;; 	(lambda (fpath)
+;; 	  (call-process "open" nil 0 nil fpath)))
+;; (require 'bibtex)
+;; (setq bibtex-autokey-year-length 4
+;; 	bibtex-autokey-name-year-separator "-"
+;; 	bibtex-autokey-year-title-separator "-"
+;; 	bibtex-autokey-titleword-separator "-"
+;; 	bibtex-autokey-titlewords 2
+;; 	bibtex-autokey-titlewords-stretch 1
+;; 	bibtex-autokey-titleword-length 5
+;; 	org-ref-bibtex-hydra-key-binding (kbd "H-b"))
+;; (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
+;;  (require 'org-ref-ivy)
+;; (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+;;       org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+;;       org-ref-insert-label-function 'org-ref-insert-label-link
+;;       org-ref-insert-ref-function 'org-ref-insert-ref-link
+;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 
 (defun dt/year-calendar (&optional year)
   (interactive)
@@ -2801,20 +2777,20 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
     (goto-char (point-min))
     (setq buffer-read-only t)))
 
-(setq centaur-tabs-set-bar 'over
-      centaur-tabs-set-icons t
-      centaur-tabs-gray-out-icons 'buffer
-      centaur-tabs-height 24
-      centaur-tabs-set-modified-marker t
-      centaur-tabs-style "bar"
-      centaur-tabs-modified-marker "•")
-(map! :leader
-      :desc "Toggle tabs globally" "t c" #'centaur-tabs-mode
-      :desc "Toggle tabs local display" "t C" #'centaur-tabs-local-mode)
-(evil-define-key 'normal centaur-tabs-mode-map (kbd "g <right>") 'centaur-tabs-forward        ; default Doom binding is 'g t'
-                                               (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
-                                               (kbd "g <down>")  'centaur-tabs-forward-group
-                                               (kbd "g <up>")    'centaur-tabs-backward-group)
+;; (setq centaur-tabs-set-bar 'over
+;;       centaur-tabs-set-icons t
+;;       centaur-tabs-gray-out-icons 'buffer
+;;       centaur-tabs-height 24
+;;       centaur-tabs-set-modified-marker t
+;;       centaur-tabs-style "bar"
+;;       centaur-tabs-modified-marker "•")
+;; (map! :leader
+;;       :desc "Toggle tabs globally" "t c" #'centaur-tabs-mode
+;;       :desc "Toggle tabs local display" "t C" #'centaur-tabs-local-mode)
+;; (evil-define-key 'normal centaur-tabs-mode-map (kbd "g <right>") 'centaur-tabs-forward        ; default Doom binding is 'g t'
+;;                                                (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
+;;                                                (kbd "g <down>")  'centaur-tabs-forward-group
+;;                                                (kbd "g <up>")    'centaur-tabs-backward-group)
 
 (use-package dashboard
   :init      ;; tweak dashboard config before loading it
@@ -2934,18 +2910,18 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 
 (xterm-mouse-mode 1)
 
-(after! neotree
-  (setq neo-smart-open t
-        neo-window-fixed-size nil))
-(after! doom-themes
-  (setq doom-neotree-enable-variable-pitch t))
-(map! :leader
-      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
-      :desc "Open directory in neotree" "d n" #'neotree-dir)
+;; (after! neotree
+;;   (setq neo-smart-open t
+;;         neo-window-fixed-size nil))
+;; (after! doom-themes
+;;   (setq doom-neotree-enable-variable-pitch t))
+;; (map! :leader
+;;       :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
+;;       :desc "Open directory in neotree" "d n" #'neotree-dir)
 
 (map! :leader
       (:prefix ("-" . "open file")
-       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Org/agenda.org"))
+       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"))
        :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
        :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
@@ -2954,35 +2930,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 
 (map! :leader
       :desc "Org babel tangle" "m B" #'org-babel-tangle)
-(after! org
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-directory "~/Org/"
-        org-agenda-files '("~/Org/agenda.org")
-        org-default-notes-file (expand-file-name "notes.org" org-directory)
-        org-ellipsis " ▼ "
-        org-log-done 'time
-        org-journal-dir "~/Org/journal/"
-        org-journal-date-format "%B %d, %Y (%A) "
-        org-journal-file-format "%Y-%m-%d.org"
-        org-hide-emphasis-markers t
-        ;; ex. of org-link-abbrev-alist in action
-        ;; [[arch-wiki:Name_of_Page][Description]]
-        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
-          '(("google" . "http://www.google.com/search?q=")
-            ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
-            ("ddg" . "https://duckduckgo.com/?q=")
-            ("wiki" . "https://en.wikipedia.org/wiki/"))
-        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
-          '((sequence
-             "TODO(t)"           ; A task that is ready to be tackled
-             "BLOG(b)"           ; Blog writing assignments
-             "GYM(g)"            ; Things to accomplish at the gym
-             "PROJ(p)"           ; A project that contains other tasks
-             "VIDEO(v)"          ; Video assignments
-             "WAIT(w)"           ; Something is holding up this task
-             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
-             "DONE(d)"           ; Task has been completed
-             "CANCELLED(c)" )))) ; Task has been cancelled
+
 
 (custom-set-faces
   '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
@@ -3037,6 +2985,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
   (set-variable 'split-height-threshold nil t)
   (set-variable 'split-width-threshold 40 t)) ; make this as low as needed
 (add-hook 'markdown-mode-hook 'prefer-horizontal-split)
+
 (map! :leader
       :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window)
 
@@ -3045,27 +2994,119 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
        :desc "Winner redo" "<right>" #'winner-redo
        :desc "Winner undo" "<left>" #'winner-undo))
 
+(use-package org-bullets
+      :ensure t
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 (use-package hide-mode-line)
 
-(defun efs/presentation-setup ()
+;;org roam
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory "~/Dropbox/emacs/org-roam/Notizen")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup))
+(setq org-roam-capture-templates
+        '(("b" "book notes" plain (file "~/Dropbox/emacs/org-roam/templates/BookTemplate.org")
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/emacs/org-roam/templates/normal.org")
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ))
+(global-set-key (kbd "C-c n d") 'org-roam-dailies-capture-today)
+(setq org-capture-templates '(
+    ("1" "Schnell Erledigen" checkitem
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Eilig"))
+    ("2" "Zeitnah Erledigen" checkitem
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Zeitnah"))
+    ("3" "Irgendwann Erledigen" checkitem
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Irgendwann"))
+    ("4" "Einkaufsliste Mane" checkitem
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Einkaufsliste Mane"))
+    ("5" "Einkaufsliste Joana" checkitem
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Einkaufsliste Joana"))
+    ("6" "Gemeinsame Einkaufsliste" checkitem
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Gemeinsame Einkaufsliste"))
+    ("7" "Wunschliste Mane" checkitem
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Wunschliste Mane"))
+    ("t" "Gedanken und Sonstiges" entry
+        (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
+        "* %^{Description}      Hinzugefügt am: %U      %^g")
+))
+
+(setq org-directory "~/Dropbox/emacs/org-roam/Notizen/"
+      org-agenda-files '("~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org")
+      org-default-notes-file (expand-file-name "notes.org" org-directory)
+      org-ellipsis " ▼ "
+      org-log-done 'time
+      org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/orga/journal/"
+      org-journal-date-format "%B %d, %Y (%A) "
+      org-journal-file-format "%Y-%m-%d.org"
+      org-hide-emphasis-markers t
+      ;; ex. of org-link-abbrev-alist in action
+      ;; [[arch-wiki:Name_of_Page][Description]]
+      org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+        '(("google" . "http://www.google.com/search?q=")
+          ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+          ("ddg" . "https://duckduckgo.com/?q=")
+          ("wiki" . "https://en.wikipedia.org/wiki/"))
+      org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+        '((sequence
+           "TODO(t@!)"
+           "EILIG(e@/!)"
+           "PAUSIERT(p@/!)"
+           "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+           "BEENDET(b@/!)"
+           "ABGEBROCHEN(a@/!)"
+           "DELEGIERT(d@/!)")))
+;;;;;;;;;;;;;;;;;;;;;PRESENTATIONSMODUS IN ORG::::::::::::::::::::::::::
+(defun pres-start ()
+  (load-theme 'doom-henna)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
   (hide-mode-line-mode 1)
+  (beacon-mode -1)
+  (centered-cursor-mode 1)
   (org-display-inline-images)                                           ;<M-x org-toggle-inline-images> sollte vor dem öffnen des Präsentationsmodus <M-x org-tree-slide-mode> ausgeführt um sicher zu sein dass alle Bilder angezeigt werde und dieser code sorgt dafür dass dies der Fall ist  -> alternativ vll auch mal org-startup-with-inline-images anschauen
   (setq text-scale-mode-amount 3)
-  (text-scale-mode 1))
-(defun efs/presentation-end ()
-  (hide-mode-line-mode 0)
-  (text-scale-mode 0))
+  (text-scale-mode 1)
+  (setq visual-fill-column-width 80      ;Größe des seitlichen Rahmen
+        visual-fill-column-center-text t)   ;rückt Text in Mitte
+  (visual-fill-column-mode 1)             ;braucht man um seitlichen Rahmen zu füllen (hier nichts umstellen)
+  (display-line-numbers-mode -1)          ;schaltet line-numbers aus
+  (visual-line-mode t)                    ;sorgt dafür dass alles an Text sichtbar ist (umgebrochen wird)
+  (set-face-attribute 'org-document-title nil :font "Fira Code" :weight 'bold :height 1.4) ;Einstellungen Titel Präsi
+  (set-frame-parameter (selected-frame) 'alpha '(85 . 50)))
+
+(defun pres-end ()
+  (load-theme 'doom-molokai)
+  (doom-modeline-mode 1)
+  (beacon-mode 1)
+  (centered-cursor-mode -1)
+  (org-display-inline-images -1)
+  (setq visual-fill-column-width 110      ;Größe des seitlichen Rahmen
+        visual-fill-column-center-text nil)   ;rückt Text in Mitte
+  (visual-fill-column-mode -1)             ;braucht man um seitlichen Rahmen zu füllen (hier nichts umstellen)
+  (display-line-numbers-mode 1)          ;schaltet line-numbers aus
+  (text-scale-mode -1)
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 70)))
+
 (use-package org-tree-slide
-  :hook ((org-tree-slide-play . efs/presentation-setup)
-         (org-tree-slide-stop . efs/presentation-end))
-  :custom                                                               ;hier gerne weitere anpassungen machen
-  (org-tree-slide-slide-in-effect t)
-  (org-tree-slide-activate-message "Präsentation gestartet!")
-  (org-tree-slide-deactivate-message "Präsentation beendet!")
-  (org-tree-slide-header t)
-  (org-tree-slide-breadcrumbs " > ")
-  (org-image-actual-width nil))
+  :hook ((org-tree-slide-play . pres-start)
+         (org-tree-slide-stop . pres-end)))
 #+end_src
+
+#+RESULTS:
+| efs/presentation-end |
 
 * DoomEmacs packages
 #+BEGIN_SRC emacs-lisp :tangle tangle/packages.el
@@ -3144,6 +3185,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (package! org-pdftools)
 (package! org-super-agenda)
 (package! beacon)
+(package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
 #+end_src
 * DoomEmacs init
 #+BEGIN_SRC emacs-lisp :tangle tangle/init.el
@@ -3237,7 +3279,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
        ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
-       ein               ; tame Jupyter notebooks with emacs
+       ;; ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ox-reveal           ; Export presentations
        ;;gist              ; interacting with github gists
