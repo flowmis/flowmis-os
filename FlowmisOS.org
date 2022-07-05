@@ -16,7 +16,7 @@ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 #cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 #cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 #cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
-cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
+# cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 #cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 #cp -rf ~/FlowmisOS/tangle/banner ~/.config/doom/banner
 #cp -r ~/FlowmisOS/tangle/themes/ ~/.config/doom/themes
@@ -30,20 +30,24 @@ echo done
 
 * TODO FlowmisOS
 + [ ] Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
-+ [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell
++ [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
 + [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
 + [ ] lightdm aufhübschen
 + [ ] git ssh und in skript mit rein
 + [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
 + [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
 + [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
-+ [ ] ispell für deutsche Sprache
 + [ ] HDMI und zeite Bildschirme ebenso wie USB besser erkennen und formatieren können bzw Einstellungen machen können
 + [ ] Grafikkartenprobleme lösen (https://wiki.freedesktop.org/nouveau/Optimus/,... )
 + [ ] Qtile Widgets überarbeiten
-+ [ ] Emacs eigene Modi einrichten und Skript so ändern dass von Beginn an funktioniert
+  + [ ] Widgets überarbeiten
+  + [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
+  + [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
+  + [ ]
++ [ ] EMACS
+  + [ ] config.el aufsplitten und Code + Module/Pakete erklären -> in Richtung literate Programming
 + [ ] .bashrc bashprofile und bashhistory zu configs
-+ [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen
++ [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
 
 * Installation
 
