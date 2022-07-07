@@ -372,6 +372,8 @@
         (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Gemeinsame Einkaufsliste"))
     ("7" "Wunschliste Mane" checkitem
         (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Wunschliste Mane"))
+    ("8" "Neue Abrechnung" table-line
+        (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-orga.org" "Abrechnungen Jo"))
     ("t" "Gedanken und Sonstiges" entry
         (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
         "* %^{Description}      Hinzugefügt am: %U      %^g")
