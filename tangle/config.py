@@ -72,10 +72,10 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([mod, "shift"], "h", lazy.layout.move_left(), desc='Move up a section in treetab'),
          Key([mod, "shift"], "l", lazy.layout.move_right(), desc='Move down a section in treetab'),
          ### Window controls
-         Key([mod], "j", lazy.layout.shuffle_down(), lazy.layout.section_down(), desc='Move windows down in current stack'),
-         Key([mod], "k", lazy.layout.shuffle_up(), lazy.layout.section_up(), desc='Move windows up in current stack'),
-         Key([mod], "h", lazy.layout.shrink(), lazy.layout.decrease_nmaster(), desc='Shrink window (MonadTall), decrease number in master pane (Tile)'),
-         Key([mod], "l", lazy.layout.grow(), lazy.layout.increase_nmaster(), desc='Expand window (MonadTall), increase number in master pane (Tile)'),
+         Key([mod], "Down", lazy.layout.shuffle_down(), lazy.layout.section_down(), desc='Move windows down in current stack'),
+         Key([mod], "Up", lazy.layout.shuffle_up(), lazy.layout.section_up(), desc='Move windows up in current stack'),
+         Key([mod], "Left", lazy.layout.shrink(), lazy.layout.decrease_nmaster(), desc='Shrink window (MonadTall), decrease number in master pane (Tile)'),
+         Key([mod], "Right", lazy.layout.grow(), lazy.layout.increase_nmaster(), desc='Expand window (MonadTall), increase number in master pane (Tile)'),
          Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
          ### Stack controls
          Key([mod], "space", lazy.layout.next(), desc='Switch window focus to other pane(s) of stack'),
@@ -143,7 +143,8 @@ colors = [["#282c34", "#282c34"],
           ["#51afef", "#51afef"],
           ["#c678dd", "#c678dd"],
           ["#46d9ff", "#46d9ff"],
-          ["#a9a1e1", "#a9a1e1"]]
+          ["#a9a1e1", "#a9a1e1"],
+          ["#000000", "#000000"]]
 
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
@@ -152,64 +153,55 @@ widget_defaults = dict(
     font="Ubuntu Bold",
     fontsize = 10,
     padding = 2,
-    background=colors[2]
+    background=colors[10]
 )
 extension_defaults = widget_defaults.copy()
 
 def init_widgets_list():
     widgets_list = [
+            widget.CurrentLayoutIcon(
+                       background = colors[10],
+                       padding = 0,
+                       scale = 0.7
+                       ),
             widget.WindowCount(
-                       background = colors[1],
-                       foreground = colors[6],
+                       background = colors[10],
                        fontsize = 12,
                        padding = 10,
                        mouse_callbacks = {"Button1": lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh")}
                        ),
             widget.Clock(
-                       background = colors[0],
-                       foreground = colors[6],
+                       background = colors[10],
                        format = "%A, %B %d - %H:%M ",
                        fontsize = 12,
                        padding = 10
                        ),
-            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
+            widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.GroupBox(
-                       active = colors[2],
-                       inactive = colors[7],
+                       active = colors[6],
+                       inactive = colors[6],
                        highlight_color = colors[1],
                        highlight_method = "line",
                        this_current_screen_border = colors[6],
                        this_screen_border = colors [4],
                        other_current_screen_border = colors[6],
                        other_screen_border = colors[4],
-                       foreground = colors[2],
-                       background = colors[0]
-                       ),
-            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
-            widget.CurrentLayoutIcon(
-                       foreground = colors[2],
-                       background = colors[0],
-                       padding = 0,
-                       scale = 0.7
-                       ),
-            widget.CurrentLayout(
-                       foreground = colors[2],
-                       background = colors[0],
-                       padding = 5
-                       ),
-            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
-            widget.WindowName(
                        foreground = colors[6],
-                       background = colors[0],
+                       background = colors[10]
+                       ),
+            widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
+            widget.WindowName(
+                       foreground = colors[2],
+                       background = colors[10],
                        padding = 0
                        ),
-            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
+            widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.Net(
-                       background = colors[0],
+                       background = colors[10],
                        mouse_callbacks = {"Button1": lazy.spawn("/home/flowmis/.config/rofi/bin/menu_network")}
                        ),
             widget.Memory(
-                       background = colors[0],
+                       background = colors[10],
                        fmt = 'Mem: {}',
                        padding = 10
                        ),
@@ -217,36 +209,36 @@ def init_widgets_list():
                        visible_on_warn = False,
                        measure = "G",
                        format = "({uf}{m}/{s}{m})",
-                       background = colors[0],
+                       background = colors[10],
                        padding = 10
                        ),
-            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
+            widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.CryptoTicker(
-                       background = colors[0],
+                       background = colors[10],
                        padding = 10
                        ),
             widget.CryptoTicker(
-                       background = colors[0],
+                       background = colors[10],
                        padding = 10,
                        crypto = "ETH"
                        ),
             widget.CryptoTicker(
-                       background = colors[0],
+                       background = colors[10],
                        padding = 10,
                        crypto = "ADA"
                        ),
-            widget.TextBox(text = '|', background = colors[0], foreground = '474747', padding = 10, fontsize = 14),
+            widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.Systray(
-                       background = colors[0],
+                       background = colors[10],
                        padding = 5
                        ),
             widget.PulseVolume(
-                       background = colors[0],
+                       background = colors[10],
                        fmt = 'Vol: {}',
                        padding = 5
                        ),
             widget.BatteryIcon(
-                       background = colors[0],
+                       background = colors[10],
                        padding = 5,
                        scale = 1.1,
                        mouse_callbacks = {"Button1": lazy.spawn("/home/flowmis/.config/rofi/bin/menu_powermenu")}
@@ -264,9 +256,9 @@ def init_widgets_screen2():
     return widgets_screen2                 # Monitor 2 will display all widgets in widgets_list
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=30)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=1.0, size=20)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=20))]
+    return [Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=0.85, size=30)),
+            Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=0.85, size=20)),
+            Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=0.85, size=20))]
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
