@@ -178,7 +178,7 @@ def init_widgets_list():
                        ),
             widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.GroupBox(
-                       active = colors[6],
+                       active = colors[2],
                        inactive = colors[6],
                        highlight_color = colors[1],
                        highlight_method = "line",

@@ -4,14 +4,14 @@
 Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfigurationsdateien und Skripte gebildet <Space-mB> und in Ordner tangle exportiert. Der hier am Anfang vorhandene shell SourceBlock verschiebt alles aus dem tangle Ordner an die richtigen Orte (ausführbar mit <C-c C-c> mit Cursor innerhalb des SourceBlock).
 
 #+begin_src shell
-# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
+cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 # cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
 # cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
 # cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 #cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 #cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 #cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+# cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 #cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 #cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 #cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
@@ -837,7 +837,7 @@ def init_widgets_list():
                        ),
             widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.GroupBox(
-                       active = colors[6],
+                       active = colors[2],
                        inactive = colors[6],
                        highlight_color = colors[1],
                        highlight_method = "line",
