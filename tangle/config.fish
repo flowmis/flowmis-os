@@ -253,11 +253,12 @@ alias unlock='sudo rm /var/lib/pacman/db.lck'    # remove pacman lock
 alias cleanup='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
 
 # bluetooth
-alias blueon='bluetoothctl power on'
-alias bluecon='bluetoothctl connect CC:98:8B:64:28:0D'
+alias blon='bluetoothctl power on && bluetoothctl connect CC:98:8B:64:28:0D'
+alias bloff='bluetoothctl power off && bluetoothctl disconnect CC:98:8B:64:28:0D'
 
 # Passwort
 alias pass='keepassxc ~/HotPassw.kdbx'
+
 # get fastest mirrors
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
 alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
