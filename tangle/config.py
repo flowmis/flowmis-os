@@ -94,7 +94,7 @@ groups = [Group("-1-", layout='monadtall'),
 from libqtile.dgroups import simple_key_binder
 dgroups_key_binder = simple_key_binder("mod4")
 
-layout_theme = {"border_width": 2, "margin": 8, "border_focus": "e1acff", "border_normal": "1D2330"}
+layout_theme = {"border_width": 2, "margin": 8, "border_focus": "000000", "border_normal": "1D2330"}
 layouts = [
     #layout.Bsp(**layout_theme),
     #layout.Stack(stacks=2, **layout_theme),
