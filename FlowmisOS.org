@@ -32,11 +32,16 @@ echo done
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
 * TODO FlowmisOS
++ [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
+  + [ ] https://www.youtube.com/watch?v=0SI5btORaeM
+  + [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
+  + [ ] https://www.youtube.com/watch?v=LGhifbn6088
 + [ ] Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
 + [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
 + [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
 + [ ] lightdm aufhübschen
-+ [ ] git ssh und in skript mit rein
++ [ ] git ssh verstehen und in skript mit rein
+  + [ ] https://www.youtube.com/watch?v=3aKda-oXWc8
 + [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
 + [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
 + [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
@@ -46,7 +51,6 @@ echo done
   + [ ] Widgets überarbeiten
   + [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
   + [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
-  + [ ]
 + [ ] EMACS
   + [ ] config.el aufsplitten und Code + Module/Pakete erklären -> in Richtung literate Programming
 + [ ] .bashrc bashprofile und bashhistory zu configs
