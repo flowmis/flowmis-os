@@ -278,13 +278,14 @@
 (use-package ox-man)
 (use-package ox-gemini)
 (use-package ox-publish)
+;HTML PRÄSENTATIONEN
 (use-package ox-reveal
-    :ensure ox-reveal)
-    (setq org-reveal-root "https://github.com/flowmis/pres/reveal") ;ist Pfad wo ich reveal repo hin geklont hab und die css Dateien etc. sind die ich für export brauche -> "https://cdn.jsdelivr.net/npm/reveal.js" -> ist online Pfad falls offline nicht geht oder Pfadangabe auf anderen Betriebssystemen Probleme machen
-    ;(setq org-reveal-mathjax t)    ;math type ermöglicht - genauer einlesen
-    (use-package htmlize
-    :ensure t)
-
+:ensure ox-reveal) ;Kann ich weglassen wenn ich Paket in packages.el lade?
+(setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js") ;"file:///home/flowmi/Git/pres/reveal" -> ist lokaler Pfad falls ich mein pres Repo ofline geclont habe
+(setq org-reveal-mathjax t)    ;math type ermöglicht - genauer einlesen
+(use-package htmlize
+:ensure t)                    ;sorgt dafür dass Syntax highlighting etc in der HTML angezeigt wird ----beim evaluieren kommt aber irgendwie dass es ignoriert wird also kein Plan?
+;Sonstige Exporteinstellungen
 (setq org-publish-use-timestamps-flag nil)
 (setq org-export-with-broken-links t)
 
