@@ -25,9 +25,6 @@ cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
 echo done
 #+end_src
 
-#+RESULTS:
-: done
-
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
@@ -2860,6 +2857,8 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (package! org-super-agenda)
 (package! beacon)
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
+(package! org-drill) ;für zentrales scrollen im Präsi Modus
+(package! undo-tree)
 #+end_src
 * DoomEmacs init
 #+BEGIN_SRC emacs-lisp :tangle tangle/init.el

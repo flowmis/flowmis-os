@@ -74,3 +74,5 @@
 (package! org-super-agenda)
 (package! beacon)
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
+(package! org-drill) ;für zentrales scrollen im Präsi Modus
+(package! undo-tree)
