@@ -1,3 +1,6 @@
+(undo-tree-auto-save-history t)
+(undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history")))
+
 (setq org-log-into-drawer 1)    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
 
 (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
