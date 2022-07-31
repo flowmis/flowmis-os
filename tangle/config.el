@@ -1,5 +1,5 @@
-(undo-tree-auto-save-history t)
-(undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history")))
+(setq undo-tree-auto-save-history t)
+(setq undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history")))
 
 (setq org-log-into-drawer 1)    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
 
