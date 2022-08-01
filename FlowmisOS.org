@@ -25,9 +25,6 @@ cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
 echo done
 #+end_src
 
-#+RESULTS:
-: done
-
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
@@ -2345,6 +2342,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
 (global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert immer weiter nach aussen mit jedem aufrufen der Funktion -> Wort -> Anführungsstriche -> Klammer -> Funktion -> Abschnit,.... --> Macht es einem leicht bestimmte Bereiche schnell zu markieren!!!
+(global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring in mini buffer und man kann auswählen was man einfügen will
 ;; (use-package multiple-cursors        ;Habe das Paket von hlissner in init.el aktiviert weil ich es besser finde!
 ;;   :config
 ;;   (setq mc/always-run-for-all 1)
