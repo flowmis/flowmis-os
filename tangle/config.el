@@ -1,11 +1,14 @@
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history")))
+
 (setq save-interprogram-paste-before-kill t) ; Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
+
 (setq org-log-into-drawer 1)    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
 
 (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
 
 (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
+
 (setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
 (global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert immer weiter nach aussen mit jedem aufrufen der Funktion -> Wort -> Anführungsstriche -> Klammer -> Funktion -> Abschnit,.... --> Macht es einem leicht bestimmte Bereiche schnell zu markieren!!!
