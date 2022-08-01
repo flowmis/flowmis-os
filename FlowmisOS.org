@@ -2344,7 +2344,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
 (setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
 (global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
-
+(global-set-key (kbd "C-c v") 'er/expand-region)
 ;; (use-package multiple-cursors        ;Habe das Paket von hlissner in init.el aktiviert weil ich es besser finde!
 ;;   :config
 ;;   (setq mc/always-run-for-all 1)
