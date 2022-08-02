@@ -4,7 +4,7 @@
 Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfigurationsdateien und Skripte gebildet <Space-mB> und in Ordner tangle exportiert. Der hier am Anfang vorhandene shell SourceBlock verschiebt alles aus dem tangle Ordner an die richtigen Orte (ausführbar mit <C-c C-c> mit Cursor innerhalb des SourceBlock).
 
 #+begin_src shell
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
+# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
 # cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
 cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
@@ -560,7 +560,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
          Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
          Key([mod], "c", lazy.window.kill(), desc='Kill active window'),
-         Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'),
+         Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
          Key([mod], "r", lazy.restart(), desc='Restart Qtile'),
          Key([mod], "q", lazy.shutdown(), desc='Shutdown Qtile'),
          ### Treetab controls
