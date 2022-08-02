@@ -87,37 +87,6 @@
 ;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
 ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 
-(defun dt/year-calendar (&optional year)
-  (interactive)
-  (require 'calendar)
-  (let* (
-      (current-year (number-to-string (nth 5 (decode-time (current-time)))))
-      (month 0)
-      (year (if year year (string-to-number (format-time-string "%Y" (current-time))))))
-    (switch-to-buffer (get-buffer-create calendar-buffer))
-    (when (not (eq major-mode 'calendar-mode))
-      (calendar-mode))
-    (setq displayed-month month)
-    (setq displayed-year year)
-    (setq buffer-read-only nil)
-    (erase-buffer)
-    ;; horizontal rows
-    (dotimes (j 4)
-      ;; vertical columns
-      (dotimes (i 3)
-        (calendar-generate-month
-          (setq month (+ month 1))
-          year
-          ;; indentation / spacing between months
-          (+ 5 (* 25 i))))
-      (goto-char (point-max))
-      (insert (make-string (- 10 (count-lines (point-min) (point-max))) ?\n))
-      (widen)
-      (goto-char (point-max))
-      (narrow-to-region (point-max) (point-max)))
-    (widen)
-    (goto-char (point-min))
-    (setq buffer-read-only t)))
 
 ;; (setq centaur-tabs-set-bar 'over
 ;;       centaur-tabs-set-icons t

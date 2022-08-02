@@ -6,7 +6,7 @@ Diese Datei dient der Übersicht über FlowmisOS. Von hier aus werden die Konfig
 #+begin_src shell
 # cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
-# cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
+cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
 cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 #cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 #cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
@@ -2424,37 +2424,6 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 ;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
 ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 
-(defun dt/year-calendar (&optional year)
-  (interactive)
-  (require 'calendar)
-  (let* (
-      (current-year (number-to-string (nth 5 (decode-time (current-time)))))
-      (month 0)
-      (year (if year year (string-to-number (format-time-string "%Y" (current-time))))))
-    (switch-to-buffer (get-buffer-create calendar-buffer))
-    (when (not (eq major-mode 'calendar-mode))
-      (calendar-mode))
-    (setq displayed-month month)
-    (setq displayed-year year)
-    (setq buffer-read-only nil)
-    (erase-buffer)
-    ;; horizontal rows
-    (dotimes (j 4)
-      ;; vertical columns
-      (dotimes (i 3)
-        (calendar-generate-month
-          (setq month (+ month 1))
-          year
-          ;; indentation / spacing between months
-          (+ 5 (* 25 i))))
-      (goto-char (point-max))
-      (insert (make-string (- 10 (count-lines (point-min) (point-max))) ?\n))
-      (widen)
-      (goto-char (point-max))
-      (narrow-to-region (point-max) (point-max)))
-    (widen)
-    (goto-char (point-min))
-    (setq buffer-read-only t)))
 
 ;; (setq centaur-tabs-set-bar 'over
 ;;       centaur-tabs-set-icons t
@@ -2971,7 +2940,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
-       ;;pdf               ; pdf enhancements
+       pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
@@ -3049,7 +3018,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
        ;;(wanderlust +gmail)
 
        :app
-       ;;calendar
+       calendar
        ;;emms
        ;;everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
