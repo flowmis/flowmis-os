@@ -3094,7 +3094,8 @@ picom -f &                                          # setzt Einstellungen des Co
 #chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
 gtk-launch dropbox.desktop &
 gtk-launch nm-applet.desktop &
-gtk-launch volumeicon.desktop
+gtk-launch volumeicon.desktop &
+emacsclient -c                                      #
 #+end_src
 
 
