@@ -66,6 +66,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
          Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
          Key([mod], "c", lazy.window.kill(), desc='Kill active window'),
+         Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'),
          Key([mod], "r", lazy.restart(), desc='Restart Qtile'),
          Key([mod], "q", lazy.shutdown(), desc='Shutdown Qtile'),
          ### Treetab controls
