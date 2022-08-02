@@ -170,7 +170,7 @@
 
        :email
        mu4e
-       ;;smtpmail
+       smtpmail
        ;;notmuch
        ;;(wanderlust +gmail)
 

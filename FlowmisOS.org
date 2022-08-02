@@ -3013,7 +3013,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 
        :email
        mu4e
-       ;;smtpmail
+       smtpmail
        ;;notmuch
        ;;(wanderlust +gmail)
 
