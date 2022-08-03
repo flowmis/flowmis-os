@@ -1,6 +1,8 @@
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history")))
 
+(pdf-tools-install t)                   ; Vll brauch ich es nicht, aber sollte dafür sorgen dass statt docview der pdfview aktiviert ist beim öffnen von pdfs sodass ich suchen, markieren etc. kann mit den pdf-tools!
+
 (setq save-interprogram-paste-before-kill t) ; Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
 
 (setq org-log-into-drawer 1)    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
