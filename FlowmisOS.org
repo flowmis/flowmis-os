@@ -2842,6 +2842,7 @@ Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und 
 (package! beacon)
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
 (package! org-drill) ;für zentrales scrollen im Präsi Modus
+(package! ag)
 #+end_src
 * DoomEmacs init
 #+BEGIN_SRC emacs-lisp :tangle tangle/init.el
