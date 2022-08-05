@@ -77,3 +77,5 @@
 (package! org-drill) ;für zentrales scrollen im Präsi Modus
 (package! ag)
 (package! eyebrowse)
+(package! powerthesaurus) ;geht bisher nur auf Englisch
+(package! synosaurus) ;geht bisher nicht
