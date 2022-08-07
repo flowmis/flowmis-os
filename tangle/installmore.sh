@@ -10,5 +10,5 @@ git clone https://aur.archlinux.org/yay-git.git
 cd yay-git/
 makepkg -si
 yay -Syu
-yay -S dropbox
+yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git
 #python müsste durch qtile bereits installiert worden sein

@@ -195,8 +195,8 @@ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen   # sucht eine
 locale-gen                                                          # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                  # verschiebt vorab erstellte Datei
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel lightdm lightdm-gtk-greeter qtile
-systemctl enable NetworkManager lightdm                             # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel sddm qtile
+systemctl enable NetworkManager sddm                                # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
 mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
 mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
 grub-install                                                        # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
@@ -264,7 +264,7 @@ git clone https://aur.archlinux.org/yay-git.git
 cd yay-git/
 makepkg -si
 yay -Syu
-yay -S dropbox
+yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git
 #python müsste durch qtile bereits installiert worden sein
 #+end_src
 
@@ -347,6 +347,13 @@ Section "InputClass"
         Option "SoftButtonAreas" "0 0 0 0 0 0 0 0"
 EndSection
 #+end_src
+* Login Manager
+- Ich verwende sddm da es hier viele schöne Themes gibt und es wenig dependencies aufweist.
+- Nach der Installation ist der Standard Login Screen aktivier!
+- In meinem installmore skript habe ich das sugar-dark theme zum herunterladen -> mit yay kann ich viele weiter themes downloaden!
+- Einstellen kann ich das Theme durch ~sudo archlinux-tweak-tool~ oder hier: ~sudo nvim /etc/sddm.conf.d/kde_settings.conf~ unter Current -> Current=sugar-dark
+- Einstellen kann ich das Hintergrund von diesem Theme z.B. unter: ~/usr/share/sddm/themes/sugar-dark/theme.conf~
+- eventuell Einstellungen automatisiert bei Installation schreiben (kann je nach Änderungen aber vll Probleme machen)
 
 * Setup Linux
 *** Programme
@@ -377,6 +384,7 @@ EndSection
 |                                                         |                                                                                         | https://www.vultr.com/docs/using-makepkg-on-arch-linux                             |
 | Backup                                                  | Timeshift (Backup und Rollback automation)                                              |                                                                                    |
 | Musik hören/downloaden ohne Werbung                     | Nuclear Music Streaming App for Windows, Linux, Mac                                     | bissl im Graubereich aber nicer shit (siehe Video von DT)                          |
+| LoginManager                                            | sddm, lightdm                                                                           | sddm wird aktiver weiterentwickelt als lightdm                                     |
 | Spiele                                                  | Steam                                                                                   |                                                                                    |
 | Multimediaplattform                                     | Kodi                                                                                    | Filme, Serien, Musik, Fernsehen und vieles mehr                                    |
 | Ebook Manager und Reader                                | Calibre                                                                                 |                                                                                    |
