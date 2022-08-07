@@ -1,3 +1,4 @@
+(setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history")))
 

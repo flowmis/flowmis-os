@@ -10,7 +10,7 @@ cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
 cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
 #cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 #cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
-#cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 # cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 #cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 #cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
@@ -2337,6 +2337,7 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 Credits an DT geben da fast alles von ihm ist oder halt vom Doom Emacs Team und bissl was von SystemCrafter
 
 #+begin_src emacs-lisp :tangle tangle/config.el
+(setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history")))
 
