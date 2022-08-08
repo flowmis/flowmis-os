@@ -13,10 +13,10 @@ cd ~
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
 ~/.emacs.d/bin/doom install
-sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop lightdm-gtk-greeter-settings
+sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
 sudo pip install jupyter notebook
 ~/.emacs.d/bin/doom doctor
-mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
+mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm}
 cd ~/.config/rofi
 git clone --depth=1 https://github.com/adi1090x/rofi.git
 cd rofi
@@ -25,5 +25,5 @@ cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
 cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
 cd ~/.config/rofi/
 rm -rf rofi/
-sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en the-silver_searcher ditaa
+sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa
 yay -S date termite

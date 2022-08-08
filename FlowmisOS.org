@@ -221,10 +221,10 @@ cd ~
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
 ~/.emacs.d/bin/doom install
-sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop lightdm-gtk-greeter-settings
+sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
 sudo pip install jupyter notebook
 ~/.emacs.d/bin/doom doctor
-mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,dmlight,pcmanfm}
+mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm}
 cd ~/.config/rofi
 git clone --depth=1 https://github.com/adi1090x/rofi.git
 cd rofi
@@ -233,11 +233,9 @@ cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
 cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
 cd ~/.config/rofi/
 rm -rf rofi/
-sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en the-silver_searcher ditaa
+sudo pacman -S python-utils brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa
 yay -S date termite
 #+end_src
-
-- Dank the-silver-searcher kann ich in einem Ordner alle Dateien auf ihren Inhalt hin untersuchen -> im Terminal in Ordner navigieren und dort ~ag "Suchbegriff"~ eingeben um dann die Dateien mit Kontext angezeigt zu bekommen die den Suchbegriff beinhalten
 
 ** Skript 3: Installiere alle meine Programme
   - noch so gestalten dass ich alles leicht uncommenten kann ?
@@ -258,7 +256,7 @@ git clone https://github.com/flowmis/Kivy.git
 git clone https://github.com/flowmis/Sonstiges.git
 git clone https://github.com/flowmis/Beachvolleyballfeld.git
 sudo pacman -Syu
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot lxappearance qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next
 cd ~/Downloads
 git clone https://aur.archlinux.org/yay-git.git
 cd yay-git/
