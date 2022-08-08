@@ -75,7 +75,6 @@
 (package! beacon)
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
 (package! org-drill) ;für zentrales scrollen im Präsi Modus
-(package! ag)
 (package! rg)
 (package! eyebrowse)
 (package! powerthesaurus) ;geht bisher nur auf Englisch

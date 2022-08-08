@@ -495,7 +495,6 @@ EndSection
     ## These don't necessarily need to translate anything. You can enter whatever you want here.
     #+end_src
 
-
 * Setup Linux
 *** Programme
 | Kategorie                                               | Programme                                                                               | Zusatzinfo                                                                         |
@@ -2954,9 +2953,6 @@ Version 2019-11-04"
          (org-tree-slide-stop . pres-end)))
 #+end_src
 
-#+RESULTS:
-| efs/presentation-end |
-
 * DoomEmacs packages
 #+BEGIN_SRC emacs-lisp :tangle tangle/packages.el
 ;; Um ein neues Packet zu installieren muss man es hier einfügen und doomsync ausführen & restarten
@@ -3036,7 +3032,6 @@ Version 2019-11-04"
 (package! beacon)
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
 (package! org-drill) ;für zentrales scrollen im Präsi Modus
-(package! ag)
 (package! rg)
 (package! eyebrowse)
 (package! powerthesaurus) ;geht bisher nur auf Englisch
