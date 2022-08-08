@@ -355,7 +355,8 @@ EndSection
 - Einstellen kann ich das Hintergrund von diesem Theme z.B. unter: ~/usr/share/sddm/themes/sugar-dark/theme.conf~
 - eventuell Einstellungen automatisiert bei Installation schreiben (kann je nach Änderungen aber vll Probleme machen)
 - Bilder:
-  ~sudo cp //home/flowmis/FlowmisOS/Backgrounds/ /usr/share/sddm/themes/Sugar-Candy/BackgroundsMane/~
+  - ~sudo cp //home/flowmis/FlowmisOS/Backgrounds/ /usr/share/sddm/themes/Sugar-Candy/BackgroundsMane/~
+  - anschließend in die config des Themes in diesem Ordner den Namen des gewünschten Bildes/Pfads eintragen
 - momentane theme config unter ~cd /usr/share/sddm/themes/Sugar-Candy/theme.conf~
     #+begin_src  :tangle no
     [General]
@@ -3038,6 +3039,7 @@ Version 2019-11-04"
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
 (package! org-drill) ;für zentrales scrollen im Präsi Modus
 (package! ag)
+(package! rg)
 (package! eyebrowse)
 (package! powerthesaurus) ;geht bisher nur auf Englisch
 (package! synosaurus) ;geht bisher nicht
