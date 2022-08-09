@@ -1,18 +1,29 @@
-;; Um ein neues Packet zu installieren muss man es hier einfügen und doomsync ausführen & restarten
-;; Von MELPA, ELPA or emacsmirror kann man Packete installieren indem man some-package ersetzt mit dem gewünschten Packet:
+;; -*- no-byte-compile: t; -*-
+;;; $DOOMDIR/packages.el
+
+;; To install a package with Doom you must declare them here and run 'doom sync'
+;; on the command line, then restart Emacs for the changes to take effect -- or
+;; use 'M-x doom/reload'.
+
+
+;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
-;; Man kann aber auch von remote git repo installieren indem man folgendes beachtet
-;; Mit `:recipe' arbeiten. Dokumentation was beachtet werden muss: https://github.com/raxod502/straight.el#the-recipe-format
+;; To install a package directly from a remote git repo, you must specify a
+;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
+;; https://github.com/radian-software/straight.el#the-recipe-format
 ;(package! another-package
 ;  :recipe (:host github :repo "username/repo"))
 
-;; Ist dort kein PACKAGENAME.el im repo enthalten, oder in subdirectory muss man mit :files genauer spezifizieren
+;; If the package you are trying to install does not contain a PACKAGENAME.el
+;; file, or is located in a subdirectory of the repo, you'll need to specify
+;; `:files' in the `:recipe':
 ;(package! this-package
 ;  :recipe (:host github :repo "username/repo"
 ;           :files ("some-file.el" "src/lisp/*.el")))
 
-;; Mit `:disable' kann man ein in Doom beinhaltetes Paket ausschalten:
+;; If you'd like to disable a package included with Doom, you can do so here
+;; with the `:disable' property:
 ;(package! builtin-package :disable t)
 
 ;; You can override the recipe of a built in package without having to specify
@@ -23,7 +34,7 @@
 
 ;; Specify a `:branch' to install a package from a particular branch or tag.
 ;; This is required for some packages whose default branch isn't 'master' (which
-;; our package manager can't deal with; see raxod502/straight.el#279)
+;; our package manager can't deal with; see radian-software/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 
 ;; Use `:pin' to specify a particular commit to install.
@@ -43,39 +54,39 @@
 (package! gitignore-mode
 	  :recipe (:host github :repo "magit/git-modes"
 			 :files ("gitignore-mode.el")))
-(package! flycheck-aspell)
-(package! async)
-(package! calfw)
-(package! calfw-org)
-(package! dashboard)
+;; (package! flycheck-aspell)
+;; (package! async)
+;; (package! calfw)
+;; (package! calfw-org)
+;; (package! dashboard)
 (package! dired-open)
-(package! elpher)
-(package! emojify)
-(package! evil-tutor)
-(package! ivy-posframe)
+;; (package! elpher)
+;; (package! emojify)
+;; (package! evil-tutor)
+;; (package! ivy-posframe)
 (package! org-bullets)
-(package! ox-gemini)
-(package! peep-dired)
-(package! password-store)
-(package! rainbow-mode)
-(package! resize-window)
-(package! tldr)
-(package! wc-mode)
-(package! hide-mode-line)
+;; (package! ox-gemini)
+;; (package! peep-dired)
+;; (package! password-store)
+;; (package! rainbow-mode)
+;; (package! resize-window)
+;; (package! tldr)
+;; (package! wc-mode)
+;; (package! hide-mode-line)
 (package! org-tree-slide)
-(package! ox-reveal)
-(package! org-ref)
-(package! ivy-bibtex)
-(package! org-roam)
-(unpin! org-roam)
-(package! org-roam-ui)
-(package! org-noter)
+;; (package! ox-reveal)
+;; (package! org-ref)
+;; (package! ivy-bibtex)
+;; (package! org-roam)
+;; (unpin! org-roam)
+;; (package! org-roam-ui)
+;; (package! org-noter)
 (package! org-pdftools)
-(package! org-super-agenda)
-(package! beacon)
+;; (package! org-super-agenda)
+;; (package! beacon)
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
 (package! org-drill) ;für zentrales scrollen im Präsi Modus
 (package! rg)
-(package! eyebrowse)
-(package! powerthesaurus) ;geht bisher nur auf Englisch
-(package! synosaurus) ;geht bisher nicht
+;; (package! eyebrowse)
+;; (package! powerthesaurus) ;geht bisher nur auf Englisch
+;; (package! synosaurus) ;geht bisher nicht
