@@ -1,103 +1,13 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 (setq user-full-name "Markus Hoffmann"
-      user-mail-address "manemarkushoffmann@gmail.com") ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
-(global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
-(global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
-(map! :leader
-      :desc "Org babel tangle" "m B" #'org-babel-tangle
-      :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window
-      (:prefix ("-" . "open file")
-       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"))
-       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
-       :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
-       :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
-       :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
-       :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
-       :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
-      (:prefix ("e". "evaluate/EWW")
-       :desc "Evaluate elisp in buffer" "b" #'eval-buffer
-       :desc "Evaluate defun" "d" #'eval-defun
-       :desc "Evaluate elisp expression" "e" #'eval-expression
-       :desc "Evaluate last sexpression" "l" #'eval-last-sexp
-       :desc "Evaluate elisp in region" "r" #'eval-region)
-      (:prefix ("w" . "window")
-       :desc "Winner redo" "<right>" #'winner-redo
-       :desc "Winner undo" "<left>" #'winner-undo)
-                )
-
-(use-package dashboard
-  :init      ;; tweak dashboard config before loading it
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-  (setq dashboard-startup-banner "~/.config/doom/banner/banner.png")  ;; use custom image as banner
-  (setq dashboard-center-content nil) ;; set to 't' for centered content
-  (setq dashboard-items '((recents . 5)
-                          (agenda . 5)
-                          (bookmarks . 3)
-                          (projects . 3)))
-  :config
-  (dashboard-setup-startup-hook)
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book"))))
-
-(setq doom-fallback-buffer "*dashboard*")
-
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;; See 'C-h v doom-font' for documentation and more examples of what they accept. For example:
-(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-     doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-(custom-set-faces     ;; Größe org-mode Überschriften
-  '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
-  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
-  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
-  '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-  '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
-)
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-;; (setq doom-theme 'doom-one)
-;; This is mine
-(setq doom-theme 'doom-molokai)
-;; (map! :leader   ;;mittlerweile bereits vorhandenes keybinding dass ich nicht selbst setzen muss?
-;;       :desc "Load new theme" "h t" #'counsel-load-theme)
-(after! doom-themes
-  (setq doom-themes-enable-bold t               ;standardmäßig auf t
-        doom-themes-enable-italic t))           ;standardmäßig auf t
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)       ;???
-  '(font-lock-keyword-face :slant italic))      ;???
-(use-package org-bullets
-      :ensure t
-      :config
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-(use-package hide-mode-line)
-
-(setq display-line-numbers-type t) ;; This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
-(map! :leader
-      :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
-      (:prefix ("t" . "toggle")
-       :desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
-       :desc "Toggle line highlight in frame" "h" #'hl-line-mode
-       :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
-       :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
-;; (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
-
-(set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-
-;; If you use `org' and don't want your org files in the default location (~/org/) change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/emacs/org-roam/Notizen/"
+      user-mail-address "manemarkushoffmann@gmail.com" ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
+      eshell-rc-script "~/.config/doom/eshell/profile"
+      eshell-aliases-file "~/.config/doom/eshell/aliases"
+      eshell-buffer-maximum-lines 5000
+      eshell-scroll-to-bottom-on-input t)
+(after! org
+  (setq
+      org-directory "~/Dropbox/emacs/org-roam/Notizen/"
       org-agenda-files '("~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org")
       org-default-notes-file (expand-file-name "notes.org" org-directory)
       org-ellipsis " ▼ "
@@ -128,7 +38,140 @@
            "|"                 ; The pipe necessary to separate "active" states and "inactive" states
            "BEENDET(b@/!)"
            "ABGEBROCHEN(a@/!)"
-           "DELEGIERT(d@/!)")))
+           "DELEGIERT(d@/!)"))))
+(after! yas
+  :config
+  (yas/initialize)
+  (setq yas/root-directory "~/Dropbox/emacs/yasnippets/")
+  (yas/load-directory yas/root-directory)
+  (add-to-list 'load-path "~/Dropbox/emacs/yasnippets/")
+  (require 'yasnippet)
+  (setq yas-snippet-dirs '("~/Dropbox/emacs/yasnippets/"))             ;gleichen Dropbox Ordner angeben wie für Orga.org um dort die Snippets zu speichern
+  (yas-global-mode 1))
+(after! org
+  :init      ;; tweak dashboard config before loading it
+  (setq dashboard-set-heading-icons t)
+  (setq display-line-numbers nil)
+  (setq dashboard-set-file-icons t)
+  ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+  (setq dashboard-startup-banner "~/.config/doom/banner/banner.png")  ;; use custom image as banner
+  (setq dashboard-center-content nil) ;; set to 't' for centered content
+  (setq dashboard-items '((recents . 5)
+                          (agenda . 5)
+                          (bookmarks . 3)
+                          (projects . 3)))
+  (setq doom-fallback-buffer-name "*dashboard*")
+  :config
+  (dashboard-setup-startup-hook)
+  (dashboard-modify-heading-icons '((recents . "file-text")
+                                    (bookmarks . "book"))))
+(after! dired
+  :hook
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; With dired-open plugin, you can launch external programs for certain extensions
+;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
+  :config
+  (setq dired-open-extensions '(("gif" . "vlc")           ;Mit Enter auf Datei in dired mit dieser Endung wird angegebenes externes Programm zum öffnen verwendet!
+                              ("jpg" . "pinta")
+                              ("png" . "viewnior")
+                              ("mkv" . "vlc")
+                              ("mp4" . "vlc"))))
+
+(setq doom-font (font-spec :family "Source Code Pro" :size 13)
+     doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)
+     doom-big-font (font-spec :family "Source Code Pro" :size 20)
+     doom-unicode-font (font-spec :family "Source Code Pro" :size 10)
+     doom-serif-font (font-spec :family "Source Code Pro" :size 10)
+     )
+(setq doom-theme 'doom-molokai)
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)       ;Macht Kommentare wie diesen kursiv
+  '(font-lock-keyword-face :slant italic))      ;Macht Keywords wie setq, after! ... kursiv
+(after! doom-themes
+      :config
+      (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+      (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
+      (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
+                        '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
+                        '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
+                        '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+                        '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
+      ;; (setq display-line-numbers-type 'visual)
+      (setq display-line-numbers-type nil)
+      )
+
+(global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
+(global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
+(map! :leader
+       :desc "Org babel tangle" "m B" #'org-babel-tangle
+       :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window
+       :desc "Eshell" "e s" #'eshell
+       :desc "Counsel eshell history" "e h" #'counsel-esh-history
+      (:prefix ("-" . "open file")
+       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"))
+       :desc "Edit doom config.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
+       :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
+       :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
+       :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
+       :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+       :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
+      (:prefix ("e". "evaluate/EWW")
+       :desc "Evaluate elisp in buffer" "b" #'eval-buffer
+       :desc "Evaluate defun" "d" #'eval-defun
+       :desc "Evaluate elisp expression" "e" #'eval-expression
+       :desc "Evaluate last sexpression" "l" #'eval-last-sexp
+       :desc "Evaluate elisp in region" "r" #'eval-region)
+      (:prefix ("w" . "window")
+       :desc "Winner undo" "<left>" #'winner-undo ;schaut was die letzte Window configuration war und geht dahin zurück
+       :desc "Winner redo" "<right>" #'winner-redo) ;geht in andere Richtung wie winner-undo
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump)
+       :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
+      (:prefix ("t" . "toggle")
+       :desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
+       :desc "Toggle line highlight in frame" "h" #'hl-line-mode
+       :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
+       :desc "Toggle truncate lines" "t" #'toggle-truncate-lines)
+      (:prefix ("r" . "registers")
+       :desc "Copy to register" "c" #'copy-to-register
+       :desc "Frameset to register" "f" #'frameset-to-register
+       :desc "Insert contents of register" "i" #'insert-register
+       :desc "Jump to register" "j" #'jump-to-register
+       :desc "List registers" "l" #'list-registers
+       :desc "Number to register" "n" #'number-to-register
+       :desc "Interactively choose a register" "r" #'counsel-register
+       :desc "View a register" "v" #'view-register
+       :desc "Window configuration to register" "w" #'window-configuration-to-register
+       :desc "Increment register" "+" #'increment-register
+       :desc "Point to register" "SPC" #'point-to-register)
+      (:prefix ("b". "buffer")
+       :desc "List bookmarks" "L" #'list-bookmarks
+       :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save)
+)
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-chmod
+  (kbd "O") 'dired-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-up-directory
+  (kbd "% l") 'dired-downcase
+  (kbd "% u") 'dired-upcase
+  (kbd "; d") 'epa-dired-do-decrypt
+  (kbd "; e") 'epa-dired-do-encrypt)
 
 ;; (use-package! websocket
 ;;     :after org-roam)
@@ -258,89 +301,6 @@
 ;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
 ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 
-;; (defun xah-open-in-external-app (&optional @fname)
-;;   "Open the current file or dired marked files in external app.
-;; The app is chosen from your OS's preference.
-
-;; When called in emacs lisp, if @fname is given, open that.
-
-;; URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
-;; Version 2019-11-04"
-;;   (interactive)
-;;   (let* (
-;;          ($file-list
-;;           (if @fname
-;;               (progn (list @fname))
-;;             (if (string-equal major-mode "dired-mode")
-;;                 (dired-get-marked-files)
-;;               (list (buffer-file-name)))))
-;;          ($do-it-p (if (<= (length $file-list) 5)
-;;                        t
-;;                      (y-or-n-p "Open more than 5 files? "))))
-;;     (when $do-it-p
-;;       (cond
-;;        ((string-equal system-type "windows-nt")
-;;         (mapc
-;;          (lambda ($fpath)
-;;            (w32-shell-execute "open" $fpath)) $file-list))
-;;        ((string-equal system-type "darwin")
-;;         (mapc
-;;          (lambda ($fpath)
-;;            (shell-command
-;;             (concat "open " (shell-quote-argument $fpath))))  $file-list))
-;;        ((string-equal system-type "gnu/linux")
-;;         (mapc
-;;          (lambda ($fpath) (let ((process-connection-type nil))
-;;                             (start-process "" nil "xdg-open" $fpath))) $file-list))))))
-
-;; (global-set-key (kbd "C-c o") 'xah-open-in-external-app)
-
-(map! :leader
-      (:prefix ("d" . "dired")
-       :desc "Open dired" "d" #'dired
-       :desc "Dired jump to current" "j" #'dired-jump)
-      (:after dired
-       (:map dired-mode-map
-        :desc "Peep-dired image previews" "d p" #'peep-dired
-        :desc "Dired view file" "d v" #'dired-view-file)))
-;; Make 'h' and 'l' go back and forward in dired. Much faster to navigate the directory structure!
-(evil-define-key 'normal dired-mode-map
-  (kbd "M-RET") 'dired-display-file
-  (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
-  (kbd "m") 'dired-mark
-  (kbd "t") 'dired-toggle-marks
-  (kbd "u") 'dired-unmark
-  (kbd "C") 'dired-do-copy
-  (kbd "D") 'dired-do-delete
-  (kbd "J") 'dired-goto-file
-  (kbd "M") 'dired-chmod
-  (kbd "O") 'dired-chown
-  (kbd "P") 'dired-do-print
-  (kbd "R") 'dired-rename
-  (kbd "T") 'dired-do-touch
-  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
-  (kbd "+") 'dired-create-directory
-  (kbd "-") 'dired-up-directory
-  (kbd "% l") 'dired-downcase
-  (kbd "% u") 'dired-upcase
-  (kbd "; d") 'epa-dired-do-decrypt
-  (kbd "; e") 'epa-dired-do-encrypt)
-;; If peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
-(evil-define-key 'normal peep-dired-mode-map
-  (kbd "j") 'peep-dired-next-file
-  (kbd "k") 'peep-dired-prev-file)
-(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
-;; Get file icons in dired
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-;; With dired-open plugin, you can launch external programs for certain extensions
-;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
-(setq dired-open-extensions '(("gif" . "sxiv")
-                              ("jpg" . "sxiv")
-                              ("png" . "sxiv")
-                              ("mkv" . "mpv")
-                              ("mp4" . "mpv")))
-
 (defun activate-ditaa-path ()
  (interactive)
  (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar"))
@@ -371,17 +331,7 @@
 ;; (remove-hook 'text-mode-hook #'spell-fu-mode)
 ;; (setq global-spell-fu-mode 0)
 
-(use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/Dropbox/emacs/yasnippets/"))             ;gleichen Dropbox Ordner angeben wie für Orga.org um dort die Snippets zu speichern
-  (yas-global-mode 1))
-(add-hook 'yas-minor-mode-hook(lambda()
-                                (yas-activate-extra-mode 'fundamental-mode)))
 
-(map! :leader
-      (:prefix ("b". "buffer")
-       :desc "List bookmarks" "L" #'list-bookmarks
-       :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
 ;; (after! neotree
 ;;   (setq neo-smart-open t
@@ -438,42 +388,3 @@
 ;Sonstige Exporteinstellungen
 (setq org-publish-use-timestamps-flag nil)
 (setq org-export-with-broken-links t)
-
-(map! :leader
-      (:prefix ("r" . "registers")
-       :desc "Copy to register" "c" #'copy-to-register
-       :desc "Frameset to register" "f" #'frameset-to-register
-       :desc "Insert contents of register" "i" #'insert-register
-       :desc "Jump to register" "j" #'jump-to-register
-       :desc "List registers" "l" #'list-registers
-       :desc "Number to register" "n" #'number-to-register
-       :desc "Interactively choose a register" "r" #'counsel-register
-       :desc "View a register" "v" #'view-register
-       :desc "Window configuration to register" "w" #'window-configuration-to-register
-       :desc "Increment register" "+" #'increment-register
-       :desc "Point to register" "SPC" #'point-to-register))
-
-(setq eshell-rc-script "~/.config/doom/eshell/profile"
-      eshell-aliases-file "~/.config/doom/eshell/aliases"
-      eshell-history-size 5000
-      eshell-buffer-maximum-lines 5000
-      eshell-hist-ignoredups t
-      eshell-scroll-to-bottom-on-input t
-      eshell-destroy-buffer-when-process-dies t
-      eshell-visual-commands'("bash" "htop" "ssh" "top" "zsh"))
-(map! :leader
-      :desc "Eshell" "e s" #'eshell
-      :desc "Counsel eshell history" "e h" #'counsel-esh-history)
-
-;; (use-package emojify
-;;   :hook (after-init . global-emojify-mode))
-;; (xterm-mouse-mode 1)
-;; (use-package ox-man)
-;; (use-package ox-gemini)
-;; (use-package ox-publish)
-;; (use-package! password-store)
-
-;; (defun prefer-horizontal-split ()
-;;   (set-variable 'split-height-threshold nil t)
-;;   (set-variable 'split-width-threshold 40 t)) ; make this as low as needed
-;; (add-hook 'markdown-mode-hook 'prefer-horizontal-split)
