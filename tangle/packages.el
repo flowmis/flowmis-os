@@ -48,12 +48,12 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! gitconfig-mode
-	  :recipe (:host github :repo "magit/git-modes"
-			 :files ("gitconfig-mode.el")))
-(package! gitignore-mode
-	  :recipe (:host github :repo "magit/git-modes"
-			 :files ("gitignore-mode.el")))
+;; (package! gitconfig-mode
+;; 	  :recipe (:host github :repo "magit/git-modes"
+;; 			 :files ("gitconfig-mode.el")))
+;; (package! gitignore-mode
+;; 	  :recipe (:host github :repo "magit/git-modes"
+;; 			 :files ("gitignore-mode.el")))
 ;; (package! flycheck-aspell)
 ;; (package! async)
 ;; (package! calfw)
@@ -64,7 +64,7 @@
 ;; (package! emojify)
 ;; (package! evil-tutor)
 ;; (package! ivy-posframe)
-(package! org-bullets)
+;; (package! org-bullets)
 ;; (package! ox-gemini)
 ;; (package! peep-dired)
 ;; (package! password-store)
@@ -81,7 +81,7 @@
 ;; (unpin! org-roam)
 ;; (package! org-roam-ui)
 ;; (package! org-noter)
-(package! org-pdftools)
+;; (package! org-pdftools)
 ;; (package! org-super-agenda)
 ;; (package! beacon)
 (package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus

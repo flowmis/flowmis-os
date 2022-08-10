@@ -1,37 +1,30 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-;; Remember, you do not need to run 'doom sync' after modifying this file!
-;; Some functionality uses this config to identify you, e.g. GPG configuration, email clients, file templates and snippets. It is optional but set name, email,... in this file
 (setq user-full-name "Markus Hoffmann"
-      user-mail-address "manemarkushoffmann@gmail.com")
-(global-set-key (kbd "M-v") 'er/expand-region) ;markiert immer weiter nach aussen mit jedem aufrufen der Funktion -> Wort -> Anführungsstriche -> Klammer -> Funktion -> Abschnit,.... --> Macht es einem leicht bestimmte Bereiche schnell zu markieren!!!
-(global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring in mini buffer und man kann auswählen was man einfügen will
+      user-mail-address "manemarkushoffmann@gmail.com") ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
+(global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
+(global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
 (map! :leader
+      :desc "Org babel tangle" "m B" #'org-babel-tangle
+      :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window
       (:prefix ("-" . "open file")
        :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"))
-       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
        :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
-       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
-       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
-
-(map! :leader
-      :desc "Org babel tangle" "m B" #'org-babel-tangle)
-
-(map! :leader
+       :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
+       :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+       :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
       (:prefix ("e". "evaluate/EWW")
        :desc "Evaluate elisp in buffer" "b" #'eval-buffer
        :desc "Evaluate defun" "d" #'eval-defun
        :desc "Evaluate elisp expression" "e" #'eval-expression
        :desc "Evaluate last sexpression" "l" #'eval-last-sexp
-       :desc "Evaluate elisp in region" "r" #'eval-region))
-
-(map! :leader
-      :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window)
-
-(map! :leader
+       :desc "Evaluate elisp in region" "r" #'eval-region)
       (:prefix ("w" . "window")
        :desc "Winner redo" "<right>" #'winner-redo
-       :desc "Winner undo" "<left>" #'winner-undo))
+       :desc "Winner undo" "<left>" #'winner-undo)
+                )
+
 (use-package dashboard
   :init      ;; tweak dashboard config before loading it
   (setq dashboard-set-heading-icons t)
@@ -99,7 +92,7 @@
        :desc "Toggle line highlight in frame" "h" #'hl-line-mode
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
-(beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
+;; (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
 
 (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
 
@@ -414,26 +407,26 @@
 ;;                                                (kbd "g <down>")  'centaur-tabs-forward-group
 ;;                                                (kbd "g <up>")    'centaur-tabs-backward-group)
 
-(setq ivy-posframe-display-functions-alist
-      '((swiper                     . ivy-posframe-display-at-point)
-        (complete-symbol            . ivy-posframe-display-at-point)
-        (counsel-M-x                . ivy-display-function-fallback)
-        (counsel-esh-history        . ivy-posframe-display-at-window-center)
-        (counsel-describe-function  . ivy-display-function-fallback)
-        (counsel-describe-variable  . ivy-display-function-fallback)
-        (counsel-find-file          . ivy-display-function-fallback)
-        (counsel-recentf            . ivy-display-function-fallback)
-        (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
-        (nil                        . ivy-posframe-display))
-      ivy-posframe-height-alist
-      '((swiper . 20)
-        (t . 10)))
-(ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
+;; (setq ivy-posframe-display-functions-alist
+;;       '((swiper                     . ivy-posframe-display-at-point)
+;;         (complete-symbol            . ivy-posframe-display-at-point)
+;;         (counsel-M-x                . ivy-display-function-fallback)
+;;         (counsel-esh-history        . ivy-posframe-display-at-window-center)
+;;         (counsel-describe-function  . ivy-display-function-fallback)
+;;         (counsel-describe-variable  . ivy-display-function-fallback)
+;;         (counsel-find-file          . ivy-display-function-fallback)
+;;         (counsel-recentf            . ivy-display-function-fallback)
+;;         (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
+;;         (nil                        . ivy-posframe-display))
+;;       ivy-posframe-height-alist
+;;       '((swiper . 20)
+;;         (t . 10)))
+;; (ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
 
-(map! :leader
-      (:prefix ("v" . "Ivy")
-       :desc "Ivy push view" "v p" #'ivy-push-view
-       :desc "Ivy switch view" "v s" #'ivy-switch-view))
+;; (map! :leader
+;;       (:prefix ("v" . "Ivy")
+;;        :desc "Ivy push view" "v p" #'ivy-push-view
+;;        :desc "Ivy switch view" "v s" #'ivy-switch-view))
 
 ;HTML PRÄSENTATIONEN
 (use-package ox-reveal
