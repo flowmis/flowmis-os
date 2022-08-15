@@ -28,28 +28,20 @@
                            "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
 (after! org
   :dashboard
-  (setq dashboard-set-heading-icons t
-        display-line-numbers nil
-        dashboard-set-file-icons t
-        ;; dashboard-startup-banner 'logo ;; use standard emacs logo as banner
-        dashboard-startup-banner "~/.config/doom/banner/banner.png"  ;; use custom image as banner
-        dashboard-center-content nil ;; set to 't' for centered content
-        dashboard-items '((recents . 5)
-                          (agenda . 5)
-                          (bookmarks . 3)
-                          (projects . 3))
-        doom-fallback-buffer-name "*dashboard*"))
-;; (after! org
-;;   :hook
-;;   (dashboard-setup-startup-hook)
-;;   (dashboard-modify-heading-icons '((recents . "file-text")
-;;                                     (bookmarks . "book")))
-;;   (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-;;   (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
-;;                     '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
-;;                     '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
-;;                     '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-;;                     '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
+  (let ((alternatives '("banner1.png"
+                        "banner2.png"
+                        "banner3.png"
+                        "banner4.png"
+                        "banner5.png"
+                        "banner6.png"
+                        "banner7.png"
+                        "banner8.png")))
+    (setq fancy-splash-image
+          (concat "~/.config/doom/banner/"
+                  (nth (random (length alternatives)) alternatives))))
+  (setq +doom-dashboard-name "*Startscreen*"
+        +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
+        doom-fallback-buffer-name "*Startscreen*"))
 (after! org
   :config
   (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
@@ -62,6 +54,8 @@
         doom-big-font (font-spec :family "Source Code Pro" :size 20)
         doom-unicode-font (font-spec :family "Source Code Pro" :size 10)
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
+        ;; org-superstar-headline-bullets-list   '("◉" "○" "✿") ;wenn ich sie verwenden will kann ich es hier einstellen (Anzahl egal da es durch cycled)
+        org-superstar-headline-bullets-list '(" ")      ;wird mit +pretty flag in init.el installiert
         org-ellipsis " ▼ "
         org-hide-emphasis-markers t ;;macht dass Markierungssymbole um kursiv, dick, unterstrichen,... zu schreiben (~-_/*=) ausgeblendet werden
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -111,6 +105,7 @@
                                 ("t" "Gedanken und Sonstiges" entry
                                  (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
                                  "* %^{Description}      Hinzugefügt am: %U      %^g"))
+        (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-set-faces!
         '(font-lock-comment-face :slant italic)       ;Macht Kommentare wie diesen kursiv
         '(font-lock-keyword-face :slant italic)))      ;Macht Keywords wie setq, after! ... kursiv
@@ -122,10 +117,24 @@
   :config
   (setq dired-open-extensions '(("gif" . "vlc")           ;Mit Enter auf Datei in dired mit dieser Endung wird angegebenes externes Programm zum öffnen verwendet!
                               ("jpg" . "pinta")
-                              ("png" . "viewnior")
+                              ("png" . "pinta")
                               ("mkv" . "vlc")
                               ("html" . "brave")
                               ("mp4" . "vlc"))))
+(after! org-fancy-priorities
+  :config
+  (setq org-fancy-priorities-list '((?A . "Eilt")         ;wird mit +pretty flag in init.el installiert
+                                    (?B . "Zeitnah")
+                                    (?C . "Irgendwann")
+                                    (?D . "☕")
+                                    (?1 . "⚡")
+                                    (?2 . "⮬")
+                                    (?I . "Important")))
+  (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
+                    '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
+                    '(org-level-3 ((t (:inherit outline-3 :height 1.16 :underline nil))))
+                    '(org-level-4 ((t (:inherit outline-4 :height 1.10 :underline nil))))
+                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil))))))
 (require 'ox-reveal) ;kann ich es irgendwo integrieren?
 
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren

@@ -18,6 +18,7 @@
 (package! org-roam)
 (unpin! org-roam) ;macht es stabiler da es nicht wirklich geupdated wird - siehe Info zu unpin!
 (package! org-roam-ui)
+(package! graphviz-dot-mode)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
 ;; (package! async)

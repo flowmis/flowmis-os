@@ -53,34 +53,35 @@
 - [[#startup-skript-xprofile][Startup Skript .xprofile]]
 
 * TODO FlowmisOS
-+ [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
-  + [ ] https://www.youtube.com/watch?v=0SI5btORaeM
-  + [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
-  + [ ] https://www.youtube.com/watch?v=LGhifbn6088
-+ [ ] Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
-+ [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
-+ [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
-+ [ ] git ssh verstehen und in skript mit rein
-  + [ ] https://www.youtube.com/watch?v=3aKda-oXWc8
-+ [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
-+ [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
-+ [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
-+ [ ] HDMI und zeite Bildschirme ebenso wie USB besser erkennen und formatieren können bzw Einstellungen machen können
-+ [ ] Grafikkartenprobleme lösen (https://wiki.freedesktop.org/nouveau/Optimus/,... )
-+ [ ] Qtile Widgets überarbeiten
-  + [ ] Widgets überarbeiten
-  + [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
-  + [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
-+ [ ] EMACS
-  + [ ] config.el aufsplitten und Code + Module/Pakete erklären -> in Richtung literate Programming
-+ [ ] .bashrc bashprofile und bashhistory zu configs
-+ [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
+- [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
+  - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
+  - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
+  - [ ] https://www.youtube.com/watch?v=LGhifbn6088
+- [ ] Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
+- [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
+- [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
+- [ ] git ssh verstehen und in skript mit rein
+  - [ ] https://www.youtube.com/watch?v=3aKda-oXWc8
+- [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
+- [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
+- [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
+- [ ] HDMI und zeite Bildschirme ebenso wie USB besser erkennen und formatieren können bzw Einstellungen machen können
+- [ ] Grafikkartenprobleme lösen (https://wiki.freedesktop.org/nouveau/Optimus/,... )
+- [ ] Qtile Widgets überarbeiten
+  - [ ] Widgets überarbeiten
+  - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
+  - [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
+- [ ] EMACS
+  - [ ] config.el aufsplitten und Code + Module/Pakete erklären -> in Richtung literate Programming
+- [ ] .bashrc bashprofile und bashhistory zu configs
+- [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
 
 * Einleitung
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
 * Send files to places (vrher: <Space-mB> in Ordner tangle!)
+
 #+begin_src shell
 # cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
 # cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
@@ -100,14 +101,16 @@ echo done
 
 #+RESULTS:
 : done
+
 * Emacs
+
 #+begin_src shell
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el
-cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el
-cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el
-# cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/banner
-# cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/themes
-# cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/eshell
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/
+cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/
+cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/
+# cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/
+# cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/
+# cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/
 echo done
 #+end_src
 
@@ -255,28 +258,20 @@ echo done
                            "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
 (after! org
   :dashboard
-  (setq dashboard-set-heading-icons t
-        display-line-numbers nil
-        dashboard-set-file-icons t
-        ;; dashboard-startup-banner 'logo ;; use standard emacs logo as banner
-        dashboard-startup-banner "~/.config/doom/banner/banner.png"  ;; use custom image as banner
-        dashboard-center-content nil ;; set to 't' for centered content
-        dashboard-items '((recents . 5)
-                          (agenda . 5)
-                          (bookmarks . 3)
-                          (projects . 3))
-        doom-fallback-buffer-name "*dashboard*"))
-;; (after! org
-;;   :hook
-;;   (dashboard-setup-startup-hook)
-;;   (dashboard-modify-heading-icons '((recents . "file-text")
-;;                                     (bookmarks . "book")))
-;;   (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-;;   (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
-;;                     '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
-;;                     '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
-;;                     '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-;;                     '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
+  (let ((alternatives '("banner1.png"
+                        "banner2.png"
+                        "banner3.png"
+                        "banner4.png"
+                        "banner5.png"
+                        "banner6.png"
+                        "banner7.png"
+                        "banner8.png")))
+    (setq fancy-splash-image
+          (concat "~/.config/doom/banner/"
+                  (nth (random (length alternatives)) alternatives))))
+  (setq +doom-dashboard-name "*Startscreen*"
+        +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
+        doom-fallback-buffer-name "*Startscreen*"))
 (after! org
   :config
   (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
@@ -289,6 +284,8 @@ echo done
         doom-big-font (font-spec :family "Source Code Pro" :size 20)
         doom-unicode-font (font-spec :family "Source Code Pro" :size 10)
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
+        ;; org-superstar-headline-bullets-list   '("◉" "○" "✿") ;wenn ich sie verwenden will kann ich es hier einstellen (Anzahl egal da es durch cycled)
+        org-superstar-headline-bullets-list '(" ")      ;wird mit +pretty flag in init.el installiert
         org-ellipsis " ▼ "
         org-hide-emphasis-markers t ;;macht dass Markierungssymbole um kursiv, dick, unterstrichen,... zu schreiben (~-_/*=) ausgeblendet werden
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -338,6 +335,7 @@ echo done
                                 ("t" "Gedanken und Sonstiges" entry
                                  (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
                                  "* %^{Description}      Hinzugefügt am: %U      %^g"))
+        (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-set-faces!
         '(font-lock-comment-face :slant italic)       ;Macht Kommentare wie diesen kursiv
         '(font-lock-keyword-face :slant italic)))      ;Macht Keywords wie setq, after! ... kursiv
@@ -349,10 +347,24 @@ echo done
   :config
   (setq dired-open-extensions '(("gif" . "vlc")           ;Mit Enter auf Datei in dired mit dieser Endung wird angegebenes externes Programm zum öffnen verwendet!
                               ("jpg" . "pinta")
-                              ("png" . "viewnior")
+                              ("png" . "pinta")
                               ("mkv" . "vlc")
                               ("html" . "brave")
                               ("mp4" . "vlc"))))
+(after! org-fancy-priorities
+  :config
+  (setq org-fancy-priorities-list '((?A . "Eilt")         ;wird mit +pretty flag in init.el installiert
+                                    (?B . "Zeitnah")
+                                    (?C . "Irgendwann")
+                                    (?D . "☕")
+                                    (?1 . "⚡")
+                                    (?2 . "⮬")
+                                    (?I . "Important")))
+  (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
+                    '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
+                    '(org-level-3 ((t (:inherit outline-3 :height 1.16 :underline nil))))
+                    '(org-level-4 ((t (:inherit outline-4 :height 1.10 :underline nil))))
+                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil))))))
 (require 'ox-reveal) ;kann ich es irgendwo integrieren?
 #+end_src
 *** Keybindings
@@ -623,6 +635,7 @@ echo done
 (package! org-roam)
 (unpin! org-roam) ;macht es stabiler da es nicht wirklich geupdated wird - siehe Info zu unpin!
 (package! org-roam-ui)
+(package! graphviz-dot-mode)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
 ;; (package! async)
@@ -734,7 +747,7 @@ echo done
        :ui
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       ;;doom-dashboard    ; a nifty splash screen for Emacs
+       doom-dashboard    ; a nifty splash screen for Emacs
        ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
@@ -859,7 +872,7 @@ echo done
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org
-        +pretty
+        +pretty            ; installiert org-fancy priorities, org-superstar, org-appear
         +dragndrop
         +noter
         +jupyter
@@ -965,7 +978,9 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 #+end_src
+
 * Qtile Windowmanager
+
 + https://docs.qtile.org
 + Muss Python installiert sein und gibt es weitere Dependencies dass dieser WM läd und richtig funktioniert?
 + Wenn eigene Config probleme macht fällt es normal auf default config zurück -> sollte es sich aufhängen lohnt sich <Strg Alt F2> um ins Terminal zu kommen und von dort aus kann man eigene config löschen, sodass die Standard config dort beim nächsten Boot erscheint und an dieser kann man dann weiterarbeiten.
@@ -1323,6 +1338,7 @@ wmname = "LG3D"
 #+end_src
 
 ** Default Config
+
 #+begin_src python
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -1491,6 +1507,7 @@ auto_minimize = True
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
 #+end_src
+
 * Installation von FlowmisOS
 
 1. Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
@@ -1702,6 +1719,7 @@ yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git
 #+end_src
 
 * Dateien für die Installation
+
 Diese Dateien werden während dem Installationsprozess an den entsprechenden Ort geschrieben
 Locales:
 #+begin_src shell :tangle tangle/locale.conf
@@ -1780,6 +1798,7 @@ Section "InputClass"
         Option "SoftButtonAreas" "0 0 0 0 0 0 0 0"
 EndSection
 #+end_src
+
 * Login Manager
 - Ich verwende sddm da es hier viele schöne Themes gibt und es wenig dependencies aufweist.
 - Nach der Installation ist der Standard Login Screen aktivier!
@@ -3341,6 +3360,7 @@ rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
 [credential]
 	helper = store
 #+end_src
+
 * Touchpad einrichten
 https://wiki.archlinux.org/title/Touchpad_Synaptics habe aber auch eine Datei die ich hier erstelle und die direkt mit meinen Einstellungen an die richtige Stelle kopiert wird -> siehe Installskript
 * Startup Skript .xprofile
