@@ -301,6 +301,26 @@ echo done
                              "BEENDET(b@/!)"
                              "ABGEBROCHEN(a@/!)"
                              "DELEGIERT(d@/!)"))
+
+        org-capture-templates '(("1" "Eilig" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
+                                ("2" "Zeitnah" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "TODO Zeitnah"))
+                                ("3" "Pausiert" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Pausiert"))
+                                ("4" "Einkaufsliste Mane" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
+                                ("5" "Einkaufsliste Joana" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
+                                ("6" "Gemeinsame Einkaufsliste" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
+                                ("7" "Wunschliste Mane" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
+                                ("8" "Neue Abrechnung" table-line
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Abrechnungen Jo"))
+                                ("t" "Gedanken und Sonstiges" entry
+                                 (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
+                                 "* %^{Description}      Hinzugefügt am: %U      %^g"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         org-roam-db-autosync-mode 1
         org-roam-ui-sync-theme t
@@ -316,29 +336,11 @@ echo done
                                      ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)))
-        org-capture-templates '(("1" "Schnell Erledigen" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
-                                ("2" "Zeitnah Erledigen" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Zeitnah"))
-                                ("3" "Irgendwann Erledigen" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Irgendwann"))
-                                ("4" "Einkaufsliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
-                                ("5" "Einkaufsliste Joana" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
-                                ("6" "Gemeinsame Einkaufsliste" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
-                                ("7" "Wunschliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
-                                ("8" "Neue Abrechnung" table-line
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Abrechnungen Jo"))
-                                ("t" "Gedanken und Sonstiges" entry
-                                 (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
-                                 "* %^{Description}      Hinzugefügt am: %U      %^g"))
-        (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-set-faces!
         '(font-lock-comment-face :slant italic)       ;Macht Kommentare wie diesen kursiv
         '(font-lock-keyword-face :slant italic)))      ;Macht Keywords wie setq, after! ... kursiv
+
 (after! dired
   :hook
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
@@ -353,12 +355,12 @@ echo done
                               ("mp4" . "vlc"))))
 (after! org-fancy-priorities
   :config
-  (setq org-fancy-priorities-list '((?A . "Eilt")         ;wird mit +pretty flag in init.el installiert
-                                    (?B . "Zeitnah")
-                                    (?C . "Irgendwann")
-                                    (?D . "☕")
-                                    (?1 . "⚡")
-                                    (?2 . "⮬")
+  (setq org-fancy-priorities-list '((?A . "EILIG")         ;wird mit +pretty flag in init.el installiert
+                                    (?B . "TODO")
+                                    (?C . "PAUSIERT")
+                                    (?D . "⏰")
+                                    (?1 . "🍽")
+                                    (?2 . "☕")
                                     (?I . "Important")))
   (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
                     '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
@@ -981,9 +983,9 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 
 * Qtile Windowmanager
 
-+ https://docs.qtile.org
-+ Muss Python installiert sein und gibt es weitere Dependencies dass dieser WM läd und richtig funktioniert?
-+ Wenn eigene Config probleme macht fällt es normal auf default config zurück -> sollte es sich aufhängen lohnt sich <Strg Alt F2> um ins Terminal zu kommen und von dort aus kann man eigene config löschen, sodass die Standard config dort beim nächsten Boot erscheint und an dieser kann man dann weiterarbeiten.
+- https://docs.qtile.org
+- Muss Python installiert sein und gibt es weitere Dependencies dass dieser WM läd und richtig funktioniert?
+- Wenn eigene Config probleme macht fällt es normal auf default config zurück -> sollte es sich aufhängen lohnt sich <Strg Alt F2> um ins Terminal zu kommen und von dort aus kann man eigene config löschen, sodass die Standard config dort beim nächsten Boot erscheint und an dieser kann man dann weiterarbeiten.
   | Keybinding in Standard Config | Beschreibung                                         |
   |-------------------------------+------------------------------------------------------|
   | M Strg q                      | beendet qtile und man muss sich neu anmelden         |
@@ -1593,6 +1595,7 @@ Speicher formatieren:
     sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
     sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
 #+end_example
+
 ** Troubleshooting:
 _Zeit und Datum:_
   timedatectl set-ntp true                                    # Zeit und Datum über das network transfer protocol einholen
@@ -1616,6 +1619,7 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
         nitrogen --restore &    # setzt Wallpaper
         tint2                   # setzt Taskleiste/Panel
         #+end_src
+
 * Skripte
 + Mit vim in Installationsskript gehen und es an das vorliegende System anpassen
 + ~Achtung!!!~ wenn ich ein englisches Keyboard-Layout verwenden will muss ich <s/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g> aus Root Skript und <sudo localectl --no-convert set-keymap de-latin1-nodeadkeys>, <sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute> <setxkbmap -layout de> ändern auf die Werte für eine englische Tastaut!
@@ -2392,6 +2396,7 @@ key_bindings:
 #+end_src
 
 ** Fish
+
 #+begin_src sh :tangle tangle/config.fish
 #  ____ _____
 # |  _ \_   _|  Derek Taylor (DistroTube)
@@ -2758,6 +2763,7 @@ alias dtosbackup='cp -Rf /etc/dtos ~/dtos-backup-(date +%Y.%m.%d-%H.%M.%S)'
 ### SETTING THE STARSHIP PROMPT ###
 starship init fish | source
 #+end_src
+
 ** Bash
 #+begin_src bash :tangle tangle/.bashrc
 ### EXPORT
@@ -3026,6 +3032,7 @@ if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found
 fi
 #+end_src
+
 * Picom
 + picom = fork von compton
 + Die picom.conf muss in //home/flowmis//.config/picom/ kopiert werden. Falls directory nicht vorhanden muss es erstellt werden (mkdir //home/flowmis//.config/picom). Falls man neue config Datei erstellen will ist es sinnvoll die Beispiel config die mit installiert wird zu kopieren und zu modifizieren: sudo cp //etc/xdg/picom.conf //home/flowmis//.config/picom/picom.conf
@@ -3140,6 +3147,7 @@ wintypes:
 #+end_src
 + picom in Terminal eingeben um zu aktivieren (oder picom -f)
 * Rofi
+
 #+begin_src sh :tangle tangle/config.rasi
   configuration {
     display-drun: "Applications:";
@@ -3350,6 +3358,7 @@ dir="$HOME/.config/rofi/launchers/misc"
 
 rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
 #+end_src
+
 * Git
 Über SSH funktioniert es denk besser also lieber ssh Keys einrichten
 

@@ -71,6 +71,26 @@
                              "BEENDET(b@/!)"
                              "ABGEBROCHEN(a@/!)"
                              "DELEGIERT(d@/!)"))
+
+        org-capture-templates '(("1" "Eilig" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
+                                ("2" "Zeitnah" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "TODO Zeitnah"))
+                                ("3" "Pausiert" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Pausiert"))
+                                ("4" "Einkaufsliste Mane" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
+                                ("5" "Einkaufsliste Joana" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
+                                ("6" "Gemeinsame Einkaufsliste" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
+                                ("7" "Wunschliste Mane" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
+                                ("8" "Neue Abrechnung" table-line
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Abrechnungen Jo"))
+                                ("t" "Gedanken und Sonstiges" entry
+                                 (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
+                                 "* %^{Description}      Hinzugefügt am: %U      %^g"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         org-roam-db-autosync-mode 1
         org-roam-ui-sync-theme t
@@ -86,29 +106,11 @@
                                      ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)))
-        org-capture-templates '(("1" "Schnell Erledigen" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
-                                ("2" "Zeitnah Erledigen" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Zeitnah"))
-                                ("3" "Irgendwann Erledigen" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Irgendwann"))
-                                ("4" "Einkaufsliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
-                                ("5" "Einkaufsliste Joana" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
-                                ("6" "Gemeinsame Einkaufsliste" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
-                                ("7" "Wunschliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
-                                ("8" "Neue Abrechnung" table-line
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Abrechnungen Jo"))
-                                ("t" "Gedanken und Sonstiges" entry
-                                 (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
-                                 "* %^{Description}      Hinzugefügt am: %U      %^g"))
-        (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-set-faces!
         '(font-lock-comment-face :slant italic)       ;Macht Kommentare wie diesen kursiv
         '(font-lock-keyword-face :slant italic)))      ;Macht Keywords wie setq, after! ... kursiv
+
 (after! dired
   :hook
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
@@ -123,12 +125,12 @@
                               ("mp4" . "vlc"))))
 (after! org-fancy-priorities
   :config
-  (setq org-fancy-priorities-list '((?A . "Eilt")         ;wird mit +pretty flag in init.el installiert
-                                    (?B . "Zeitnah")
-                                    (?C . "Irgendwann")
-                                    (?D . "☕")
-                                    (?1 . "⚡")
-                                    (?2 . "⮬")
+  (setq org-fancy-priorities-list '((?A . "EILIG")         ;wird mit +pretty flag in init.el installiert
+                                    (?B . "TODO")
+                                    (?C . "PAUSIERT")
+                                    (?D . "⏰")
+                                    (?1 . "🍽")
+                                    (?2 . "☕")
                                     (?I . "Important")))
   (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
                     '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
