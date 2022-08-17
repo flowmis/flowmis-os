@@ -55,6 +55,33 @@
 - State "ZEITNAH"    from              [2022-08-17 Mi 09:42] \\
   Zu TODOs hinzugefügt
 :END:
+- [ ] automatisiertes verschieben von Dateien nach dem speichern
+#+begin_src shell
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/
+cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/
+cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/
+# cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/
+# cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/
+# cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/
+# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
+# cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
+# cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
+# cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
+# cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
+# cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+# cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+# cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+# cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+# cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+# cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
+# cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
+# wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
+echo done
+#+end_src
+
+#+RESULTS:
+: done
+
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
   - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
   - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
@@ -654,16 +681,11 @@
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines)
       (:prefix ("r" . "registers")
-       :desc "Copy to register" "c" #'copy-to-register
+       :desc "Window configuration to register" "w" #'window-configuration-to-register
        :desc "Frameset to register" "f" #'frameset-to-register
-       :desc "Insert contents of register" "i" #'insert-register
        :desc "Jump to register" "j" #'jump-to-register
        :desc "List registers" "l" #'list-registers
-       :desc "Number to register" "n" #'number-to-register
-       :desc "Interactively choose a register" "r" #'counsel-register
        :desc "View a register" "v" #'view-register
-       :desc "Window configuration to register" "w" #'window-configuration-to-register
-       :desc "Increment register" "+" #'increment-register
        :desc "Point to register" "SPC" #'point-to-register)
       (:prefix ("b". "buffer")
        :desc "List bookmarks" "L" #'list-bookmarks
