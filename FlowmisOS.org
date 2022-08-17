@@ -21,17 +21,23 @@
 :END:
 
 * Übersicht :toc:
-- [[#flowmisos][FlowmisOS]]
+- [[#zeitnah-flowmisos][ZEITNAH FlowmisOS]]
 - [[#einleitung][Einleitung]]
-- [[#send-files-to-places-vrher-space-mb-in-ordner-tangle][Send files to places (vrher: <Space-mB> in Ordner tangle!)]]
 - [[#emacs][Emacs]]
-  - [[#doomemacs-config][DoomEmacs config]]
-  - [[#doomemacs-packages][DoomEmacs packages]]
   - [[#doomemacs-init][DoomEmacs init]]
-  - [[#emacs-ohne-doom-konfigurieren][Emacs ohne Doom konfigurieren]]
+  - [[#doomemacs-packages][DoomEmacs packages]]
+  - [[#doomemacs-config][DoomEmacs config]]
+  - [[#emacs-config---kein-doom][Emacs config - kein Doom]]
 - [[#qtile-windowmanager][Qtile Windowmanager]]
-  - [[#meine-config][Meine Config]]
-  - [[#default-config][Default Config]]
+  - [[#qtile-config][Qtile config]]
+- [[#login-manager][Login Manager]]
+- [[#terminal][Terminal]]
+  - [[#alacritty-config][Alacritty Config]]
+  - [[#fish][Fish]]
+  - [[#bash][Bash]]
+- [[#picom][Picom]]
+- [[#rofi][Rofi]]
+- [[#setup-linux][Setup Linux]]
 - [[#installation-von-flowmisos][Installation von FlowmisOS]]
   - [[#troubleshooting][Troubleshooting:]]
   - [[#anfängervariante-von-arch-mit-desktop-gui][Anfängervariante von Arch mit Desktop GUI:]]
@@ -40,19 +46,15 @@
   - [[#skript-2-nicht-root][Skript 2: Nicht Root]]
   - [[#skript-3-installiere-alle-meine-programme][Skript 3: Installiere alle meine Programme]]
 - [[#dateien-für-die-installation][Dateien für die Installation]]
-- [[#login-manager][Login Manager]]
-- [[#setup-linux][Setup Linux]]
-- [[#terminal][Terminal]]
-  - [[#alacritty-config][Alacritty Config]]
-  - [[#fish][Fish]]
-  - [[#bash][Bash]]
-- [[#picom][Picom]]
-- [[#rofi][Rofi]]
 - [[#git][Git]]
 - [[#touchpad-einrichten][Touchpad einrichten]]
 - [[#startup-skript-xprofile][Startup Skript .xprofile]]
 
-* TODO FlowmisOS
+* ZEITNAH FlowmisOS
+:LOGBOOK:
+- State "ZEITNAH"    from              [2022-08-17 Mi 09:42] \\
+  Zu TODOs hinzugefügt
+:END:
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
   - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
   - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
@@ -80,42 +82,288 @@
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
-* Send files to places (vrher: <Space-mB> in Ordner tangle!)
-
-#+begin_src shell
-# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
-# cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
-# cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
-# cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
-# cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-# cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-# cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-# cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-# cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
-# cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-# cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
-# cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-# wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
-echo done
-#+end_src
-
-#+RESULTS:
-: done
-
 * Emacs
+** DoomEmacs init
+- Module $ flags für Doom Emacs finde ich [[https://github.com/doomemacs/doomemacs/tree/develop/modules][hier]]
+- Beispiel für :lang mit org als Modul und seinen möglichen flags [[https://github.com/doomemacs/doomemacs/tree/develop/modules/lang/org#plugins][hier]]
+#+BEGIN_SRC emacs-lisp :tangle tangle/init.el
+;;; init.el -*- lexical-binding: t; -*-
 
-#+begin_src shell
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/
-cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/
-cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/
-# cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/
-# cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/
-# cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/
-echo done
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
+
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a link to Doom's Module Index where all
+;;      of our modules are listed, including what flags they support.
+
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
+
+(doom! :input
+       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
+       ;;chinese
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
+
+       :completion
+       company           ; the ultimate code completion backend
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ;;ivy               ; a search engine for love and life
+       (vertico +items)           ; the search engine of the future
+       ;;(ivy +fonts +childframe)             ;hab ich lange statt vertico aktiviert gehabt - wieder aktivieren und vertico deaktivieren?
+
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       (emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       ;;hydra
+       ;;indent-guides     ; highlighted indent columns
+       (ligatures +extras)         ; ligatures and symbols to make your code pretty again
+       minimap           ; show a map of the code on the side
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;;nav-flash         ; blink cursor line after big motions
+       ;; neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       ;;tabs              ; a tab bar for Emacs
+       treemacs          ; a project drawer, like neotree but cooler
+       ;;unicode           ; extended unicode support for various languages
+       (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;;window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       zen               ; distraction-free coding or writing
+
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       ;;(format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       ;;word-wrap         ; soft wrapping with language-aware indent
+
+       :emacs
+       (dired +icons)             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       (ibuffer +icons)         ; interactive buffer management
+       (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
+
+       :term
+       eshell            ; the elisp shell that works everywhere
+       shell             ; simple shell REPL for Emacs
+       term              ; basic terminal emulator for Emacs
+       vterm             ; the best terminal emulation in Emacs
+
+       :checkers
+       syntax              ; tasing you for every semicolon you forget
+       ;;(spell +flyspell) ; tasing you for misspelling mispelling
+       ;;(spell +aspell) ; hatte ich lange aktiviert
+       ;;grammar           ; tasing grammar mistake every you make
+
+       :tools
+       ;;ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
+       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       ;;direnv
+       ;;docker
+       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       ;;gist              ; interacting with github gists
+       lookup              ; navigate your code and its documentation
+       ;;lsp               ; M-x vscode
+       magit             ; a git porcelain for Emacs
+       ;;make              ; run make tasks from Emacs
+       ;;pass              ; password manager for nerds
+       pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       ;;rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
+       ;;terraform         ; infrastructure as code
+       ;;tmux              ; an API for interacting with tmux
+       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;upload            ; map local to remote projects via ssh/ftp
+
+       :os
+       ;;(:if IS-MAC macos)  ; improve compatibility with macOS
+       ;;tty               ; improve the terminal Emacs experience
+
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;beancount         ; mind the GAAP
+       ;;(cc +lsp)         ; C > C++ == 1
+       ;;clojure           ; java with a lisp
+       ;;common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;dhall
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;factor
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ; a language you can depend on
+       json              ; At least it ain't XML
+       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
+       javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       latex             ; writing papers in Emacs has never been so fun
+       ;;lean              ; for folks with too much to prove
+       ;;ledger            ; be audit you can be
+       ;;lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       ;;nix               ; I hereby declare "nix geht mehr!"
+       ;;ocaml             ; an objective camel
+       (org
+        +pretty            ; installiert org-fancy priorities, org-superstar, org-appear
+        +dragndrop
+        +noter
+        +jupyter
+        +ipython
+        +pandoc
+        +gnuplot)               ; organize your plain life in plain text
+       php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       python            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;(scheme +guile)   ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       web               ; the tubes
+       yaml              ; JSON, but readable
+       ;;zig               ; C, but simpler
+
+       :email
+       (mu4e +org +gmail)
+       ;;smtpmail         ;hatte ich aktiviert aber ka ob ich brauche
+       ;;notmuch
+       ;;(wanderlust +gmail)
+
+       :app
+       calendar
+       ;;emms
+       ;;everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
+
+       :config
+       ;;literate
+       (default +bindings +smartparens))
 #+end_src
 
-#+RESULTS:
-: done
+** DoomEmacs packages
+- Bevor ich hier eine zu große Liste an Paketen ansammle macht es Sinn zu schauen ob es mit der init.el nicht ebenfalls installiert werden kann, sodass ich es hier nicht aufführen muss!
+- Neue Packete kann man hier angeben und mit 'doom sync' installieren/entfernen (oder <M-x doom/reload>) - werden von Melpa gezogen - Name muss passen!
+- To install a package directly from a remote git repo, you must specify a `:recipe'. You'll find documentation on what `:recipe' accepts here: https://github.com/radian-software/straight.el#the-recipe-format
+    (package! another-package
+        :recipe (:host github :repo "username/repo"))
+- If the package you are trying to install does not contain a PACKAGENAME.el file, or is located in a subdirectory of the repo, you'll need to specify `:files' in the `:recipe':
+    (package! this-package
+        :recipe (:host github :repo "username/repo"
+               :files ("some-file.el" "src/lisp/*.el")))
+- disable a package included with Doom:
+    (package! builtin-package :disable t)
+- You can override the recipe of a built in package without having to specify all the properties for `:recipe'. These will inherit the rest of its recipe from Doom or MELPA/ELPA/Emacsmirror:
+    (package! builtin-package :recipe (:nonrecursive t))
+    (package! builtin-package-2 :recipe (:repo "myfork/package"))
+- Specify a `:branch' to install a package from a particular branch or tag. This is required for some packages whose default branch isn't 'master' (which our package manager can't deal with; see radian-software/straight.el#279)
+    (package! builtin-package :recipe (:branch "develop"))
+- Use `:pin' to specify a particular commit to install.
+    (package! builtin-package :pin "1a2b3c4d5e")
+- Doom's packages are pinned to a specific commit and updated from release to release. The `unpin!' macro allows you to unpin single packages... (unpin! pinned-package) ...or multiple packages (unpin! pinned-package another-pinned-package) ...Or *all* packages (NOT RECOMMENDED; will likely break things) (unpin! t)
+#+BEGIN_SRC emacs-lisp :tangle tangle/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; $DOOMDIR/packages.el
+
+;; (package! gitconfig-mode
+;; 	  :recipe (:host github :repo "magit/git-modes"
+;; 			 :files ("gitconfig-mode.el")))
+;; (package! gitignore-mode
+;; 	  :recipe (:host github :repo "magit/git-modes"
+;; 			 :files ("gitignore-mode.el")))
+(package! dashboard)
+(package! dired-open)
+(package! org-tree-slide)
+(package! ox-reveal)
+(package! beacon)
+(package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
+(package! org-drill) ;für zentrales scrollen im Präsi Modus
+(package! rg)
+(package! org-roam)
+(unpin! org-roam) ;macht es stabiler da es nicht wirklich geupdated wird - siehe Info zu unpin!
+(package! org-roam-ui)
+(package! graphviz-dot-mode)
+(package! org-fancy-priorities :disable t);
+;; (package! org-bullets)
+;; (package! flycheck-aspell)
+;; (package! async)
+;; (package! calfw)
+;; (package! calfw-org)
+;; (package! elpher)
+;; (package! emojify)
+;; (package! evil-tutor)
+;; (package! ivy-posframe)
+;; (package! ox-man)
+;; (package! ox-gemini)
+;; (package! ox-publish)
+;; (package! peep-dired)
+;; (package! password-store)
+;; (package! rainbow-mode)
+;; (package! resize-window)
+;; (package! tldr)
+;; (package! wc-mode)
+;; (package! hide-mode-line)
+;; (package! org-ref)
+;; (package! ivy-bibtex)
+;; (package! org-noter)
+;; (package! org-pdftools)
+;; (package! org-super-agenda)
+;; (package! eyebrowse)
+;; (package! powerthesaurus) ;geht bisher nur auf Englisch
+;; (package! synosaurus) ;geht bisher nicht
+#+end_src
 
 ** DoomEmacs config
 - Doom verwendet 3 files um alles zu konfigurieren (werden unter ~/.doom.d/ installiert): =config.el=, =init.el= und =packages.el=
@@ -229,23 +477,24 @@ echo done
   - Mit dem alpha Wert kann man aktives Emacs Window durchsichtig machen, aber auch inaktive Emacs Windows
 #+begin_src emacs-lisp :tangle tangle/config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
-        user-mail-address "manemarkushoffmann@gmail.com" ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
+        user-mail-address "manemarkushoffmann@gmail.com"                                                        ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
         undo-tree-auto-save-history t
         undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history"))
-        save-interprogram-paste-before-kill t ; Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
-        org-log-into-drawer 1    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
+        save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
+        org-log-into-drawer 1                                                                                   ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
         yas-snippet-dirs '("~/Dropbox/emacs/yasnippets/")
         yas-global-mode 1
-        doom-scratch-initial-major-mode 'lisp-interaction-mode  ;scratch buffer automatisch im elisp mode um Dinge zu testen
-        org-startup-folded 'show2levels ;beim Start werden Header bis zum 2 Level angezeigt
-        confirm-kill-emacs nil  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
-        org-publish-use-timestamps-flag nil ;exportiert alles - macht Export leichter nachzuvollziehen
-        org-export-with-broken-links t ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
-        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js" ;"file:///home/flowmi/Git/pres/reveal" -> ist lokaler Pfad falls ich mein pres Repo ofline geclont habe
-        org-reveal-mathjax t    ;brauch ich es oder geht es auch ohne?
+        doom-scratch-initial-major-mode 'lisp-interaction-mode                                                  ;scratch buffer automatisch im elisp mode um Dinge zu testen
+        org-startup-folded 'show2levels                                                                         ;beim Start werden Header bis zum 2 Level angezeigt
+        confirm-kill-emacs nil                                                                                  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
+        org-publish-use-timestamps-flag nil                                                                     ;exportiert alles - macht Export leichter nachzuvollziehen
+        org-export-with-broken-links t                                                                          ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
+        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmi/Git/pres/reveal" -> ist lokaler Pfad?
+        org-reveal-mathjax t                                                                                    ;brauch ich es oder geht es auch ohne?
         eshell-rc-script "~/.config/doom/eshell/profile"
         eshell-aliases-file "~/.config/doom/eshell/aliases"
         eshell-buffer-maximum-lines 5000
@@ -256,6 +505,7 @@ echo done
                            "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220416144259-dlt.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
+;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :dashboard
   (let ((alternatives '("banner1.png"
@@ -272,42 +522,42 @@ echo done
   (setq +doom-dashboard-name "*Startscreen*"
         +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
         doom-fallback-buffer-name "*Startscreen*"))
+;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
-  (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
-        ;; xterm-mouse-mode 1 ;brauche ich wenn ich links mit Enter aufmachen will - stimmt nicht und geht mit C-c co wenn wen nicht normal mit Enter geht - warum gehen manche und andere nicht?!
-  ;; (setq display-line-numbers-type 'visual)
-  (setq display-line-numbers-type nil
-        doom-theme 'doom-molokai
-        doom-font (font-spec :family "Source Code Pro" :size 13)
-        doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)
-        doom-big-font (font-spec :family "Source Code Pro" :size 20)
+  (beacon-mode 1)                                                                                               ;hilft den Cursor schnell zu finden durch aufblinken
+  ;; (setq display-line-numbers-type 'visual)                                                                   ;Einstellung falls ich Zeilennummern angezeigt bekommen will
+  (setq display-line-numbers-type nil                                                                           ;schaltet Zeilennummern aus
+        doom-theme 'doom-molokai                                                                                ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
+        doom-font (font-spec :family "Source Code Pro" :size 13)                                                ;setzt Schriftart etc.
+        doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)                                       ;wird mit variable-pitch-mode aktiviert -> Man kann auch einstellen dass beide Schriftarten in Org Datei für unterschiedliche Elemente verwendet werden
+        doom-big-font (font-spec :family "Source Code Pro" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)
         doom-unicode-font (font-spec :family "Source Code Pro" :size 10)
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
-        ;; org-superstar-headline-bullets-list   '("◉" "○" "✿") ;wenn ich sie verwenden will kann ich es hier einstellen (Anzahl egal da es durch cycled)
-        org-superstar-headline-bullets-list '(" ")      ;wird mit +pretty flag in init.el installiert
-        org-ellipsis " ▼ "
-        org-hide-emphasis-markers t ;;macht dass Markierungssymbole um kursiv, dick, unterstrichen,... zu schreiben (~-_/*=) ausgeblendet werden
+        org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
+        ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
+        org-ellipsis " ▼ "                                                                                      ;Zeigt an das unter diesem Punkt eingefaltete Information liegt
+        org-hide-emphasis-markers t                                                                             ;Markierungssymbole um kursiv, dick, unterstrichen,... unsichtbar (~-_/*= um Wörter werden ausgeblendet)
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-log-done 'time
         org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-todo-keywords '((sequence
-                             "TODO(t@!)"
-                             "EILIG(e@/!)"
+                             "EILIG(e@!)"
+                             "ZEITNAH(z@/!)"
+                             "IRGENDWANN(z@/!)"
                              "PAUSIERT(p@/!)"
-                             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+                             "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
                              "BEENDET(b@/!)"
                              "ABGEBROCHEN(a@/!)"
                              "DELEGIERT(d@/!)"))
-
         org-capture-templates '(("1" "Eilig" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
                                 ("2" "Zeitnah" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "TODO Zeitnah"))
-                                ("3" "Pausiert" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Pausiert"))
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Zeitnah"))
+                                ("3" "Irgendwann" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Irgendwann"))
                                 ("4" "Einkaufsliste Mane" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
                                 ("5" "Einkaufsliste Joana" checkitem
@@ -335,39 +585,36 @@ echo done
                                       :unnarrowed t)
                                      ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-                                      :unnarrowed t)))
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-  (custom-set-faces!
-        '(font-lock-comment-face :slant italic)       ;Macht Kommentare wie diesen kursiv
-        '(font-lock-keyword-face :slant italic)))      ;Macht Keywords wie setq, after! ... kursiv
-
-(after! dired
-  :hook
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-;; With dired-open plugin, you can launch external programs for certain extensions
-;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
-  :config
-  (setq dired-open-extensions '(("gif" . "vlc")           ;Mit Enter auf Datei in dired mit dieser Endung wird angegebenes externes Programm zum öffnen verwendet!
-                              ("jpg" . "pinta")
-                              ("png" . "pinta")
-                              ("mkv" . "vlc")
-                              ("html" . "brave")
-                              ("mp4" . "vlc"))))
-(after! org-fancy-priorities
-  :config
-  (setq org-fancy-priorities-list '((?A . "EILIG")         ;wird mit +pretty flag in init.el installiert
-                                    (?B . "TODO")
-                                    (?C . "PAUSIERT")
-                                    (?D . "⏰")
-                                    (?1 . "🍽")
-                                    (?2 . "☕")
-                                    (?I . "Important")))
+                                      :unnarrowed t))
+        ;; org-fancy-priorities-list '((?A . "⏰")                                                              ;wird mit +pretty flag in init.el installiert, aber macht es finde ich hässlich
+        ;;                             (?B . "🐶")
+        ;;                             (?C . "🌞")
+        ;;                             (?D . "⏰")
+        ;;                             (?1 . "🍽")
+        ;;                             (?2 . "☕")
+        ;;                             (?I . "Important"))
+        )
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
                     '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
                     '(org-level-3 ((t (:inherit outline-3 :height 1.16 :underline nil))))
                     '(org-level-4 ((t (:inherit outline-4 :height 1.10 :underline nil))))
-                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil))))))
-(require 'ox-reveal) ;kann ich es irgendwo integrieren?
+                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil)))))
+  (custom-set-faces!
+        '(font-lock-comment-face :slant italic)                                                                 ;Macht Kommentare wie diesen kursiv
+        '(font-lock-keyword-face :slant italic)))                                                               ;Macht Keywords wie setq, after! ... kursiv
+;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! dired
+  :hook
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  :config
+  (setq dired-open-extensions '(("gif" . "vlc")                                                                 ;Enter(oder l) in Dired auf Datei mit dieser angegebenen Endung öffnet externes angegebenes Programm
+                                ("jpg" . "pinta")
+                                ("png" . "pinta")
+                                ("mkv" . "vlc")
+                                ("html" . "brave")
+                                ("mp4" . "vlc"))))
+(require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 #+end_src
 *** Keybindings
 #+begin_src emacs-lisp :tangle tangle/config.el
@@ -615,313 +862,7 @@ echo done
       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
 (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 #+end_src
-** DoomEmacs packages
-#+BEGIN_SRC emacs-lisp :tangle tangle/packages.el
-;; -*- no-byte-compile: t; -*-
-;;; $DOOMDIR/packages.el
-
-;; (package! gitconfig-mode
-;; 	  :recipe (:host github :repo "magit/git-modes"
-;; 			 :files ("gitconfig-mode.el")))
-;; (package! gitignore-mode
-;; 	  :recipe (:host github :repo "magit/git-modes"
-;; 			 :files ("gitignore-mode.el")))
-(package! dashboard)
-(package! dired-open)
-(package! org-tree-slide)
-(package! ox-reveal)
-(package! beacon)
-(package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
-(package! org-drill) ;für zentrales scrollen im Präsi Modus
-(package! rg)
-(package! org-roam)
-(unpin! org-roam) ;macht es stabiler da es nicht wirklich geupdated wird - siehe Info zu unpin!
-(package! org-roam-ui)
-(package! graphviz-dot-mode)
-;; (package! org-bullets)
-;; (package! flycheck-aspell)
-;; (package! async)
-;; (package! calfw)
-;; (package! calfw-org)
-;; (package! elpher)
-;; (package! emojify)
-;; (package! evil-tutor)
-;; (package! ivy-posframe)
-;; (package! ox-man)
-;; (package! ox-gemini)
-;; (package! ox-publish)
-;; (package! peep-dired)
-;; (package! password-store)
-;; (package! rainbow-mode)
-;; (package! resize-window)
-;; (package! tldr)
-;; (package! wc-mode)
-;; (package! hide-mode-line)
-;; (package! org-ref)
-;; (package! ivy-bibtex)
-;; (package! org-noter)
-;; (package! org-pdftools)
-;; (package! org-super-agenda)
-;; (package! eyebrowse)
-;; (package! powerthesaurus) ;geht bisher nur auf Englisch
-;; (package! synosaurus) ;geht bisher nicht
-#+end_src
-**** Info:
-;; To install a package with Doom you must declare them here and run 'doom sync'
-;; on the command line, then restart Emacs for the changes to take effect -- or
-;; use 'M-x doom/reload'.
-
-
-;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
-;(package! some-package)
-
-;; To install a package directly from a remote git repo, you must specify a
-;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
-;; https://github.com/radian-software/straight.el#the-recipe-format
-;(package! another-package
-;  :recipe (:host github :repo "username/repo"))
-
-;; If the package you are trying to install does not contain a PACKAGENAME.el
-;; file, or is located in a subdirectory of the repo, you'll need to specify
-;; `:files' in the `:recipe':
-;(package! this-package
-;  :recipe (:host github :repo "username/repo"
-;           :files ("some-file.el" "src/lisp/*.el")))
-
-;; If you'd like to disable a package included with Doom, you can do so here
-;; with the `:disable' property:
-;(package! builtin-package :disable t)
-
-;; You can override the recipe of a built in package without having to specify
-;; all the properties for `:recipe'. These will inherit the rest of its recipe
-;; from Doom or MELPA/ELPA/Emacsmirror:
-;(package! builtin-package :recipe (:nonrecursive t))
-;(package! builtin-package-2 :recipe (:repo "myfork/package"))
-
-;; Specify a `:branch' to install a package from a particular branch or tag.
-;; This is required for some packages whose default branch isn't 'master' (which
-;; our package manager can't deal with; see radian-software/straight.el#279)
-;(package! builtin-package :recipe (:branch "develop"))
-
-;; Use `:pin' to specify a particular commit to install.
-;(package! builtin-package :pin "1a2b3c4d5e")
-
-
-;; Doom's packages are pinned to a specific commit and updated from release to
-;; release. The `unpin!' macro allows you to unpin single packages...
-;(unpin! pinned-package)
-;; ...or multiple packages
-;(unpin! pinned-package another-pinned-package)
-;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
-;(unpin! t)
-** DoomEmacs init
-#+BEGIN_SRC emacs-lisp :tangle tangle/init.el
-;;; init.el -*- lexical-binding: t; -*-
-
-;; This file controls what Doom modules are enabled and what order they load
-;; in. Remember to run 'doom sync' after modifying it!
-
-;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
-;;      documentation. There you'll find a link to Doom's Module Index where all
-;;      of our modules are listed, including what flags they support.
-
-;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
-;;      'C-c c k' for non-vim users) to view its documentation. This works on
-;;      flags as well (those symbols that start with a plus).
-;;
-;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
-;;      directory (for easy access to its source code).
-
-(doom! :input
-       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
-       ;;chinese
-       ;;japanese
-       ;;layout            ; auie,ctsrnm is the superior home row
-
-       :completion
-       company           ; the ultimate code completion backend
-       ;;helm              ; the *other* search engine for love and life
-       ;;ido               ; the other *other* search engine...
-       ;;ivy               ; a search engine for love and life
-       (vertico +items)           ; the search engine of the future
-       ;;(ivy +fonts +childframe)             ;hab ich lange statt vertico aktiviert gehabt - wieder aktivieren und vertico deaktivieren?
-
-       :ui
-       ;;deft              ; notational velocity for Emacs
-       doom              ; what makes DOOM look the way it does
-       doom-dashboard    ; a nifty splash screen for Emacs
-       ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       (emoji +unicode)  ; 🙂
-       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       ;;hydra
-       ;;indent-guides     ; highlighted indent columns
-       (ligatures +extras)         ; ligatures and symbols to make your code pretty again
-       minimap           ; show a map of the code on the side
-       modeline          ; snazzy, Atom-inspired modeline, plus API
-       ;;nav-flash         ; blink cursor line after big motions
-       ;; neotree           ; a project drawer, like NERDTree for vim
-       ophints           ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
-       ;;tabs              ; a tab bar for Emacs
-       treemacs          ; a project drawer, like neotree but cooler
-       ;;unicode           ; extended unicode support for various languages
-       (vc-gutter +pretty) ; vcs diff in the fringe
-       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       ;;window-select     ; visually switch windows
-       workspaces        ; tab emulation, persistence & separate workspaces
-       zen               ; distraction-free coding or writing
-
-       :editor
-       (evil +everywhere); come to the dark side, we have cookies
-       file-templates    ; auto-snippets for empty files
-       fold              ; (nigh) universal code folding
-       ;;(format +onsave)  ; automated prettiness
-       ;;god               ; run Emacs commands without modifier keys
-       ;;lispy             ; vim for lisp, for people who don't like vim
-       multiple-cursors  ; editing in many places at once
-       ;;objed             ; text object editing for the innocent
-       ;;parinfer          ; turn lisp into python, sort of
-       ;;rotate-text       ; cycle region at point between text candidates
-       snippets          ; my elves. They type so I don't have to
-       ;;word-wrap         ; soft wrapping with language-aware indent
-
-       :emacs
-       (dired +icons)             ; making dired pretty [functional]
-       electric          ; smarter, keyword-based electric-indent
-       (ibuffer +icons)         ; interactive buffer management
-       (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
-       vc                ; version-control and Emacs, sitting in a tree
-
-       :term
-       eshell            ; the elisp shell that works everywhere
-       shell             ; simple shell REPL for Emacs
-       term              ; basic terminal emulator for Emacs
-       vterm             ; the best terminal emulation in Emacs
-
-       :checkers
-       syntax              ; tasing you for every semicolon you forget
-       ;;(spell +flyspell) ; tasing you for misspelling mispelling
-       ;;(spell +aspell) ; hatte ich lange aktiviert
-       ;;grammar           ; tasing grammar mistake every you make
-
-       :tools
-       ;;ansible
-       ;;biblio            ; Writes a PhD for you (citation needed)
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
-       ;;docker
-       ;;editorconfig      ; let someone else argue about tabs vs spaces
-       ;;ein               ; tame Jupyter notebooks with emacs
-       (eval +overlay)     ; run code, run (also, repls)
-       ;;gist              ; interacting with github gists
-       lookup              ; navigate your code and its documentation
-       ;;lsp               ; M-x vscode
-       magit             ; a git porcelain for Emacs
-       ;;make              ; run make tasks from Emacs
-       ;;pass              ; password manager for nerds
-       pdf               ; pdf enhancements
-       ;;prodigy           ; FIXME managing external services & code builders
-       ;;rgb               ; creating color strings
-       ;;taskrunner        ; taskrunner for all your projects
-       ;;terraform         ; infrastructure as code
-       ;;tmux              ; an API for interacting with tmux
-       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
-       ;;upload            ; map local to remote projects via ssh/ftp
-
-       :os
-       ;;(:if IS-MAC macos)  ; improve compatibility with macOS
-       ;;tty               ; improve the terminal Emacs experience
-
-       :lang
-       ;;agda              ; types of types of types of types...
-       ;;beancount         ; mind the GAAP
-       ;;(cc +lsp)         ; C > C++ == 1
-       ;;clojure           ; java with a lisp
-       ;;common-lisp       ; if you've seen one lisp, you've seen them all
-       ;;coq               ; proofs-as-programs
-       ;;crystal           ; ruby at the speed of c
-       ;;csharp            ; unity, .NET, and mono shenanigans
-       ;;data              ; config/data formats
-       ;;(dart +flutter)   ; paint ui and not much else
-       ;;dhall
-       ;;elixir            ; erlang done right
-       ;;elm               ; care for a cup of TEA?
-       emacs-lisp        ; drown in parentheses
-       ;;erlang            ; an elegant language for a more civilized age
-       ;;ess               ; emacs speaks statistics
-       ;;factor
-       ;;faust             ; dsp, but you get to keep your soul
-       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
-       ;;fsharp            ; ML stands for Microsoft's Language
-       ;;fstar             ; (dependent) types and (monadic) effects and Z3
-       ;;gdscript          ; the language you waited for
-       ;;(go +lsp)         ; the hipster dialect
-       ;;(graphql +lsp)    ; Give queries a REST
-       ;;(haskell +lsp)    ; a language that's lazier than I am
-       ;;hy                ; readability of scheme w/ speed of python
-       ;;idris             ; a language you can depend on
-       json              ; At least it ain't XML
-       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-       javascript        ; all(hope(abandon(ye(who(enter(here))))))
-       ;;julia             ; a better, faster MATLAB
-       ;;kotlin            ; a better, slicker Java(Script)
-       latex             ; writing papers in Emacs has never been so fun
-       ;;lean              ; for folks with too much to prove
-       ;;ledger            ; be audit you can be
-       ;;lua               ; one-based indices? one-based indices
-       markdown          ; writing docs for people to ignore
-       ;;nim               ; python + lisp at the speed of c
-       ;;nix               ; I hereby declare "nix geht mehr!"
-       ;;ocaml             ; an objective camel
-       (org
-        +pretty            ; installiert org-fancy priorities, org-superstar, org-appear
-        +dragndrop
-        +noter
-        +jupyter
-        +ipython
-        +pandoc
-        +gnuplot)               ; organize your plain life in plain text
-       php               ; perl's insecure younger brother
-       ;;plantuml          ; diagrams for confusing people more
-       ;;purescript        ; javascript, but functional
-       python            ; beautiful is better than ugly
-       ;;qt                ; the 'cutest' gui framework ever
-       ;;racket            ; a DSL for DSLs
-       ;;raku              ; the artist formerly known as perl6
-       ;;rest              ; Emacs as a REST client
-       ;;rst               ; ReST in peace
-       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       ;;scala             ; java, but good
-       ;;(scheme +guile)   ; a fully conniving family of lisps
-       sh                ; she sells {ba,z,fi}sh shells on the C xor
-       ;;sml
-       ;;solidity          ; do you need a blockchain? No.
-       ;;swift             ; who asked for emoji variables?
-       ;;terra             ; Earth and Moon in alignment for performance.
-       web               ; the tubes
-       yaml              ; JSON, but readable
-       ;;zig               ; C, but simpler
-
-       :email
-       (mu4e +org +gmail)
-       ;;smtpmail         ;hatte ich aktiviert aber ka ob ich brauche
-       ;;notmuch
-       ;;(wanderlust +gmail)
-
-       :app
-       calendar
-       ;;emms
-       ;;everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
-       ;;(rss +org)        ; emacs as an RSS reader
-       ;;twitter           ; twitter client https://twitter.com/vnought
-
-       :config
-       ;;literate
-       (default +bindings +smartparens))
-#+end_src
-** Emacs ohne Doom konfigurieren
+** Emacs config - kein Doom
 Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doom Emacs erleichtert einem schon einiges und hat das wichtigste und vll daher sinnvoll dort einfach noch meine gewünschten Veränderungen durchzuführen und nicht hier weiter zu machen.
 #+begin_src emacs-lisp
 
@@ -982,7 +923,6 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
 #+end_src
 
 * Qtile Windowmanager
-
 - https://docs.qtile.org
 - Muss Python installiert sein und gibt es weitere Dependencies dass dieser WM läd und richtig funktioniert?
 - Wenn eigene Config probleme macht fällt es normal auf default config zurück -> sollte es sich aufhängen lohnt sich <Strg Alt F2> um ins Terminal zu kommen und von dort aus kann man eigene config löschen, sodass die Standard config dort beim nächsten Boot erscheint und an dieser kann man dann weiterarbeiten.
@@ -992,7 +932,7 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
   | M Strg e(oder r?)             | refresh qtile (Änderungen an config werden sichtbar) |
   | M r                           | spawn prompt -> öffnen von Programmen                |
   | M Space                       | öffnet Terminal                                      |
-** Meine Config
+** Qtile config
 1. Imports und Keys
 #+begin_src python :tangle tangle/config.py
 # -*- coding: utf-8 -*-
@@ -1339,470 +1279,6 @@ def start_once():
 wmname = "LG3D"
 #+end_src
 
-** Default Config
-
-#+begin_src python
-from libqtile import bar, layout, widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
-from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
-
-mod = "mod4"
-terminal = guess_terminal()
-
-keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-]
-
-groups = [Group(i) for i in "123456789"]
-
-for i in groups:
-    keys.extend(
-        [
-            # mod1 + letter of group = switch to group
-            Key(
-                [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
-            ),
-            # mod1 + shift + letter of group = switch to & move focused window to group
-            Key(
-                [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
-            ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
-        ]
-    )
-
-layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
-]
-
-widget_defaults = dict(
-    font="sans",
-    fontsize=12,
-    padding=3,
-)
-extension_defaults = widget_defaults.copy()
-
-screens = [
-    Screen(
-        bottom=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.TextBox("default config", name="default"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
-            ],
-            24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        ),
-    ),
-]
-
-# Drag floating layouts.
-mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
-]
-
-dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
-follow_mouse_focus = True
-bring_front_click = False
-cursor_warp = False
-floating_layout = layout.Floating(
-    float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
-    ]
-)
-auto_fullscreen = True
-focus_on_window_activation = "smart"
-reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
-auto_minimize = True
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
-wmname = "LG3D"
-#+end_src
-
-* Installation von FlowmisOS
-
-1. Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
-   - Bootmanager (grub)
-   - xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
-   - window/desktop manager (qtile, openbox, xmonad)
-   - login manager (lightdm)
-   - Browser (Brave)
-   - Terminal/Terminal Emulator (Alacritty, Fish, zshell)
-   - Texteditor (Emacs)
-
-2. Für mein Betriebssystem wurde Arch als Grundlage geählt -> Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
-
-3. [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]]:
-
-4. Bootstick mit ArchLinux erstellen:
-   - Iso [[https://archlinux.org/download/][downloaden]] und Bootstick erstellen (falls keine VM Installation) -> Auf Windows mit Rufus oder Etcher - [[https://wiki.archlinux.org/title/USB_flash_installation_medium][Alternativen für nicht Windows]]
-   - PGP Signatur mit System auf dem GnupG installiert ist checken sodass man keinen Müll gedownloaded hat und installiert
-    #+begin_src shell
-    gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
-    pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
-    #+end_src
-   - Anmerkung: Arch Linux installation images supporten kein Secure Boot (-> disable Secure Boot to boot the installation medium). Auch auf Boot device Reihenfolge im Bios achten/anpassen um auf Stick zu booten. Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen (Ein Installationshelferskript liegt dort bereits und kann über <archinstall> gestartet werden)
-
-5. In VM (other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
-
-6. Nach Boot und falls man nicht das archinstall skript verwenden will folgende Befehle eingeben um eigenes System aufzusetzen: *Befehle für quick setup sind mit * markiert*
-
-#+begin_example
-Keyboard konfigurieren:
-  ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
-  ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
-  loadkeys de-latin1                                        # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
-
-Internet konfigurieren:
-  ip link                                                   # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird (Achtung dass rfkill die Karte nicht blockiert) und mit welchem Namen man es ansprechen kann (oft wlan0)
-  iwctl                                                     # Einloggen ins Wlan (Ethernet macht es einfacher) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
-  device list                                               # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
-  station "" scan                                           # "" durch Wlan Karte ersetzen (meist wlan0) -> scant nach vorhandenen Wlans die durch Wlan Karte gefunden werden
-  station "" get-networks                                   # Listet gefundene Wlan Netzwerke auf
-  station "" connect "Name Wlan"                            # Verbindung zu Wlan herstellen
-  exit                                                      # Verlassen von iwctl
-  #DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and systemd-resolved) should work out of the box for Ethernet, WLAN, and WWAN network interfaces.
-  ping archlinux.org                                        # Internetcheck -> ISO hat systemd mit Internet etc. (später installiertes System hat es nicht) -> NetworkManager enablen mit systemctl
-
-Speicher formatieren:
-  *fdisk /dev/sda                                           # In VM: <n> <p> <Enter> <Enter> <Enter> <w>
-    wenn keine VM:
-      fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
-      fdisk //dev//"Partitionsname"                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
-      fdisk //dev//"Speicherort für Betriebssystem"           # in die für das Betriebssystem gewünschte Partition wechseln
-      <g><n><1><Enter><+550M>                               # EFI Partition erstellen: <g> kreiert Label - GPT disk label (for what?) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
-      <n><2><Enter><+2G>                                    # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
-      <n><3><Enter><Enter>                                  # Linux Filesystem Partition mit restlichem Speicher erstellen
-      <t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
-      <t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
-      <w>                                                   # write changes und fdisk verlassen
-      mkfs.fat -F32 /dev/"EFI_Partitionsname/Partition1"    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
-      mkswap /dev/"swap_Partitionsname/Partition2"
-      swapon /dev/"swap_Partitionsname/Partition2"
-  *mkfs.ext4 /dev/sda1                                       # ACHTUNG: sda1 umbenennen in Namen der Partition 3 die mit Linux Filesystem erstellt wurde -> Linux Filesystem wird im Speicher angelegt
-  *mount /dev/sda1 /mnt                                      # ACHTUNG: sda1 umbenenn in Namen der Partition 3 -> Einhängen des Speichers um Veränderungen vornehmen zu können
-  *pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
-  *genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
-  *arch-chroot /mnt                                          # Mit root in /mnt gehen
-  *pacman -S neovim sudo git
-  *passwd
-  *useradd -m flowmis
-  *passwd flowmis
-  *cd /home/flowmis
-  *git clone https://github.com/flowmis/FlowmisOS.git
-  *cd FlowmisOS/tangle
-  *. rootinstall.sh
-  *EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
-  *exit
-  *umount -l /mnt
-  *reboot & login
-  *cd FlowmisOS/tangle
-  *. install.sh
-  *reboot und genießen :)
-    #Eventuell neu in Wlan anmelden (nun mit NetworkManager statt wie zuvor mit iwctl)
-    sudo NetworkManager                                          # keine Fehlermeldung = past alles
-    sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
-    sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
-#+end_example
-
-** Troubleshooting:
-_Zeit und Datum:_
-  timedatectl set-ntp true                                    # Zeit und Datum über das network transfer protocol einholen
-  timedatectl status                                          # Check ob alles passt
-
-** Anfängervariante von Arch mit Desktop GUI:
-Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist dies für Anfänger besser:
-   - Arch wie oben beschrieben zum laufen bekommen und statt git clone FlowmisOS repo einfach gnome installieren und konfigurieren
-    #+begin_src shell
-    sudo pacman -S gnome                                             # intsalliert gnome Zeug für gui
-    sudo pacman -S gnome-extra                                       # weitere dependencies und Zeug ~2GB
-    #Anmerkung: Falls Probleme mit Servern einfach mal ping google.de versuchen und wenn das passt und man Internet hat dann sudo pacmann -Syyu und danach sollte download zeug gehen
-    reboot
-    sudo systemctl enable gdm                                        # login manager gdm starten und in gui einloggen (reboot nötig?)
-    #+end_src
-   Sonstiges:
-    - openbox ist gut als Desktop geeignet und nach Start einfach nur ein grauer screen(mit rechtsklick checken ob es openbox funktioniert)
-    - Nitrogen (gut für mehrere Monitore) für Wallpaper (In Nitogen ein durch git clone gesicherten Ordner mit Wallpapers auswählen (gnome-background kann man auch installieren mit pacman wenn man keine eigene Sammlung hat) -> Autostart File ist bei Nitrogen nötig)
-        - Geh in .config und erstelle openbox directory und darin eine leere Datei autostart mit folgendem Inhalt und mache Datei ausführbar (in Filemanager über Properties, oder eben über permissions) -> reicht hier bereits aus für autostart (manchmal braucht es noch mehr wenn es die .config nicht automatisch findet uns ausführt)
-        #+begin_src
-        nitrogen --restore &    # setzt Wallpaper
-        tint2                   # setzt Taskleiste/Panel
-        #+end_src
-
-* Skripte
-+ Mit vim in Installationsskript gehen und es an das vorliegende System anpassen
-+ ~Achtung!!!~ wenn ich ein englisches Keyboard-Layout verwenden will muss ich <s/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g> aus Root Skript und <sudo localectl --no-convert set-keymap de-latin1-nodeadkeys>, <sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute> <setxkbmap -layout de> ändern auf die Werte für eine englische Tastaut!
-** Skript 1: Root Installationsskript
-   - base-devel: ermöglicht <makepkg -si> um aus Brave Binaries ein Paket zu machen das im Anschluss installiert wird
-   - ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
-   - lightdm(Login-Manager) + lightdm-gtk-greeter(Start-Bildschirm): sind nötig um ein Login das System zu haben
-  ~Achtung1!!!~ bei der Installation der Video/Grafiktreiber muss Skript auf VM/physisches Gerät angepasst werden!
-  - Bei VM: xf86-video-fbdev
-    - Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
-    - Intel (Open Source): sudo pacman -S xf86-video-intel
-    - Nvidia (Open Source): sudo pacman -S xf86-video-nouveau
-    - Nvidia (proprietäre): sudo pacman -S nvidia nvidia-utils
-    - ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
-    - Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
-  ~Achtung2!!!~ Beim einhängen/mounten der Boot/Efi Partition den richtigen Pfad wählen je nachdem was mit fdisk gemacht wurde
-  ~Achtung3!!!~ Bei der Installation von Grub in die Boot Partition ist glaub kein Pfad nötig und <grub-install> reicht aus aber eventuell bei Problemen folgende Variante versuchen:
-    <grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck>
-
-#+begin_src shell :tangle tangle/rootinstall.sh
-cd /home/flowmis/
-chown flowmis FlowmisOS/                                            # owner root -> owner flowmis
-chgrp flowmis FlowmisOS/                                            # Gruppe root -> Gruppe flowmis
-usermod -aG wheel,audio,video,optical,storage flowmis               # Erteilen der Rechte bzw. in welcher Gruppe der User ist
-ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime             # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
-hwclock --systohc                                                   # setzt Zeit
-mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf      # verschiebt vorab erstellte Datei
-sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen   # sucht einen String und ersetzt ihn
-locale-gen                                                          # generiert die locales
-echo FlowmisPC | cat > /etc/hostname                                # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                  # verschiebt vorab erstellte Datei
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel sddm qtile
-systemctl enable NetworkManager sddm                                # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
-mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
-mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
-grub-install                                                        # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
-grub-mkconfig -o /boot/grub/grub.cfg                                # Ohne diese wird es zu Problemen beim booten kommen
-#+end_src
-
-** Skript 2: Nicht Root
-
-#+begin_src shell :tangle tangle/install.sh
-sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
-sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-sudo localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
-sudo timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
-sudo timedatectl status                                             # Check ob alles pass
-setxkbmap -layout de                                                # Tastaturlayout auf Deutsch
-nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
-cd ~
-git clone https://aur.archlinux.org/brave-bin.git
-cd brave-bin/
-makepkg -si                                                     #soll nicht als root installiert werden
-cd ~
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
-~/.emacs.d/bin/doom install
-sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
-sudo pip install jupyter notebook
-~/.emacs.d/bin/doom doctor
-mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm}
-cd ~/.config/rofi
-git clone --depth=1 https://github.com/adi1090x/rofi.git
-cd rofi
-mkdir -p ~/.local/share/fonts
-cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
-cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
-cd ~/.config/rofi/
-rm -rf rofi/
-sudo pacman -S python-utils otf-fira-sans brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa
-yay -S date termite
-#+end_src
-
-** Skript 3: Installiere alle meine Programme
-  - noch so gestalten dass ich alles leicht uncommenten kann ?
-  - gehen alle USB und auch SD Karten oder nur die normalen USB A?
-  - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
-  - ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
-  - Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
-    -> Falls qt5ct die Umgebungsvariable nicht findet: Einfach eine neue Zeile aufmachen in der Datei /etc/environment und dort folgendes reinschreiben: QT_QPA_PLATFORMTHEME=qt5ct
-  - exa ist besserer Command als ls und in meinen aliases gesetzt -> zeigt alle Ergebnisse mit Farben und schöne aufgelistet wenn ich ls eingeben
-  - fish ist bei Vorschlägen super und einfach für Beginner -> läuft bei mir über alacritty
-  - starship macht mir meine Eingabe im Terminal schöner (< und > statt sinnloser Angabe vom Standardpfad) und ist in meinen Terminal configs vorhanden so dass diese das brauchen
-  - Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
-
-#+begin_src shell :tangle tangle/installmore.sh
-git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
-git clone https://github.com/flowmis/pres.git
-git clone https://github.com/flowmis/Kivy.git
-git clone https://github.com/flowmis/Sonstiges.git
-git clone https://github.com/flowmis/Beachvolleyballfeld.git
-sudo pacman -Syu
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next
-cd ~/Downloads
-git clone https://aur.archlinux.org/yay-git.git
-cd yay-git/
-makepkg -si
-yay -Syu
-yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git
-#python müsste durch qtile bereits installiert worden sein
-#+end_src
-
-* Dateien für die Installation
-
-Diese Dateien werden während dem Installationsprozess an den entsprechenden Ort geschrieben
-Locales:
-#+begin_src shell :tangle tangle/locale.conf
-LANG=de_DE.UTF-8
-LC_CTYPE=de_DE.UTF-8
-#+end_src
-Localhost und die localdomain festlegen:
-#+begin_src shell :tangle tangle/hosts
-# Static table lookup for hostnames.
-# See hosts(5) for detailsh
-127.0.0.1	localhost
-::1		localhost
-127.0.1.1	FlowmisPC.localdomain	FlowmisPC
-#+end_src
-
-#+begin_src shell :tangle tangle/70-synaptics.conf
-# Example xorg.conf.d snippet that assigns the touchpad driver
-# to all touchpads. See xorg.conf.d(5) for more information on
-# InputClass.
-# DO NOT EDIT THIS FILE, your distribution will likely overwrite
-# it when updating. Copy (and rename) this file into
-# /etc/X11/xorg.conf.d first.
-# Additional options may be added in the form of
-#   Option "OptionName" "value"
-#
-Section "InputClass"
-        Identifier "touchpad catchall"
-        Driver "synaptics"
-        MatchIsTouchpad "on"
-        Option "TapButton1" "1"
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-        Option "VertEdgeScroll" "on"
-        Option "VertTwoFingerScroll" "on"
-        Option "HorizEdgeScroll" "on"
-        Option "HorizTwoFingerScroll" "on"
-        Option "CircularScrolling" "on"
-        Option "CircScrollTrigger" "2"
-        Option "EmulateTwoFingerMinZ" "40"
-        Option "EmulateTwoFingerMinW" "8"
-        Option "CoastingSpeed" "0"
-        Option "FingerLow" "30"
-        Option "FingerHigh" "50"
-        Option "MaxTapTime" "125"
-# This option is recommend on all Linux systems using evdev, but cannot be
-# enabled by default. See the following link for details:
-# http://who-t.blogspot.com/2010/11/how-to-ignore-configuration-errors.html
-#       MatchDevicePath "/dev/input/event*"
-EndSection
-
-Section "InputClass"
-        Identifier "touchpad ignore duplicates"
-        MatchIsTouchpad "on"
-        MatchOS "Linux"
-        MatchDevicePath "/dev/input/mouse*"
-        Option "Ignore" "on"
-EndSection
-
-# This option enables the bottom right corner to be a right button on clickpads
-# and the right and middle top areas to be right / middle buttons on clickpads
-# with a top button area.
-# This option is only interpreted by clickpads.
-Section "InputClass"
-        Identifier "Default clickpad buttons"
-        MatchDriver "synaptics"
-        Option "SoftButtonAreas" "50% 0 82% 0 0 0 0 0"
-        Option "SecondarySoftButtonAreas" "58% 0 0 15% 42% 58% 0 15%"
-EndSection
-
-# This option disables software buttons on Apple touchpads.
-# This option is only interpreted by clickpads.
-Section "InputClass"
-        Identifier "Disable clickpad buttons on Apple touchpads"
-        MatchProduct "Apple|bcm5974"
-        MatchDriver "synaptics"
-        Option "SoftButtonAreas" "0 0 0 0 0 0 0 0"
-EndSection
-#+end_src
-
 * Login Manager
 - Ich verwende sddm da es hier viele schöne Themes gibt und es wenig dependencies aufweist.
 - Nach der Installation ist der Standard Login Screen aktivier!
@@ -1952,140 +1428,6 @@ EndSection
     TranslateVirtualKeyboardButton=""
     ## These don't necessarily need to translate anything. You can enter whatever you want here.
     #+end_src
-
-* Setup Linux
-*** Programme
-| Kategorie                                               | Programme                                                                               | Zusatzinfo                                                                         |
-| <20>                                                    | <20>                                                                                    | <35>                                                                               |
-|---------------------------------------------------------+-----------------------------------------------------------------------------------------+------------------------------------------------------------------------------------|
-| Videoplayer                                             | VLC                                                                                     | https://www.videolan.org/vlc/index.html                                            |
-| Office                                                  | LibreOffice                                                                             | https://www.libreoffice.org/                                                       |
-| Inkscape is a vector graphics editor                    | Inkscape                                                                                | https://inkscape.org/                                                              |
-| Task-Manger                                             | htop, interactive process viewer                                                        | https://htop.dev/    -> erlaubt killen von Prozessen etc.                          |
-| Virtual Box                                             | VirtualMachine                                                                          | https://www.virtualbox.org/                                                        |
-| Videobearbeitungsprogramm                               | Kdenlive                                                                                |                                                                                    |
-| Bildbearbeitung                                         | Gimp                                                                                    | https://www.gimp.org/ -> geiles Tool (kann auch screenshots)                       |
-| Mail                                                    | Thunderbird/ProtonMail                                                                  |                                                                                    |
-| Text Editor                                             | DOOM EMACS, Jupyter Notebook, Atom, VIM, EMACS, ...                                     | https://www.vim.org/ oder: https://www.gnu.org/software/emacs/                     |
-| Passwortmanager                                         | KeepassXC oder Pass                                                                     | Standard Unix Password Manager (DT hat 2 gute Videos dazu oder einfach "man pass") |
-| Window Manager                                          | qtile, xmonad                                                                           | qtile in Python liegt mir vermutlich besser, aber xmonad ist schon auch gut        |
-| Programme öffnen                                        | rofi, dmenu                                                                             | braucht man bei qtile nicht? (Powerline sowas ähnliches und viel benutztes?)       |
-| CLI                                                     | fish, alacritty                                                                         | Config dazu speichern                                                              |
-| Integrated Development Environment (IDE)                | Pycharm                                                                                 | IDE für Python (geht auch über pacman installer)                                   |
-| Zeichenprogramm                                         | Pinta                                                                                   | Paint ersatz                                                                       |
-| ScreenRecorder                                          | deepin-screen-recorder                                                                  | Desktop aufzeichnung (auch Screenshots)                                            |
-| Screenshots                                             | flameshot (ähnlich snipping tool) -> Altern.: spectacle od. maim (Nachfolger von scrot) | gui & cli & mit mehreren Monitoren nutzbar (dmenu script schreiben?)               |
-| Browser                                                 | https://www.mozilla.org/                                                                | Binary installation:                                                               |
-|                                                         | https://brave.com/                                                                      | git clone https://aur.archlinux.org/brave-bin.git                                  |
-|                                                         |                                                                                         | cd brave-bin/                                                                      |
-|                                                         |                                                                                         | makepkg -si                                                                        |
-|                                                         |                                                                                         | https://www.vultr.com/docs/using-makepkg-on-arch-linux                             |
-| Backup                                                  | Timeshift (Backup und Rollback automation)                                              |                                                                                    |
-| Musik hören/downloaden ohne Werbung                     | Nuclear Music Streaming App for Windows, Linux, Mac                                     | bissl im Graubereich aber nicer shit (siehe Video von DT)                          |
-| LoginManager                                            | sddm, lightdm                                                                           | sddm wird aktiver weiterentwickelt als lightdm                                     |
-| Spiele                                                  | Steam                                                                                   |                                                                                    |
-| Multimediaplattform                                     | Kodi                                                                                    | Filme, Serien, Musik, Fernsehen und vieles mehr                                    |
-| Ebook Manager und Reader                                | Calibre                                                                                 |                                                                                    |
-| Audio Konverter                                         | DeaDBeeF                                                                                | https://deadbeef.sourceforge.io/                                                   |
-| Kommunikationstool/Hub unterschiedlicher Messenger Apps | Rambox                                                                                  | https://rambox.pro/#home                                                           |
-| Notes                                                   | Nodepadqq                                                                               | https://notepadqq.com/s/                                                           |
-| Mail Client                                             | Mu4e                                                                                    | Ist für doom emacs geeignet!                                                       |
-| Files zwischen Betriebssystemen tauschen                | NitroShare                                                                              | Daten übertragen auf Handy oder zwischen PCs                                       |
-| video conferencing                                      | Jitsi                                                                                   | https://jitsi.org/                                                                 |
-| Programminstaller                                       | Appstore                                                                                | https://app-outlet.github.io/                                                      |
-| Paketverwaltung                                         | Synaptics                                                                               | sudo apt install synaptic                                                          |
-| Desktopaussehen verändern                               | Gnome Tweak Tool                                                                        | Macht mit Windowmanager wie qtile keinen Sinn?                                     |
-| System optimzer and application monitor                 | Stacer                                                                                  | https://github.com/oguzhaninan/Stacer                                              |
-
-*** Tastaturlayout Probleme
-1. Befehl "localectl status" --> Abfrage momentane Keyboardeinstellungen
-2. System Locales sollte bereits bei Locales eingestellt worden sein sodass nun nur noch folgende 2 Befehle ausgeführt werden müssen
-   - localectl --no-convert set-keymap de-latin1-nodeadkeys
-   - localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-3. Status erneut abfragen und nun sollte folgendes erscheinen
-    >localectl status
-        System Locale: LANG=de_DE.UTF-8
-            VC Keymap: de-latin1-nodeadkeys
-            X11 Layout: de
-            X11 Model: pc105
-            X11 Variant: deadgraveacute
-4. Reboot!! (sonst sieht man keine Änderung)
-5. Wenn locales alle passen es aber immer noch nicht geht probiere: setxkbmap -layout de
-*** Pacman
-https://wiki.archlinux.de/title/Pacman
-- Spiegelserver richtif einrichten dass hier keine Probleme entstehen
-
-| man pacman             | Manual                                                                                                                                                             |
-|------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| pacman -S              | Sync or install package                                                                                                                                            |
-| sudo pacman -S emacs   | installiert EMACS                                                                                                                                                  |
-| pacman -Sy             | nur sync (=apt-get update)                                                                                                                                         |
-| pacman -Syu            | sync und update (=apt-get update + apt-get upgrade)                                                                                                                |
-| pacman -Ss emacs       | sucht nach Paketen zu EMACS                                                                                                                                        |
-| pacman -Ss ^emacs      | sucht nach Paketen die mit emacs beginnen                                                                                                                          |
-| pacman -R emacs        | Remove package EMACS                                                                                                                                               |
-| pacman -Rs emacs       | Remove package EMACS + Dependencies                                                                                                                                |
-| pacman -Rns emacs      | Remove package EMACS + Dependencies + Sysemconfig files (nicht die .conifg files etc. welche in home directory liegen!) --> beste da vollständigste deinstallation |
-| pacman -Q              | zeigt alle installierten Pakete an                                                                                                                                 |
-| pacman -Qe             | zeigt nur die Programme an die man selbst installiert hat                                                                                                          |
-| pacman -Qdt            | zeigt nicht mehr benötigte dependencies                                                                                                                            |
-| pacman -U emacs.tar.gz | installiert lokale Datei emacs.tar.gz                                                                                                                              |
-
-*** Pycharm über snap
-Install snap: https://snapcraft.io/install/snap-store/arch
-Achtung vll muss man vor install pycharm rebooten!
-#+begin_src sh
-sudo systemctl enable --now snapd.socket
-sudo ln -s /var/lib/snapd/snap /snap
-sudo snap install pycharm-community --classic
-#+end_src
-Öffnen falls anders nicht möglich über: snap run pycharm-community (snap help zeigt alles was man zu snap benötigt!)
-
-*** TODO Jupyter, WolframAplpha und Coding richtig einrichten in OrgMode -> und Brave in Buffer öffnen statt seperat
-- Jupyter mit Emacs ersetzen: https://www.youtube.com/watch?v=dh5dtKDWgyM -> Problem?: Interactive inputs gehen im org mode nicht so wie easy wie bei jupyter
-- https://github.com/ravarspath/emacs-conf
-- https://github.com/ravarspath/ob-wolfram
-so sollte ich es dann benutzen können:
-- https://www.youtube.com/watch?v=RD0o2pkJBaI
-- Jupyter hieß mal IPython und das konnte man auf jedenfall installieren und in Emacs nutzen - In Jupyter kann man Extensions importieren wie z.B. qgrid (ermöglich interaktiv mit Tabellen in Zelle zu agieren bissl wie in Excel) und SQL
-*** Git
-1. Neuer Token(ist als Passw. für remote zugriff auf Repo nötig): UserIcon oben rechts auf Hompage -> Settings -> Developer --> Neuer Token (Ablaufdatum eingeben und repo ankreuzen - sollte als Rechtevergabe ausreichen)
-2. Git installieren: sudo pacman -S git
-3. Git Credentials einrichten:
-        git config --global user.name flowmis                   -> Global user config
-        git config --global user.email hedwig.lanter@gmx.de     -> Global user config
-        git config -l                                           -> Status überprüfen
-        git config --global credential.helper store             -> keine ständige Neuanmeldung (Geht auch über SSH-Verbindung)
-4. Git Initialisierung:
-        In Verzeichnis für Repo navigieren
-        git init .                                              -> Neues git initiieren (nur falls nötig)
-        oder: git clone "Link zur Repo"                         -> Files werden heruntergeladen
-        oder: git pull und git merge je nachdem was der Stand ist
-
-| Befehl                  | Beschriebung                                                                                                      |   |
-|-------------------------+-------------------------------------------------------------------------------------------------------------------+---|
-| git diff                | zeigt Unterschiede an                                                                                             |   |
-| git branch              | zeigt die Branches                                                                                                |   |
-| git branch -M main      | benennt Hauptbranch um von master zu main - wegen neuen Sprachregeln wo es kein Master und Slave geben soll       |   |
-| git branch r/a          | r zeigt remote branches und a zeigt alle branches                                                                 |   |
-| git branch feature-a    | macht neuen branch mit Name feature a -> hier kann man ohne Hauptbranch zu gefährden beliebig herumspielen        |   |
-| git checkout feature-a  | wechselt auf feature-a branch                                                                                     |   |
-| git checkout -          | wechselt auf main branch bzw. auf einen anderen                                                                   |   |
-| git log                 | zeigt die commits an                                                                                              |   |
-| git add ./*/Dateiname   | Staging von veränderten Dateien                                                                                   |   |
-| git commit -m "Text"    | richtet Checkpoints ein und hier sollte genau beschrieben werden was geändert wurde da man vll wieder zurück will |   |
-| git push -u origin main | Pusht die locale Repo hoch (falls sie master statt main hat muss dass noch ändern)                                |   |
-| git push                | Pusht veränderungen hoch                                                                                          |   |
-| git status              | zeigt momentanen Status des Branches an und sagt was zu machen ist                                                |   |
-| git pull                | holt alles runter falls sich etwas verändert hat und man es local noch nicht hat                                  |   |
-| git branch -d Name      | Köscht Brach der Name heissttxt                                                                                   |   |
-
-SSH Key generieren und in Github hinzufügen (Neuen Key auf Linux generieren):
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-in Github hinzufügen:
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
-
-Anmerkung: Wenn ich bei Projekt mitarbeite werd ich nie auf Main Branch direkt pushen sondern immer einen Fork/neuen Branch anlegen alles da hin pushen und dann wenn man fertig mit dem Feature oder what ever kann man einen Pull request stellen. Niemand will ohne Kontrolle von anderer Person etwas in Hauptbranch mergen, committen etc. ohne sicher zu sein dass nichts passiert.
 
 * Terminal
 Qtile startet Alacritty da es der effizienteste Terminal Emulator ist. In der Alacritty Config habe ich alle bash aliases die in der .bashrc stehen. Allerdings habe ich in die alacritty config geschrieben dass sofort fish gestartet wird und ich dadurch die coolen autofilldinge von fish habe. Bei fish muss ich dann aber in der config zu fish die aliase extra setzen, also wenn es zu Problemen kommt ist es nicht ganz einfach durchzusteigen, aber an sich ist das Setup geil da es das beste von allem hat. Themes muss ich in der Alacritty config ändern wenn ich will.
@@ -3357,6 +2699,433 @@ dir="$HOME/.config/rofi/launchers/misc"
 #theme="${themes[$(( $RANDOM % 16 ))]}"
 
 rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
+#+end_src
+
+* Setup Linux
+*** Programme
+| Kategorie                                               | Programme                                                                               | Zusatzinfo                                                                         |
+| <20>                                                    | <20>                                                                                    | <35>                                                                               |
+|---------------------------------------------------------+-----------------------------------------------------------------------------------------+------------------------------------------------------------------------------------|
+| Videoplayer                                             | VLC                                                                                     | https://www.videolan.org/vlc/index.html                                            |
+| Office                                                  | LibreOffice                                                                             | https://www.libreoffice.org/                                                       |
+| Inkscape is a vector graphics editor                    | Inkscape                                                                                | https://inkscape.org/                                                              |
+| Task-Manger                                             | htop, interactive process viewer                                                        | https://htop.dev/    -> erlaubt killen von Prozessen etc.                          |
+| Virtual Box                                             | VirtualMachine                                                                          | https://www.virtualbox.org/                                                        |
+| Videobearbeitungsprogramm                               | Kdenlive                                                                                |                                                                                    |
+| Bildbearbeitung                                         | Gimp                                                                                    | https://www.gimp.org/ -> geiles Tool (kann auch screenshots)                       |
+| Mail                                                    | Thunderbird/ProtonMail                                                                  |                                                                                    |
+| Text Editor                                             | DOOM EMACS, Jupyter Notebook, Atom, VIM, EMACS, ...                                     | https://www.vim.org/ oder: https://www.gnu.org/software/emacs/                     |
+| Passwortmanager                                         | KeepassXC oder Pass                                                                     | Standard Unix Password Manager (DT hat 2 gute Videos dazu oder einfach "man pass") |
+| Window Manager                                          | qtile, xmonad                                                                           | qtile in Python liegt mir vermutlich besser, aber xmonad ist schon auch gut        |
+| Programme öffnen                                        | rofi, dmenu                                                                             | braucht man bei qtile nicht? (Powerline sowas ähnliches und viel benutztes?)       |
+| CLI                                                     | fish, alacritty                                                                         | Config dazu speichern                                                              |
+| Integrated Development Environment (IDE)                | Pycharm                                                                                 | IDE für Python (geht auch über pacman installer)                                   |
+| Zeichenprogramm                                         | Pinta                                                                                   | Paint ersatz                                                                       |
+| ScreenRecorder                                          | deepin-screen-recorder                                                                  | Desktop aufzeichnung (auch Screenshots)                                            |
+| Screenshots                                             | flameshot (ähnlich snipping tool) -> Altern.: spectacle od. maim (Nachfolger von scrot) | gui & cli & mit mehreren Monitoren nutzbar (dmenu script schreiben?)               |
+| Browser                                                 | https://www.mozilla.org/                                                                | Binary installation:                                                               |
+|                                                         | https://brave.com/                                                                      | git clone https://aur.archlinux.org/brave-bin.git                                  |
+|                                                         |                                                                                         | cd brave-bin/                                                                      |
+|                                                         |                                                                                         | makepkg -si                                                                        |
+|                                                         |                                                                                         | https://www.vultr.com/docs/using-makepkg-on-arch-linux                             |
+| Backup                                                  | Timeshift (Backup und Rollback automation)                                              |                                                                                    |
+| Musik hören/downloaden ohne Werbung                     | Nuclear Music Streaming App for Windows, Linux, Mac                                     | bissl im Graubereich aber nicer shit (siehe Video von DT)                          |
+| LoginManager                                            | sddm, lightdm                                                                           | sddm wird aktiver weiterentwickelt als lightdm                                     |
+| Spiele                                                  | Steam                                                                                   |                                                                                    |
+| Multimediaplattform                                     | Kodi                                                                                    | Filme, Serien, Musik, Fernsehen und vieles mehr                                    |
+| Ebook Manager und Reader                                | Calibre                                                                                 |                                                                                    |
+| Audio Konverter                                         | DeaDBeeF                                                                                | https://deadbeef.sourceforge.io/                                                   |
+| Kommunikationstool/Hub unterschiedlicher Messenger Apps | Rambox                                                                                  | https://rambox.pro/#home                                                           |
+| Notes                                                   | Nodepadqq                                                                               | https://notepadqq.com/s/                                                           |
+| Mail Client                                             | Mu4e                                                                                    | Ist für doom emacs geeignet!                                                       |
+| Files zwischen Betriebssystemen tauschen                | NitroShare                                                                              | Daten übertragen auf Handy oder zwischen PCs                                       |
+| video conferencing                                      | Jitsi                                                                                   | https://jitsi.org/                                                                 |
+| Programminstaller                                       | Appstore                                                                                | https://app-outlet.github.io/                                                      |
+| Paketverwaltung                                         | Synaptics                                                                               | sudo apt install synaptic                                                          |
+| Desktopaussehen verändern                               | Gnome Tweak Tool                                                                        | Macht mit Windowmanager wie qtile keinen Sinn?                                     |
+| System optimzer and application monitor                 | Stacer                                                                                  | https://github.com/oguzhaninan/Stacer                                              |
+
+*** Tastaturlayout Probleme
+1. Befehl "localectl status" --> Abfrage momentane Keyboardeinstellungen
+2. System Locales sollte bereits bei Locales eingestellt worden sein sodass nun nur noch folgende 2 Befehle ausgeführt werden müssen
+   - localectl --no-convert set-keymap de-latin1-nodeadkeys
+   - localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+3. Status erneut abfragen und nun sollte folgendes erscheinen
+    >localectl status
+        System Locale: LANG=de_DE.UTF-8
+            VC Keymap: de-latin1-nodeadkeys
+            X11 Layout: de
+            X11 Model: pc105
+            X11 Variant: deadgraveacute
+4. Reboot!! (sonst sieht man keine Änderung)
+5. Wenn locales alle passen es aber immer noch nicht geht probiere: setxkbmap -layout de
+*** Pacman
+https://wiki.archlinux.de/title/Pacman
+- Spiegelserver richtif einrichten dass hier keine Probleme entstehen
+
+| man pacman             | Manual                                                                                                                                                             |
+|------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| pacman -S              | Sync or install package                                                                                                                                            |
+| sudo pacman -S emacs   | installiert EMACS                                                                                                                                                  |
+| pacman -Sy             | nur sync (=apt-get update)                                                                                                                                         |
+| pacman -Syu            | sync und update (=apt-get update + apt-get upgrade)                                                                                                                |
+| pacman -Ss emacs       | sucht nach Paketen zu EMACS                                                                                                                                        |
+| pacman -Ss ^emacs      | sucht nach Paketen die mit emacs beginnen                                                                                                                          |
+| pacman -R emacs        | Remove package EMACS                                                                                                                                               |
+| pacman -Rs emacs       | Remove package EMACS + Dependencies                                                                                                                                |
+| pacman -Rns emacs      | Remove package EMACS + Dependencies + Sysemconfig files (nicht die .conifg files etc. welche in home directory liegen!) --> beste da vollständigste deinstallation |
+| pacman -Q              | zeigt alle installierten Pakete an                                                                                                                                 |
+| pacman -Qe             | zeigt nur die Programme an die man selbst installiert hat                                                                                                          |
+| pacman -Qdt            | zeigt nicht mehr benötigte dependencies                                                                                                                            |
+| pacman -U emacs.tar.gz | installiert lokale Datei emacs.tar.gz                                                                                                                              |
+
+*** Pycharm über snap
+Install snap: https://snapcraft.io/install/snap-store/arch
+Achtung vll muss man vor install pycharm rebooten!
+#+begin_src sh
+sudo systemctl enable --now snapd.socket
+sudo ln -s /var/lib/snapd/snap /snap
+sudo snap install pycharm-community --classic
+#+end_src
+Öffnen falls anders nicht möglich über: snap run pycharm-community (snap help zeigt alles was man zu snap benötigt!)
+
+*** TODO Jupyter, WolframAplpha und Coding richtig einrichten in OrgMode -> und Brave in Buffer öffnen statt seperat
+- Jupyter mit Emacs ersetzen: https://www.youtube.com/watch?v=dh5dtKDWgyM -> Problem?: Interactive inputs gehen im org mode nicht so wie easy wie bei jupyter
+- https://github.com/ravarspath/emacs-conf
+- https://github.com/ravarspath/ob-wolfram
+so sollte ich es dann benutzen können:
+- https://www.youtube.com/watch?v=RD0o2pkJBaI
+- Jupyter hieß mal IPython und das konnte man auf jedenfall installieren und in Emacs nutzen - In Jupyter kann man Extensions importieren wie z.B. qgrid (ermöglich interaktiv mit Tabellen in Zelle zu agieren bissl wie in Excel) und SQL
+*** Git
+1. Neuer Token(ist als Passw. für remote zugriff auf Repo nötig): UserIcon oben rechts auf Hompage -> Settings -> Developer --> Neuer Token (Ablaufdatum eingeben und repo ankreuzen - sollte als Rechtevergabe ausreichen)
+2. Git installieren: sudo pacman -S git
+3. Git Credentials einrichten:
+        git config --global user.name flowmis                   -> Global user config
+        git config --global user.email hedwig.lanter@gmx.de     -> Global user config
+        git config -l                                           -> Status überprüfen
+        git config --global credential.helper store             -> keine ständige Neuanmeldung (Geht auch über SSH-Verbindung)
+4. Git Initialisierung:
+        In Verzeichnis für Repo navigieren
+        git init .                                              -> Neues git initiieren (nur falls nötig)
+        oder: git clone "Link zur Repo"                         -> Files werden heruntergeladen
+        oder: git pull und git merge je nachdem was der Stand ist
+
+| Befehl                  | Beschriebung                                                                                                      |   |
+|-------------------------+-------------------------------------------------------------------------------------------------------------------+---|
+| git diff                | zeigt Unterschiede an                                                                                             |   |
+| git branch              | zeigt die Branches                                                                                                |   |
+| git branch -M main      | benennt Hauptbranch um von master zu main - wegen neuen Sprachregeln wo es kein Master und Slave geben soll       |   |
+| git branch r/a          | r zeigt remote branches und a zeigt alle branches                                                                 |   |
+| git branch feature-a    | macht neuen branch mit Name feature a -> hier kann man ohne Hauptbranch zu gefährden beliebig herumspielen        |   |
+| git checkout feature-a  | wechselt auf feature-a branch                                                                                     |   |
+| git checkout -          | wechselt auf main branch bzw. auf einen anderen                                                                   |   |
+| git log                 | zeigt die commits an                                                                                              |   |
+| git add ./*/Dateiname   | Staging von veränderten Dateien                                                                                   |   |
+| git commit -m "Text"    | richtet Checkpoints ein und hier sollte genau beschrieben werden was geändert wurde da man vll wieder zurück will |   |
+| git push -u origin main | Pusht die locale Repo hoch (falls sie master statt main hat muss dass noch ändern)                                |   |
+| git push                | Pusht veränderungen hoch                                                                                          |   |
+| git status              | zeigt momentanen Status des Branches an und sagt was zu machen ist                                                |   |
+| git pull                | holt alles runter falls sich etwas verändert hat und man es local noch nicht hat                                  |   |
+| git branch -d Name      | Köscht Brach der Name heissttxt                                                                                   |   |
+
+SSH Key generieren und in Github hinzufügen (Neuen Key auf Linux generieren):
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+in Github hinzufügen:
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
+Anmerkung: Wenn ich bei Projekt mitarbeite werd ich nie auf Main Branch direkt pushen sondern immer einen Fork/neuen Branch anlegen alles da hin pushen und dann wenn man fertig mit dem Feature oder what ever kann man einen Pull request stellen. Niemand will ohne Kontrolle von anderer Person etwas in Hauptbranch mergen, committen etc. ohne sicher zu sein dass nichts passiert.
+
+* Installation von FlowmisOS
+
+1. Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
+   - Bootmanager (grub)
+   - xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
+   - window/desktop manager (qtile, openbox, xmonad)
+   - login manager (lightdm)
+   - Browser (Brave)
+   - Terminal/Terminal Emulator (Alacritty, Fish, zshell)
+   - Texteditor (Emacs)
+
+2. Für mein Betriebssystem wurde Arch als Grundlage geählt -> Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
+
+3. [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]]:
+
+4. Bootstick mit ArchLinux erstellen:
+   - Iso [[https://archlinux.org/download/][downloaden]] und Bootstick erstellen (falls keine VM Installation) -> Auf Windows mit Rufus oder Etcher - [[https://wiki.archlinux.org/title/USB_flash_installation_medium][Alternativen für nicht Windows]]
+   - PGP Signatur mit System auf dem GnupG installiert ist checken sodass man keinen Müll gedownloaded hat und installiert
+    #+begin_src shell
+    gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
+    pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
+    #+end_src
+   - Anmerkung: Arch Linux installation images supporten kein Secure Boot (-> disable Secure Boot to boot the installation medium). Auch auf Boot device Reihenfolge im Bios achten/anpassen um auf Stick zu booten. Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen (Ein Installationshelferskript liegt dort bereits und kann über <archinstall> gestartet werden)
+
+5. In VM (other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
+
+6. Nach Boot und falls man nicht das archinstall skript verwenden will folgende Befehle eingeben um eigenes System aufzusetzen: *Befehle für quick setup sind mit * markiert*
+
+#+begin_example
+Keyboard konfigurieren:
+  ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
+  ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
+  loadkeys de-latin1                                        # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
+
+Internet konfigurieren:
+  ip link                                                   # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird (Achtung dass rfkill die Karte nicht blockiert) und mit welchem Namen man es ansprechen kann (oft wlan0)
+  iwctl                                                     # Einloggen ins Wlan (Ethernet macht es einfacher) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
+  device list                                               # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
+  station "" scan                                           # "" durch Wlan Karte ersetzen (meist wlan0) -> scant nach vorhandenen Wlans die durch Wlan Karte gefunden werden
+  station "" get-networks                                   # Listet gefundene Wlan Netzwerke auf
+  station "" connect "Name Wlan"                            # Verbindung zu Wlan herstellen
+  exit                                                      # Verlassen von iwctl
+  #DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and systemd-resolved) should work out of the box for Ethernet, WLAN, and WWAN network interfaces.
+  ping archlinux.org                                        # Internetcheck -> ISO hat systemd mit Internet etc. (später installiertes System hat es nicht) -> NetworkManager enablen mit systemctl
+
+Speicher formatieren:
+  *fdisk /dev/sda                                           # In VM: <n> <p> <Enter> <Enter> <Enter> <w>
+    wenn keine VM:
+      fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
+      fdisk //dev//"Partitionsname"                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
+      fdisk //dev//"Speicherort für Betriebssystem"           # in die für das Betriebssystem gewünschte Partition wechseln
+      <g><n><1><Enter><+550M>                               # EFI Partition erstellen: <g> kreiert Label - GPT disk label (for what?) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
+      <n><2><Enter><+2G>                                    # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
+      <n><3><Enter><Enter>                                  # Linux Filesystem Partition mit restlichem Speicher erstellen
+      <t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
+      <t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
+      <w>                                                   # write changes und fdisk verlassen
+      mkfs.fat -F32 /dev/"EFI_Partitionsname/Partition1"    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
+      mkswap /dev/"swap_Partitionsname/Partition2"
+      swapon /dev/"swap_Partitionsname/Partition2"
+  *mkfs.ext4 /dev/sda1                                       # ACHTUNG: sda1 umbenennen in Namen der Partition 3 die mit Linux Filesystem erstellt wurde -> Linux Filesystem wird im Speicher angelegt
+  *mount /dev/sda1 /mnt                                      # ACHTUNG: sda1 umbenenn in Namen der Partition 3 -> Einhängen des Speichers um Veränderungen vornehmen zu können
+  *pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
+  *genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
+  *arch-chroot /mnt                                          # Mit root in /mnt gehen
+  *pacman -S neovim sudo git
+  *passwd
+  *useradd -m flowmis
+  *passwd flowmis
+  *cd /home/flowmis
+  *git clone https://github.com/flowmis/FlowmisOS.git
+  *cd FlowmisOS/tangle
+  *. rootinstall.sh
+  *EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
+  *exit
+  *umount -l /mnt
+  *reboot & login
+  *cd FlowmisOS/tangle
+  *. install.sh
+  *reboot und genießen :)
+    #Eventuell neu in Wlan anmelden (nun mit NetworkManager statt wie zuvor mit iwctl)
+    sudo NetworkManager                                          # keine Fehlermeldung = past alles
+    sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
+    sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+#+end_example
+
+** Troubleshooting:
+_Zeit und Datum:_
+  timedatectl set-ntp true                                    # Zeit und Datum über das network transfer protocol einholen
+  timedatectl status                                          # Check ob alles passt
+
+** Anfängervariante von Arch mit Desktop GUI:
+Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist dies für Anfänger besser:
+   - Arch wie oben beschrieben zum laufen bekommen und statt git clone FlowmisOS repo einfach gnome installieren und konfigurieren
+    #+begin_src shell
+    sudo pacman -S gnome                                             # intsalliert gnome Zeug für gui
+    sudo pacman -S gnome-extra                                       # weitere dependencies und Zeug ~2GB
+    #Anmerkung: Falls Probleme mit Servern einfach mal ping google.de versuchen und wenn das passt und man Internet hat dann sudo pacmann -Syyu und danach sollte download zeug gehen
+    reboot
+    sudo systemctl enable gdm                                        # login manager gdm starten und in gui einloggen (reboot nötig?)
+    #+end_src
+   Sonstiges:
+    - openbox ist gut als Desktop geeignet und nach Start einfach nur ein grauer screen(mit rechtsklick checken ob es openbox funktioniert)
+    - Nitrogen (gut für mehrere Monitore) für Wallpaper (In Nitogen ein durch git clone gesicherten Ordner mit Wallpapers auswählen (gnome-background kann man auch installieren mit pacman wenn man keine eigene Sammlung hat) -> Autostart File ist bei Nitrogen nötig)
+        - Geh in .config und erstelle openbox directory und darin eine leere Datei autostart mit folgendem Inhalt und mache Datei ausführbar (in Filemanager über Properties, oder eben über permissions) -> reicht hier bereits aus für autostart (manchmal braucht es noch mehr wenn es die .config nicht automatisch findet uns ausführt)
+        #+begin_src
+        nitrogen --restore &    # setzt Wallpaper
+        tint2                   # setzt Taskleiste/Panel
+        #+end_src
+
+* Skripte
++ Mit vim in Installationsskript gehen und es an das vorliegende System anpassen
++ ~Achtung!!!~ wenn ich ein englisches Keyboard-Layout verwenden will muss ich <s/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g> aus Root Skript und <sudo localectl --no-convert set-keymap de-latin1-nodeadkeys>, <sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute> <setxkbmap -layout de> ändern auf die Werte für eine englische Tastaut!
+** Skript 1: Root Installationsskript
+   - base-devel: ermöglicht <makepkg -si> um aus Brave Binaries ein Paket zu machen das im Anschluss installiert wird
+   - ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
+   - lightdm(Login-Manager) + lightdm-gtk-greeter(Start-Bildschirm): sind nötig um ein Login das System zu haben
+  ~Achtung1!!!~ bei der Installation der Video/Grafiktreiber muss Skript auf VM/physisches Gerät angepasst werden!
+  - Bei VM: xf86-video-fbdev
+    - Liste verfügbarer Open Source-Treiber: sudo pacman -Ss xf86-video
+    - Intel (Open Source): sudo pacman -S xf86-video-intel
+    - Nvidia (Open Source): sudo pacman -S xf86-video-nouveau
+    - Nvidia (proprietäre): sudo pacman -S nvidia nvidia-utils
+    - ATI-Grafiktreiber: sudo pacman -S xf86-video-ati
+    - Generische VESA-Treiber: sudo pacman -S xf86-video-vesa
+  ~Achtung2!!!~ Beim einhängen/mounten der Boot/Efi Partition den richtigen Pfad wählen je nachdem was mit fdisk gemacht wurde
+  ~Achtung3!!!~ Bei der Installation von Grub in die Boot Partition ist glaub kein Pfad nötig und <grub-install> reicht aus aber eventuell bei Problemen folgende Variante versuchen:
+    <grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck>
+
+#+begin_src shell :tangle tangle/rootinstall.sh
+cd /home/flowmis/
+chown flowmis FlowmisOS/                                            # owner root -> owner flowmis
+chgrp flowmis FlowmisOS/                                            # Gruppe root -> Gruppe flowmis
+usermod -aG wheel,audio,video,optical,storage flowmis               # Erteilen der Rechte bzw. in welcher Gruppe der User ist
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime             # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+hwclock --systohc                                                   # setzt Zeit
+mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf      # verschiebt vorab erstellte Datei
+sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen   # sucht einen String und ersetzt ihn
+locale-gen                                                          # generiert die locales
+echo FlowmisPC | cat > /etc/hostname                                # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                  # verschiebt vorab erstellte Datei
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel sddm qtile
+systemctl enable NetworkManager sddm                                # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
+mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
+mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
+grub-install                                                        # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
+grub-mkconfig -o /boot/grub/grub.cfg                                # Ohne diese wird es zu Problemen beim booten kommen
+#+end_src
+
+** Skript 2: Nicht Root
+
+#+begin_src shell :tangle tangle/install.sh
+sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
+sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+sudo localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
+sudo timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
+sudo timedatectl status                                             # Check ob alles pass
+setxkbmap -layout de                                                # Tastaturlayout auf Deutsch
+nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
+cd ~
+git clone https://aur.archlinux.org/brave-bin.git
+cd brave-bin/
+makepkg -si                                                     #soll nicht als root installiert werden
+cd ~
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
+~/.emacs.d/bin/doom install
+sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
+sudo pip install jupyter notebook
+~/.emacs.d/bin/doom doctor
+mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm}
+cd ~/.config/rofi
+git clone --depth=1 https://github.com/adi1090x/rofi.git
+cd rofi
+mkdir -p ~/.local/share/fonts
+cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
+cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
+cd ~/.config/rofi/
+rm -rf rofi/
+sudo pacman -S python-utils otf-fira-sans brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa
+yay -S date termite
+#+end_src
+
+** Skript 3: Installiere alle meine Programme
+  - noch so gestalten dass ich alles leicht uncommenten kann ?
+  - gehen alle USB und auch SD Karten oder nur die normalen USB A?
+  - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
+  - ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
+  - Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
+    -> Falls qt5ct die Umgebungsvariable nicht findet: Einfach eine neue Zeile aufmachen in der Datei /etc/environment und dort folgendes reinschreiben: QT_QPA_PLATFORMTHEME=qt5ct
+  - exa ist besserer Command als ls und in meinen aliases gesetzt -> zeigt alle Ergebnisse mit Farben und schöne aufgelistet wenn ich ls eingeben
+  - fish ist bei Vorschlägen super und einfach für Beginner -> läuft bei mir über alacritty
+  - starship macht mir meine Eingabe im Terminal schöner (< und > statt sinnloser Angabe vom Standardpfad) und ist in meinen Terminal configs vorhanden so dass diese das brauchen
+  - Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
+
+#+begin_src shell :tangle tangle/installmore.sh
+git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
+git clone https://github.com/flowmis/pres.git
+git clone https://github.com/flowmis/Kivy.git
+git clone https://github.com/flowmis/Sonstiges.git
+git clone https://github.com/flowmis/Beachvolleyballfeld.git
+sudo pacman -Syu
+sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next
+cd ~/Downloads
+git clone https://aur.archlinux.org/yay-git.git
+cd yay-git/
+makepkg -si
+yay -Syu
+yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git
+#python müsste durch qtile bereits installiert worden sein
+#+end_src
+
+* Dateien für die Installation
+
+Diese Dateien werden während dem Installationsprozess an den entsprechenden Ort geschrieben
+Locales:
+#+begin_src shell :tangle tangle/locale.conf
+LANG=de_DE.UTF-8
+LC_CTYPE=de_DE.UTF-8
+#+end_src
+Localhost und die localdomain festlegen:
+#+begin_src shell :tangle tangle/hosts
+# Static table lookup for hostnames.
+# See hosts(5) for detailsh
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	FlowmisPC.localdomain	FlowmisPC
+#+end_src
+
+#+begin_src shell :tangle tangle/70-synaptics.conf
+# Example xorg.conf.d snippet that assigns the touchpad driver
+# to all touchpads. See xorg.conf.d(5) for more information on
+# InputClass.
+# DO NOT EDIT THIS FILE, your distribution will likely overwrite
+# it when updating. Copy (and rename) this file into
+# /etc/X11/xorg.conf.d first.
+# Additional options may be added in the form of
+#   Option "OptionName" "value"
+#
+Section "InputClass"
+        Identifier "touchpad catchall"
+        Driver "synaptics"
+        MatchIsTouchpad "on"
+        Option "TapButton1" "1"
+        Option "TapButton2" "3"
+        Option "TapButton3" "2"
+        Option "VertEdgeScroll" "on"
+        Option "VertTwoFingerScroll" "on"
+        Option "HorizEdgeScroll" "on"
+        Option "HorizTwoFingerScroll" "on"
+        Option "CircularScrolling" "on"
+        Option "CircScrollTrigger" "2"
+        Option "EmulateTwoFingerMinZ" "40"
+        Option "EmulateTwoFingerMinW" "8"
+        Option "CoastingSpeed" "0"
+        Option "FingerLow" "30"
+        Option "FingerHigh" "50"
+        Option "MaxTapTime" "125"
+# This option is recommend on all Linux systems using evdev, but cannot be
+# enabled by default. See the following link for details:
+# http://who-t.blogspot.com/2010/11/how-to-ignore-configuration-errors.html
+#       MatchDevicePath "/dev/input/event*"
+EndSection
+
+Section "InputClass"
+        Identifier "touchpad ignore duplicates"
+        MatchIsTouchpad "on"
+        MatchOS "Linux"
+        MatchDevicePath "/dev/input/mouse*"
+        Option "Ignore" "on"
+EndSection
+
+# This option enables the bottom right corner to be a right button on clickpads
+# and the right and middle top areas to be right / middle buttons on clickpads
+# with a top button area.
+# This option is only interpreted by clickpads.
+Section "InputClass"
+        Identifier "Default clickpad buttons"
+        MatchDriver "synaptics"
+        Option "SoftButtonAreas" "50% 0 82% 0 0 0 0 0"
+        Option "SecondarySoftButtonAreas" "58% 0 0 15% 42% 58% 0 15%"
+EndSection
+
+# This option disables software buttons on Apple touchpads.
+# This option is only interpreted by clickpads.
+Section "InputClass"
+        Identifier "Disable clickpad buttons on Apple touchpads"
+        MatchProduct "Apple|bcm5974"
+        MatchDriver "synaptics"
+        Option "SoftButtonAreas" "0 0 0 0 0 0 0 0"
+EndSection
 #+end_src
 
 * Git

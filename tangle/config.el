@@ -1,21 +1,22 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
-        user-mail-address "manemarkushoffmann@gmail.com" ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
+        user-mail-address "manemarkushoffmann@gmail.com"                                                        ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
         undo-tree-auto-save-history t
         undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history"))
-        save-interprogram-paste-before-kill t ; Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
-        org-log-into-drawer 1    ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
+        save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
+        org-log-into-drawer 1                                                                                   ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
         yas-snippet-dirs '("~/Dropbox/emacs/yasnippets/")
         yas-global-mode 1
-        doom-scratch-initial-major-mode 'lisp-interaction-mode  ;scratch buffer automatisch im elisp mode um Dinge zu testen
-        org-startup-folded 'show2levels ;beim Start werden Header bis zum 2 Level angezeigt
-        confirm-kill-emacs nil  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
-        org-publish-use-timestamps-flag nil ;exportiert alles - macht Export leichter nachzuvollziehen
-        org-export-with-broken-links t ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
-        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js" ;"file:///home/flowmi/Git/pres/reveal" -> ist lokaler Pfad falls ich mein pres Repo ofline geclont habe
-        org-reveal-mathjax t    ;brauch ich es oder geht es auch ohne?
+        doom-scratch-initial-major-mode 'lisp-interaction-mode                                                  ;scratch buffer automatisch im elisp mode um Dinge zu testen
+        org-startup-folded 'show2levels                                                                         ;beim Start werden Header bis zum 2 Level angezeigt
+        confirm-kill-emacs nil                                                                                  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
+        org-publish-use-timestamps-flag nil                                                                     ;exportiert alles - macht Export leichter nachzuvollziehen
+        org-export-with-broken-links t                                                                          ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
+        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmi/Git/pres/reveal" -> ist lokaler Pfad?
+        org-reveal-mathjax t                                                                                    ;brauch ich es oder geht es auch ohne?
         eshell-rc-script "~/.config/doom/eshell/profile"
         eshell-aliases-file "~/.config/doom/eshell/aliases"
         eshell-buffer-maximum-lines 5000
@@ -26,6 +27,7 @@
                            "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220416144259-dlt.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
+;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :dashboard
   (let ((alternatives '("banner1.png"
@@ -42,42 +44,42 @@
   (setq +doom-dashboard-name "*Startscreen*"
         +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
         doom-fallback-buffer-name "*Startscreen*"))
+;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
-  (beacon-mode 1)                 ;hilft den Cursor schnell zu finden durch aufblinken
-        ;; xterm-mouse-mode 1 ;brauche ich wenn ich links mit Enter aufmachen will - stimmt nicht und geht mit C-c co wenn wen nicht normal mit Enter geht - warum gehen manche und andere nicht?!
-  ;; (setq display-line-numbers-type 'visual)
-  (setq display-line-numbers-type nil
-        doom-theme 'doom-molokai
-        doom-font (font-spec :family "Source Code Pro" :size 13)
-        doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)
-        doom-big-font (font-spec :family "Source Code Pro" :size 20)
+  (beacon-mode 1)                                                                                               ;hilft den Cursor schnell zu finden durch aufblinken
+  ;; (setq display-line-numbers-type 'visual)                                                                   ;Einstellung falls ich Zeilennummern angezeigt bekommen will
+  (setq display-line-numbers-type nil                                                                           ;schaltet Zeilennummern aus
+        doom-theme 'doom-molokai                                                                                ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
+        doom-font (font-spec :family "Source Code Pro" :size 13)                                                ;setzt Schriftart etc.
+        doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)                                       ;wird mit variable-pitch-mode aktiviert -> Man kann auch einstellen dass beide Schriftarten in Org Datei für unterschiedliche Elemente verwendet werden
+        doom-big-font (font-spec :family "Source Code Pro" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)
         doom-unicode-font (font-spec :family "Source Code Pro" :size 10)
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
-        ;; org-superstar-headline-bullets-list   '("◉" "○" "✿") ;wenn ich sie verwenden will kann ich es hier einstellen (Anzahl egal da es durch cycled)
-        org-superstar-headline-bullets-list '(" ")      ;wird mit +pretty flag in init.el installiert
-        org-ellipsis " ▼ "
-        org-hide-emphasis-markers t ;;macht dass Markierungssymbole um kursiv, dick, unterstrichen,... zu schreiben (~-_/*=) ausgeblendet werden
+        org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
+        ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
+        org-ellipsis " ▼ "                                                                                      ;Zeigt an das unter diesem Punkt eingefaltete Information liegt
+        org-hide-emphasis-markers t                                                                             ;Markierungssymbole um kursiv, dick, unterstrichen,... unsichtbar (~-_/*= um Wörter werden ausgeblendet)
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-log-done 'time
         org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-todo-keywords '((sequence
-                             "TODO(t@!)"
-                             "EILIG(e@/!)"
+                             "EILIG(e@!)"
+                             "ZEITNAH(z@/!)"
+                             "IRGENDWANN(z@/!)"
                              "PAUSIERT(p@/!)"
-                             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+                             "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
                              "BEENDET(b@/!)"
                              "ABGEBROCHEN(a@/!)"
                              "DELEGIERT(d@/!)"))
-
         org-capture-templates '(("1" "Eilig" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
                                 ("2" "Zeitnah" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "TODO Zeitnah"))
-                                ("3" "Pausiert" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Pausiert"))
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Zeitnah"))
+                                ("3" "Irgendwann" checkitem
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Irgendwann"))
                                 ("4" "Einkaufsliste Mane" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
                                 ("5" "Einkaufsliste Joana" checkitem
@@ -105,39 +107,36 @@
                                       :unnarrowed t)
                                      ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-                                      :unnarrowed t)))
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))   ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-  (custom-set-faces!
-        '(font-lock-comment-face :slant italic)       ;Macht Kommentare wie diesen kursiv
-        '(font-lock-keyword-face :slant italic)))      ;Macht Keywords wie setq, after! ... kursiv
-
-(after! dired
-  :hook
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-;; With dired-open plugin, you can launch external programs for certain extensions
-;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
-  :config
-  (setq dired-open-extensions '(("gif" . "vlc")           ;Mit Enter auf Datei in dired mit dieser Endung wird angegebenes externes Programm zum öffnen verwendet!
-                              ("jpg" . "pinta")
-                              ("png" . "pinta")
-                              ("mkv" . "vlc")
-                              ("html" . "brave")
-                              ("mp4" . "vlc"))))
-(after! org-fancy-priorities
-  :config
-  (setq org-fancy-priorities-list '((?A . "EILIG")         ;wird mit +pretty flag in init.el installiert
-                                    (?B . "TODO")
-                                    (?C . "PAUSIERT")
-                                    (?D . "⏰")
-                                    (?1 . "🍽")
-                                    (?2 . "☕")
-                                    (?I . "Important")))
+                                      :unnarrowed t))
+        ;; org-fancy-priorities-list '((?A . "⏰")                                                              ;wird mit +pretty flag in init.el installiert, aber macht es finde ich hässlich
+        ;;                             (?B . "🐶")
+        ;;                             (?C . "🌞")
+        ;;                             (?D . "⏰")
+        ;;                             (?1 . "🍽")
+        ;;                             (?2 . "☕")
+        ;;                             (?I . "Important"))
+        )
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
                     '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
                     '(org-level-3 ((t (:inherit outline-3 :height 1.16 :underline nil))))
                     '(org-level-4 ((t (:inherit outline-4 :height 1.10 :underline nil))))
-                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil))))))
-(require 'ox-reveal) ;kann ich es irgendwo integrieren?
+                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil)))))
+  (custom-set-faces!
+        '(font-lock-comment-face :slant italic)                                                                 ;Macht Kommentare wie diesen kursiv
+        '(font-lock-keyword-face :slant italic)))                                                               ;Macht Keywords wie setq, after! ... kursiv
+;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! dired
+  :hook
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  :config
+  (setq dired-open-extensions '(("gif" . "vlc")                                                                 ;Enter(oder l) in Dired auf Datei mit dieser angegebenen Endung öffnet externes angegebenes Programm
+                                ("jpg" . "pinta")
+                                ("png" . "pinta")
+                                ("mkv" . "vlc")
+                                ("html" . "brave")
+                                ("mp4" . "vlc"))))
+(require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
