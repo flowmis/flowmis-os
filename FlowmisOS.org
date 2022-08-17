@@ -559,7 +559,7 @@ echo done
         doom-font (font-spec :family "Source Code Pro" :size 13)                                                ;setzt Schriftart etc.
         doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)                                       ;wird mit variable-pitch-mode aktiviert -> Man kann auch einstellen dass beide Schriftarten in Org Datei für unterschiedliche Elemente verwendet werden
         doom-big-font (font-spec :family "Source Code Pro" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)
-        doom-unicode-font (font-spec :family "Source Code Pro" :size 10)
+        doom-unicode-font (font-spec :family "Source Code Pro" :size 13)
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
         org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
@@ -570,15 +570,39 @@ echo done
         org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
+        org-tag-alist (quote ((:startgroup)
+                              ("@Work" . ?w)                                                                  ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
+                              ("@Home" . ?h)
+                              ("@Ökonomie" . ?o)
+                              ("@Gesundheit" . ?g)
+                              (:endgroup)
+                              ("noexport" . ?n)
+                              ("Buch" . ?b)
+                              ("Volleyball" . ?v)
+                              ("Sport" . ?s)
+                              ("History" . ?H)
+                              ("LehrenLernen" . ?l)
+                              ("Programmieren" . ?p)
+                              ("Schule" . ?S)
+                              ("Weisheit" . ?W)
+                              ("Organisation" . ?O)))
         org-todo-keywords '((sequence
-                             "EILIG(e@!)"
-                             "ZEITNAH(z@/!)"
-                             "IRGENDWANN(z@/!)"
+                             "EILIG(e)"
+                             "ZEITNAH(z)"
+                             "IRGENDWANN(i)"
                              "PAUSIERT(p@/!)"
                              "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
                              "BEENDET(b@/!)"
                              "ABGEBROCHEN(a@/!)"
                              "DELEGIERT(d@/!)"))
+        org-todo-keyword-faces
+                (quote (("EILIG" :foreground "red" :weight bold)
+                        ("ZEITNAH" :foreground "magenta" :weight bold)
+                        ("IRGENDWANN" :foreground "yellow" :weight bold)
+                        ("PAUSIERT" :foreground "light blue" :weight bold)
+                        ("BEENDET" :foreground "black" :weight bold)
+                        ("ABGEBROCHEN" :foreground "black" :weight bold)
+                        ("DELEGIERT" :foreground "grey" :weight bold)))
         org-capture-templates '(("1" "Eilig" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
                                 ("2" "Zeitnah" checkitem
@@ -659,6 +683,8 @@ echo done
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
        :desc "Edit qtile config" "q" #'(lambda () (interactive) (find-file "~/.config/qtile/config.py"))
        :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"))
+       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org"))
+       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bücher.org"))
        :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
        :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
        :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
