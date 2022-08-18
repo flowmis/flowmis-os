@@ -58,6 +58,7 @@
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
         org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
+        org-superstar-item-bullet-alist '((?* . ?•)                                                             ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
         org-ellipsis " ▼ "                                                                                      ;Zeigt an das unter diesem Punkt eingefaltete Information liegt
         org-hide-emphasis-markers t                                                                             ;Markierungssymbole um kursiv, dick, unterstrichen,... unsichtbar (~-_/*= um Wörter werden ausgeblendet)
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -99,11 +100,11 @@
                         ("ABGEBROCHEN" :foreground "black" :weight bold)
                         ("DELEGIERT" :foreground "grey" :weight bold)))
         org-capture-templates '(("1" "Eilig" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Eilig"))
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "EILIG [#A]"))
                                 ("2" "Zeitnah" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Zeitnah"))
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "ZEITNAH [#B]"))
                                 ("3" "Irgendwann" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Irgendwann"))
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "IRGENDWANN [#C]"))
                                 ("4" "Einkaufsliste Mane" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
                                 ("5" "Einkaufsliste Joana" checkitem
@@ -113,7 +114,7 @@
                                 ("7" "Wunschliste Mane" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
                                 ("8" "Neue Abrechnung" table-line
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Abrechnungen Jo"))
+                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
                                 ("t" "Gedanken und Sonstiges" entry
                                  (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
                                  "* %^{Description}      Hinzugefügt am: %U      %^g"))
