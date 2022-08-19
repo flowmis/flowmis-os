@@ -39,8 +39,14 @@
 - [[#rofi][Rofi]]
 - [[#setup-linux][Setup Linux]]
 - [[#installation-von-flowmisos][Installation von FlowmisOS]]
+  - [[#install-in-vm][Install in VM]]
+  - [[#install-on-hardware][Install on Hardware]]
   - [[#troubleshooting][Troubleshooting:]]
   - [[#anfängervariante-von-arch-mit-desktop-gui][Anfängervariante von Arch mit Desktop GUI:]]
+- [[#virtual-box][Virtual Box]]
+  - [[#download][Download]]
+  - [[#extension-pack-installieren][Extension pack installieren]]
+  - [[#installieren-von-images][Installieren von images]]
 - [[#skripte][Skripte]]
   - [[#skript-1-root-installationsskript][Skript 1: Root Installationsskript]]
   - [[#skript-2-nicht-root][Skript 2: Nicht Root]]
@@ -78,9 +84,6 @@ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/
 # wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
 echo done
 #+end_src
-
-#+RESULTS:
-: done
 
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
   - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
@@ -2888,6 +2891,9 @@ Anmerkung: Wenn ich bei Projekt mitarbeite werd ich nie auf Main Branch direkt p
 
 * Installation von FlowmisOS
 
+** Install in VM
+arch iso in VM -> starten -> ~python -m archinstall~ -> Installationsskript folgen und im Anschluss die von mir hier erstellten VM spezifischen Skripte zu den restlichen Einstellungen Zusatzinstallationen ausführen
+** Install on Hardware
 1. Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
    - Bootmanager (grub)
    - xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
@@ -2995,6 +3001,19 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
         nitrogen --restore &    # setzt Wallpaper
         tint2                   # setzt Taskleiste/Panel
         #+end_src
+* Virtual Box
+** Download
+- Extension Pack und VirtualBox von [[https://www.virtualbox.org/wiki/Downloads][hier]]
+- virtualbox kann ich in Arch auch durch meinen Packetmanager installieren
+** Extension pack installieren
+- in Arch?
+- Windows
+  - check virtualbox for updates & update
+  - download Extension pack and check if version is the same than virtual box
+  - Einstellungen -> Zusatzpakete -> Paket das gedownloaded wurde installieren
+
+** Installieren von images
+- =Neu= -> je nach Name den man der Maschine gibt sucht es automatisch richtige Version und Typ - ansonsten manuell wählen -> Einstellungen folgen bis Maschine erstellt wurde -> Maschine auswählen und =Ändern= drücken -> =System= -> uncheck =Diskettenlaufwerk= -> check =EFI aktivieren= -> =Prozessor= -> Einstellen wie viele Prozessoren ich geben will -> =Massenspeicher= -> Unter =Controller:IDE= die .iso Datei reinladen -> =Starten= der Maschine -> Maschine nach der Installation herunterfahren ->  =Massenspeicher=  und .iso entfernen -> Maschine nun fertig und kann gestartet werden
 
 * Skripte
 + Mit vim in Installationsskript gehen und es an das vorliegende System anpassen
