@@ -71,6 +71,7 @@
         org-tag-alist (quote ((:startgroup)
                               ("@Work" . ?w)                                                                  ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               ("@Home" . ?h)
+                              ("@Projekt" . ?p)                                                                  ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               ("@Ökonomie" . ?o)
                               ("@Gesundheit" . ?g)
                               (:endgroup)
@@ -80,7 +81,7 @@
                               ("Sport" . ?s)
                               ("History" . ?H)
                               ("LehrenLernen" . ?l)
-                              ("Programmieren" . ?p)
+                              ("Programmieren" . ?P)
                               ("Schule" . ?S)
                               ("Weisheit" . ?W)
                               ("Organisation" . ?O)))
@@ -94,13 +95,13 @@
                              "ABGEBROCHEN(a@/!)"
                              "DELEGIERT(d@/!)"))
         org-todo-keyword-faces
-                (quote (("EILIG" :foreground "red" :weight bold)
-                        ("ZEITNAH" :foreground "magenta" :weight bold)
-                        ("IRGENDWANN" :foreground "yellow" :weight bold)
-                        ("PAUSIERT" :foreground "light blue" :weight bold)
-                        ("BEENDET" :foreground "black" :weight bold)
-                        ("ABGEBROCHEN" :foreground "black" :weight bold)
-                        ("DELEGIERT" :foreground "grey" :weight bold)))
+        (quote (("EILIG" :foreground "red" :weight bold)
+                ("ZEITNAH" :foreground "magenta" :weight bold)
+                ("IRGENDWANN" :foreground "yellow" :weight bold)
+                ("PAUSIERT" :foreground "light blue" :weight bold)
+                ("BEENDET" :foreground "black" :weight bold)
+                ("ABGEBROCHEN" :foreground "black" :weight bold)
+                ("DELEGIERT" :foreground "grey" :weight bold)))
         org-capture-templates '(("1" "Eilig" checkitem
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "EILIG [#A]"))
                                 ("2" "Zeitnah" checkitem
@@ -117,9 +118,9 @@
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
                                 ("8" "Neue Abrechnung" table-line
                                  (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
-                                ("t" "Gedanken und Sonstiges" entry
-                                 (file+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220415105725-journal.org")
-                                 "* %^{Description}      Hinzugefügt am: %U      %^g"))
+                                ("j" "Daily Journal" entry
+                                 (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal")
+                                 "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         org-roam-db-autosync-mode 1
         org-roam-ui-sync-theme t
@@ -150,8 +151,8 @@
                     '(org-level-4 ((t (:inherit outline-4 :height 1.10 :underline nil))))
                     '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil)))))
   (custom-set-faces!
-        '(font-lock-comment-face :slant italic)                                                                 ;Macht Kommentare wie diesen kursiv
-        '(font-lock-keyword-face :slant italic)))                                                               ;Macht Keywords wie setq, after! ... kursiv
+    '(font-lock-comment-face :slant italic)                                                                 ;Macht Kommentare wie diesen kursiv
+    '(font-lock-keyword-face :slant italic)))                                                               ;Macht Keywords wie setq, after! ... kursiv
 ;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! dired
   :hook
@@ -164,6 +165,7 @@
                                 ("html" . "brave")
                                 ("mp4" . "vlc"))))
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
+(require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
@@ -213,7 +215,6 @@
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save)
       (:prefix ("v". "Manes Funktionen")
-       :desc "Capture Today - Daily Journaling?" "d" #'org-roam-dailies-capture-today
        :desc "org-roam-buffer-toggle" "u" #'org-roam-ui-open
        :desc "find node/new node" "f" #'org-roam-node-find
        :desc "insert node" "i" #'org-roam-node-insert
