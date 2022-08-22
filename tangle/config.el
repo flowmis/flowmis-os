@@ -50,7 +50,7 @@
   (beacon-mode 1)                                                                                               ;hilft den Cursor schnell zu finden durch aufblinken
   ;; (setq display-line-numbers-type 'visual)                                                                   ;Einstellung falls ich Zeilennummern angezeigt bekommen will
   (setq display-line-numbers-type nil                                                                           ;schaltet Zeilennummern aus
-        doom-theme 'doom-molokai                                                                                ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
+        doom-theme 'doom-monokai-classic                                                                        ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
         doom-font (font-spec :family "Source Code Pro" :size 13)                                                ;setzt Schriftart etc.
         doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)                                       ;wird mit variable-pitch-mode aktiviert -> Man kann auch einstellen dass beide Schriftarten in Org Datei für unterschiedliche Elemente verwendet werden
         doom-big-font (font-spec :family "Source Code Pro" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)

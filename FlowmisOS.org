@@ -88,7 +88,7 @@ echo done
 #+RESULTS:
 : done
 
-- [ ] clean up Journal einträge in config
+- [ ] YASNIPPETS FEHLERMELDUNG BEHEBEN
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
   - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
   - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
@@ -108,9 +108,8 @@ echo done
   - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
   - [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
 - [ ] EMACS
-  - [ ] config.el aufsplitten und Code + Module/Pakete erklären -> in Richtung literate Programming
 - [ ] .bashrc bashprofile und bashhistory zu configs
-- [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
+- [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem erstellen - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
 
 * Einleitung
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem ich mein System aufbaue
@@ -562,7 +561,7 @@ echo done
   (beacon-mode 1)                                                                                               ;hilft den Cursor schnell zu finden durch aufblinken
   ;; (setq display-line-numbers-type 'visual)                                                                   ;Einstellung falls ich Zeilennummern angezeigt bekommen will
   (setq display-line-numbers-type nil                                                                           ;schaltet Zeilennummern aus
-        doom-theme 'doom-molokai                                                                                ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
+        doom-theme 'doom-monokai-classic                                                                        ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
         doom-font (font-spec :family "Source Code Pro" :size 13)                                                ;setzt Schriftart etc.
         doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)                                       ;wird mit variable-pitch-mode aktiviert -> Man kann auch einstellen dass beide Schriftarten in Org Datei für unterschiedliche Elemente verwendet werden
         doom-big-font (font-spec :family "Source Code Pro" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)
@@ -2030,6 +2029,7 @@ alias em='/usr/bin/emacs -nw'
 alias emacs="emacsclient -c -a 'emacs'"
 alias doomsync="~/.emacs.d/bin/doom sync"
 alias doomdoctor="~/.emacs.d/bin/doom doctor"
+alias doombuild="~/.emacs.d/bin/doom build"
 alias doomupgrade="~/.emacs.d/bin/doom upgrade"
 alias doompurge="~/.emacs.d/bin/doom purge"
 
@@ -2296,6 +2296,7 @@ alias vim="nvim"
 alias em="/usr/bin/emacs -nw"
 alias emacs="emacsclient -c -a 'emacs'"
 alias doomsync="~/.emacs.d/bin/doom sync"
+alias doombuild="~/.emacs.d/bin/doom build"
 alias doomdoctor="~/.emacs.d/bin/doom doctor"
 alias doomupgrade="~/.emacs.d/bin/doom upgrade"
 alias doompurge="~/.emacs.d/bin/doom purge"
