@@ -8,8 +8,6 @@
         undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history"))
         save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
         org-log-into-drawer 1                                                                                   ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
-        yas-snippet-dirs '("~/Dropbox/emacs/yasnippets/")
-        yas-global-mode 1
         doom-scratch-initial-major-mode 'lisp-interaction-mode                                                  ;scratch buffer automatisch im elisp mode um Dinge zu testen
         org-startup-folded 'show2levels                                                                         ;beim Start werden Header bis zum 2 Level angezeigt
         confirm-kill-emacs nil                                                                                  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
@@ -166,6 +164,11 @@
                                 ("mp4" . "vlc"))))
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
+(require 'yasnippet)
+(add-to-list 'load-path
+              "~/.emacs.d/plugins/yasnippet")
+(setq yas-snippet-dirs '("/home/flowmis/Dropbox/emacs/yasnippets/"))
+(yas-global-mode 1)
 
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
@@ -289,3 +292,29 @@
   (display-line-numbers-mode 1)         ;schaltet line-numbers aus
   (text-scale-mode -1)
   (set-frame-parameter (selected-frame) 'alpha '(95 . 70)))
+
+(defun mane-theme-1 ()
+  "Paar Anpassungen von mir die ich mit dieser Funktion in der config, oder interaktiv ein-ausschalten kann"
+  (interactive)
+  (custom-theme-set-faces
+   'user
+   '(org-level-1 ((t (:inherit outline-1 :height 1.38 :underline nil :foreground "royal blue"))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.1 :underline nil :foreground "white"))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.1 :underline nil :foreground "white"))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.1 :underline nil :foreground "white"))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.1 :underline nil :foreground "white"))))
+   '(org-block ((t (:inherit fixed-pitch))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-document-info ((t (:height 1.1 :foreground "dark orange"))))
+   '(org-document-title ((t (:height 2.1 :foreground "cyan"))))
+   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+   '(org-link ((t (:foreground "royal blue" :underline t))))
+   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-property-value ((t (:inherit fixed-pitch))) t)
+   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))))
+;;;Hook der Funktionen nach starten von Doom automatisch aktiviert!
+(add-hook 'after-init-hook #'mane-theme-1)
