@@ -28,17 +28,8 @@
 ;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :dashboard
-  (let ((alternatives '("banner1.png"
-                        "banner2.png"
-                        "banner3.png"
-                        "banner4.png"
-                        "banner5.png"
-                        "banner6.png"
-                        "banner7.png"
-                        "banner8.png")))
-    (setq fancy-splash-image
-          (concat "~/.config/doom/banner/"
-                  (nth (random (length alternatives)) alternatives))))
+  (let ((alternatives '("banner1.png" "banner3.png" "banner4.png" "banner5.png" "banner6.png" "banner7.png" "banner8.png")))
+    (setq fancy-splash-image (concat "~/.config/doom/banner/" (nth (random (length alternatives)) alternatives))))
   (setq +doom-dashboard-name "*Startscreen*"
         +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
         doom-fallback-buffer-name "*Startscreen*"))
@@ -56,9 +47,7 @@
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
         org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
-        org-superstar-item-bullet-alist '((?* . ?•)                                                             ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
-                                          (?+ . ?•)
-                                          (?- . ?•))
+        org-superstar-item-bullet-alist '((?* . ?•) (?+ . ?•) (?- . ?•))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
         org-ellipsis " ▼ "                                                                                      ;Zeigt an das unter diesem Punkt eingefaltete Information liegt
         org-hide-emphasis-markers t                                                                             ;Markierungssymbole um kursiv, dick, unterstrichen,... unsichtbar (~-_/*= um Wörter werden ausgeblendet)
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -66,59 +55,26 @@
         org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
-        org-tag-alist (quote ((:startgroup)
-                              ("@Work" . ?w)                                                                  ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
-                              ("@Home" . ?h)
-                              ("@Projekt" . ?p)                                                                  ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
-                              ("@Ökonomie" . ?o)
-                              ("@Gesundheit" . ?g)
-                              (:endgroup)
-                              ("noexport" . ?n)
-                              ("Buch" . ?b)
-                              ("Volleyball" . ?v)
-                              ("Sport" . ?s)
-                              ("History" . ?H)
-                              ("LehrenLernen" . ?l)
-                              ("Programmieren" . ?P)
-                              ("Schule" . ?S)
-                              ("Weisheit" . ?W)
-                              ("Organisation" . ?O)))
-        org-todo-keywords '((sequence
-                             "EILIG(e)"
-                             "ZEITNAH(z)"
-                             "IRGENDWANN(i)"
-                             "PAUSIERT(p@/!)"
-                             "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
-                             "BEENDET(b@/!)"
-                             "ABGEBROCHEN(a@/!)"
-                             "DELEGIERT(d@/!)"))
-        org-todo-keyword-faces
-        (quote (("EILIG" :foreground "red" :weight bold)
-                ("ZEITNAH" :foreground "magenta" :weight bold)
-                ("IRGENDWANN" :foreground "yellow" :weight bold)
-                ("PAUSIERT" :foreground "light blue" :weight bold)
-                ("BEENDET" :foreground "black" :weight bold)
-                ("ABGEBROCHEN" :foreground "black" :weight bold)
-                ("DELEGIERT" :foreground "grey" :weight bold)))
-        org-capture-templates '(("1" "Eilig" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "EILIG [#A]"))
-                                ("2" "Zeitnah" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "ZEITNAH [#B]"))
-                                ("3" "Irgendwann" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "IRGENDWANN [#C]"))
-                                ("4" "Einkaufsliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
-                                ("5" "Einkaufsliste Joana" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
-                                ("6" "Gemeinsame Einkaufsliste" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
-                                ("7" "Wunschliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
-                                ("8" "Neue Abrechnung" table-line
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
-                                ("j" "Daily Journal" entry
-                                 (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal")
-                                 "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
+        org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
+                              (:endgroup) ("noexport" . ?n) ("Buch" . ?b) ("Volleyball" . ?v) ("Sport" . ?s) ("History" . ?H) ("LehrenLernen" . ?l) ("Programmieren" . ?P) ("Schule" . ?S) ("Weisheit" . ?W) ("Organisation" . ?O)))
+        org-todo-keywords '((sequence "EILIG(e)" "ZEITNAH(z)" "IRGENDWANN(i)" "PAUSIERT(p@/!)" "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
+                             "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)" "DELEGIERT(d@/!)"))
+        org-todo-keyword-faces (quote (("EILIG" :foreground "red" :weight bold)
+                                       ("ZEITNAH" :foreground "magenta" :weight bold)
+                                       ("IRGENDWANN" :foreground "yellow" :weight bold)
+                                       ("PAUSIERT" :foreground "light blue" :weight bold)
+                                       ("BEENDET" :foreground "black" :weight bold)
+                                       ("ABGEBROCHEN" :foreground "black" :weight bold)
+                                       ("DELEGIERT" :foreground "grey" :weight bold)))
+        org-capture-templates '(("1" "Eilig" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "EILIG [#A]"))
+                                ("2" "Zeitnah" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "ZEITNAH [#B]"))
+                                ("3" "Irgendwann" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "IRGENDWANN [#C]"))
+                                ("4" "Einkaufsliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
+                                ("5" "Einkaufsliste Joana" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
+                                ("6" "Gemeinsame Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
+                                ("7" "Wunschliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
+                                ("8" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         org-roam-db-autosync-mode 1
         org-roam-ui-sync-theme t
@@ -142,12 +98,6 @@
         ;;                             (?2 . "☕")
         ;;                             (?I . "Important"))
         )
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-  (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
-                    '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
-                    '(org-level-3 ((t (:inherit outline-3 :height 1.16 :underline nil))))
-                    '(org-level-4 ((t (:inherit outline-4 :height 1.10 :underline nil))))
-                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil)))))
   (custom-set-faces!
     '(font-lock-comment-face :slant italic)                                                                 ;Macht Kommentare wie diesen kursiv
     '(font-lock-keyword-face :slant italic)))                                                               ;Macht Keywords wie setq, after! ... kursiv
@@ -296,6 +246,7 @@
 (defun mane-theme-1 ()
   "Paar Anpassungen von mir die ich mit dieser Funktion in der config, oder interaktiv ein-ausschalten kann"
   (interactive)
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-theme-set-faces
    'user
    '(org-level-1 ((t (:inherit outline-1 :height 1.38 :underline nil :foreground "royal blue"))))

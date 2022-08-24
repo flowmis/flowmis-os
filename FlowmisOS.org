@@ -31,7 +31,7 @@
 - [[#qtile-windowmanager][Qtile Windowmanager]]
   - [[#qtile-config][Qtile config]]
 - [[#login-manager][Login Manager]]
-- [[#terminal][Terminal]]
+- [[#terminalshellcli][Terminal/Shell/CLI]]
   - [[#alacritty-config][Alacritty Config]]
   - [[#fish][Fish]]
   - [[#bash][Bash]]
@@ -84,9 +84,6 @@ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/
 # wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
 echo done
 #+end_src
-
-#+RESULTS:
-: done
 
 - [ ] YASNIPPETS FEHLERMELDUNG BEHEBEN
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
@@ -539,17 +536,8 @@ echo done
 ;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :dashboard
-  (let ((alternatives '("banner1.png"
-                        "banner2.png"
-                        "banner3.png"
-                        "banner4.png"
-                        "banner5.png"
-                        "banner6.png"
-                        "banner7.png"
-                        "banner8.png")))
-    (setq fancy-splash-image
-          (concat "~/.config/doom/banner/"
-                  (nth (random (length alternatives)) alternatives))))
+  (let ((alternatives '("banner1.png" "banner3.png" "banner4.png" "banner5.png" "banner6.png" "banner7.png" "banner8.png")))
+    (setq fancy-splash-image (concat "~/.config/doom/banner/" (nth (random (length alternatives)) alternatives))))
   (setq +doom-dashboard-name "*Startscreen*"
         +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
         doom-fallback-buffer-name "*Startscreen*"))
@@ -567,9 +555,7 @@ echo done
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
         org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
-        org-superstar-item-bullet-alist '((?* . ?•)                                                             ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
-                                          (?+ . ?•)
-                                          (?- . ?•))
+        org-superstar-item-bullet-alist '((?* . ?•) (?+ . ?•) (?- . ?•))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
         org-ellipsis " ▼ "                                                                                      ;Zeigt an das unter diesem Punkt eingefaltete Information liegt
         org-hide-emphasis-markers t                                                                             ;Markierungssymbole um kursiv, dick, unterstrichen,... unsichtbar (~-_/*= um Wörter werden ausgeblendet)
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -577,59 +563,26 @@ echo done
         org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
-        org-tag-alist (quote ((:startgroup)
-                              ("@Work" . ?w)                                                                  ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
-                              ("@Home" . ?h)
-                              ("@Projekt" . ?p)                                                                  ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
-                              ("@Ökonomie" . ?o)
-                              ("@Gesundheit" . ?g)
-                              (:endgroup)
-                              ("noexport" . ?n)
-                              ("Buch" . ?b)
-                              ("Volleyball" . ?v)
-                              ("Sport" . ?s)
-                              ("History" . ?H)
-                              ("LehrenLernen" . ?l)
-                              ("Programmieren" . ?P)
-                              ("Schule" . ?S)
-                              ("Weisheit" . ?W)
-                              ("Organisation" . ?O)))
-        org-todo-keywords '((sequence
-                             "EILIG(e)"
-                             "ZEITNAH(z)"
-                             "IRGENDWANN(i)"
-                             "PAUSIERT(p@/!)"
-                             "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
-                             "BEENDET(b@/!)"
-                             "ABGEBROCHEN(a@/!)"
-                             "DELEGIERT(d@/!)"))
-        org-todo-keyword-faces
-        (quote (("EILIG" :foreground "red" :weight bold)
-                ("ZEITNAH" :foreground "magenta" :weight bold)
-                ("IRGENDWANN" :foreground "yellow" :weight bold)
-                ("PAUSIERT" :foreground "light blue" :weight bold)
-                ("BEENDET" :foreground "black" :weight bold)
-                ("ABGEBROCHEN" :foreground "black" :weight bold)
-                ("DELEGIERT" :foreground "grey" :weight bold)))
-        org-capture-templates '(("1" "Eilig" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "EILIG [#A]"))
-                                ("2" "Zeitnah" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "ZEITNAH [#B]"))
-                                ("3" "Irgendwann" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "IRGENDWANN [#C]"))
-                                ("4" "Einkaufsliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
-                                ("5" "Einkaufsliste Joana" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
-                                ("6" "Gemeinsame Einkaufsliste" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
-                                ("7" "Wunschliste Mane" checkitem
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
-                                ("8" "Neue Abrechnung" table-line
-                                 (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
-                                ("j" "Daily Journal" entry
-                                 (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal")
-                                 "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
+        org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
+                              (:endgroup) ("noexport" . ?n) ("Buch" . ?b) ("Volleyball" . ?v) ("Sport" . ?s) ("History" . ?H) ("LehrenLernen" . ?l) ("Programmieren" . ?P) ("Schule" . ?S) ("Weisheit" . ?W) ("Organisation" . ?O)))
+        org-todo-keywords '((sequence "EILIG(e)" "ZEITNAH(z)" "IRGENDWANN(i)" "PAUSIERT(p@/!)" "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
+                             "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)" "DELEGIERT(d@/!)"))
+        org-todo-keyword-faces (quote (("EILIG" :foreground "red" :weight bold)
+                                       ("ZEITNAH" :foreground "magenta" :weight bold)
+                                       ("IRGENDWANN" :foreground "yellow" :weight bold)
+                                       ("PAUSIERT" :foreground "light blue" :weight bold)
+                                       ("BEENDET" :foreground "black" :weight bold)
+                                       ("ABGEBROCHEN" :foreground "black" :weight bold)
+                                       ("DELEGIERT" :foreground "grey" :weight bold)))
+        org-capture-templates '(("1" "Eilig" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "EILIG [#A]"))
+                                ("2" "Zeitnah" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "ZEITNAH [#B]"))
+                                ("3" "Irgendwann" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "IRGENDWANN [#C]"))
+                                ("4" "Einkaufsliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
+                                ("5" "Einkaufsliste Joana" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
+                                ("6" "Gemeinsame Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
+                                ("7" "Wunschliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
+                                ("8" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         org-roam-db-autosync-mode 1
         org-roam-ui-sync-theme t
@@ -653,12 +606,6 @@ echo done
         ;;                             (?2 . "☕")
         ;;                             (?I . "Important"))
         )
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-  (custom-set-faces '(org-level-1 ((t (:inherit outline-1 :height 1.28 :underline nil))))
-                    '(org-level-2 ((t (:inherit outline-2 :height 1.22 :underline nil))))
-                    '(org-level-3 ((t (:inherit outline-3 :height 1.16 :underline nil))))
-                    '(org-level-4 ((t (:inherit outline-4 :height 1.10 :underline nil))))
-                    '(org-level-5 ((t (:inherit outline-5 :height 1.04 :underline nil)))))
   (custom-set-faces!
     '(font-lock-comment-face :slant italic)                                                                 ;Macht Kommentare wie diesen kursiv
     '(font-lock-keyword-face :slant italic)))                                                               ;Macht Keywords wie setq, after! ... kursiv
@@ -813,6 +760,7 @@ echo done
 (defun mane-theme-1 ()
   "Paar Anpassungen von mir die ich mit dieser Funktion in der config, oder interaktiv ein-ausschalten kann"
   (interactive)
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
   (custom-theme-set-faces
    'user
    '(org-level-1 ((t (:inherit outline-1 :height 1.38 :underline nil :foreground "royal blue"))))
@@ -1517,7 +1465,7 @@ wmname = "LG3D"
     ## These don't necessarily need to translate anything. You can enter whatever you want here.
     #+end_src
 
-* Terminal
+* Terminal/Shell/CLI
 Qtile startet Alacritty da es der effizienteste Terminal Emulator ist. In der Alacritty Config habe ich alle bash aliases die in der .bashrc stehen. Allerdings habe ich in die alacritty config geschrieben dass sofort fish gestartet wird und ich dadurch die coolen autofilldinge von fish habe. Bei fish muss ich dann aber in der config zu fish die aliase extra setzen, also wenn es zu Problemen kommt ist es nicht ganz einfach durchzusteigen, aber an sich ist das Setup geil da es das beste von allem hat. Themes muss ich in der Alacritty config ändern wenn ich will.
 Mit ESC im Terminal komm ich in den vim Mode und kann dort dann wie in emacs markieren kopieren etc.! Mit i komme ich wieder in den insert Mode. < und > am Anfang im Terminal kennzeichnen den Modus.
 ** Alacritty Config
@@ -1826,7 +1774,9 @@ key_bindings:
 #+end_src
 
 ** Fish
-
+- Fish ist eine recht moderne Shell, mit einer eigenen Skriptsprache die etwas von der bash scripting language abweicht -> hat positives, aber da bash der Standard ist leider auch negatives -> Fish ist für Anfänger aber ziemlich geil und hat auch eingebaute Funktion -> ~builtin --names~ zeigt sie einem an -> auch Keybindings für die Funktionen innerhalb fish sind vorhanden und so kann man mit =Alt <-/->= zwischen den Pfaden die man besucht hat hin und her springen (keybindings zu den Funktionen =nextd= und =prevd=)!
+- =count, math, random= sind ebenfalls nützliche eingebaute Funktionen
+- =ALT w= ist auch cooles keybinding das einem sagt was es ist - teste den Befehl ls und dann ohne Enter =Alt w=
 #+begin_src sh :tangle tangle/config.fish
 #  ____ _____
 # |  _ \_   _|  Derek Taylor (DistroTube)
