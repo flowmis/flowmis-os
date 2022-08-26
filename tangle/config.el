@@ -39,7 +39,7 @@
   (beacon-mode 1)                                                                                               ;hilft den Cursor schnell zu finden durch aufblinken
   ;; (setq display-line-numbers-type 'visual)                                                                   ;Einstellung falls ich Zeilennummern angezeigt bekommen will
   (setq display-line-numbers-type nil                                                                           ;schaltet Zeilennummern aus
-        doom-theme 'doom-monokai-classic                                                                        ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
+        doom-theme 'doom-gruvbox-light                                                                        ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
         doom-font (font-spec :family "Source Code Pro" :size 13)                                                ;setzt Schriftart etc.
         doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)                                       ;wird mit variable-pitch-mode aktiviert -> Man kann auch einstellen dass beide Schriftarten in Org Datei für unterschiedliche Elemente verwendet werden
         doom-big-font (font-spec :family "Source Code Pro" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)
@@ -47,7 +47,7 @@
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
         org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
-        org-superstar-item-bullet-alist '((?* . ?•) (?+ . ?•) (?- . ?•))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
+        org-superstar-item-bullet-alist '((?* . ?>) (?+ . ?>) (?- . ?>))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
         org-ellipsis " ▼ "                                                                                      ;Zeigt an das unter diesem Punkt eingefaltete Information liegt
         org-hide-emphasis-markers t                                                                             ;Markierungssymbole um kursiv, dick, unterstrichen,... unsichtbar (~-_/*= um Wörter werden ausgeblendet)
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -59,13 +59,13 @@
                               (:endgroup) ("noexport" . ?n) ("Buch" . ?b) ("Volleyball" . ?v) ("Sport" . ?s) ("History" . ?H) ("LehrenLernen" . ?l) ("Programmieren" . ?P) ("Schule" . ?S) ("Weisheit" . ?W) ("Organisation" . ?O)))
         org-todo-keywords '((sequence "EILIG(e)" "ZEITNAH(z)" "IRGENDWANN(i)" "PAUSIERT(p@/!)" "|"                                                                                ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
                              "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)" "DELEGIERT(d@/!)"))
-        org-todo-keyword-faces (quote (("EILIG" :foreground "red" :weight bold)
-                                       ("ZEITNAH" :foreground "magenta" :weight bold)
-                                       ("IRGENDWANN" :foreground "yellow" :weight bold)
-                                       ("PAUSIERT" :foreground "light blue" :weight bold)
-                                       ("BEENDET" :foreground "black" :weight bold)
-                                       ("ABGEBROCHEN" :foreground "black" :weight bold)
-                                       ("DELEGIERT" :foreground "grey" :weight bold)))
+        org-todo-keyword-faces (quote (("EILIG" :foreground "#ffa566" :weight normal)
+                                       ("ZEITNAH" :foreground "#ffa566" :weight normal)
+                                       ("IRGENDWANN" :foreground "#ffa566" :weight normal)
+                                       ("PAUSIERT" :foreground "light blue" :weight normal)
+                                       ("BEENDET" :foreground "black" :weight normal)
+                                       ("ABGEBROCHEN" :foreground "black" :weight normal)
+                                       ("DELEGIERT" :foreground "grey" :weight normal)))
         org-capture-templates '(("1" "Eilig" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "EILIG [#A]"))
                                 ("2" "Zeitnah" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "ZEITNAH [#B]"))
                                 ("3" "Irgendwann" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "IRGENDWANN [#C]"))
@@ -246,26 +246,32 @@
 (defun mane-theme-1 ()
   "Paar Anpassungen von mir die ich mit dieser Funktion in der config, oder interaktiv ein-ausschalten kann"
   (interactive)
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-  (custom-theme-set-faces
+  (set-frame-parameter (selected-frame) 'alpha '(100 . 70))                                                      ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
+  (setq text-scale-mode-amount 1)
+  (text-scale-mode 1)
+  (setq visual-fill-column-width 130     ;Größe des seitlichen Rahmen
+        visual-fill-column-center-text t) ;rückt Text in Mitte
+  (visual-fill-column-mode 1)           ;braucht man um seitlichen Rahmen zu füllen (hier nichts umstellen)
+  (custom-theme-set-faces               ;<M-x describe-theme> um Einblick in Möglichkeiten zu bekommen
    'user
-   '(org-level-1 ((t (:inherit outline-1 :height 1.38 :underline nil :foreground "royal blue"))))
-   '(org-level-2 ((t (:inherit outline-2 :height 1.1 :underline nil :foreground "white"))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.1 :underline nil :foreground "white"))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.1 :underline nil :foreground "white"))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.1 :underline nil :foreground "white"))))
+   '(org-level-1 ((t (:inherit outline-1 :height 1.6 :weight normal :underline nil :foreground "#00606b"))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.5 :weight normal :underline nil :foreground "#c27da7"))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.3 :weight normal :underline nil :foreground "#613e53"))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.1 :weight normal :underline nil :foreground "#613e53"))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight normal :underline nil :foreground "#613e53"))))
    '(org-block ((t (:inherit fixed-pitch))))
    '(org-code ((t (:inherit (shadow fixed-pitch)))))
-   '(org-document-info ((t (:height 1.1 :foreground "dark orange"))))
-   '(org-document-title ((t (:height 2.1 :foreground "cyan"))))
+   '(org-document-info ((t (:height 1.1 :foreground "#c27da7"))))
+   '(org-document-title ((t (:height 2.1 :foreground "#c27da7"))))
    '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
    '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-   '(org-link ((t (:foreground "royal blue" :underline t))))
+   '(org-link ((t (:foreground "#00606b" :underline t))))
    '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
    '(org-property-value ((t (:inherit fixed-pitch))) t)
    '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-   '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))))
+   '(org-table ((t (:inherit fixed-pitch :foreground "#c27da7"))))
+   '(org-ellipsis ((t (:inherit fixed-pitch :foreground "#00606b"))))
+   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 1.4 :foreground "#00606b"))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch) :foreground "#00606b" :height 1.4 :weight bold))))))
 ;;;Hook der Funktionen nach starten von Doom automatisch aktiviert!
 (add-hook 'after-init-hook #'mane-theme-1)
