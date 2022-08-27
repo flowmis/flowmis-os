@@ -1,6 +1,7 @@
+
 #+TITLE: Install FlowmisOS
-#+STARTUP: fold
-:WebExportSettings:
+:Einstellungen:
+#+STARTUP: showall
 #+HTML_HEAD: <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> <script> mermaid.initialize({startOnLoad:true}); </script> <style> .mermaid {  /* add custom styling */  } </style>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
@@ -1208,7 +1209,7 @@ background contrast. All other values default to \"medium\"."
    (org-done                    :foreground mane1 :weight 'bold :bold t)
    (org-drawer                  :inherit 'font-lock-function-name-face)
    (org-ellipsis                :foreground base1)
-   (org-footnote                :foreground mane1 :underline t)
+   (org-footnote                :foreground mane1 :underline t :weight 'thin)
    (org-formula                 :foreground mane4)
    (org-headline-done           :foreground mane1)
    (org-latex-and-related       :foreground mane1)
@@ -1226,7 +1227,7 @@ background contrast. All other values default to \"medium\"."
    (org-scheduled-today         :foreground mane1)
    (org-sexp-date               :foreground mane1 :underline t)
    (org-table                   :foreground mane1)
-   (org-tag                     :bold t :weight 'bold)
+   (org-tag                     :bold t :weight 'thin)
    (org-time-grid               :foreground mane4)
    (org-todo                    :foreground mane5 :weight 'bold :bold t)
    (org-upcoming-deadline       :inherit 'font-lock-keyword-face)
@@ -1303,13 +1304,13 @@ background contrast. All other values default to \"medium\"."
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
         org-superstar-item-bullet-alist '((?* . ?>) (?+ . ?>) (?- . ?>))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
         org-hide-emphasis-markers t
-        org-todo-keyword-faces (quote (("EILIG" :foreground "#ffa566" :weight bold)
-                                       ("ZEITNAH" :foreground "#ffa566" :weight bold)
-                                       ("IRGENDWANN" :foreground "#ffa566" :weight bold)
-                                       ("PAUSIERT" :foreground "light blue" :weight bold)
-                                       ("BEENDET" :foreground "black" :weight bold)
-                                       ("ABGEBROCHEN" :foreground "black" :weight bold)
-                                       ("DELEGIERT" :foreground "grey" :weight bold)))
+        org-todo-keyword-faces (quote (("EILIG" :foreground "#9d0006" :weight normal)
+                                       ("ZEITNAH" :foreground "#d65d0e" :weight normal)
+                                       ("IRGENDWANN" :foreground "#c27da7" :weight normal)
+                                       ("PAUSIERT" :foreground "#613e53" :weight normal)
+                                       ("BEENDET" :foreground "#000000" :weight normal)
+                                       ("ABGEBROCHEN" :foreground "#000000" :weight normal)
+                                       ("DELEGIERT" :foreground "#613e53" :weight normal)))
 
         ;; org-fancy-priorities-list '((?A . "⏰")                                                              ;wird mit +pretty flag in init.el installiert, aber macht es finde ich hässlich
         ;;                             (?B . "🐶")
@@ -3659,8 +3660,6 @@ emacsclient -c                                      #
 
 * ZEITNAH FlowmisOS
 :LOGBOOK:
-- State "ZEITNAH"    from              [2022-08-17 Mi 09:42] \\
-  Zu TODOs hinzugefügt
 :END:
 
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
