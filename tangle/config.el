@@ -230,7 +230,7 @@
    ;; '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
    ;; '(org-table ((t (:inherit fixed-pitch))))
    ;; '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 1.4 :foreground "#00606b"))))
-   ;; '(org-verbatim ((t (:inherit (shadow fixed-pitch) :foreground "#ff0000" :height 1.4 :weight bold))))                         ;Farbe und Größe etc. von markiertem Text durch umgebende = 
+   ;; '(org-verbatim ((t (:inherit (shadow fixed-pitch) :foreground "#ff0000" :height 1.4 :weight bold))))                         ;Farbe und Größe etc. von markiertem Text durch umgebende =
    ))
 ;;;Hook der Funktionen nach starten von Doom automatisch aktiviert!
 (add-hook 'after-init-hook #'mane-theme-zusatzeinstellungen)

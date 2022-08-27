@@ -1199,8 +1199,8 @@ background contrast. All other values default to \"medium\"."
    (org-agenda-structure        :inherit 'font-lock-comment-face)
    (org-archived                :foreground base7 :weight 'bold)
    (org-block                   :background base1 :extend t)
-   (org-block-begin-line        :background base2 :extend t)
-   (org-block-end-line          :background base2 :extend t)
+   (org-block-begin-line        :background base1 :extend t)
+   (org-block-end-line          :background base1 :extend t)
    (org-date                    :foreground mane1 :underline t)
    (org-deadline-announce       :foreground mane5)
    (org-document-info           :foreground mane1)
@@ -3662,6 +3662,30 @@ emacsclient -c                                      #
 - State "ZEITNAH"    from              [2022-08-17 Mi 09:42] \\
   Zu TODOs hinzugefügt
 :END:
+
+- [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
+  - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
+  - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
+  - [ ] https://www.youtube.com/watch?v=LGhifbn6088
+- [ ] Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
+- [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
+- [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
+- [ ] git ssh verstehen und in skript mit rein
+  - [ ] https://www.youtube.com/watch?v=3aKda-oXWc8
+- [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
+- [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
+- [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
+- [ ] HDMI und zeite Bildschirme ebenso wie USB besser erkennen und formatieren können bzw Einstellungen machen können
+- [ ] Grafikkartenprobleme lösen (https://wiki.freedesktop.org/nouveau/Optimus/,... )
+- [ ] Qtile Widgets überarbeiten
+  - [ ] Widgets überarbeiten
+  - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
+  - [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
+- [ ] EMACS
+  - [ ] Eigenes Theme überarbeiten -> Markierungszeug mit =+~*... schöner machen (verbatim heisst es?)
+- [ ] .bashrc bashprofile und bashhistory zu configs
+- [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem erstellen - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
+
 - [ ] automatisiertes verschieben von Dateien nach dem speichern
 #+begin_src shell
 cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/
@@ -3688,26 +3712,3 @@ echo done
 
 #+RESULTS:
 : done
-
-- [ ] YASNIPPETS FEHLERMELDUNG BEHEBEN
-- [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
-  - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
-  - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
-  - [ ] https://www.youtube.com/watch?v=LGhifbn6088
-- [ ] Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
-- [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
-- [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
-- [ ] git ssh verstehen und in skript mit rein
-  - [ ] https://www.youtube.com/watch?v=3aKda-oXWc8
-- [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
-- [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
-- [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
-- [ ] HDMI und zeite Bildschirme ebenso wie USB besser erkennen und formatieren können bzw Einstellungen machen können
-- [ ] Grafikkartenprobleme lösen (https://wiki.freedesktop.org/nouveau/Optimus/,... )
-- [ ] Qtile Widgets überarbeiten
-  - [ ] Widgets überarbeiten
-  - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
-  - [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
-- [ ] EMACS
-- [ ] .bashrc bashprofile und bashhistory zu configs
-- [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem erstellen - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
