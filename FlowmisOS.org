@@ -521,8 +521,8 @@
                                 ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
                                 ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
-        org-roam-db-autosync-mode 1
-        org-roam-ui-sync-theme t
+        ;; org-roam-db-autosync-mode 1   ;wenn es aktiviert ist muss ich entweder manuell <M-x org-roam-db-sync> machen oder den autsync deaktivieren und anschließend aktivieren dass neu angelegte files erscheinen
+        ;; org-roam-ui-sync-theme t      ;muss ich irgendiwe auch manuell machen und dann neu starten um neue Themes auch im ui-mode sichtbar zu machen
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t
