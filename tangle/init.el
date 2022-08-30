@@ -187,8 +187,9 @@
 
        :email
        (mu4e +org +gmail)
-       ;;smtpmail         ;hatte ich aktiviert aber ka ob ich brauche
-       ;;notmuch
+       smtpmail
+       ;;notmuch        ;mu4e aber einfacher?(hier kann ich Mails nicht löschen? - muss ich es vom Server/Anbieter löschen können, oder reichen tags und Archiv?)
+
        ;;(wanderlust +gmail)
 
        :app

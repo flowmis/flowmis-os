@@ -1,5 +1,5 @@
+#+TITLE: Install FlowmisOS
 :Einstellungen:
-#+STARTUP: showall
 #+HTML_HEAD: <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> <script> mermaid.initialize({startOnLoad:true}); </script> <style> .mermaid {  /* add custom styling */  } </style>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
@@ -18,7 +18,7 @@
 # - [[https://github.com/fniessen/org-html-themes][Style]]
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
 :END:
-#+TITLE: Install FlowmisOS
+#+STARTUP: showall
 
 * Übersicht :toc:
 - [[#einleitung][Einleitung]]
@@ -255,8 +255,9 @@
 
        :email
        (mu4e +org +gmail)
-       ;;smtpmail         ;hatte ich aktiviert aber ka ob ich brauche
-       ;;notmuch
+       smtpmail
+       ;;notmuch        ;mu4e aber einfacher?(hier kann ich Mails nicht löschen? - muss ich es vom Server/Anbieter löschen können, oder reichen tags und Archiv?)
+
        ;;(wanderlust +gmail)
 
        :app
@@ -294,14 +295,13 @@
 - Doom's packages are pinned to a specific commit and updated from release to release. The `unpin!' macro allows you to unpin single packages... (unpin! pinned-package) ...or multiple packages (unpin! pinned-package another-pinned-package) ...Or *all* packages (NOT RECOMMENDED; will likely break things) (unpin! t)
 #+BEGIN_SRC emacs-lisp :tangle tangle/packages.el
 ;; -*- no-byte-compile: t; -*-
-;;; $DOOMDIR/packages.el
-
+;;; $DOOMDIR/packages.el;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (package! gitconfig-mode
-;; 	  :recipe (:host github :repo "magit/git-modes"
-;; 			 :files ("gitconfig-mode.el")))
+;;      :recipe (       :host github :repo "magit/git-modes"
+;;                      :files ("gitconfig-mode.el"             )))
 ;; (package! gitignore-mode
-;; 	  :recipe (:host github :repo "magit/git-modes"
-;; 			 :files ("gitignore-mode.el")))
+;;      :recipe (       :host github :repo "magit/git-modes"
+;;                      :files ("gitignore-mode.el"             )))
 (package! dashboard)
 (package! dired-open)
 (package! org-tree-slide)
@@ -457,6 +457,13 @@
 #+begin_src emacs-lisp :tangle tangle/config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 ;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+(require 'calfw)
+(require 'calfw-org)
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
@@ -479,6 +486,7 @@
         org-directory "~/Dropbox/emacs/org-roam/Notizen/"
         org-agenda-files '("~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"
                            "~/FlowmisOS/FlowmisOS.org"
+                           "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org"
                            "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220416144259-dlt.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
@@ -510,6 +518,7 @@
                                 ("6" "Gemeinsame Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
                                 ("7" "Wunschliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
                                 ("8" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
+                                ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
                                 ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         org-roam-db-autosync-mode 1
@@ -574,6 +583,11 @@
        :desc "Evaluate elisp expression" "e" #'eval-expression
        :desc "Evaluate last sexpression" "l" #'eval-last-sexp
        :desc "Evaluate elisp in region" "r" #'eval-region)
+      (:prefix ("k" . "Kalender")
+       :desc "Kalenderansicht öffnen" "o" #'cfw:open-org-calendar
+       :desc "Kalender sync" "s" #'org-gcal-sync
+       :desc "Kalendereintrag an GoogleKalender schicken" "p" #'org-gcal-post-at-point
+       :desc "Kalendereintrag bei GoogleKalender löschen" "d" #'org-gcal-delete-at-point)
       (:prefix ("w" . "window")
        :desc "Winner undo" "<left>" #'winner-undo ;schaut was die letzte Window configuration war und geht dahin zurück
        :desc "Winner redo" "<right>" #'winner-redo) ;geht in andere Richtung wie winner-undo
@@ -675,8 +689,8 @@
 (defun mane-theme-zusatzeinstellungen ()
   "Paar Anpassungen von mir die ich mit dieser Funktion in der config, oder interaktiv ein-ausschalten kann"
   (interactive)
-  (setq text-scale-mode-amount 1)
-  (text-scale-mode 1)
+  ;; (setq text-scale-mode-amount 1)
+  ;; (text-scale-mode 1)
   (custom-theme-set-faces               ;<M-x describe-theme> um Einblick in Möglichkeiten zu bekommen
    'user
    '(org-level-1 ((t (:inherit outline-1 :height 1.6 ))))
@@ -1206,7 +1220,7 @@ background contrast. All other values default to \"medium\"."
    (org-document-info           :foreground mane1)
    (org-document-title          :foreground mane1)
    (org-done                    :foreground mane1 :weight 'bold :bold t)
-   (org-drawer                  :inherit 'font-lock-function-name-face)
+   (org-drawer                  :inherit 'font-lock-function-name-face :foreground mane6)
    (org-ellipsis                :foreground base1)
    (org-footnote                :foreground mane1 :underline t :weight 'thin)
    (org-formula                 :foreground mane4)
@@ -1228,7 +1242,7 @@ background contrast. All other values default to \"medium\"."
    (org-table                   :foreground mane1)
    (org-tag                     :bold t :weight 'thin)
    (org-time-grid               :foreground mane4)
-   (org-todo                    :foreground mane5 :weight 'bold :bold t)
+   (org-todo                    :foreground mane1 :weight 'bold :bold t)
    (org-upcoming-deadline       :inherit 'font-lock-keyword-face)
    (org-warning                 :foreground mane5 :weight 'bold :bold t)
    ;;;; org-habit
@@ -1302,14 +1316,14 @@ background contrast. All other values default to \"medium\"."
         org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
         org-superstar-item-bullet-alist '((?* . ?>) (?+ . ?>) (?- . ?>))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
-        org-hide-emphasis-markers t
-        org-todo-keyword-faces (quote (("EILIG" :foreground "#9d0006" :weight normal)
-                                       ("ZEITNAH" :foreground "#d65d0e" :weight normal)
-                                       ("IRGENDWANN" :foreground "#c27da7" :weight normal)
-                                       ("PAUSIERT" :foreground "#613e53" :weight normal)
-                                       ("BEENDET" :foreground "#000000" :weight normal)
-                                       ("ABGEBROCHEN" :foreground "#000000" :weight normal)
-                                       ("DELEGIERT" :foreground "#613e53" :weight normal)))
+        org-hide-emphasis-markers t                                                                             ;+=/*~ etc. werden nicht angezeigt
+        org-todo-keyword-faces (quote (("EILIG" :foreground "#9d0006" :weight normal :underline t)
+                                       ("ZEITNAH" :foreground "#d65d0e" :weight normal :underline t)
+                                       ("IRGENDWANN" :foreground "#c27da7" :weight normal :underline t)
+                                       ("PAUSIERT" :foreground "#613e53" :weight normal :underline t)
+                                       ("BEENDET" :foreground "#000000" :weight normal :underline t)
+                                       ("ABGEBROCHEN" :foreground "#000000" :weight normal :underline t)
+                                       ("DELEGIERT" :foreground "#613e53" :weight normal :underline t)))
 
         ;; org-fancy-priorities-list '((?A . "⏰")                                                              ;wird mit +pretty flag in init.el installiert, aber macht es finde ich hässlich
         ;;                             (?B . "🐶")

@@ -1,5 +1,11 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 ;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+(require 'calfw)
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
@@ -22,6 +28,7 @@
         org-directory "~/Dropbox/emacs/org-roam/Notizen/"
         org-agenda-files '("~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"
                            "~/FlowmisOS/FlowmisOS.org"
+                           "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org"
                            "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220416144259-dlt.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
@@ -53,6 +60,7 @@
                                 ("6" "Gemeinsame Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
                                 ("7" "Wunschliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
                                 ("8" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
+                                ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
                                 ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         org-roam-db-autosync-mode 1
@@ -113,6 +121,11 @@
        :desc "Evaluate elisp expression" "e" #'eval-expression
        :desc "Evaluate last sexpression" "l" #'eval-last-sexp
        :desc "Evaluate elisp in region" "r" #'eval-region)
+      (:prefix ("k" . "Kalender")
+       :desc "Kalenderansicht öffnen" "o" #'cfw:open-org-calendar
+       :desc "Kalender sync" "s" #'org-gcal-sync
+       :desc "Kalendereintrag an GoogleKalender schicken" "p" #'org-gcal-post-at-point
+       :desc "Kalendereintrag bei GoogleKalender löschen" "d" #'org-gcal-delete-at-point)
       (:prefix ("w" . "window")
        :desc "Winner undo" "<left>" #'winner-undo ;schaut was die letzte Window configuration war und geht dahin zurück
        :desc "Winner redo" "<right>" #'winner-redo) ;geht in andere Richtung wie winner-undo
@@ -210,8 +223,8 @@
 (defun mane-theme-zusatzeinstellungen ()
   "Paar Anpassungen von mir die ich mit dieser Funktion in der config, oder interaktiv ein-ausschalten kann"
   (interactive)
-  (setq text-scale-mode-amount 1)
-  (text-scale-mode 1)
+  ;; (setq text-scale-mode-amount 1)
+  ;; (text-scale-mode 1)
   (custom-theme-set-faces               ;<M-x describe-theme> um Einblick in Möglichkeiten zu bekommen
    'user
    '(org-level-1 ((t (:inherit outline-1 :height 1.6 ))))

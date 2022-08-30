@@ -1,12 +1,11 @@
 ;; -*- no-byte-compile: t; -*-
-;;; $DOOMDIR/packages.el
-
+;;; $DOOMDIR/packages.el;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (package! gitconfig-mode
-;; 	  :recipe (:host github :repo "magit/git-modes"
-;; 			 :files ("gitconfig-mode.el")))
+;;      :recipe (       :host github :repo "magit/git-modes"
+;;                      :files ("gitconfig-mode.el"             )))
 ;; (package! gitignore-mode
-;; 	  :recipe (:host github :repo "magit/git-modes"
-;; 			 :files ("gitignore-mode.el")))
+;;      :recipe (       :host github :repo "magit/git-modes"
+;;                      :files ("gitignore-mode.el"             )))
 (package! dashboard)
 (package! dired-open)
 (package! org-tree-slide)
