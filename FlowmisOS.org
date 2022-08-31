@@ -1226,14 +1226,14 @@ background contrast. All other values default to \"medium\"."
    (org-formula                 :foreground mane4)
    (org-headline-done           :foreground mane1)
    (org-latex-and-related       :foreground mane1)
-   (org-level-1                 :weight 'bold :underline nil :font "Alegreya Medium" :foreground mane1)
-   (org-level-2                 :weight 'bold :underline nil :font "Alegreya Medium" :foreground mane2)
-   (org-level-3                 :weight 'bold :underline nil :font "Alegreya Medium" :foreground mane3)
-   (org-level-4                 :weight 'normal :underline nil :font "Alegreya Medium" :foreground mane3)
-   (org-level-5                 :weight 'normal :underline nil :font "Alegreya Medium" :foreground mane3)
-   (org-level-6                 :weight 'normal :underline nil :font "Alegreya Medium" :foreground mane3)
-   (org-level-7                 :weight 'normal :underline nil :font "Alegreya Medium" :foreground mane3)
-   (org-level-8                 :weight 'normal :underline nil :font "Alegreya Medium" :foreground mane3)
+   (org-level-1                 :weight 'bold :underline nil :font "Alegreya Sans Medium" :foreground mane1)
+   (org-level-2                 :weight 'bold :underline nil :font "Alegreya Sans Medium" :foreground mane2)
+   (org-level-3                 :weight 'bold :underline nil :font "Alegreya Sans Medium" :foreground mane3)
+   (org-level-4                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
+   (org-level-5                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
+   (org-level-6                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
+   (org-level-7                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
+   (org-level-8                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
    (org-link                    :foreground mane1 :underline t)
    (org-scheduled               :foreground mane4)
    (org-scheduled-previously    :foreground mane5)
@@ -3476,49 +3476,22 @@ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen   # sucht eine
 locale-gen                                                          # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                  # verschiebt vorab erstellte Datei
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel sddm qtile
-systemctl enable NetworkManager sddm                                # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev 
 mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
 mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
 grub-install                                                        # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
 grub-mkconfig -o /boot/grub/grub.cfg                                # Ohne diese wird es zu Problemen beim booten kommen
-#+end_src
-
-** Skript 2: Nicht Root
-
-#+begin_src shell :tangle tangle/install.sh
-sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
-sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-sudo localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
-sudo timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
-sudo timedatectl status                                             # Check ob alles pass
+localectl --no-convert set-keymap de-latin1-nodeadkeys
+localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
+timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
+timedatectl status                                             # Check ob alles pass
 setxkbmap -layout de                                                # Tastaturlayout auf Deutsch
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
-cd ~
-git clone https://aur.archlinux.org/brave-bin.git
-cd brave-bin/
-makepkg -si                                                     #soll nicht als root installiert werden
-cd ~
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
-~/.emacs.d/bin/doom install
-sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
-sudo pip install jupyter notebook
-~/.emacs.d/bin/doom doctor
-mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm}
-cd ~/.config/rofi
-git clone --depth=1 https://github.com/adi1090x/rofi.git
-cd rofi
-mkdir -p ~/.local/share/fonts
-cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
-cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
-cd ~/.config/rofi/
-rm -rf rofi/
-sudo pacman -S python-utils otf-fira-sans brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa
-yay -S date termite
 #+end_src
 
-** Skript 3: Installiere alle meine Programme
+** Skript 2: Apps installieren
+
   - noch so gestalten dass ich alles leicht uncommenten kann ?
   - gehen alle USB und auch SD Karten oder nur die normalen USB A?
   - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
@@ -3530,21 +3503,28 @@ yay -S date termite
   - starship macht mir meine Eingabe im Terminal schöner (< und > statt sinnloser Angabe vom Standardpfad) und ist in meinen Terminal configs vorhanden so dass diese das brauchen
   - Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
 
-#+begin_src shell :tangle tangle/installmore.sh
-git clone https://github.com/flowmis/DLT.git                   #Klonen der Repos funktioniert nicht wenn sie privat sind und ich kein Token parat hab -> kann man Token mitliefern oder git credentials vorab aus FlowmisOS kopieren???
-git clone https://github.com/flowmis/pres.git
-git clone https://github.com/flowmis/Kivy.git
-git clone https://github.com/flowmis/Sonstiges.git
-git clone https://github.com/flowmis/Beachvolleyballfeld.git
-sudo pacman -Syu
-sudo pacman -S deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next
-cd ~/Downloads
+#+begin_src shell :tangle tangle/install.sh
+mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm} & echo 'Ordner erstellt'
+sudo pacman -Syu & echo 'Packete updated'
+sudo pacman -S mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs-nativecomp ripgrep fd xorg alacritty base-devel sddm qtile python-utils otf-fira-sans  brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next 
+sudo pip install jupyter notebook & echo 'Pakete installier'
+sudo systemctl enable NetworkManager sddm & echo 'enabled NM & SDDM'
+git clone https://aur.archlinux.org/brave-bin.git
 git clone https://aur.archlinux.org/yay-git.git
-cd yay-git/
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+cd ~/.config/rofi/
+git clone --depth=1 https://github.com/adi1090x/rofi.git
+cd ~/brave-bin/
+makepkg -si                                                     #soll nicht als root installiert werden
+rm -r ~/brave-bin/
+cd ~/yay-git/
 makepkg -si
+rm -r ~/yay-git/
 yay -Syu
-yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git
-#python müsste durch qtile bereits installiert worden sein
+yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git termite otf-alegreya-sans
+~/.emacs.d/bin/doom install
+~/.emacs.d/bin/doom sync
+~/.emacs.d/bin/doom doctor
 #+end_src
 
 * Dateien für die Installation
@@ -3633,10 +3613,10 @@ EndSection
 
 #+begin_src shell :tangle tangle/.gitconfig
 [user]
-	name = flowmis
-	email = hedwig.lanter@gmx.de
+name = flowmis
+email = hedwig.lanter@gmx.de
 [credential]
-	helper = store
+helper = store
 #+end_src
 
 * Touchpad einrichten

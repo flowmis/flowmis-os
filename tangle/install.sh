@@ -1,29 +1,21 @@
-sudo localectl --no-convert set-keymap de-latin1-nodeadkeys
-sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-sudo localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
-sudo timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
-sudo timedatectl status                                             # Check ob alles pass
-setxkbmap -layout de                                                # Tastaturlayout auf Deutsch
-nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
-cd ~
+mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm} & echo 'Ordner erstellt'
+sudo pacman -Syu & echo 'Packete updated'
+sudo pacman -S mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs-nativecomp ripgrep fd xorg alacritty base-devel sddm qtile python-utils otf-fira-sans  brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next 
+sudo pip install jupyter notebook & echo 'Pakete installier'
+sudo systemctl enable NetworkManager sddm & echo 'enabled NM & SDDM'
 git clone https://aur.archlinux.org/brave-bin.git
-cd brave-bin/
-makepkg -si                                                     #soll nicht als root installiert werden
-cd ~
+git clone https://aur.archlinux.org/yay-git.git
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-cp -r ~/.emacs.d/ ~/.backup.emacs.d                                  #macht es?
-~/.emacs.d/bin/doom install
-sudo pacman -S markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop
-sudo pip install jupyter notebook
-~/.emacs.d/bin/doom doctor
-mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm}
-cd ~/.config/rofi
-git clone --depth=1 https://github.com/adi1090x/rofi.git
-cd rofi
-mkdir -p ~/.local/share/fonts
-cp -rf ~/.config/rofi/rofi/fonts/* ~/.local/share/fonts/
-cp -rf ~/.config/rofi/rofi/1080p/* ~/.config/rofi/
 cd ~/.config/rofi/
-rm -rf rofi/
-sudo pacman -S python-utils otf-fira-sans brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa
-yay -S date termite
+git clone --depth=1 https://github.com/adi1090x/rofi.git
+cd ~/brave-bin/
+makepkg -si                                                     #soll nicht als root installiert werden
+rm -r ~/brave-bin/
+cd ~/yay-git/
+makepkg -si
+rm -r ~/yay-git/
+yay -Syu
+yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git termite otf-alegreya-sans
+~/.emacs.d/bin/doom install
+~/.emacs.d/bin/doom sync
+~/.emacs.d/bin/doom doctor

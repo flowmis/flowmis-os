@@ -1,5 +1,5 @@
 [user]
-	name = flowmis
-	email = hedwig.lanter@gmx.de
+name = flowmis
+email = hedwig.lanter@gmx.de
 [credential]
-	helper = store
+helper = store

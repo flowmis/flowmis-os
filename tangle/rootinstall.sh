@@ -9,9 +9,15 @@ sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen   # sucht eine
 locale-gen                                                          # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                  # verschiebt vorab erstellte Datei
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs ripgrep fd xorg alacritty base-devel sddm qtile
-systemctl enable NetworkManager sddm                                # Achtung1!!! Grafik/Videotreiber installation auf das vorliegende Gerät anpassen!
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev 
 mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
 mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
 grub-install                                                        # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
 grub-mkconfig -o /boot/grub/grub.cfg                                # Ohne diese wird es zu Problemen beim booten kommen
+localectl --no-convert set-keymap de-latin1-nodeadkeys
+localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
+timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
+timedatectl status                                             # Check ob alles pass
+setxkbmap -layout de                                                # Tastaturlayout auf Deutsch
+nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
