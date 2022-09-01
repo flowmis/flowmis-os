@@ -48,9 +48,9 @@
   - [[#extension-pack-installieren][Extension pack installieren]]
   - [[#installieren-von-images][Installieren von images]]
 - [[#skripte][Skripte]]
+  - [[#arch-installskript][Arch Installskript]]
   - [[#skript-1-root-installationsskript][Skript 1: Root Installationsskript]]
-  - [[#skript-2-nicht-root][Skript 2: Nicht Root]]
-  - [[#skript-3-installiere-alle-meine-programme][Skript 3: Installiere alle meine Programme]]
+  - [[#skript-2-apps-installieren][Skript 2: Apps installieren]]
 - [[#dateien-für-die-installation][Dateien für die Installation]]
 - [[#git][Git]]
 - [[#touchpad-einrichten][Touchpad einrichten]]
@@ -3448,6 +3448,7 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
 * Skripte
 + Mit vim in Installationsskript gehen und es an das vorliegende System anpassen
 + ~Achtung!!!~ wenn ich ein englisches Keyboard-Layout verwenden will muss ich <s/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g> aus Root Skript und <sudo localectl --no-convert set-keymap de-latin1-nodeadkeys>, <sudo localectl --no-convert set-x11-keymap de pc105 deadgraveacute> <setxkbmap -layout de> ändern auf die Werte für eine englische Tastaut!
+** Arch Installskript
 ** Skript 1: Root Installationsskript
    - base-devel: ermöglicht <makepkg -si> um aus Brave Binaries ein Paket zu machen das im Anschluss installiert wird
    - ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
@@ -3465,37 +3466,41 @@ Mit komfortabler GUI und float Window Manager wie man es von Windows kennt ist d
     <grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck>
 
 #+begin_src shell :tangle tangle/rootinstall.sh
-cd /home/flowmis/
-chown flowmis FlowmisOS/                                            # owner root -> owner flowmis
-chgrp flowmis FlowmisOS/                                            # Gruppe root -> Gruppe flowmis
-usermod -aG wheel,audio,video,optical,storage flowmis               # Erteilen der Rechte bzw. in welcher Gruppe der User ist
-ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime             # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
-hwclock --systohc                                                   # setzt Zeit
-mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf      # verschiebt vorab erstellte Datei
-sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen   # sucht einen String und ersetzt ihn
-locale-gen                                                          # generiert die locales
-echo FlowmisPC | cat > /etc/hostname                                # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                  # verschiebt vorab erstellte Datei
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager xf86-video-fbdev 
-mkdir /boot/EFI                                                     # Erstellung des Bootdirectories
-mount /dev/sda1 boot/EFI                                            # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
-grub-install                                                        # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
-grub-mkconfig -o /boot/grub/grub.cfg                                # Ohne diese wird es zu Problemen beim booten kommen
-localectl --no-convert set-keymap de-latin1-nodeadkeys
-localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-localectl status                                               # Check ob alles passt -> localctl noch oben in root ohne sudo???
-timedatectl set-ntp true                                       # Zeit und Datum über das network transfer protocol einholen
-timedatectl status                                             # Check ob alles pass
-setxkbmap -layout de                                                # Tastaturlayout auf Deutsch
+cd /home/flowmis/ && chown flowmis FlowmisOS/ && chgrp flowmis FlowmisOS/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
+usermod -aG wheel,audio,video,optical,storage flowmis                       # Erteilen der Rechte bzw. in welcher Gruppe der User ist
+###   Falls manuelle Installation - Skriptinstallation kümmert sich sonst   m#############################################################################################################
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+hwclock --systohc                                                           # setzt Zeit
+mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+locale-gen                                                                  # generiert die locales
+echo Arch | cat > /etc/hostname                                             # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
+###   Uncomment Grafiktreiber des Geräts   ###############################################################################################################################################
+# pacman -S xf86-video-fbdev                                                  # Grafiktreiber wählen
+
+
+###   Uncomment bei Tastaturlayout Deutsch   #############################################################################################################################################
+# localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
+# setxkbmap -layout de                                                        # Tastaturlayout auf Deutsch
+
+
+
+###   Restliche Installation   ###########################################################################################################################################################
+mkdir /boot/EFI                                                             # Erstellung des Bootdirectories
+mount /dev/sda1 boot/EFI                                                    # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
+grub-install                                                                # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
+grub-mkconfig -o /boot/grub/grub.cfg                                        # Ohne diese wird es zu Problemen beim booten kommen
+timedatectl set-ntp true && timedatectl status                              # Zeit und Datum über das network transfer protocol einholen
 #+end_src
 
 ** Skript 2: Apps installieren
 
-  - noch so gestalten dass ich alles leicht uncommenten kann ?
   - gehen alle USB und auch SD Karten oder nur die normalen USB A?
   - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
-  - ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
+  - Sound: ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
   - Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
     -> Falls qt5ct die Umgebungsvariable nicht findet: Einfach eine neue Zeile aufmachen in der Datei /etc/environment und dort folgendes reinschreiben: QT_QPA_PLATFORMTHEME=qt5ct
   - exa ist besserer Command als ls und in meinen aliases gesetzt -> zeigt alle Ergebnisse mit Farben und schöne aufgelistet wenn ich ls eingeben
@@ -3504,27 +3509,25 @@ nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
   - Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
 
 #+begin_src shell :tangle tangle/install.sh
+###Erstelle Ordner##########################################################################################
+cd ~
 mkdir -p ~/.config/{rofi,alacritty,picom,qtile,doom,conky,pcmanfm} & echo 'Ordner erstellt'
+###Intsalliere Packete##########################################################################################
 sudo pacman -Syu & echo 'Packete updated'
-sudo pacman -S mtools networkmanager xf86-video-fbdev pcmanfm picom nitrogen rofi emacs-nativecomp ripgrep fd xorg alacritty base-devel sddm qtile python-utils otf-fira-sans  brightnessctl xorg-xbacklight acpi xfce4-power-manager systemd i3lock scrot viewnior dunst bind bmon nm-connection-editor network-manager-applet aspell aspell-de aspell-en ditaa markdown python-pip python-pipenv stylelint python-jsbeautifier tidy jq shellcheck cmake aspell python-pytest-isort python-nose-exclude htop deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive python-pip virtualbox gpa gvfs pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa simplescreenrecorder pandoc or1k-elf-binutils texlive-core neofetch man-pages-de gnome-screenshot qt5ct adapta-gtk-theme exa fish starship python-iwlib python-dbus-next 
-sudo pip install jupyter notebook & echo 'Pakete installier'
+sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd picom sddm python-utils python-pip python-pipenv python-pytest-isort python-nose-exclude python-jsbeautifier python-iwlib python-dbus-next qtile stylelint pcmanfm nitrogen rofi ripgrep fd emacs-nativecomp alacritty scrot viewnior dunst bind bmon aspell aspell-de aspell-en ditaa tidy jq shellcheck cmake aspell exa fish starship htop neofetch deepin-screen-recorder thunderbird flameshot libreoffice gimp vlc pinta htop kdenlive virtualbox gpa gvfs simplescreenrecorder pandoc or1k-elf-binutils texlive-core qt5ct adapta-gtk-theme otf-fira-sans ssssss && echo 'Apps installier'
+pip install jupyter notebook & echo 'Pakete installier'
 sudo systemctl enable NetworkManager sddm & echo 'enabled NM & SDDM'
-git clone https://aur.archlinux.org/brave-bin.git
-git clone https://aur.archlinux.org/yay-git.git
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-cd ~/.config/rofi/
-git clone --depth=1 https://github.com/adi1090x/rofi.git
-cd ~/brave-bin/
-makepkg -si                                                     #soll nicht als root installiert werden
-rm -r ~/brave-bin/
-cd ~/yay-git/
-makepkg -si
-rm -r ~/yay-git/
-yay -Syu
-yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git termite otf-alegreya-sans
-~/.emacs.d/bin/doom install
-~/.emacs.d/bin/doom sync
-~/.emacs.d/bin/doom doctor
+cd ~/.config/rofi/ && git clone --depth=1 https://github.com/adi1090x/rofi.git
+cd ~ && git clone https://aur.archlinux.org/brave-bin.git && cd ~/brave-bin/ && makepkg -si && rm -rf ~/brave-bin/ && echo '###########################installed brave###########################'
+cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install && ~/.emacs.d/bin/doom sync && ~/.emacs.d/bin/doom doctor && echo 'Installation beendet'
+git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && rm -rf ~/yay-git/ && yay -Syu && echo '###########################installed yay###########################'
+yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git termite otf-alegreya-sans mu
+###Kopiere tangled Ordner/Dateien an entsprechende Orte######################################
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
+cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile && cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc && cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig && cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
+sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
 #+end_src
 
 * Dateien für die Installation
@@ -3539,9 +3542,9 @@ Localhost und die localdomain festlegen:
 #+begin_src shell :tangle tangle/hosts
 # Static table lookup for hostnames.
 # See hosts(5) for detailsh
-127.0.0.1	localhost
-::1		localhost
-127.0.1.1	FlowmisPC.localdomain	FlowmisPC
+127.0.0.1    localhost
+::1          localhost
+127.0.1.1    FlowmisPC.localdomain    FlowmisPC
 #+end_src
 
 #+begin_src shell :tangle tangle/70-synaptics.conf
