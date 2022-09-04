@@ -78,7 +78,7 @@
        eshell            ; the elisp shell that works everywhere
        shell             ; simple shell REPL for Emacs
        term              ; basic terminal emulator for Emacs
-       vterm             ; the best terminal emulation in Emacs
+       ;;vterm             ; the best terminal emulation in Emacs
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
@@ -157,7 +157,6 @@
        ;;ocaml             ; an objective camel
        (org
         +pretty            ; installiert org-fancy priorities, org-superstar, org-appear
-        +dragndrop
         +noter
         +jupyter
         +ipython
