@@ -19,14 +19,8 @@
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
 :END:
 #+begin_src shell
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/
-cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/
-cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/
-cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/
-cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/
-cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/
-# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py
-# cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
@@ -35,9 +29,7 @@ cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/
 # cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 # cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 # cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-# cp -r ~/FlowmisOS/tangle/.git-credentials ~/.git-credentials
 # cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
-# wegen sudo in Terminal kopieren und dort ausführen bis ich es aus Emacs auch kann: sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
 echo done
 #+end_src
 #+STARTUP: showall
@@ -56,7 +48,6 @@ echo done
   - [[#doomemacs-config][DoomEmacs config]]
   - [[#doomemacs-themes][DoomEmacs Themes]]
   - [[#emacs-config-kein-doom-emacs][Emacs config (kein Doom Emacs)]]
-- [[#ssh--gpgpgp][SSH & GPG/PGP]]
 - [[#qtile-windowmanager][Qtile Windowmanager]]
   - [[#qtile-config][Qtile config]]
 - [[#setup-linux][Setup Linux]]
@@ -344,6 +335,13 @@ sudo pacman -S python-iwlib python-dbus-next qt5ct && echo 'Pyhton Zeug installi
 #+begin_src sh  :dir /sudo::
 sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans htop neofetch dunst bind bmon jq gvfs
 #+end_src
+
+***** SSH & GPG/PGP
+- Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
+  - openssh braucht man um ssh keys zu erstellen
+  - gnupg ist die library des OpenPGP Standards
+  - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
+- Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
 
 ***** Sontige Programme
 
@@ -1873,6 +1871,12 @@ Anmerkung: Wenn ich bei Projekt mitarbeite werd ich nie auf Main Branch direkt p
 
 https://wiki.archlinux.org/title/Touchpad_Synaptics habe aber auch eine Datei die ich hier erstelle und die direkt mit meinen Einstellungen an die richtige Stelle kopiert wird -> siehe Installskript
 
+#+begin_src shell :dir "/sudo::" :cache no
+sudo cp -r /home/flowmis/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
+#+end_src
+
+#+RESULTS:
+
 #+begin_src shell :tangle tangle/70-synaptics.conf
 # Example xorg.conf.d snippet that assigns the touchpad driver
 # to all touchpads. See xorg.conf.d(5) for more information on
@@ -1939,10 +1943,12 @@ EndSection
 
 ***** Startup Skript .xprofile
 
-}jE#:{o4X@RTTM{5d&sWN;9a~y2#*
-+ Mit systemd ein Startup Skript erstellen und mit systemctl enablen sodass direkt nach Boot und vor dem Rest das Skript ausgeführt wird
-+ Erstelle Skript und aktiviere es indem man sudo chmod +x /etc/systemd/system/my-startup.service "NameSkript" macht und es mit . "NameSkript" ausführt
-+ simple solution: diesen Code mit tangle als Datei in Homverzeichnis schreiben - sollte dann mit Start von allein ausgeführt werden
++ Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
+  -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
+
+#+begin_src shell
+# cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+#+end_src
 
 #+begin_src sh :tangle tangle/.xprofile
 #setxkbmap -layout de &
@@ -1951,7 +1957,7 @@ nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #loadkeys de-latin1 &
-/usr/bin/emacs --daemon &
+# /usr/bin/emacs --daemon &
 #touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
 #echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
 #cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
@@ -1959,20 +1965,10 @@ picom -f &                                          # setzt Einstellungen des Co
 #cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
 #chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
 gtk-launch dropbox.desktop &
-gtk-launch nm-applet.desktop &
-gtk-launch volumeicon.desktop &
+# gtk-launch nm-applet.desktop &
+# gtk-launch volumeicon.desktop &
 /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
 emacsclient -c                                      #
-#+end_src
-
-+ Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
-  -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
-
-***** Kopiere configs
-
-#+begin_src sh
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 #+end_src
 
 * Emacs
@@ -3346,13 +3342,6 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 #+end_src
-* SSH & GPG/PGP
-- Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
-  - openssh braucht man um ssh keys zu erstellen
-  - gnupg ist die library des OpenPGP Standards
-  - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
-- Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
-
 * Qtile Windowmanager
 
 - https://docs.qtile.org
