@@ -261,7 +261,7 @@ mkdir -p ~/.config/{alacritty,qtile,fish} && echo 'Ordner erstellt'
 sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
 cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile && cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc && cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig && cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
-sudo pacman -Syu && sudo pacman -S qtile picom fish exa starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep && echo 'Packete updated and installed'
+sudo pacman -Syu && sudo pacman -S qtile picom fish exa starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg openssh gpa && echo 'Packete updated and installed'
 sudo systemctl enable sddm
 cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install && ~/.emacs.d/bin/doom sync && ~/.emacs.d/bin/doom doctor && echo 'Installation beendet'
 #+end_src
@@ -313,7 +313,7 @@ cd ~ && git clone https://aur.archlinux.org/brave-bin.git && cd ~/brave-bin/ && 
 In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs zwischendrin sudo legitmation braucht und auf Fragen geantwortet werden was Probleme verursacht wenn man mit org-src block nicht interaktiv agieren kann
 
 #+begin_src sh
-cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && rm -rf ~/yay-git/ && yay -Syu && cd ~ && rm -rf ~/yay-git/ && yay -S dropbox sddm-sugar-dark archlinux-tweak-tool-git termite otf-alegreya-sans mu && echo '###########################installed yay###########################'
+cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && rm -rf ~/yay-git/ && yay -Syu && cd ~ && rm -rf ~/yay-git/ && yay -S dropbox archlinux-tweak-tool-git termite otf-alegreya-sans mu && echo '###########################installed yay###########################'
 #+end_src
 
 ***** Mein Doom Emacs
@@ -351,155 +351,41 @@ sudo pacman -S simplescreenrecorder viewnior deepin-screen-recorder flameshot gi
 
 ***** Login Manager
 
-- Ich verwende sddm da es hier viele schöne Themes gibt und es wenig dependencies aufweist.
-- Nach der Installation ist der Standard Login Screen aktivier!
-- In meinem installmore skript habe ich das sugar-dark theme zum herunterladen -> mit yay kann ich viele weiter themes downloaden!
-- Einstellen kann ich das Theme durch ~sudo archlinux-tweak-tool~ oder hier: ~sudo nvim /etc/sddm.conf.d/kde_settings.conf~ unter Current -> Current=sugar-dark oder Current=Sugar-Candy
-- Einstellen kann ich das Hintergrund von diesem Theme z.B. unter: ~/usr/share/sddm/themes/sugar-dark/theme.conf~
-- eventuell Einstellungen automatisiert bei Installation schreiben (kann je nach Änderungen aber vll Probleme machen)
-- Bilder:
-  - ~sudo cp //home/flowmis/FlowmisOS/Backgrounds/ /usr/share/sddm/themes/Sugar-Candy/BackgroundsMane/~
-  - anschließend in die config des Themes in diesem Ordner den Namen des gewünschten Bildes/Pfads eintragen
-- momentane theme config unter ~cd /usr/share/sddm/themes/Sugar-Candy/theme.conf~
+- Ich verwende sddm da es hier viele schöne Themes gibt und es wenige weitere dependencies hat.
+- Nach der Installation ist der Standard Login Screen aktiviert und (hier: sudo nvim /etc/sddm.conf.d/kde_settings.conf) noch keine config vorhanden
+- Um die config zu schreiben einfach das arch-tweak-tool installieren und in den su Modus wechseln und vom Terminal aus im su Modus mit ~archlinux-tweak-tool~ das Tool starten -> in Login wechseln und das zuvor installierte Theme (mit yay installiert) auswählen -> auto-login aktivieren und Desktop Session auf qtile stellen -> Apply Settings -> im Terminal oder in der Gui sollte nun erscheinen dass Theme aktiviert wurde!
 
-#+begin_src sh  :tangle no
-[General]
-
-Background="BackgroundsMane/B1lMORS%20-%20Imgur.jpg"
-## Path relative to the theme root directory. Most standard image file formats are allowed including support for transparency. (e.g. background.jpeg/illustration.GIF/Foto.png/undraw.svgz)
-
-DimBackgroundImage="0.0"
-## Double between 0 and 1 used for the alpha channel of a darkening overlay. Use to darken your background image on the fly.
-
-ScaleImageCropped="true"
-## Whether the image should be cropped when scaled proportionally. Setting this to false will fit the whole image instead, possibly leaving white space. This can be exploited beautifully with illustrations (try it with "undraw.svg" included in the theme).
-
-ScreenWidth="1440"
-ScreenHeight="900"
-## Adjust to your resolution to help SDDM speed up on calculations
-
-
-
-## [Blur Settings]
-
-FullBlur="false"
-PartialBlur="true"
-## Enable or disable the blur effect; if HaveFormBackground is set to true then PartialBlur will trigger the BackgroundColor of the form element to be partially transparent and blend with the blur.
-
-BlurRadius="35"
-## Set the strength of the blur effect. Anything above 100 is pretty strong and might slow down the rendering time. 0 is like setting false for any blur.
-
-
-
-## [Design Customizations]
-
-HaveFormBackground="false"
-## Have a full opacity background color behind the form that takes slightly more than 1/3 of screen estate;  if PartialBlur is set to true then HaveFormBackground will trigger the BackgroundColor of the form element to be partially transparent and blend with the blur.
-
-FormPosition="left"
-## Position of the form which takes roughly 1/3 of screen estate. Can be left, center or right.
-
-BackgroundImageHAlignment="center"
-## Horizontal position of the background picture relative to its visible area. Applies when ScaleImageCropped is set to false or when HaveFormBackground is set to true and FormPosition is either left or right. Can be left, center or right; defaults to center if none is passed.
-
-BackgroundImageVAlignment="center"
-## As before but for the vertical position of the background picture relative to its visible area.
-
-MainColor="white"
-## Used for all elements when not focused/hovered etc. Usually the best effect is achieved by having this be either white or a very dark grey like #444 (not black for smoother antialias)
-## Colors can be HEX or Qt names (e.g. red/salmon/blanchedalmond). See https://doc.qt.io/qt-5/qml-color.html
-
-AccentColor="#fb884f"
-## Used for elements in focus/hover/pressed. Should be contrasting to the background and the MainColor to achieve the best effect.
-
-BackgroundColor="#444"
-## Used for the user and session selection background as well as for ScreenPadding and FormBackground when either is true. If PartialBlur and FormBackground are both enabled this color will blend with the blur effect.
-
-OverrideLoginButtonTextColor=""
-## The text of the login button may become difficult to read depending on your color choices. Use this option to set it independently for legibility.
-
-InterfaceShadowSize="6"
-## Integer used as multiplier. Size of the shadow behind the user and session selection background. Decrease or increase if it looks bad on your background. Initial render can be slow no values above 5-7.
-
-InterfaceShadowOpacity="0.6"
-## Double between 0 and 1. Alpha channel of the shadow behind the user and session selection background. Decrease or increase if it looks bad on your background.
-
-RoundCorners="20"
-## Integer in pixels. Radius of the input fields and the login button. Empty for square. Can cause bad antialiasing of the fields.
-
-ScreenPadding="0"
-## Integer in pixels. Increase or delete this to have a padding of color BackgroundColor all around your screen. This makes your login greeter appear as if it was a canvas. Cool!
-
-Font="Noto Sans"
-## If you want to choose a custom font it will have to be available to the X root user. See https://wiki.archlinux.org/index.php/fonts#Manual_installation
-
-FontSize=""
-## Only set a fixed value if fonts are way too small for your resolution. Preferrably kept empty.
-
-
-
-## [Interface Behavior]
-
-ForceRightToLeft="false"
-## Revert the layout either because you would like the login to be on the right hand side or SDDM won't respect your language locale for some reason. This will reverse the current position of FormPosition if it is either left or right and in addition position some smaller elements on the right hand side of the form itself (also when FormPosition is set to center).
-
-ForceLastUser="true"
-## Have the last successfully logged in user appear automatically in the username field.
-
-ForcePasswordFocus="true"
-## Give automatic focus to the password field. Together with ForceLastUser this makes for the fastest login experience.
-
-ForceHideCompletePassword="false"
-## If you don't like to see any character at all not even while being entered set this to true.
-
-ForceHideVirtualKeyboardButton="false"
-## Do not show the button for the virtual keyboard at all. This will completely disable functionality for the virtual keyboard even if it is installed and activated in sddm.conf
-
-ForceHideSystemButtons="false"
-## Completely disable and hide any power buttons on the greeter.
-
-AllowEmptyPassword="false"
-## Enable login for users without a password. This is discouraged. Makes the login button always enabled.
-
-AllowBadUsernames="false"
-## Do not change this! Uppercase letters are generally not allowed in usernames. This option is only for systems that differ from this standard! Also shows username as is instead of capitalized.
-
-
-
-## [Locale Settings]
-
-Locale=""
-## The time and date locale should usually be set in your system settings. Only hard set this if something is not working by default or you want a seperate locale setting in your login screen.
-
-HourFormat="HH:mm"
-## Defaults to Locale.ShortFormat - Accepts "long" or a custom string like "hh:mm A". See http://doc.qt.io/qt-5/qml-qtqml-date.html
-
-DateFormat="dddd, d MMMM"
-## Defaults to Locale.LongFormat - Accepts "short" or a custom string like "dddd, d 'of' MMMM". See http://doc.qt.io/qt-5/qml-qtqml-date.html
-
-
-
-## [Translations]
-
-HeaderText="Hi Mane!"
-## Header can be empty to not display any greeting at all. Keep it short.
-
-## SDDM may lack proper translation for every element. Suger defaults to SDDM translations. Please help translate SDDM as much as possible for your language: https://github.com/sddm/sddm/wiki/Localization. These are in order as they appear on screen.
-
-TranslatePlaceholderUsername="Benutzername"
-TranslatePlaceholderPassword="Passwort"
-TranslateShowPassword="Passwort anzeigen"
-TranslateLogin="Anmelden"
-TranslateLoginFailedWarning="Anmeldung fehlgeschlagen"
-TranslateCapslockWarning="Capslock aktiv"
-TranslateSession=""
-TranslateSuspend=""
-TranslateHibernate=""
-TranslateReboot="Neu starten"
-TranslateShutdown="Herunterfahren"
-TranslateVirtualKeyboardButton=""
-## These don't necessarily need to translate anything. You can enter whatever you want here.
+#+begin_src sh :tangle no
+yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal wegen Bestätigungen und sudo-privileges
 #+end_src
+
+- Anschließend sollte die config vorhanden sein und man kann Themes auch ohne das Tool wechseln indem man ([[/etc/sddm.conf.d/kde_settings.conf][hier]]: ~sudo nvim /etc/sddm.conf.d/kde_settings.conf~) unter Current das Theme angibt das man haben will -> wie z.B. hier: Current=sugar-dark oder Current=Sugar-Candy
+- Einstellungen zum Theme kann man hier vornehmen:
+  - [[/usr/share/sddm/themes/sugar-dark/theme.conf][sugar-dark Theme]]:
+
+    #+begin_src  :tangle no
+    sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-dark/Hintergrund.jpg
+    sudo sed -i 's/Background="Background.jpg"/Background="Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-dark/theme.conf
+    #+end_src
+
+  - [[/usr/share/sddm/themes/sugar-candy/theme.conf][sugar-candy-Theme]]
+
+    #+begin_src sh  :dir /sudo::
+    sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
+    sudo chmod +666 /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
+    sudo sed -i 's/Mountain.jpg"/Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/BlurRadius="100"/BlurRadius="35"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/HeaderText="Welcome!"/HeaderText="Hi Mane!"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslatePlaceholderUsername=""/TranslatePlaceholderUsername="Benutzername"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslatePlaceholderPassword=""/TranslatePlaceholderPassword="Passwort"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateShowPassword=""/TranslateShowPassword="Passwort anzeigen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateLogin=""/TranslateLogin="Anmelden"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateLoginFailedWarning=""/TranslateLoginFailedWarning="Anmeldung fehlgeschlagen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateCapslockWarning=""/TranslateCapslockWarning="Capslock aktiv"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateReboot=""/TranslateReboot="Neu starten"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateShutdown=""/TranslateShutdown="Herunterfahren"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    #+end_src
+
 
 ***** Terminal/Shell/CLI
 
@@ -1947,8 +1833,10 @@ EndSection
   -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
 
 #+begin_src shell
-# cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 #+end_src
+
+#+RESULTS:
 
 #+begin_src sh :tangle tangle/.xprofile
 #setxkbmap -layout de &
@@ -1968,7 +1856,7 @@ gtk-launch dropbox.desktop &
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
-emacsclient -c                                      #
+# emacsclient -c                                      #
 #+end_src
 
 * Emacs
