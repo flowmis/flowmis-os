@@ -22,3 +22,12 @@ alias doombuild ~/.emacs.d/bin/doom build
 alias cp cp -i $1
 alias mv mv -i $1
 alias rm rm -i $1
+
+# Pacman
+alias pi sudo pacman -S
+alias pu sudo pacman -Syyu
+alias ps sudo pacman -Ss
+alias pd sudo pacman -R
+alias pc sudo pacman -Rns (pacman -Qtdq)    # remove orphaned packages
+alias yu yay -Sua --noconfirm               # update only AUR pkgs (yay)
+alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs (yay)

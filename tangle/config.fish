@@ -241,17 +241,13 @@ alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l.='exa -a | egrep "^\."'
 
 # pacman and yay
-alias pacsyu='sudo pacman -Syu'                  # update only standard pkgs
-alias pacsyyu='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
-alias install='sudo pacman -S'
-alias search='sudo pacman -Ss'
-alias delete='sudo pacman -R'
-alias yaysua='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
-alias yaysyu='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
-alias parsua='paru -Sua --noconfirm'             # update only AUR pkgs (paru)
-alias parsyu='paru -Syu --noconfirm'             # update standard pkgs and AUR pkgs (paru)
-alias unlock='sudo rm /var/lib/pacman/db.lck'    # remove pacman lock
-alias cleanup='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
+alias pu='sudo pacman -Syyu'                  # update only standard pkgs
+alias pi='sudo pacman -S'
+alias ps='sudo pacman -Ss'
+alias pd='sudo pacman -R'
+alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
+alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
+alias pc='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
 
 # bluetooth
 alias blon='bluetoothctl power on && bluetoothctl connect CC:98:8B:64:28:0D'

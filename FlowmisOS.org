@@ -19,26 +19,23 @@
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
 :END:
 #+begin_src shell
-# cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
-# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 # cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-# cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 # cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 # cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 # cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 # cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
-
-#+RESULTS:
-: done
-
 #+STARTUP: showall
 
 * Übersicht :toc:
+- [[#direktlinks][Direktlinks]]
 - [[#zeitnah-flowmisos][ZEITNAH FlowmisOS]]
 - [[#einleitung][Einleitung]]
 - [[#installation][Installation]]
@@ -56,6 +53,8 @@ echo done
   - [[#qtile-config][Qtile config]]
 - [[#setup-linux][Setup Linux]]
 
+* Direktlinks
+- [[org:../../../../FlowmisOS/FlowmisOS.org::Terminal/Shell/CLI][Bash]]
 * ZEITNAH FlowmisOS
 :LOGBOOK:
 :END:
@@ -251,17 +250,17 @@ Speicher formatieren:
    4. Account/User+Passwort hinzufügen
    5. Profil auf xorg ändern und Grafiktreiber wählen (Nvidia proprietary bei momentanem Laptop, oder VM falls VM,...)
    6. Audio -> pulseaudio wählen
-   7. NetworkManager einstellen
+   7. NetworkManager einstellen und zusätzliche Programmen angeben die direkt installiert werden sollen (git installieren)
    8. Timezone auf Berlin
    9. Festplatte wählen, alles wipen lassen und ext4 filesystem konfigurieren lassen
    10. Konfiguration in /home speichern und Installation starten
-6. reboot & login in erstellten Account
+6. reboot & login in erstellten Account (Umschalten von Wayland auf Qtile!)
 7. Anmelden in Wlan mit nmcli
 9. ~sudo pacman -S git && cd ~ && git clone https://github.com/flowmis/FlowmisOS.git && echo 'FlowmisOS geklont'~
-10. MinimalInstall.sh ausführen: ~. ~/FlowmisOS/tangled/MinimalInstall.sh~
+10. MinimalInstall.sh ausführen und anschließend mit Standard DoomEmacs in dies Datei und die gewollten Module installieren: ~. ~/FlowmisOS/tangled/MinimalInstall.sh~
 
 #+begin_src shell :tangle tangle/MinimalInstall.sh
-mkdir -p ~/.config/{alacritty,qtile,fish} && echo 'Ordner erstellt'
+mkdir -p ~/.config/{alacritty,fish} && echo 'Ordner erstellt'
 sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
 cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile && cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc && cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig && cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
@@ -325,7 +324,10 @@ cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && make
 Zuerts Yay und Yay Packages installieren! Dann folgendes und Emacs sollte beim doomdoctor keine Probleme/Warnungen mehr ausgeben!
 
 #+begin_src sh  :dir /sudo::
-sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync && pip install jupyter notebook && echo 'Doom dependencies installiert'
+sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync && pip install jupyter notebook && echo 'Doom dependencies installiert' &&
+mkdir -p ~/.config/doom/ &&
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -r ~/FlowmisOS/tangle/banner/ ~/.config/doom/banner/ && cp -r ~/FlowmisOS/tangle/themes/ ~/.config/doom/themes/ && cp -r ~/FlowmisOS/tangle/eshell/ ~/.config/doom/eshell/ && echo '###########################Doom ready###########################' &&
+rm -rf ~/.doom.d && doomsync && doomdoctor
 #+end_src
 
 ***** Python Zeug
@@ -346,6 +348,7 @@ sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-man
   - gnupg ist die library des OpenPGP Standards
   - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
 - Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
+- Passphrase ist PIN
 
 ***** Sontige Programme
 
@@ -367,7 +370,7 @@ yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal w
 - Einstellungen zum Theme kann man hier vornehmen:
   - [[/usr/share/sddm/themes/sugar-dark/theme.conf][sugar-dark Theme]]:
 
-    #+begin_src  :tangle no
+    #+begin_src  :dir /sudo::
     sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-dark/Hintergrund.jpg
     sudo sed -i 's/Background="Background.jpg"/Background="Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-dark/theme.conf
     #+end_src
@@ -390,6 +393,7 @@ yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal w
     sudo sed -i 's/TranslateShutdown=""/TranslateShutdown="Herunterfahren"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
     #+end_src
 
+    #+RESULTS:
 
 ***** Terminal/Shell/CLI
 
@@ -957,17 +961,13 @@ alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l.='exa -a | egrep "^\."'
 
 # pacman and yay
-alias pacsyu='sudo pacman -Syu'                  # update only standard pkgs
-alias pacsyyu='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
-alias install='sudo pacman -S'
-alias search='sudo pacman -Ss'
-alias delete='sudo pacman -R'
-alias yaysua='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
-alias yaysyu='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
-alias parsua='paru -Sua --noconfirm'             # update only AUR pkgs (paru)
-alias parsyu='paru -Syu --noconfirm'             # update standard pkgs and AUR pkgs (paru)
-alias unlock='sudo rm /var/lib/pacman/db.lck'    # remove pacman lock
-alias cleanup='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
+alias pu='sudo pacman -Syyu'                  # update only standard pkgs
+alias pi='sudo pacman -S'
+alias ps='sudo pacman -Ss'
+alias pd='sudo pacman -R'
+alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
+alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
+alias pc='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
 
 # bluetooth
 alias blon='bluetoothctl power on && bluetoothctl connect CC:98:8B:64:28:0D'
@@ -1091,10 +1091,10 @@ export EDITOR="emacsclient -t -a ''"              # $EDITOR use Emacs in termina
 export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
 
 ###Virtualenvwrapper settings
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
-source ~/.local/bin/virtualenvwrapper.sh
+# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+# export WORKON_HOME=$HOME/.virtualenvs
+# export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
+# source ~/.local/bin/virtualenvwrapper.sh
 
 ### SET MANPAGER
 ### Uncomment only one of these!
@@ -1229,17 +1229,14 @@ alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l.='exa -a | egrep "^\."'
 
 # pacman and yay
-alias pacsyu='sudo pacman -Syu'                  # update only standard pkgs
-alias pacsyyu='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
-alias install='sudo pacman -S'
-alias search='sudo pacman -Ss'
-alias delete='sudo pacman -R'
-alias yaysua='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
-alias yaysyu='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
-alias parsua='paru -Sua --noconfirm'             # update only AUR pkgs (paru)
-alias parsyu='paru -Syu --noconfirm'             # update standard pkgs and AUR pkgs (paru)
-alias unlock='sudo rm /var/lib/pacman/db.lck'    # remove pacman lock
-alias cleanup='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
+alias pu='sudo pacman -Syu'                  # update only standard pkgs
+alias pua='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
+alias pi='sudo pacman -S'
+alias ps='sudo pacman -Ss'
+alias pd='sudo pacman -R'
+alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
+alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
+alias pc='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
 
 # Bluetooth
 alias blueon='bluetoothctl power on'
@@ -1357,7 +1354,6 @@ fi
 + picom = fork von compton
 + Die picom.conf muss in //home/flowmis//.config/picom/ kopiert werden. Falls directory nicht vorhanden muss es erstellt werden (mkdir //home/flowmis//.config/picom). Falls man neue config Datei erstellen will ist es sinnvoll die Beispiel config die mit installiert wird zu kopieren und zu modifizieren: sudo cp //etc/xdg/picom.conf //home/flowmis//.config/picom/picom.conf
 + Weitere Infos unter: https://wiki.archlinux.org/title/picom
-+ Für Installation auf physischem Gerät, also nicht VM muss man in config hier das vsync von false auf true umstellen!
 + Meine config:
 
 #+begin_src sh :tangle tangle/picom.conf
@@ -1689,7 +1685,8 @@ rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
 #+end_src
 
 ***** Virtual Box
-
+- virtualbox-guest-utils mit pacman installieren + VBoxClient-all als cmd in Startupskript um clipboard dragandrop etc. zu aktivieren + Einstellungen der VM -> Allgeimene -> Erweiterte -> Gemeinsame Zwischenablage auf bidirektional -> Drag'n'Drop auf bidirektional
+- Gemeinsamer Ordner host & guest: sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
 ****** Download
 
 - Extension Pack und VirtualBox von [[https://www.virtualbox.org/wiki/Downloads][hier]]
@@ -1706,6 +1703,10 @@ rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
 ****** Installieren von images
 
 - =Neu= -> je nach Name den man der Maschine gibt sucht es automatisch richtige Version und Typ - ansonsten manuell wählen -> Einstellungen folgen bis Maschine erstellt wurde -> Maschine auswählen und =Ändern= drücken -> =System= -> uncheck =Diskettenlaufwerk= -> check =EFI aktivieren= -> =Prozessor= -> Einstellen wie viele Prozessoren ich geben will -> =Massenspeicher= -> Unter =Controller:IDE= die .iso Datei reinladen -> =Starten= der Maschine -> Maschine nach der Installation herunterfahren ->  =Massenspeicher=  und .iso entfernen -> Maschine nun fertig und kann gestartet werden
+
+****** Keybindings
+
+Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
 
 ***** Git
 
@@ -1844,7 +1845,8 @@ cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 
 #+begin_src sh :tangle tangle/.xprofile
 #setxkbmap -layout de &
-#xrandr -s 1920x1080 &                               # In VM aktivieren
+xrandr -s 1920x1200 &                               # In VM aktivieren
+VBoxClient-all &                                    # DranDrop und gmeinsames Clipboars in VM aktivieren
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
@@ -1860,18 +1862,10 @@ gtk-launch dropbox.desktop &
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
-# emacsclient -c                                      #
+emacsclient -c                                      #
 #+end_src
 
 * Emacs
-
-#+begin_src shell
-mkdir -p ~/.config/doom/ &&
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -r ~/FlowmisOS/tangle/banner/ ~/.config/doom/banner/ && cp -r ~/FlowmisOS/tangle/themes/ ~/.config/doom/themes/ && cp -r ~/FlowmisOS/tangle/eshell/ ~/.config/doom/eshell/ && echo '###########################Doom ready###########################'
-#+end_src
-
-#+RESULTS:
-: ###########################Doom ready###########################
 
 ** DoomEmacs init
 
@@ -2281,8 +2275,6 @@ cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -r ~/FlowmisOS
       org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
 (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
 (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
-(require 'calfw)
-(require 'calfw-org)
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
@@ -3351,21 +3343,21 @@ def float_cycle_forward(qtile):
 mod = "mod4"
 keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Terminal'),
         #weiss nicht weshalb aber macht irgendwie dass ich mit doppel Fn Taste den App Launcher starten kann
-         Key([], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
+         # Key([], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
          Key([mod], "period", float_cycle_forward, desc='FloatingWindow vor/hinter ein anderes bringen'),
          Key([mod], "comma", float_cycle_backward, desc='FloatingWindow vor/hinter ein anderes bringen'),
          Key([], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
          Key([], "XF86AudioMute", lazy.spawn('pamixer -t'), desc='leiser'),
-         Key([], "XF86MonBrightnessUp", lazy.spawn('brightnessctl s 5%+'), desc='heller'),
-         Key([], "XF86MonBrightnessDown", lazy.spawn('brightnessctl s 5%-'), desc='dunkler'),
+         # Key([], "XF86MonBrightnessUp", lazy.spawn('brightnessctl s 5%+'), desc='heller'),
+         # Key([], "XF86MonBrightnessDown", lazy.spawn('brightnessctl s 5%-'), desc='dunkler'),
          Key([], "XF86Cut", lazy.spawn('simplescreenrecorder'), desc='Screenrecord1'),
          Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
          Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
          Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
-         Key([mod], "t", lazy.spawn("alacritty"), desc='Alacritty'),
-         Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
+         Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
+         # Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
          Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
          Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
          Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
@@ -3645,6 +3637,9 @@ def start_once():
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
 #+end_src
+
+#+RESULTS:
+: None
 
 * Setup Linux
 

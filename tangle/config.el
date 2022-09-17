@@ -5,8 +5,6 @@
       org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
 (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
 (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
-(require 'calfw)
-(require 'calfw-org)
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"

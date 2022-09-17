@@ -1,5 +1,5 @@
 #setxkbmap -layout de &
-#xrandr -s 1920x1080 &                               # In VM aktivieren
+xrandr -s 1920x1200 &                               # In VM aktivieren
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
@@ -15,4 +15,4 @@ gtk-launch dropbox.desktop &
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
-# emacsclient -c                                      #
+emacsclient -c                                      #
