@@ -19,19 +19,23 @@
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
 :END:
 #+begin_src shell
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+# cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
+# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 # cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+# cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 # cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 # cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
-# cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 # cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
+
+#+RESULTS:
+: done
+
 #+STARTUP: showall
 
 * Übersicht :toc:
