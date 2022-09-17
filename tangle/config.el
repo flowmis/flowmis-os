@@ -89,11 +89,54 @@
                                 ("mkv" . "vlc")
                                 ("html" . "brave")
                                 ("mp4" . "vlc"))))
+;;;#Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'calfw)
+(require 'calfw-org)
+(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" . "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+;;;Mail;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'mu4e)
+(require 'smtpmail)
+(require 'org-mu4e)
+(setq send-mail-function 'smtpmail-send-it
+      message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      ;; smtpmail-smtp-user "manemarkushoffmann@gmail" ;oder Markus Hoffmann??
+      mu4e-sent-messages-behavior 'sent
+      mu4e-sent-folder "/home/flowmis/.mail/Gesendet"
+      mu4e-drafts-folder "/home/flowmis/.mail/Entwürfe"
+      mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
+      smtpmail-stream-type 'starttls
+      mu4e-root-maildir "/home/flowmis/.mail"
+      mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
+      mu4e-get-mail-command "mbsync -a"
+      mu4e-update-interval 300 ;; second
+      mu4e-compose-signature-auto-include nil
+      mu4e-attachment-dir "~/Downloads"
+      ;; smtpmail-starttls-credentials '(("smtp.gmail.com" "587" nil nil))
+      ;; smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-debug-info t
+      ;; starttls-extra-arguments nil
+      ;; starttls-gnutls-program "/usr/bin/gnutls-cli"
+      ;; starttls-extra-arguments nil
+      ;; starttls-use-gnutls t
+      mu4e-use-fancy-chars t
+      org-mu4e-convert-to-html t
+      mu4e-maildir-shortcuts '(("/home/flowmis/.mail/Papierkorb" . ?p)
+                               ("/home/flowmis/.mail/Archiv" . ?a)
+                               ("/home/flowmis/.mail/Entwürfe" .?e)
+                               ("/home/flowmis/.mail/Gesendet" .?g)))
+;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 (require 'yasnippet)
-(add-to-list 'load-path
-              "~/.emacs.d/plugins/yasnippet")
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (setq yas-snippet-dirs '("/home/flowmis/Dropbox/emacs/yasnippets/"))
 (yas-global-mode 1)
 

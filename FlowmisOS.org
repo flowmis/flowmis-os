@@ -19,8 +19,8 @@
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
 :END:
 #+begin_src shell
-cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
-cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+# cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
+# cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
@@ -32,6 +32,10 @@ cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisO
 # cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
+
+#+RESULTS:
+: done
+
 #+STARTUP: showall
 
 * Übersicht :toc:
@@ -1861,6 +1865,14 @@ gtk-launch dropbox.desktop &
 
 * Emacs
 
+#+begin_src shell
+mkdir -p ~/.config/doom/ &&
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -r ~/FlowmisOS/tangle/banner/ ~/.config/doom/banner/ && cp -r ~/FlowmisOS/tangle/themes/ ~/.config/doom/themes/ && cp -r ~/FlowmisOS/tangle/eshell/ ~/.config/doom/eshell/ && echo '###########################Doom ready###########################'
+#+end_src
+
+#+RESULTS:
+: ###########################Doom ready###########################
+
 ** DoomEmacs init
 
 - Module $ flags für Doom Emacs finde ich [[https://github.com/doomemacs/doomemacs/tree/develop/modules][hier]]
@@ -2353,11 +2365,54 @@ gtk-launch dropbox.desktop &
                                 ("mkv" . "vlc")
                                 ("html" . "brave")
                                 ("mp4" . "vlc"))))
+;;;#Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'calfw)
+(require 'calfw-org)
+(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" . "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+;;;Mail;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'mu4e)
+(require 'smtpmail)
+(require 'org-mu4e)
+(setq send-mail-function 'smtpmail-send-it
+      message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      ;; smtpmail-smtp-user "manemarkushoffmann@gmail" ;oder Markus Hoffmann??
+      mu4e-sent-messages-behavior 'sent
+      mu4e-sent-folder "/home/flowmis/.mail/Gesendet"
+      mu4e-drafts-folder "/home/flowmis/.mail/Entwürfe"
+      mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
+      smtpmail-stream-type 'starttls
+      mu4e-root-maildir "/home/flowmis/.mail"
+      mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
+      mu4e-get-mail-command "mbsync -a"
+      mu4e-update-interval 300 ;; second
+      mu4e-compose-signature-auto-include nil
+      mu4e-attachment-dir "~/Downloads"
+      ;; smtpmail-starttls-credentials '(("smtp.gmail.com" "587" nil nil))
+      ;; smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-debug-info t
+      ;; starttls-extra-arguments nil
+      ;; starttls-gnutls-program "/usr/bin/gnutls-cli"
+      ;; starttls-extra-arguments nil
+      ;; starttls-use-gnutls t
+      mu4e-use-fancy-chars t
+      org-mu4e-convert-to-html t
+      mu4e-maildir-shortcuts '(("/home/flowmis/.mail/Papierkorb" . ?p)
+                               ("/home/flowmis/.mail/Archiv" . ?a)
+                               ("/home/flowmis/.mail/Entwürfe" .?e)
+                               ("/home/flowmis/.mail/Gesendet" .?g)))
+;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 (require 'yasnippet)
-(add-to-list 'load-path
-              "~/.emacs.d/plugins/yasnippet")
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (setq yas-snippet-dirs '("/home/flowmis/Dropbox/emacs/yasnippets/"))
 (yas-global-mode 1)
 #+end_src
@@ -3595,47 +3650,45 @@ wmname = "LG3D"
 
 *** Programme
 
-| Kategorie                                               | Programme                                                                               | Zusatzinfo                                                                         |
-| <20>                                                    | <20>                                                                                    | <35>                                                                               |
-|---------------------------------------------------------+-----------------------------------------------------------------------------------------+------------------------------------------------------------------------------------|
-| Videoplayer                                             | VLC                                                                                     | https://www.videolan.org/vlc/index.html                                            |
-| Office                                                  | LibreOffice                                                                             | https://www.libreoffice.org/                                                       |
-| Inkscape is a vector graphics editor                    | Inkscape                                                                                | https://inkscape.org/                                                              |
-| Task-Manger                                             | htop, interactive process viewer                                                        | https://htop.dev/    -> erlaubt killen von Prozessen etc.                          |
-| Virtual Box                                             | VirtualMachine                                                                          | https://www.virtualbox.org/                                                        |
-| Videobearbeitungsprogramm                               | Kdenlive                                                                                |                                                                                    |
-| Bildbearbeitung                                         | Gimp                                                                                    | https://www.gimp.org/ -> geiles Tool (kann auch screenshots)                       |
-| Mail                                                    | Thunderbird/ProtonMail                                                                  |                                                                                    |
-| Text Editor                                             | DOOM EMACS, Jupyter Notebook, Atom, VIM, EMACS, ...                                     | https://www.vim.org/ oder: https://www.gnu.org/software/emacs/                     |
-| Passwortmanager                                         | KeepassXC oder Pass                                                                     | Standard Unix Password Manager (DT hat 2 gute Videos dazu oder einfach "man pass") |
-| Window Manager                                          | qtile, xmonad                                                                           | qtile in Python liegt mir vermutlich besser, aber xmonad ist schon auch gut        |
-| Programme öffnen                                        | rofi, dmenu                                                                             | braucht man bei qtile nicht? (Powerline sowas ähnliches und viel benutztes?)       |
-| CLI                                                     | fish, alacritty                                                                         | Config dazu speichern                                                              |
-| Integrated Development Environment (IDE)                | Pycharm                                                                                 | IDE für Python (geht auch über pacman installer)                                   |
-| Zeichenprogramm                                         | Pinta                                                                                   | Paint ersatz                                                                       |
-| ScreenRecorder                                          | deepin-screen-recorder                                                                  | Desktop aufzeichnung (auch Screenshots)                                            |
-| Screenshots                                             | flameshot (ähnlich snipping tool) -> Altern.: spectacle od. maim (Nachfolger von scrot) | gui & cli & mit mehreren Monitoren nutzbar (dmenu script schreiben?)               |
-| Browser                                                 | https://www.mozilla.org/                                                                | Binary installation:                                                               |
-|                                                         | https://brave.com/                                                                      | git clone https://aur.archlinux.org/brave-bin.git                                  |
-|                                                         |                                                                                         | cd brave-bin/                                                                      |
-|                                                         |                                                                                         | makepkg -si                                                                        |
-|                                                         |                                                                                         | https://www.vultr.com/docs/using-makepkg-on-arch-linux                             |
-| Backup                                                  | Timeshift (Backup und Rollback automation)                                              |                                                                                    |
-| Musik hören/downloaden ohne Werbung                     | Nuclear Music Streaming App for Windows, Linux, Mac                                     | bissl im Graubereich aber nicer shit (siehe Video von DT)                          |
-| LoginManager                                            | sddm, lightdm                                                                           | sddm wird aktiver weiterentwickelt als lightdm                                     |
-| Spiele                                                  | Steam                                                                                   |                                                                                    |
-| Multimediaplattform                                     | Kodi                                                                                    | Filme, Serien, Musik, Fernsehen und vieles mehr                                    |
-| Ebook Manager und Reader                                | Calibre                                                                                 |                                                                                    |
-| Audio Konverter                                         | DeaDBeeF                                                                                | https://deadbeef.sourceforge.io/                                                   |
-| Kommunikationstool/Hub unterschiedlicher Messenger Apps | Rambox                                                                                  | https://rambox.pro/#home                                                           |
-| Notes                                                   | Nodepadqq                                                                               | https://notepadqq.com/s/                                                           |
-| Mail Client                                             | Mu4e                                                                                    | Ist für doom emacs geeignet!                                                       |
-| Files zwischen Betriebssystemen tauschen                | NitroShare                                                                              | Daten übertragen auf Handy oder zwischen PCs                                       |
-| video conferencing                                      | Jitsi                                                                                   | https://jitsi.org/                                                                 |
-| Programminstaller                                       | Appstore                                                                                | https://app-outlet.github.io/                                                      |
-| Paketverwaltung                                         | Synaptics                                                                               | sudo apt install synaptic                                                          |
-| Desktopaussehen verändern                               | Gnome Tweak Tool                                                                        | Macht mit Windowmanager wie qtile keinen Sinn?                                     |
-| System optimzer and application monitor                 | Stacer                                                                                  | https://github.com/oguzhaninan/Stacer                                              |
+| Kategorie                                               | Programme                                                                               | Zusatzinfo                                                                            |
+| <20>                                                    | <20>                                                                                    | <35>                                                                                  |
+|---------------------------------------------------------+-----------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
+| Videoplayer                                             | VLC                                                                                     | https://www.videolan.org/vlc/index.html                                               |
+| Videokonverter                                          | Handbrake                                                                               |                                                                                       |
+| Musikplayer                                             | Clementine (+ Spotify Plugin)                                                           | braucht Premium Account                                                               |
+| Office                                                  | LibreOffice                                                                             | https://www.libreoffice.org/                                                          |
+| Inkscape is a vector graphics editor                    | Inkscape                                                                                | https://inkscape.org/                                                                 |
+| Task-Manger                                             | htop, interactive process viewer                                                        | https://htop.dev/    -> erlaubt killen von Prozessen etc.                             |
+| Virtual Box                                             | VirtualMachine                                                                          | https://www.virtualbox.org/                                                           |
+| Videobearbeitungsprogramm                               | Kdenlive                                                                                |                                                                                       |
+| Bildbearbeitung                                         | Gimp                                                                                    | https://www.gimp.org/ -> geiles Tool (kann auch screenshots)                          |
+| Mail                                                    | Thunderbird/ProtonMail                                                                  |                                                                                       |
+| Text Editor                                             | DOOM EMACS, Jupyter Notebook, Atom, VIM, EMACS, ...                                     | https://www.vim.org/ oder: https://www.gnu.org/software/emacs/                        |
+| Passwortmanager                                         | KeepassXC oder Pass                                                                     | Standard Unix Password Manager (DT hat 2 gute Videos dazu oder einfach "man pass")    |
+| Window Manager                                          | qtile, xmonad                                                                           | qtile in Python liegt mir vermutlich besser, aber xmonad ist schon auch gut           |
+| Programme öffnen                                        | rofi, dmenu                                                                             | braucht man bei qtile nicht? (Powerline sowas ähnliches und viel benutztes?)          |
+| CLI                                                     | fish, alacritty                                                                         | Config dazu speichern                                                                 |
+| Integrated Development Environment (IDE)                | Pycharm                                                                                 | IDE für Python (geht auch über pacman installer)                                      |
+| Zeichenprogramm                                         | Pinta                                                                                   | Paint ersatz                                                                          |
+| ScreenRecorder                                          | deepin-screen-recorder                                                                  | Desktop aufzeichnung (auch Screenshots)                                               |
+| Screenshots                                             | flameshot (ähnlich snipping tool) -> Altern.: spectacle od. maim (Nachfolger von scrot) | gui & cli & mit mehreren Monitoren nutzbar (dmenu script schreiben?)                  |
+| Browser                                                 | Brave, Firefox                                                                          | https://www.mozilla.org/, Brave github clonen und aus binary mit makepkg installieren |
+| Backup                                                  | Timeshift (Backup und Rollback automation)                                              |                                                                                       |
+| Musik hören/downloaden ohne Werbung                     | Nuclear Music Streaming App for Windows, Linux, Mac                                     | bissl im Graubereich aber nicer shit (siehe Video von DT)                             |
+| LoginManager                                            | sddm, lightdm                                                                           | sddm wird aktiver weiterentwickelt als lightdm                                        |
+| Spiele                                                  | Steam                                                                                   |                                                                                       |
+| Multimediaplattform                                     | Kodi                                                                                    | Filme, Serien, Musik, Fernsehen und vieles mehr                                       |
+| Ebook Manager und Reader                                | Calibre                                                                                 |                                                                                       |
+| Audio Konverter                                         | DeaDBeeF                                                                                | https://deadbeef.sourceforge.io/                                                      |
+| Kommunikationstool/Hub unterschiedlicher Messenger Apps | Rambox                                                                                  | https://rambox.pro/#home                                                              |
+| Notes                                                   | Nodepadqq                                                                               | https://notepadqq.com/s/                                                              |
+| Mail Client                                             | Mu4e                                                                                    | Ist für doom emacs geeignet!                                                          |
+| Files zwischen Betriebssystemen tauschen                | NitroShare                                                                              | Daten übertragen auf Handy oder zwischen PCs                                          |
+| video conferencing                                      | Jitsi                                                                                   | https://jitsi.org/                                                                    |
+| Programminstaller                                       | Appstore                                                                                | https://app-outlet.github.io/                                                         |
+| Paketverwaltung                                         | Synaptics                                                                               | sudo apt install synaptic                                                             |
+| Desktopaussehen verändern                               | Gnome Tweak Tool                                                                        | Macht mit Windowmanager wie qtile keinen Sinn?                                        |
+| System optimzer and application monitor                 | Stacer                                                                                  | https://github.com/oguzhaninan/Stacer                                                 |
 
 *** Tastaturlayout Probleme
 
