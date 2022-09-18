@@ -33,7 +33,8 @@
   + [[org:../../../../FlowmisOS/FlowmisOS.org::Alacritty][Alacritty]]
   + [[org:../../../../FlowmisOS/FlowmisOS.org::Fish][Fish]]
 + Systemstart
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::Fish][Fish]]
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
+  + .Xressources
 
 #+begin_src shell
 # cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
@@ -41,7 +42,8 @@
 # cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+# cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+# cp -r ~/FlowmisOS/tangle/.Xressources ~/.Xressources
 # cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 # cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 # cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
@@ -49,6 +51,7 @@ cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 # cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
+
 
 * ZEITNAH FlowmisOS
 :LOGBOOK:
@@ -3359,7 +3362,8 @@ EndSection
 #setxkbmap -layout de &
 xrandr -s 1920x1200 &                               # In VM aktivieren
 VBoxClient-all &                                    # DranDrop und gmeinsames Clipboars in VM aktivieren
-sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
+sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/ &
+xrdb ~/.Xressources &
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
@@ -3376,6 +3380,15 @@ gtk-launch dropbox.desktop &
 # gtk-launch volumeicon.desktop &
 /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
 emacsclient -c                                      #
+#+end_src
+
+** .Xressources
+
+Vorher das Packet Material Cursors herunterladen ([[https://www.gnome-look.org/][HIER]]) und in lxappearance installieren
+
+#+begin_src sh :tangle tangle/.Xressources
+Xcursor.theme: Material Cursors
+Xcursor.size: 30
 #+end_src
 
 ** Picom

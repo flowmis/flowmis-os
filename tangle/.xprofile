@@ -1,7 +1,8 @@
 #setxkbmap -layout de &
 xrandr -s 1920x1200 &                               # In VM aktivieren
 VBoxClient-all &                                    # DranDrop und gmeinsames Clipboars in VM aktivieren
-sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
+sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/ &
+xrdb ~/.Xressources &
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
