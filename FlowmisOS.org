@@ -34,7 +34,7 @@
   + [[org:../../../../FlowmisOS/FlowmisOS.org::Fish][Fish]]
 + Systemstart
   + [[org:../../../../FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
-  + .Xressources
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
 
 #+begin_src shell
 # cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
@@ -338,7 +338,8 @@ cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d &&
 #+end_src
 
 * Module installieren/konfigurieren
-Anmerkungen:
+
+** Info:
 
   - gehen alle USB und auch SD Karten oder nur die normalen USB A?
   - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
@@ -3204,6 +3205,7 @@ starship init fish | source
 *** Keybindings
 
 Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
+
 
 * Systemkonfigurationen
 
