@@ -240,6 +240,9 @@ alias ll='exa -l --color=always --group-directories-first'  # long format
 alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l.='exa -a | egrep "^\."'
 
+# activate/mount VM shared Folder
+alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
+
 # pacman and yay
 alias pu='sudo pacman -Syyu'                  # update only standard pkgs
 alias pi='sudo pacman -S'
