@@ -39,16 +39,16 @@
   + [[org:../../../../FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
 
 #+begin_src shell
-# cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
 # cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -r ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -r ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -r ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+# cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+# cp -r ~/FlowmisOS/tangle/.Xressources ~/.Xressources
+# cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+# cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+# cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 # cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 # cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
@@ -897,6 +897,10 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 #+begin_src emacs-lisp :tangle tangle/config.el
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
+(global-set-key (kbd "M-ä" ) 'end-of-line)
+(global-set-key (kbd "M-Ä" ) 'beginning-of-line)
+(global-set-key (kbd "M-+" ) 'evil-scroll-page-down)
+(global-set-key (kbd "M-*" ) 'evil-scroll-page-up)
 (map! :leader
        :desc "Org babel tangle" "m B" #'org-babel-tangle
        :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window

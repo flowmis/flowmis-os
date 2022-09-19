@@ -140,6 +140,10 @@
 
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
+(global-set-key (kbd "M-ä" ) 'end-of-line)
+(global-set-key (kbd "M-Ä" ) 'beginning-of-line)
+(global-set-key (kbd "M-+" ) 'evil-scroll-page-down)
+(global-set-key (kbd "M-*" ) 'evil-scroll-page-up)
 (map! :leader
        :desc "Org babel tangle" "m B" #'org-babel-tangle
        :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window
