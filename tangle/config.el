@@ -49,14 +49,12 @@
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
-                              (:endgroup) ("noexport" . ?n) ("Buch" . ?b) ("Volleyball" . ?v) ("Sport" . ?s) ("History" . ?H) ("LehrenLernen" . ?l) ("Programmieren" . ?P) ("Schule" . ?S) ("Weisheit" . ?W) ("Organisation" . ?O)))
+                              (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
         org-todo-keywords '((sequence "EILIG(e)" "ZEITNAH(z)" "IRGENDWANN(i)" "PAUSIERT(p@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)" "DELEGIERT(d@/!)"))                                                                               ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-capture-templates '(("1" "Eilig" entry (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Aufgaben")"** %? [/] \n %a")
-                                ("2" "Einkaufsliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
-                                ("3" "Einkaufsliste Joana" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
-                                ("4" "Gemeinsame Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
-                                ("5" "Wunschliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
-                                ("6" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
+                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste"))
+                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste"))
+                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
                                 ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
                                 ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"

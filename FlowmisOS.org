@@ -1,4 +1,3 @@
-#+TITLE: Install FlowmisOS
 :Einstellungen:
 #+HTML_HEAD: <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> <script> mermaid.initialize({startOnLoad:true}); </script> <style> .mermaid {  /* add custom styling */  } </style>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
@@ -17,27 +16,7 @@
 # - [[https://mermaid-js.github.io/mermaid/#/][Mermaid]]
 # - [[https://github.com/fniessen/org-html-themes][Style]]
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
-#+STARTUP: showall
-:END:
-
-* Direktlinks
-+ EMACS
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::DoomEmacs init][init.el]]
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::DoomEmacs packages][packages.el]]
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::DoomEmacs config][config.el]]
-    - [[org:../../../../FlowmisOS/FlowmisOS.org::Keybindings][Keybindings]]
-    - [[org:../../../../FlowmisOS/FlowmisOS.org::Funktionen][Funktionen]]
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::Eigenes Theme +  Einstellungen Erscheinungsbild][Theme]]
-+ Terminal
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::Bash][Bash]]
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::Alacritty][Alacritty]]
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::Fish][Fish]]
-+ Systemstart
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
-+ VirtualMachine
-  + [[org:../../../../FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
-
+#+STARTUP: showall hideblocks shrink
 #+begin_src shell
 cp -r ~/FlowmisOS/tangle/config.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/init.el ~/.config/doom/ $$ cp -r ~/FlowmisOS/tangle/packages.el ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/banner ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/themes ~/.config/doom/ && cp -r ~/FlowmisOS/tangle/eshell ~/.config/doom/ && echo '###########################Doom ready###########################'
 # cp -r ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -r ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
@@ -56,6 +35,27 @@ echo done
 
 #+RESULTS:
 : done
+
+:END:
+:LINKS:
++ EMACS
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::DoomEmacs init][init.el]]
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::DoomEmacs packages][packages.el]]
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::DoomEmacs config][config.el]]
+    - [[org:../../../../FlowmisOS/FlowmisOS.org::Keybindings][Keybindings]]
+    - [[org:../../../../FlowmisOS/FlowmisOS.org::Funktionen][Funktionen]]
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::Eigenes Theme +  Einstellungen Erscheinungsbild][Theme]]
++ Terminal
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::Bash][Bash]]
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::Alacritty][Alacritty]]
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::Fish][Fish]]
++ Systemstart
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
++ VirtualMachine
+  + [[org:../../../../FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
+:END:
+#+TITLE: Install FlowmisOS
 
 * ZEITNAH FlowmisOS
 :LOGBOOK:
@@ -99,28 +99,29 @@ echo done
 *** Pacman
 
 https://wiki.archlinux.de/title/Pacman
-- Spiegelserver richtif einrichten dass hier keine Probleme entstehen
+- Spiegelserver richtig einrichten dass hier keine Probleme entstehen
 
-| man pacman             | Manual                                                                                                                                                             |
-|------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| pacman -S              | Sync or install package                                                                                                                                            |
-| sudo pacman -S emacs   | installiert EMACS                                                                                                                                                  |
-| pacman -Sy             | nur sync (=apt-get update)                                                                                                                                         |
-| pacman -Syu            | sync und update (=apt-get update + apt-get upgrade)                                                                                                                |
-| pacman -Ss emacs       | sucht nach Paketen zu EMACS                                                                                                                                        |
-| pacman -Ss ^emacs      | sucht nach Paketen die mit emacs beginnen                                                                                                                          |
-| pacman -R emacs        | Remove package EMACS                                                                                                                                               |
-| pacman -Rs emacs       | Remove package EMACS + Dependencies                                                                                                                                |
-| pacman -Rns emacs      | Remove package EMACS + Dependencies + Sysemconfig files (nicht die .conifg files etc. welche in home directory liegen!) --> beste da vollständigste deinstallation |
-| pacman -Q              | zeigt alle installierten Pakete an                                                                                                                                 |
-| pacman -Qe             | zeigt nur die Programme an die man selbst installiert hat                                                                                                          |
-| pacman -Qdt            | zeigt nicht mehr benötigte dependencies                                                                                                                            |
-| pacman -U emacs.tar.gz | installiert lokale Datei emacs.tar.gz                                                                                                                              |
+| man pacman             | Manual                                                                        |
+| <30>                   | <120>                                                                         |
+|------------------------+-------------------------------------------------------------------------------|
+| pacman -S              | Packet installieren                                                           |
+|                        | sudo pacman -S emacs -> installiert EMACS                                     |
+| pacman -Sy             | nur sync (=apt-get update)                                                    |
+| pacman -Syu            | sync und update (=apt-get update + apt-get upgrade)                           |
+| pacman -Ss emacs       | sucht nach Paketen zu EMACS                                                   |
+| pacman -Ss ^emacs      | sucht nach Paketen die mit emacs beginnen                                     |
+| pacman -R emacs        | Remove package EMACS                                                          |
+| pacman -Rs emacs       | Remove package EMACS + Dependencies                                           |
+| pacman -Rns emacs      | Remove Paket + Dependencies + Configfiles des Programms -> vollst. deinstall. |
+| pacman -Q              | zeigt alle installierten Pakete an                                            |
+| pacman -Qe             | zeigt nur die Programme an die man selbst installiert hat                     |
+| pacman -Qdt            | zeigt nicht mehr benötigte dependencies                                       |
+| pacman -U emacs.tar.gz | installiert lokale Datei emacs.tar.gz                                         |
 
 *** wichtige/gute Programme
 
 | Kategorie                                               | Programme                                                                               | Zusatzinfo                                                                            |
-| <20>                                                    | <20>                                                                                    | <35>                                                                                  |
+| <50>                                                    | <50>                                                                                    | <47>                                                                                  |
 |---------------------------------------------------------+-----------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
 | Videoplayer                                             | VLC                                                                                     | https://www.videolan.org/vlc/index.html                                               |
 | Videokonverter                                          | Handbrake                                                                               |                                                                                       |
@@ -802,14 +803,12 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
-                              (:endgroup) ("noexport" . ?n) ("Buch" . ?b) ("Volleyball" . ?v) ("Sport" . ?s) ("History" . ?H) ("LehrenLernen" . ?l) ("Programmieren" . ?P) ("Schule" . ?S) ("Weisheit" . ?W) ("Organisation" . ?O)))
+                              (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
         org-todo-keywords '((sequence "EILIG(e)" "ZEITNAH(z)" "IRGENDWANN(i)" "PAUSIERT(p@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)" "DELEGIERT(d@/!)"))                                                                               ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-capture-templates '(("1" "Eilig" entry (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Aufgaben")"** %? [/] \n %a")
-                                ("2" "Einkaufsliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Mane"))
-                                ("3" "Einkaufsliste Joana" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste Joana"))
-                                ("4" "Gemeinsame Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Gemeinsame Einkaufsliste"))
-                                ("5" "Wunschliste Mane" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste Mane"))
-                                ("6" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
+                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste"))
+                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste"))
+                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
                                 ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
                                 ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
