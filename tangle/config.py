@@ -50,15 +50,15 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          # Key([], "XF86AudioRaiseVolume", lazy.spawn('pamixer -i 2'), desc='lauter'),
          Key([mod], "period", float_cycle_forward, desc='FloatingWindow vor/hinter ein anderes bringen'),
          Key([mod], "comma", float_cycle_backward, desc='FloatingWindow vor/hinter ein anderes bringen'),
-         Key([], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
-         Key([], "XF86AudioMute", lazy.spawn('pamixer -t'), desc='leiser'),
+         # Key([], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 2'), desc='leiser'),
+         # Key([], "XF86AudioMute", lazy.spawn('pamixer -t'), desc='leiser'),
          # Key([], "XF86MonBrightnessUp", lazy.spawn('brightnessctl s 5%+'), desc='heller'),
          # Key([], "XF86MonBrightnessDown", lazy.spawn('brightnessctl s 5%-'), desc='dunkler'),
-         Key([], "XF86Cut", lazy.spawn('simplescreenrecorder'), desc='Screenrecord1'),
-         Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
-         Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
+         # Key([], "XF86Cut", lazy.spawn('simplescreenrecorder'), desc='Screenrecord1'),
+         # Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
+         # Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
-         Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),
+         Key([mod], "e", lazy.spawn('emacs ~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org'), desc='EMACS'),
          Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
          # Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
@@ -169,7 +169,6 @@ def init_widgets_list():
                        background = colors[10],
                        fontsize = 12,
                        padding = 10,
-                       mouse_callbacks = {"Button1": lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh")}
                        ),
             widget.Clock(
                        background = colors[10],
@@ -199,19 +198,6 @@ def init_widgets_list():
             widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.Net(
                        background = colors[10],
-                       mouse_callbacks = {"Button1": lazy.spawn("/home/flowmis/.config/rofi/bin/menu_network")}
-                       ),
-            widget.Memory(
-                       background = colors[10],
-                       fmt = 'Mem: {}',
-                       padding = 10
-                       ),
-            widget.DF(
-                       visible_on_warn = False,
-                       measure = "G",
-                       format = "({uf}{m}/{s}{m})",
-                       background = colors[10],
-                       padding = 10
                        ),
             widget.TextBox(text = '|', background = colors[10], foreground = '474747', padding = 10, fontsize = 14),
             widget.CryptoTicker(
@@ -242,7 +228,6 @@ def init_widgets_list():
                        background = colors[10],
                        padding = 5,
                        scale = 1.1,
-                       mouse_callbacks = {"Button1": lazy.spawn("/home/flowmis/.config/rofi/bin/menu_powermenu")}
                        ),
             ]
     return widgets_list

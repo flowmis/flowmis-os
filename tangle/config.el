@@ -31,14 +31,6 @@
                            "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220416144259-dlt.org"
                            "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
-;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(after! org
-  :dashboard
-  (let ((alternatives '("banner1.png" "banner3.png" "banner4.png" "banner5.png" "banner6.png" "banner7.png" "banner8.png")))
-    (setq fancy-splash-image (concat "~/.config/doom/banner/" (nth (random (length alternatives)) alternatives))))
-  (setq +doom-dashboard-name "*Startscreen*"
-        +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
-        doom-fallback-buffer-name "*Startscreen*"))
 ;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
@@ -269,7 +261,7 @@
   ;; (text-scale-mode 1)
   (custom-theme-set-faces               ;<M-x describe-theme> um Einblick in Möglichkeiten zu bekommen
    'user
-   '(org-level-1 ((t (:inherit outline-1 :height 1.6 ))))
+   '(org-level-1 ((t (:inherit outline-1 :font "URW Bookman Light" :height 1.8 ))))
    '(org-level-2 ((t (:inherit outline-2 :height 1.5 ))))
    '(org-level-3 ((t (:inherit outline-3 :height 1.3 ))))
    '(org-level-4 ((t (:inherit outline-4 :height 1.1 ))))

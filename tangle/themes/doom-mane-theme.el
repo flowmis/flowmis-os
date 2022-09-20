@@ -307,7 +307,7 @@ background contrast. All other values default to \"medium\"."
    (magit-diff-added-highlight            :foreground mane1 :inherit 'magit-diff-context-highlight)
    (magit-diff-base                       :background mane4 :foreground base5)
    (magit-diff-base-highlight             :background mane4 :foreground base7)
-   (magit-diff-context                    :foreground base1  :foreground base6)
+   (magit-diff-context                    :foreground base1 :foreground base6)
    (magit-diff-context-highlight          :background base1 :foreground base7)
    (magit-diff-hunk-heading               :background base3 :foreground base5)
    (magit-diff-hunk-heading-highlight     :background base2 :foreground base7)
@@ -392,25 +392,25 @@ background contrast. All other values default to \"medium\"."
    (org-formula                 :foreground mane4)
    (org-headline-done           :foreground mane1)
    (org-latex-and-related       :foreground mane1)
-   (org-level-1                 :weight 'bold :underline nil :font "Alegreya Sans Medium" :foreground mane1)
-   (org-level-2                 :weight 'bold :underline nil :font "Alegreya Sans Medium" :foreground mane2)
-   (org-level-3                 :weight 'bold :underline nil :font "Alegreya Sans Medium" :foreground mane3)
-   (org-level-4                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
-   (org-level-5                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
-   (org-level-6                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
-   (org-level-7                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
-   (org-level-8                 :weight 'normal :underline nil :font "Alegreya Sans Medium" :foreground mane3)
+   (org-level-1                 :weight 'bold :underline nil :font "URW Bookman Light" :foreground mane1)
+   (org-level-2                 :weight 'thin :underline nil :font "URW Bookman Light" :foreground mane2)
+   (org-level-3                 :weight 'thin :underline nil :font "URW Bookman Light" :foreground mane3)
+   (org-level-4                 :weight 'normal :underline nil :font "URW Bookman Light" :foreground mane3)
+   (org-level-5                 :weight 'normal :underline nil :font "URW Bookman Light" :foreground mane3)
+   (org-level-6                 :weight 'normal :underline nil :font "URW Bookman Light" :foreground mane3)
+   (org-level-7                 :weight 'normal :underline nil :font "URW Bookman Light" :foreground mane3)
+   (org-level-8                 :weight 'normal :underline nil :font "URW Bookman Light" :foreground mane3)
    (org-link                    :foreground mane1 :underline t)
    (org-scheduled               :foreground mane4)
    (org-scheduled-previously    :foreground mane5)
    (org-scheduled-today         :foreground mane1)
    (org-sexp-date               :foreground mane1 :underline t)
    (org-table                   :foreground mane1)
-   (org-tag                     :bold t :weight 'thin)
+   (org-tag                     :weight 'thin)
    (org-time-grid               :foreground mane4)
-   (org-todo                    :foreground mane1 :weight 'bold :bold t)
+   (org-todo                    :foreground mane1 :weight 'normal)
    (org-upcoming-deadline       :inherit 'font-lock-keyword-face)
-   (org-warning                 :foreground mane5 :weight 'bold :bold t)
+   (org-warning                 :foreground mane5 :weight 'bold)
    ;;;; org-habit
    (org-habit-clear-face          :background mane1)
    (org-habit-clear-future-face   :background mane1)
@@ -474,9 +474,9 @@ background contrast. All other values default to \"medium\"."
   (beacon-mode 1)                                                                                               ;hilft den Cursor schnell zu finden durch aufblinken
   ;; (setq display-line-numbers-type 'visual)                                                                   ;Einstellung falls ich Zeilennummern angezeigt bekommen will
   (setq display-line-numbers-type nil                                                                           ;schaltet Zeilennummern aus
-        doom-font (font-spec :family "Source Code Pro" :size 13)                                                ;setzt Schriftart etc.
+        doom-font (font-spec :family "Source Code Pro Regular" :size 13)                                                ;setzt Schriftart etc.
         doom-variable-pitch-font (font-spec :family "Fira Code" :size 13)                                       ;wird mit variable-pitch-mode aktiviert -> Man kann auch einstellen dass beide Schriftarten in Org Datei für unterschiedliche Elemente verwendet werden
-        doom-big-font (font-spec :family "Source Code Pro" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)
+        doom-big-font (font-spec :family "Source Code Pro Regular" :size 20)                                            ;gut für Präsentationen (Schriftgröße etc noch anpassen)
         doom-unicode-font (font-spec :family "Source Code Pro" :size 13)
         doom-serif-font (font-spec :family "Source Code Pro" :size 10)
         org-superstar-headline-bullets-list '(" ")                                                              ;wird mit +pretty flag in init.el installiert und erlaubt mir die Einstellung der Punkte vor Org-Headern
