@@ -63,6 +63,7 @@ echo done
 :LOGBOOK:
 :END:
 
+- [ ] Dateien nach meiner Namens konvention umbenennen (siehe Unterpunkt hier unter Linux & Arch)
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
   - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
   - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
@@ -97,6 +98,18 @@ echo done
 
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem FlowmisOS aufbaut
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
+
+*** Meine naming conventions
+
+- Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
+  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/A-Z/a-z/' *~
+- Wörter nicht mit Leerzeichen trennen und nicht mit _ sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
+  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/ //-/' *~
+- Keinerlei Sonderzeichen im Dateiname verwenden und vorallem nicht $&/
+- Name des Projekts oder Kategorie in Name rein
+- Bei Projekten Name des Autors und gegebenenfalls Versionsnummer
+- Datum und eventuell Timestamp der letzten Bearbeitung -> Format nach ISO 8601: YYYY-MM-DD
+- Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
 
 *** Pacman
 
@@ -178,7 +191,7 @@ https://wiki.archlinux.de/title/Pacman
 ** Tipps
 
 - Wenn ich feststecke kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss mit Fn zusammen gedrückt werden!
-
+  
 ** Install on Hardware
 
 1. Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
@@ -1097,7 +1110,9 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 #+begin_src emacs-lisp :tangle tangle/config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;Testing;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-hide-mode-line-mode t)
+;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
       org-gcal-client-secret "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"
       org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
@@ -1126,9 +1141,9 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         org-agenda-files '("~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"
                            "~/FlowmisOS/FlowmisOS.org"
                            "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org"
-                           "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"
-                           "~/Dropbox/emacs/org-roam/Notizen/20220416144259-dlt.org"
-                           "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bucher.org")))
+                           "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org"
+                           "~/Dropbox/emacs/org-roam/Notizen/2022-04-16-dlt.org"
+                           "~/Dropbox/emacs/org-roam/Notizen/2022-03-22-bücher.org")))
 ;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
@@ -1141,12 +1156,12 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
         org-todo-keywords '((sequence "EILIG(e)" "ZEITNAH(z)" "IRGENDWANN(i)" "PAUSIERT(p@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)" "DELEGIERT(d@/!)"))                                                                               ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
-        org-capture-templates '(("1" "Eilig" entry (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Aufgaben")"** %? [/] \n %a")
-                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Einkaufsliste"))
-                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Wunschliste"))
-                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org" "Abrechnungen Jo"))
-                                ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
+        org-capture-templates '(("1" "Eilig" entry (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org" "Aufgaben")"** %? [/] \n %a")
+                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org" "Einkaufsliste"))
+                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org" "Wunschliste"))
+                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-17-work.org" "Abrechnungen Jo"))
+                                ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
         org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
         ;; org-roam-db-autosync-mode 1   ;wenn es aktiviert ist muss ich entweder manuell <M-x org-roam-db-sync> machen oder den autsync deaktivieren und anschließend aktivieren dass neu angelegte files erscheinen
         ;; org-roam-ui-sync-theme t      ;muss ich irgendiwe auch manuell machen und dann neu starten um neue Themes auch im ui-mode sichtbar zu machen
@@ -1245,9 +1260,9 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
        :desc "Edit qtile config" "q" #'(lambda () (interactive) (find-file "~/.config/qtile/config.py"))
-       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org"))
-       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/20220817132032-Work.org"))
-       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/20220322102912-bücher.org"))
+       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org"))
+       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-17-work.org"))
+       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/2022-03-22-bücher.org"))
        :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
        :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
        :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
@@ -1388,9 +1403,6 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;;;Hook der Funktionen nach starten von Doom automatisch aktiviert!
 (add-hook 'after-init-hook #'mane-theme-zusatzeinstellungen)
 #+end_src
-
-#+RESULTS:
-| doom-init-fonts-h | doom-init-theme-h | mane-theme-zusatzeinstellungen | org-persist-load-all | doom-init-leader-keys-h | x-wm-set-size-hint | tramp-register-archive-file-name-handler | magit-maybe-define-global-key-bindings | table--make-cell-map |
 
 **** Nicht aktiv
 
