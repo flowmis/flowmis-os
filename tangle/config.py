@@ -58,7 +58,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          # Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
          # Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
-         Key([mod], "e", lazy.spawn('emacs ~/Dropbox/emacs/org-roam/Notizen/orga/20220808171101-Home.org'), desc='EMACS'),
+         Key([mod], "e", lazy.spawn('emacs ~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org'), desc='EMACS'),
          Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
          # Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
