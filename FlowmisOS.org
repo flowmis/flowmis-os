@@ -1307,6 +1307,8 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        :desc "find node/new node" "f" #'org-roam-node-find
        :desc "insert node" "i" #'org-roam-node-insert
        :desc "make ditaa work" "d" #'activate-ditaa-path
+       :desc "expand table" "e" #'org-table-shrink
+       :desc "expand table" "E" #'org-table-expand
        :desc "Starte Präsentationsmodus" "p" #'pres-start
        :desc "Beende Präsentationsmodus" "P" #'pres-end))
 (evil-define-key 'normal dired-mode-map
