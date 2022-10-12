@@ -1322,7 +1322,8 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 (unpin! org-roam) ;macht es stabiler da es nicht wirklich geupdated wird - siehe Info zu unpin!
 (package! org-roam-ui)
 (package! graphviz-dot-mode)
-(package! org-fancy-priorities :disable t);
+(package! org-fancy-priorities :disable t)
+(package! nano-modeline)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
 ;; (package! async)
@@ -1445,6 +1446,8 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
   (setq doom-theme 'doom-mane                                                                                   ;setzt das Theme (Mit <Spc ht> neue ausprobieren)
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-log-done 'time
+        delete-by-moving-to-trash t     ;oder 'move-file-to-trash t'??
+        trash-directory "~/.Papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
         org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
@@ -1466,10 +1469,13 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 #+begin_src emacs-lisp :tangle tangle/config.el
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-hide-mode-line-mode t)
+(nano-modeline-mode)
+(global-hide-mode-line-mode)
 #+end_src
-
+**** 
 **** Dired
+
+[[~/Dropbox/emacs/org-roam/Notizen/2022-08-05-emacs-dired-dateimanager.org][Tipps]]
 
 #+begin_src emacs-lisp :tangle tangle/config.el
 ;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1483,6 +1489,33 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
                                 ("mkv" . "vlc")
                                 ("html" . "brave")
                                 ("mp4" . "vlc"))))
+(map! :leader
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump))
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file     ;benutzen um Bildervorschau in Splitbuffer zu zeigen, aber weiter in dired navigieren
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-open-file
+  (kbd "m") 'dired-mark                 ;Mit %m kann man nach einer regular expression bestimmte Dateien markieren
+  (kbd "u") 'dired-unmark               ;Mit U kann man alles unmarken
+  (kbd "t") 'dired-toggle-marks         ;wenn zuvor 2 Datein markiert waren kann man mit t diese unmarken und alle anderen die unmarked waren marken -> sinnvoll wenn man viele Dateien bis auf ein paar wenige markieren will
+  (kbd "H") 'dired-do-kill-lines        ;markierte Dateien ausblenden (werden nicht gelöscht, aber bei Bearbeitungen hilfreich) -> Mit <g r> - revert Buffer kann man sie sich wieder anzeigen lassen
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-chmod
+  (kbd "O") 'dired-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filename-as-kill ; copies filename to kill ring.
+  (kbd "+") 'dired-create-directory
+  ;(kbd "% l") 'dired-downcase
+  ;(kbd "% u") 'dired-upcase
+  ;(kbd "; d") 'epa-dired-do-decrypt
+  ;(kbd "; e") 'epa-dired-do-encrypt
+  )
 #+end_src
 
 **** 2nd Brain
@@ -1579,17 +1612,20 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 **** Keybindings
 
 #+begin_src emacs-lisp :tangle tangle/config.el
+;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
-(global-set-key (kbd "M-ä" ) 'end-of-line)
-(global-set-key (kbd "M-Ä" ) 'beginning-of-line)
-(global-set-key (kbd "M-+" ) 'evil-scroll-page-down)
-(global-set-key (kbd "M-*" ) 'evil-scroll-page-up)
+(global-set-key (kbd "M-ä") 'end-of-line)
+(global-set-key (kbd "M-Ä") 'beginning-of-line)
+(global-set-key (kbd "M-+") 'evil-scroll-page-down)
+(global-set-key (kbd "M-*") 'evil-scroll-page-up)
+;;leader ist in Doom <SPC> -> prefix der andernorts vergeben ist und hier nicht verwendet werden sollte "d" - dired
 (map! :leader
        :desc "Org babel tangle" "m B" #'org-babel-tangle
        :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window
        :desc "Eshell" "e s" #'eshell
        :desc "Counsel eshell history" "e h" #'counsel-esh-history
+       :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("-" . "open file")
        :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/orga/agenda.org"))
        :desc "Edit FlowmisOs.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
@@ -1616,10 +1652,6 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
       (:prefix ("w" . "window")
        :desc "Winner undo" "<left>" #'winner-undo ;schaut was die letzte Window configuration war und geht dahin zurück
        :desc "Winner redo" "<right>" #'winner-redo) ;geht in andere Richtung wie winner-undo
-      (:prefix ("d" . "dired")
-       :desc "Open dired" "d" #'dired
-       :desc "Dired jump to current" "j" #'dired-jump)
-       :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("t" . "toggle")
        :desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
        :desc "Toggle line highlight in frame" "h" #'hl-line-mode
@@ -1644,28 +1676,6 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        :desc "expand table" "E" #'org-table-expand
        :desc "Starte Präsentationsmodus" "p" #'pres-start
        :desc "Beende Präsentationsmodus" "P" #'pres-end))
-(evil-define-key 'normal dired-mode-map
-  (kbd "M-RET") 'dired-display-file
-  (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
-  (kbd "m") 'dired-mark
-  (kbd "t") 'dired-toggle-marks
-  (kbd "u") 'dired-unmark
-  (kbd "C") 'dired-do-copy
-  (kbd "D") 'dired-do-delete
-  (kbd "J") 'dired-goto-file
-  (kbd "M") 'dired-chmod
-  (kbd "O") 'dired-chown
-  (kbd "P") 'dired-do-print
-  (kbd "R") 'dired-rename
-  (kbd "T") 'dired-do-touch
-  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
-  (kbd "+") 'dired-create-directory
-  (kbd "-") 'dired-up-directory
-  (kbd "% l") 'dired-downcase
-  (kbd "% u") 'dired-upcase
-  (kbd "; d") 'epa-dired-do-decrypt
-  (kbd "; e") 'epa-dired-do-encrypt)
 #+end_src
 
 **** Funktionen
