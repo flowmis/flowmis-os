@@ -99,11 +99,11 @@ echo done
 
 * Linux & Arch
 
- 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem FlowmisOS aufbaut
+ 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem FlowmisOS aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
-*** Meine naming conventions
-
+*** Wie benenne ich am besten Dateien und strukturiere meine persönliche Daten
+**** Namensgebung für Ordner/Dateien
 - Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
   - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/A-Z/a-z/' *~
 - Wörter nicht mit Leerzeichen trennen und nicht mit _ sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
@@ -113,6 +113,11 @@ echo done
 - Bei Projekten Name des Autors und gegebenenfalls Versionsnummer
 - Datum und eventuell Timestamp der letzten Bearbeitung -> Format nach ISO 8601: YYYY-MM-DD
 - Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
+
+**** Speicherstruktur unabhängig vom Betriebssystem
+- folgende Ordner brauche ich: Cloud (Google Drive, Dropbox), Hauptordner (bilder, videos, pdfs, downloads, sortieren -> mit entsprechenden Unterordnern home/work und darin Freizeitprojekte und Arbeitsprojekte)
+- Auf meinen externen Festplatten mache ich regelmäßige Backups von diesen Ordnern
+- In meiner Cloud sind die nicht Speicherlastigen Dateien und das was oft synchroniesiert werden muss (2nd Brain aus Textdateien, Passwörter, ...)
 
 *** Pacman
 
@@ -194,91 +199,85 @@ https://wiki.archlinux.de/title/Pacman
 ** Tipps
 
 - Wenn ich feststecke kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss mit Fn zusammen gedrückt werden!
-  
-** Install on Hardware
-
-1. Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
-   - Bootmanager (grub)
-   - xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
-   - window/desktop manager (qtile, openbox, xmonad)
-   - login manager (lightdm)
-   - Browser (Brave)
-   - Terminal/Terminal Emulator (Alacritty, Fish, zshell)
-   - Texteditor (Emacs)
-2. Für mein Betriebssystem wurde Arch als Grundlage geählt -> Arch ist ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann
-3. [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]]:
-4. Bootstick mit ArchLinux erstellen:
-   - Iso [[https://archlinux.org/download/][downloaden]] und Bootstick erstellen (falls keine VM Installation) -> Auf Windows mit Rufus oder Etcher - [[https://wiki.archlinux.org/title/USB_flash_installation_medium][Alternativen für nicht Windows]]
-   - PGP Signatur mit System auf dem GnupG installiert ist checken sodass man keinen Müll gedownloaded hat und installiert
-    #+begin_src shell
-    gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
-    pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
-    #+end_src
-   - Anmerkung: Arch Linux installation images supporten kein Secure Boot (-> disable Secure Boot to boot the installation medium). Auch auf Boot device Reihenfolge im Bios achten/anpassen um auf Stick zu booten. Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen (Ein Installationshelferskript liegt dort bereits und kann über <archinstall> gestartet werden)
-5. In VM (other Linux 5.x or later Kernel 64bit und genug Speicher etc. geben)
-6. Nach Boot und falls man nicht das archinstall skript verwenden will folgende Befehle eingeben um eigenes System aufzusetzen: *Befehle für quick setup sind mit * markiert*
-
-#+begin_example
-Keyboard konfigurieren:
-  ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
-  ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
-  loadkeys de-latin1                                        # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
-
-Internet konfigurieren:
-  ip link                                                   # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird (Achtung dass rfkill die Karte nicht blockiert) und mit welchem Namen man es ansprechen kann (oft wlan0)
-  iwctl                                                     # Einloggen ins Wlan (Ethernet macht es einfacher) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
-  device list                                               # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
-  station "" scan                                           # "" durch Wlan Karte ersetzen (meist wlan0) -> scant nach vorhandenen Wlans die durch Wlan Karte gefunden werden
-  station "" get-networks                                   # Listet gefundene Wlan Netzwerke auf
-  station "" connect "Name Wlan"                            # Verbindung zu Wlan herstellen
-  exit                                                      # Verlassen von iwctl
-  #DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and systemd-resolved) should work out of the box for Ethernet, WLAN, and WWAN network interfaces.
-  ping archlinux.org                                        # Internetcheck -> ISO hat systemd mit Internet etc. (später installiertes System hat es nicht) -> NetworkManager enablen mit systemctl
-
-Speicher formatieren:
-  *fdisk /dev/sda                                           # In VM: <n> <p> <Enter> <Enter> <Enter> <w>
-    wenn keine VM:
-      fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
-      fdisk //dev//"Partitionsname"                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
-      fdisk //dev//"Speicherort für Betriebssystem"           # in die für das Betriebssystem gewünschte Partition wechseln
-      <g><n><1><Enter><+550M>                               # EFI Partition erstellen: <g> kreiert Label - GPT disk label (for what?) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
-      <n><2><Enter><+2G>                                    # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
-      <n><3><Enter><Enter>                                  # Linux Filesystem Partition mit restlichem Speicher erstellen
-      <t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
-      <t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
-      <w>                                                   # write changes und fdisk verlassen
-      mkfs.fat -F32 /dev/"EFI_Partitionsname/Partition1"    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
-      mkswap /dev/"swap_Partitionsname/Partition2"
-      swapon /dev/"swap_Partitionsname/Partition2"
-  *mkfs.ext4 /dev/sda1                                       # ACHTUNG: sda1 umbenennen in Namen der Partition 3 die mit Linux Filesystem erstellt wurde -> Linux Filesystem wird im Speicher angelegt
-  *mount /dev/sda1 /mnt                                      # ACHTUNG: sda1 umbenenn in Namen der Partition 3 -> Einhängen des Speichers um Veränderungen vornehmen zu können
-  *pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
-  *genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
-  *arch-chroot /mnt                                          # Mit root in /mnt gehen
-  *pacman -S neovim sudo git
-  *passwd
-  *useradd -m flowmis
-  *passwd flowmis
-  *cd /home/flowmis
-  *git clone https://github.com/flowmis/FlowmisOS.git
-  *cd FlowmisOS/tangle
-  *. rootinstall.sh
-  *EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
-  *exit
-  *umount -l /mnt
-  *reboot & login
-  *cd FlowmisOS/tangle
-  *. install.sh
-  *reboot und genießen :)
-    #Eventuell neu in Wlan anmelden (nun mit NetworkManager statt wie zuvor mit iwctl)
-    sudo NetworkManager                                          # keine Fehlermeldung = past alles
-    sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
-    sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
-#+end_example
+- Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
+  - Bootmanager (grub)
+  - xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
+  - window/desktop manager (qtile, openbox, xmonad)
+  - login manager (lightdm)
+  - Browser (Brave)
+  - Terminal/Terminal Emulator (Alacritty, Fish, zshell)
+  - Texteditor (Emacs)
+- [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]] bei Problemen durchsuchen
+- Bootstick mit ArchLinux erstellen:
+  - Iso [[https://archlinux.org/download/][downloaden]] und Bootstick erstellen (falls keine VM Installation) -> Auf Windows mit Rufus oder Etcher - [[https://wiki.archlinux.org/title/USB_flash_installation_medium][Alternativen für nicht Windows]]
+  - PGP Signatur mit System auf dem GnupG installiert ist checken sodass man keinen Müll gedownloaded hat und installiert
+   #+begin_src shell
+   gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
+   pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
+   #+end_src
+  - Anmerkung: Arch Linux installation images supporten kein Secure Boot (-> disable Secure Boot to boot the installation medium). Auch auf Boot device Reihenfolge im Bios achten/anpassen um auf Stick zu booten. Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen (Ein Installationshelferskript liegt dort bereits und kann über <archinstall> gestartet werden)
 
 ** Ohne Installskript
 
-- Ich muss hier mehr selbst einstellen und brauche z.B. folgendes Skript
+- Höherer Freiheitsgrad und gut für das Verständnis, aber auch höhere Wahrscheinlichkeit etwas falsch zu machen
+    #+begin_example
+    Keyboard konfigurieren:
+    ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
+    ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
+    loadkeys de-latin1                                        # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
+
+    Internet konfigurieren:
+    ip link                                                   # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird (Achtung dass rfkill die Karte nicht blockiert) und mit welchem Namen man es ansprechen kann (oft wlan0)
+    iwctl                                                     # Einloggen ins Wlan (Ethernet macht es einfacher) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
+    device list                                               # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
+    station "" scan                                           # "" durch Wlan Karte ersetzen (meist wlan0) -> scant nach vorhandenen Wlans die durch Wlan Karte gefunden werden
+    station "" get-networks                                   # Listet gefundene Wlan Netzwerke auf
+    station "" connect "Name Wlan"                            # Verbindung zu Wlan herstellen
+    exit                                                      # Verlassen von iwctl
+    #DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and systemd-resolved) should work out of the box for Ethernet, WLAN, and WWAN network interfaces.
+    ping archlinux.org                                        # Internetcheck -> ISO hat systemd mit Internet etc. (später installiertes System hat es nicht) -> NetworkManager enablen mit systemctl
+
+    Speicher formatieren:
+    *fdisk /dev/sda                                           # In VM: <n> <p> <Enter> <Enter> <Enter> <w>
+        wenn keine VM:
+        fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
+        fdisk //dev//"Partitionsname"                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
+        fdisk //dev//"Speicherort für Betriebssystem"           # in die für das Betriebssystem gewünschte Partition wechseln
+        <g><n><1><Enter><+550M>                               # EFI Partition erstellen: <g> kreiert Label - GPT disk label (for what?) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
+        <n><2><Enter><+2G>                                    # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
+        <n><3><Enter><Enter>                                  # Linux Filesystem Partition mit restlichem Speicher erstellen
+        <t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
+        <t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
+        <w>                                                   # write changes und fdisk verlassen
+        mkfs.fat -F32 /dev/"EFI_Partitionsname/Partition1"    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
+        mkswap /dev/"swap_Partitionsname/Partition2"
+        swapon /dev/"swap_Partitionsname/Partition2"
+    *mkfs.ext4 /dev/sda1                                       # ACHTUNG: sda1 umbenennen in Namen der Partition 3 die mit Linux Filesystem erstellt wurde -> Linux Filesystem wird im Speicher angelegt
+    *mount /dev/sda1 /mnt                                      # ACHTUNG: sda1 umbenenn in Namen der Partition 3 -> Einhängen des Speichers um Veränderungen vornehmen zu können
+    *pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
+    *genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
+    *arch-chroot /mnt                                          # Mit root in /mnt gehen
+    *pacman -S neovim sudo git
+    *passwd
+    *useradd -m flowmis
+    *passwd flowmis
+    *cd /home/flowmis
+    *git clone https://github.com/flowmis/FlowmisOS.git
+    *cd FlowmisOS/tangle
+    *. rootinstall.sh
+    *EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
+    *exit
+    *umount -l /mnt
+    *reboot & login
+    *cd FlowmisOS/tangle
+    *. install.sh
+    *reboot und genießen :)
+        #Eventuell neu in Wlan anmelden (nun mit NetworkManager statt wie zuvor mit iwctl)
+        sudo NetworkManager                                          # keine Fehlermeldung = past alles
+        sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
+        sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+    #+end_example
+- Zudem brauche ich folgende Dateien
     #+begin_src shell :tangle tangle/rootinstall.sh
     cd /home/flowmis/ && chown flowmis FlowmisOS/ && chgrp flowmis FlowmisOS/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
     usermod -aG wheel,audio,video,optical,storage flowmis                       # Erteilen der Rechte bzw. in welcher Gruppe der User ist
@@ -309,13 +308,12 @@ Speicher formatieren:
     grub-mkconfig -o /boot/grub/grub.cfg                                        # Ohne diese wird es zu Problemen beim booten kommen
     timedatectl set-ntp true && timedatectl status                              # Zeit und Datum über das network transfer protocol einholen
     #+end_src
-- Zudem brauche ich folgende Dateien
   - Locales:
     #+begin_src shell :tangle tangle/locale.conf
     LANG=de_DE.UTF-8
     LC_CTYPE=de_DE.UTF-8
     #+end_src
- - Localhost und die localdomain festlegen:
+  - Localhost und die localdomain festlegen:
     #+begin_src shell :tangle tangle/hosts
     # Static table lookup for hostnames.
     # See hosts(5) for detailsh
@@ -323,8 +321,6 @@ Speicher formatieren:
     ::1          localhost
     127.0.1.1    FlowmisPC.localdomain    FlowmisPC
     #+end_src
-
---> Weiter geht es dann wie wenn es mit Installskript installiert wird...
 
 ** Mit Installskript
 
@@ -360,30 +356,332 @@ sudo systemctl enable sddm
 cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install && ~/.emacs.d/bin/doom sync && ~/.emacs.d/bin/doom doctor && echo 'Installation beendet'
 #+end_src
 
+  - ~exa~ ist bessereres ~ls~ -> schönerer/übersichtlichere Darstellung -> wird in meinen aliase verwendet -> falls nicht installiert sind entsprechende aliase nicht funktionsfähig
+  - ~starship~ -> < und > statt sinnloser Angabe vom Standardpfad -> übersichtlicheres Terminal
+
+* Systemkonfigurationen
+
+** Aussehen
+
+Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
+    -> Falls qt5ct die Umgebungsvariable nicht findet: Einfach eine neue Zeile aufmachen in der Datei /etc/environment und dort folgendes reinschreiben: QT_QPA_PLATFORMTHEME=qt5ct
+Es kann das meiste eingestellt werden mit qt5ct, lxappearance, grub-tweaks, archlinux-tweak-tool
+Downloaden kann man vieles [[https://www.gnome-look.org/][HIER]]
+
+*** Themes
+*** Icons
+*** Cursor
+
+** Login Manager
+
+- Ich verwende aktuell sddm mit sugar-candy als theme
+- Nach der Installation ist der Standard Login Screen aktiviert und (hier: sudo nvim /etc/sddm.conf.d/kde_settings.conf) noch keine config vorhanden
+- Um die config zu schreiben einfach das arch-tweak-tool installieren und in den su Modus wechseln und vom Terminal aus im su Modus mit ~archlinux-tweak-tool~ das Tool starten -> in Login wechseln und das zuvor installierte Theme (mit yay installiert) auswählen -> auto-login aktivieren und Desktop Session auf qtile stellen -> Apply Settings -> im Terminal oder in der Gui sollte nun erscheinen dass Theme aktiviert wurde!
+
+#+begin_src sh :tangle no
+yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal wegen Bestätigungen und sudo-privileges
+#+end_src
+
+- Anschließend sollte die config vorhanden sein und man kann Themes auch ohne das Tool wechseln indem man ([[/etc/sddm.conf.d/kde_settings.conf][hier]]: ~sudo nvim /etc/sddm.conf.d/kde_settings.conf~) unter Current das Theme angibt das man haben will -> wie z.B. hier: Current=sugar-dark oder Current=Sugar-Candy
+- Einstellungen zum Theme kann man hier vornehmen:
+  - [[/usr/share/sddm/themes/sugar-dark/theme.conf][sugar-dark Theme]]:
+
+    #+begin_src  :dir /sudo::
+    sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-dark/Hintergrund.jpg
+    sudo sed -i 's/Background="Background.jpg"/Background="Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-dark/theme.conf
+    #+end_src
+
+  - [[/usr/share/sddm/themes/sugar-candy/theme.conf][sugar-candy-Theme]]
+
+    #+begin_src sh  :dir /sudo::
+    sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
+    sudo chmod +666 /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
+    sudo sed -i 's/Mountain.jpg"/Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/BlurRadius="100"/BlurRadius="35"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/HeaderText="Welcome!"/HeaderText="Hi Mane!"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslatePlaceholderUsername=""/TranslatePlaceholderUsername="Benutzername"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslatePlaceholderPassword=""/TranslatePlaceholderPassword="Passwort"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateShowPassword=""/TranslateShowPassword="Passwort anzeigen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateLogin=""/TranslateLogin="Anmelden"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateLoginFailedWarning=""/TranslateLoginFailedWarning="Anmeldung fehlgeschlagen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateCapslockWarning=""/TranslateCapslockWarning="Capslock aktiv"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateReboot=""/TranslateReboot="Neu starten"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    sudo sed -i 's/TranslateShutdown=""/TranslateShutdown="Herunterfahren"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+    #+end_src
+
+    #+RESULTS:
+
+** Tastaturlayout
+
+1. Befehl "localectl status" --> Abfrage momentane Keyboardeinstellungen
+2. System Locales sollte bereits bei Locales eingestellt worden sein sodass nun nur noch folgende 2 Befehle ausgeführt werden müssen
+   - localectl --no-convert set-keymap de-latin1-nodeadkeys
+   - localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+3. Status erneut abfragen und nun sollte folgendes erscheinen
+    >localectl status
+        System Locale: LANG=de_DE.UTF-8
+            VC Keymap: de-latin1-nodeadkeys
+            X11 Layout: de
+            X11 Model: pc105
+            X11 Variant: deadgraveacute
+4. Reboot!! (sonst sieht man keine Änderung)
+5. Wenn locales alle passen es aber immer noch nicht geht probiere: setxkbmap -layout de
+
+** Touchpad einrichten
+
+https://wiki.archlinux.org/title/Touchpad_Synaptics habe aber auch eine Datei die ich hier erstelle und die direkt mit meinen Einstellungen an die richtige Stelle kopiert wird -> siehe Installskript
+
+#+begin_src shell :dir "/sudo::" :cache no
+sudo cp -r /home/flowmis/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
+#+end_src
+
+#+RESULTS:
+
+#+begin_src shell :tangle tangle/70-synaptics.conf
+# Example xorg.conf.d snippet that assigns the touchpad driver
+# to all touchpads. See xorg.conf.d(5) for more information on
+# InputClass.
+# DO NOT EDIT THIS FILE, your distribution will likely overwrite
+# it when updating. Copy (and rename) this file into
+# /etc/X11/xorg.conf.d first.
+# Additional options may be added in the form of
+#   Option "OptionName" "value"
+#
+Section "InputClass"
+        Identifier "touchpad catchall"
+        Driver "synaptics"
+        MatchIsTouchpad "on"
+        Option "TapButton1" "1"
+        Option "TapButton2" "3"
+        Option "TapButton3" "2"
+        Option "VertEdgeScroll" "on"
+        Option "VertTwoFingerScroll" "on"
+        Option "HorizEdgeScroll" "on"
+        Option "HorizTwoFingerScroll" "on"
+        Option "CircularScrolling" "on"
+        Option "CircScrollTrigger" "2"
+        Option "EmulateTwoFingerMinZ" "40"
+        Option "EmulateTwoFingerMinW" "8"
+        Option "CoastingSpeed" "0"
+        Option "FingerLow" "30"
+        Option "FingerHigh" "50"
+        Option "MaxTapTime" "125"
+# This option is recommend on all Linux systems using evdev, but cannot be
+# enabled by default. See the following link for details:
+# http://who-t.blogspot.com/2010/11/how-to-ignore-configuration-errors.html
+#       MatchDevicePath "/dev/input/event*"
+EndSection
+
+Section "InputClass"
+        Identifier "touchpad ignore duplicates"
+        MatchIsTouchpad "on"
+        MatchOS "Linux"
+        MatchDevicePath "/dev/input/mouse*"
+        Option "Ignore" "on"
+EndSection
+
+# This option enables the bottom right corner to be a right button on clickpads
+# and the right and middle top areas to be right / middle buttons on clickpads
+# with a top button area.
+# This option is only interpreted by clickpads.
+Section "InputClass"
+        Identifier "Default clickpad buttons"
+        MatchDriver "synaptics"
+        Option "SoftButtonAreas" "50% 0 82% 0 0 0 0 0"
+        Option "SecondarySoftButtonAreas" "58% 0 0 15% 42% 58% 0 15%"
+EndSection
+
+# This option disables software buttons on Apple touchpads.
+# This option is only interpreted by clickpads.
+Section "InputClass"
+        Identifier "Disable clickpad buttons on Apple touchpads"
+        MatchProduct "Apple|bcm5974"
+        MatchDriver "synaptics"
+        Option "SoftButtonAreas" "0 0 0 0 0 0 0 0"
+EndSection
+#+end_src
+
+** SSH & GPG/PGP
+- Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
+  - openssh braucht man um ssh keys zu erstellen
+  - gnupg ist die library des OpenPGP Standards
+  - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
+- Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
+- Passphrase ist PIN
+
+** .xprofile
+
++ Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
+  -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
+
+#+begin_src sh :tangle tangle/.xprofile
+#setxkbmap -layout de &
+xrandr -s 1920x1200 &                               # In VM aktivieren
+VBoxClient-all &                                    # DranDrop und gmeinsames Clipboars in VM aktivieren
+xrdb ~/.Xressources &
+nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
+nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
+picom -f &                                          # setzt Einstellungen des Compositors for Windows
+#loadkeys de-latin1 &
+# /usr/bin/emacs --daemon &
+#touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
+#echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
+#cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
+#cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
+#cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
+#chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
+gtk-launch dropbox.desktop &
+# gtk-launch nm-applet.desktop &
+# gtk-launch volumeicon.desktop &
+/usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
+emacsclient -c                                      #
+#+end_src
+
+** .Xressources
+
+Vorher das Packet Material Cursors herunterladen ([[https://www.gnome-look.org/][HIER]]) und in lxappearance installieren
+
+#+begin_src sh :tangle tangle/.Xressources
+Xcursor.theme: Material Cursors
+Xcursor.size: 30
+#+end_src
+
+** Picom
+
++ picom = fork von compton
++ Die picom.conf muss in //home/flowmis//.config/picom/ kopiert werden. Falls directory nicht vorhanden muss es erstellt werden (mkdir //home/flowmis//.config/picom). Falls man neue config Datei erstellen will ist es sinnvoll die Beispiel config die mit installiert wird zu kopieren und zu modifizieren: sudo cp //etc/xdg/picom.conf //home/flowmis//.config/picom/picom.conf
++ Weitere Infos unter: https://wiki.archlinux.org/title/picom
++ Meine config:
+
+#+begin_src sh :tangle tangle/picom.conf
+shadow = true;
+
+# The blur radius for shadows, in pixels. (defaults to 12)
+shadow-radius = 8;
+
+# The opacity of shadows. (0.0 - 1.0, defaults to 0.75)
+shadow-opacity = .6
+
+# The left offset for shadows, in pixels. (defaults to -15)
+shadow-offset-x = -3;
+
+# The top offset for shadows, in pixels. (defaults to -15)
+shadow-offset-y = -3;
+
+# Specify a list of conditions of windows that should have no shadow.
+#
+# examples:
+#   shadow-exclude = "n:e:Notification";
+#
+# shadow-exclude = []
+shadow-exclude = [
+  "name = 'Notification'",
+  "class_g = 'Conky'",
+  "class_g ?= 'Notify-osd'",
+  "class_g = 'Cairo-clock'",
+  "class_g = 'slop'",
+  "class_g = 'Polybar'",
+  "_GTK_FRAME_EXTENTS@:c"
+];
+
+
+# Fade windows in/out when opening/closing and when opacity changes,
+#  unless no-fading-openclose is used.
+# fading = false
+fading = true;
+
+# Opacity change between steps while fading in. (0.01 - 1.0, defaults to 0.028)
+# fade-in-step = 0.028
+fade-in-step = 0.03;
+
+# Opacity change between steps while fading out. (0.01 - 1.0, defaults to 0.03)
+# fade-out-step = 0.03
+fade-out-step = 0.03;
+
+# The time between steps in fade step, in milliseconds. (> 0, defaults to 10)
+# fade-delta = 10
+
+# Specify a list of conditions of windows that should not be faded.
+# don't need this, we disable fading for all normal windows with wintypes: {}
+fade-exclude = [
+  "class_g = 'slop'"   # maim
+]
+
+# Opacity of inactive windows. (0.1 - 1.0, defaults to 1.0)
+# inactive-opacity = 0.8
+inactive-opacity = 0.60
+
+# Opacity of window titlebars and borders. (0.1 - 1.0, disabled by default)
+# frame-opacity = 1.0
+frame-opacity = 1.00
+
+# Default opacity for dropdown menus and popup menus. (0.0 - 1.0, defaults to 1.0)
+# menu-opacity = 1.0
+# menu-opacity is depreciated use dropdown-menu and popup-menu instead.
+
+#If using these 2 below change their values in line 510 & 511 aswell
+popup_menu = { opacity = 0.8; }
+dropdown_menu = { opacity = 0.8; }
+
+
+# Let inactive opacity set by -i override the '_NET_WM_OPACITY' values of windows.
+# inactive-opacity-override = true
+inactive-opacity-override = false;
+
+# Default opacity for active windows. (0.0 - 1.0, defaults to 1.0)
+active-opacity = 1.00
+
+# Dim inactive windows. (0.0 - 1.0, defaults to 0.0)
+# inactive-dim = 0.0
+
+# Specify a list of conditions of windows that should always be considered focused.
+# focus-exclude = []
+focus-exclude = [
+  "class_g = 'Cairo-clock'",
+  "class_g = 'Bar'",                    # lemonbar
+  "class_g = 'slop'"                    # maim
+];
+
+opacity-rule = [
+  "100:class_g    = 'XTerm'",
+  "100:class_g    = 'URxvt'",
+  "100:class_g    = 'firefox'",
+  "100:class_g    = 'Thunderbird'"
+];
+
+wintypes:
+{
+  normal = { fade = false; shadow = true; }
+  tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
+  dock = { shadow = false; }
+  dnd = { shadow = true; }
+  popup_menu = { opacity = 0.8; }
+  dropdown_menu = { opacity = 0.8; }
+};
+#+end_src
++ picom in Terminal eingeben um zu aktivieren (oder picom -f)
+
+** Audio, Wlan, Helligkeit, etc.
+
+- Sound: ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
+
+#+begin_src sh  :dir /sudo::
+sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans htop neofetch dunst bind bmon jq gvfs
+#+end_src
+
+** HDMI, USB, SD-Karten, etc.
+** Backup/Systemwiederherstellung
+
 * Module installieren/konfigurieren
 
-** Info:
-
-  - gehen alle USB und auch SD Karten oder nur die normalen USB A?
-  - Ich brauche noch ein Programm um Snapshots zu machen und meinen PC zu restoren
-  - Sound: ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
-  - Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
-    -> Falls qt5ct die Umgebungsvariable nicht findet: Einfach eine neue Zeile aufmachen in der Datei /etc/environment und dort folgendes reinschreiben: QT_QPA_PLATFORMTHEME=qt5ct
-  - exa ist besserer Command als ls und in meinen aliases gesetzt -> zeigt alle Ergebnisse mit Farben und schöne aufgelistet wenn ich ls eingeben
-  - fish ist bei Vorschlägen super und einfach für Beginner -> läuft bei mir über alacritty
-  - starship macht mir meine Eingabe im Terminal schöner (< und > statt sinnloser Angabe vom Standardpfad) und ist in meinen Terminal configs vorhanden so dass diese das brauchen
-  - Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
-
-2 Möglichkeiten src-blocks mit sudo Befehlen auszuführen:
+src-blocks mit sudo Befehlen auszuführen:
 
     1) einzelne Befehle indem man eine Variable mitgibt
-
     #+begin_src sh :var Passw=(read-passwd "112123")
     echo ${Passw} | sudo pacman -Syu & echo 'Packete updated'
     #+end_src
 
     2) /sudo:: als dir angeben wie ich es im folgenden tue
-
     #+begin_src sh :dir /sudo::
     sudo pacman -S qtile fish alacritty pcmanfm sddm emacs-nativecomp neovim fd ripgrep
     #+end_src
@@ -759,7 +1057,7 @@ wmname = "LG3D"
 #+end_src
 
 ** Emacs
-Zuerts Yay und Yay Packages installieren! Dann folgendes und Emacs sollte beim doomdoctor keine Probleme/Warnungen mehr ausgeben!
+Zuerts Yay und Yay Packages installieren! Dann folgendes:
 
 #+begin_src sh  :dir /sudo::
 sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync && pip install jupyter notebook && echo 'Doom dependencies installiert' &&
@@ -1054,6 +1352,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 #+end_src
 
 *** DoomEmacs config
+**** Info
 - Doom verwendet 3 files um alles zu konfigurieren (werden unter ~/.doom.d/ installiert): =config.el=, =init.el= und =packages.el=
 - .doom.d Ordner kann ich als Backup speichern, sollte ihn dann aber umbenennen um mit meiner config unter ~/.config/doom/ nicht zu kollidieren (wahrscheinlich kann ich es aber als fallback auch lassen?)
 - In ~/.emacs.d/ finden sich die doom scripte zu doom sync etc. und weiere Dinge wie der cache - hier kann man bei Problemen mal reinschauen sollte aber nicht zu viel ändern ohne Plan!
@@ -1082,8 +1381,6 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
   - if the package is hooked somewhere, use use-package with a :hook label.
   - if the package isn't hooked, then better use after! which will have the same effect that defer t.
 
-**** Grundeinstellungen
-
 - <K> mit Cursor auf Funktion/Variable öffnet docs dazu
 - Dired
   - Ob etwas in dired angeklickt, mit h/l oder Enter geöffner wird macht einen Unterschied wie die Datei geöffnet wird (mit externem Programm, oder in einem nebenstehenden Buffer, oder auch direkt im Buffer)
@@ -1110,17 +1407,11 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
     - beacon mode und sonstige Anzeigeeinstellungen sollten selbsterklärend sein oder nachgeschlagen werden
 - Opacity
   - Mit dem alpha Wert kann man aktives Emacs Window durchsichtig machen, aber auch inaktive Emacs Windows
+**** Grundeinstellungen
 
 #+begin_src emacs-lisp :tangle tangle/config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-;;;Testing;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-hide-mode-line-mode t)
 ;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
-      org-gcal-client-secret "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"
-      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
-(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
@@ -1164,10 +1455,44 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
                                 ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org" "Wunschliste"))
                                 ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-17-work.org" "Abrechnungen Jo"))
                                 ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))
-        org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
-        ;; org-roam-db-autosync-mode 1   ;wenn es aktiviert ist muss ich entweder manuell <M-x org-roam-db-sync> machen oder den autsync deaktivieren und anschließend aktivieren dass neu angelegte files erscheinen
-        ;; org-roam-ui-sync-theme t      ;muss ich irgendiwe auch manuell machen und dann neu starten um neue Themes auch im ui-mode sichtbar zu machen
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/orga/2022-08-08-home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
+;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
+(require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
+#+end_src
+
+**** Test
+
+#+begin_src emacs-lisp :tangle tangle/config.el
+;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-hide-mode-line-mode t)
+#+end_src
+
+**** Dired
+
+#+begin_src emacs-lisp :tangle tangle/config.el
+;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! dired
+  :hook
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  :config
+  (setq dired-open-extensions '(("gif" . "vlc")                                                                 ;Enter(oder l) in Dired auf Datei mit dieser angegebenen Endung öffnet externes angegebenes Programm
+                                ("jpg" . "pinta")
+                                ("png" . "pinta")
+                                ("mkv" . "vlc")
+                                ("html" . "brave")
+                                ("mp4" . "vlc"))))
+#+end_src
+
+**** 2nd Brain
+
+#+begin_src emacs-lisp :tangle tangle/config.el
+;;;ROAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! org
+  :config
+  (setq org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
+        org-roam-db-autosync-mode t   ;Falls Probleme manuell <M-x org-roam-db-sync> um neu angelegte files in roam zu finden
+        org-roam-ui-sync-theme t      ;Falls Probleme manuell <M-x org-roam-ui-sync-theme> und dann neustart des ui-mode um Brain im Browser zu navigieren (nun im gleichen Theme wie Emacs)
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t
@@ -1180,25 +1505,21 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
                                      ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
-;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(after! dired
-  :hook
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-  :config
-  (setq dired-open-extensions '(("gif" . "vlc")                                                                 ;Enter(oder l) in Dired auf Datei mit dieser angegebenen Endung öffnet externes angegebenes Programm
-                                ("jpg" . "pinta")
-                                ("png" . "pinta")
-                                ("mkv" . "vlc")
-                                ("html" . "brave")
-                                ("mp4" . "vlc"))))
-;;;#Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'calfw)
-(require 'calfw-org)
-(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
-      org-gcal-client-secret "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"
-      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" . "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
-(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+#+end_src
+
+**** Snippets
+
+#+begin_src emacs-lisp :tangle tangle/config.el
+;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'yasnippet)
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(setq yas-snippet-dirs '("/home/flowmis/Dropbox/emacs/yasnippets/"))
+(yas-global-mode 1)
+#+end_src
+
+**** Mail
+
+#+begin_src emacs-lisp :tangle tangle/config.el
 ;;;Mail;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'mu4e)
 (require 'smtpmail)
@@ -1234,13 +1555,24 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
                                ("/home/flowmis/.mail/Archiv" . ?a)
                                ("/home/flowmis/.mail/Entwürfe" .?e)
                                ("/home/flowmis/.mail/Gesendet" .?g)))
-;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
-(require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
-(require 'yasnippet)
-(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(setq yas-snippet-dirs '("/home/flowmis/Dropbox/emacs/yasnippets/"))
-(yas-global-mode 1)
+#+end_src
+
+**** Kalender
+
+#+begin_src emacs-lisp :tangle tangle/config.el
+;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+(require 'calfw)
+(require 'calfw-org)
+(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" . "~/Dropbox/emacs/org-roam/Notizen/orga/gcal.org")))
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
 #+end_src
 
 **** Keybindings
@@ -1409,193 +1741,9 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 (add-hook 'after-init-hook #'mane-theme-zusatzeinstellungen)
 #+end_src
 
-**** Nicht aktiv
+**** Aussehen
 
-- tangle aktivieren wenn ich es nutzen will und aus nicht aktiv raus wenn config passt und ich es nutzen will
-
-***** Multiple Cursors
-
-- Momentan komm ich mit den vorkonfigurierten gut zurecht - musste ich in init.el aktivieren!
-
-#+begin_src emacs-lisp
-(use-package multiple-cursors        ;Habe das Paket von hlissner in init.el aktiviert weil ich es besser finde!
-  :config
-  (setq mc/always-run-for-all 1)
-  (global-set-key (kbd "C-c m m") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-c m M") 'mc/mark-all-dwim)
-  (global-set-key (kbd "C-c m a") 'mc/edit-lines)
-  (global-set-key (kbd "C-c m q") 'mc/keyboard-quit)
-  (global-set-key (kbd "C-c m n") 'mc/skip-to-next-like-this)
-  (global-set-key (kbd "C-c m p") 'mc/skip-to-previous-like-this)
-  (define-key mc/keymap (kbd "<return>") nil))
-#+end_src
-
-***** Dashboard
-
-#+begin_src emacs-lisp
-;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(after! org
-  :dashboard
-  (let ((alternatives '("banner1.png" "banner3.png" "banner4.png" "banner5.png" "banner6.png" "banner7.png" "banner8.png")))
-    (setq fancy-splash-image (concat "~/.config/doom/banner/" (nth (random (length alternatives)) alternatives))))
-  (setq +doom-dashboard-name "*Startscreen*"
-        +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
-        doom-fallback-buffer-name "*Startscreen*"))
-#+end_src
-
-***** Funktion open dired
-
-#+begin_src emacs-lisp
-;; (defun xah-open-in-external-app (&optional @fname)
-;; "Open the current file or dired marked files in external app.
-;; The app is chosen from your OS's preference.
-
-;; When called in emacs lisp, if @fname is given, open that.
-
-;; URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
-;; Version 2019-11-04"
-;; (interactive)
-;; (let* (
-;;         ($file-list
-;;         (if @fname
-;;             (progn (list @fname))
-;;             (if (string-equal major-mode "dired-mode")
-;;                 (dired-get-marked-files)
-;;             (list (buffer-file-name)))))
-;;         ($do-it-p (if (<= (length $file-list) 5)
-;;                     t
-;;                     (y-or-n-p "Open more than 5 files? "))))
-;;     (when $do-it-p
-;;     (cond
-;;     ((string-equal system-type "windows-nt")
-;;         (mapc
-;;         (lambda ($fpath)
-;;         (w32-shell-execute "open" $fpath)) $file-list))
-;;     ((string-equal system-type "darwin")
-;;         (mapc
-;;         (lambda ($fpath)
-;;         (shell-command
-;;             (concat "open " (shell-quote-argument $fpath))))  $file-list))
-;;     ((string-equal system-type "gnu/linux")
-;;         (mapc
-;;         (lambda ($fpath) (let ((process-connection-type nil))
-;;                             (start-process "" nil "xdg-open" $fpath))) $file-list))))))
-
-;; (global-set-key (kbd "C-c o") 'xah-open-in-external-app)
-#+end_src
-
-***** Spellcheck
-
-#+begin_src emacs-lisp
-(setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
-(global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
-
-;; Rechtschreibprüfung vorerst aus weil noch nicht auf deutsch
-(remove-hook 'text-mode-hook #'spell-fu-mode)
-(setq global-spell-fu-mode 0)
-#+end_src
-
-***** NeoTree
-
-- Wenn ich es nutzen will muss ich es in init.el aktivieren und schauen ob dieser config Abschnitt so noch passt
-- Finde für github Projekte treemacs (aktiviere in init.el) noch besser da es mit evil keys geht und ähnlich zu org-mode ist - <Spc-o p> um treemacs aus Projekt zu öffnen
-
-#+begin_src emacs-lisp :tangle
-(after! neotree
-  (setq neo-smart-open t
-        neo-window-fixed-size nil))
-(after! doom-themes
-  (setq doom-neotree-enable-variable-pitch t))
-(map! :leader
-      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
-      :desc "Open directory in neotree" "d n" #'neotree-dir)
-#+end_src
-
-***** Centaur Tabs
-
-- Falls ich unzufrieden bin wie Emacs das einrücken mit Tabs macht kann ich folgendes Paket mit entsprechender config versuchen
-
-#+begin_src emacs-lisp
-(setq centaur-tabs-set-bar 'over
-      centaur-tabs-set-icons t
-      centaur-tabs-gray-out-icons 'buffer
-      centaur-tabs-height 24
-      centaur-tabs-set-modified-marker t
-      centaur-tabs-style "bar"
-      centaur-tabs-modified-marker "•")
-(map! :leader
-      :desc "Toggle tabs globally" "t c" #'centaur-tabs-mode
-      :desc "Toggle tabs local display" "t C" #'centaur-tabs-local-mode)
-(evil-define-key 'normal centaur-tabs-mode-map (kbd "g <right>") 'centaur-tabs-forward        ; default Doom binding is 'g t'
-                                               (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
-                                               (kbd "g <down>")  'centaur-tabs-forward-group
-                                               (kbd "g <up>")    'centaur-tabs-backward-group)
-#+end_src
-
-***** Ivy
-
-#+begin_src emacs-lisp
-(setq ivy-posframe-display-functions-alist
-      '((swiper                     . ivy-posframe-display-at-point)
-        (complete-symbol            . ivy-posframe-display-at-point)
-        (counsel-M-x                . ivy-display-function-fallback)
-        (counsel-esh-history        . ivy-posframe-display-at-window-center)
-        (counsel-describe-function  . ivy-display-function-fallback)
-        (counsel-describe-variable  . ivy-display-function-fallback)
-        (counsel-find-file          . ivy-display-function-fallback)
-        (counsel-recentf            . ivy-display-function-fallback)
-        (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
-        (nil                        . ivy-posframe-display))
-      ivy-posframe-height-alist
-      '((swiper . 20)
-        (t . 10)))
-(ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
-
-(map! :leader
-      (:prefix ("v" . "Ivy")
-       :desc "Ivy push view" "v p" #'ivy-push-view
-       :desc "Ivy switch view" "v s" #'ivy-switch-view))
-#+end_src
-
-***** Zitieren mit org-ref
-
-#+begin_src emacs-lisp
-(setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
-	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
-	bibtex-completion-notes-path "~/Dropbox/emacs/bib/notes/"
-	bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-	bibtex-completion-additional-search-fields '(keywords)
-	bibtex-completion-display-formats
-	'((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-	  (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-	  (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	  (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	  (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-	bibtex-completion-pdf-open-function
-	(lambda (fpath)
-	  (call-process "open" nil 0 nil fpath)))
-(require 'bibtex)
-(setq bibtex-autokey-year-length 4
-	bibtex-autokey-name-year-separator "-"
-	bibtex-autokey-year-title-separator "-"
-	bibtex-autokey-titleword-separator "-"
-	bibtex-autokey-titlewords 2
-	bibtex-autokey-titlewords-stretch 1
-	bibtex-autokey-titleword-length 5
-	org-ref-bibtex-hydra-key-binding (kbd "H-b"))
-(define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
- (require 'org-ref-ivy)
-(setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-      org-ref-insert-label-function 'org-ref-insert-label-link
-      org-ref-insert-ref-function 'org-ref-insert-ref-link
-      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
-(setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
-#+end_src
-
-*** Eigenes Theme +  Einstellungen Erscheinungsbild
-
-- Mane Theme erstellen und mit Start laden - wenn fertig tanglen und defun mane-theme-1 oben aus config streichen
+- Entweder ich mach mir eine seperate theme.el Datei und lade diese dann von meiner config.el, oder ich mache meine Anpassungen direkt in der config.el
 
 #+begin_src emacs-lisp :tangle tangle/themes/doom-mane-theme.el
 ;;; doom-mane-theme.el --- mane light soft -*- lexical-binding: t; no-byte-compile: t; -*-
@@ -2108,7 +2256,191 @@ background contrast. All other values default to \"medium\"."
 ;; (add-hook 'markdown-mode-hook 'prefer-horizontal-split)
 #+end_src
 
-*** Emacs config (kein Doom Emacs)
+**** Inaktiv
+
+- tangle aktivieren wenn ich es nutzen will und aus nicht aktiv raus wenn config passt und ich es nutzen will
+
+***** Multiple Cursors
+
+- Momentan komm ich mit den vorkonfigurierten gut zurecht - musste ich in init.el aktivieren!
+
+#+begin_src emacs-lisp
+(use-package multiple-cursors        ;Habe das Paket von hlissner in init.el aktiviert weil ich es besser finde!
+  :config
+  (setq mc/always-run-for-all 1)
+  (global-set-key (kbd "C-c m m") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-c m M") 'mc/mark-all-dwim)
+  (global-set-key (kbd "C-c m a") 'mc/edit-lines)
+  (global-set-key (kbd "C-c m q") 'mc/keyboard-quit)
+  (global-set-key (kbd "C-c m n") 'mc/skip-to-next-like-this)
+  (global-set-key (kbd "C-c m p") 'mc/skip-to-previous-like-this)
+  (define-key mc/keymap (kbd "<return>") nil))
+#+end_src
+
+***** Dashboard
+
+#+begin_src emacs-lisp
+;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! org
+  :dashboard
+  (let ((alternatives '("banner1.png" "banner3.png" "banner4.png" "banner5.png" "banner6.png" "banner7.png" "banner8.png")))
+    (setq fancy-splash-image (concat "~/.config/doom/banner/" (nth (random (length alternatives)) alternatives))))
+  (setq +doom-dashboard-name "*Startscreen*"
+        +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
+        doom-fallback-buffer-name "*Startscreen*"))
+#+end_src
+
+***** Funktion open dired
+
+#+begin_src emacs-lisp
+;; (defun xah-open-in-external-app (&optional @fname)
+;; "Open the current file or dired marked files in external app.
+;; The app is chosen from your OS's preference.
+
+;; When called in emacs lisp, if @fname is given, open that.
+
+;; URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
+;; Version 2019-11-04"
+;; (interactive)
+;; (let* (
+;;         ($file-list
+;;         (if @fname
+;;             (progn (list @fname))
+;;             (if (string-equal major-mode "dired-mode")
+;;                 (dired-get-marked-files)
+;;             (list (buffer-file-name)))))
+;;         ($do-it-p (if (<= (length $file-list) 5)
+;;                     t
+;;                     (y-or-n-p "Open more than 5 files? "))))
+;;     (when $do-it-p
+;;     (cond
+;;     ((string-equal system-type "windows-nt")
+;;         (mapc
+;;         (lambda ($fpath)
+;;         (w32-shell-execute "open" $fpath)) $file-list))
+;;     ((string-equal system-type "darwin")
+;;         (mapc
+;;         (lambda ($fpath)
+;;         (shell-command
+;;             (concat "open " (shell-quote-argument $fpath))))  $file-list))
+;;     ((string-equal system-type "gnu/linux")
+;;         (mapc
+;;         (lambda ($fpath) (let ((process-connection-type nil))
+;;                             (start-process "" nil "xdg-open" $fpath))) $file-list))))))
+
+;; (global-set-key (kbd "C-c o") 'xah-open-in-external-app)
+#+end_src
+
+***** Spellcheck
+
+#+begin_src emacs-lisp
+(setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
+(global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
+
+;; Rechtschreibprüfung vorerst aus weil noch nicht auf deutsch
+(remove-hook 'text-mode-hook #'spell-fu-mode)
+(setq global-spell-fu-mode 0)
+#+end_src
+
+***** NeoTree
+
+- Wenn ich es nutzen will muss ich es in init.el aktivieren und schauen ob dieser config Abschnitt so noch passt
+- Finde für github Projekte treemacs (aktiviere in init.el) noch besser da es mit evil keys geht und ähnlich zu org-mode ist - <Spc-o p> um treemacs aus Projekt zu öffnen
+
+#+begin_src emacs-lisp :tangle
+(after! neotree
+  (setq neo-smart-open t
+        neo-window-fixed-size nil))
+(after! doom-themes
+  (setq doom-neotree-enable-variable-pitch t))
+(map! :leader
+      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
+      :desc "Open directory in neotree" "d n" #'neotree-dir)
+#+end_src
+
+***** Centaur Tabs
+
+- Falls ich unzufrieden bin wie Emacs das einrücken mit Tabs macht kann ich folgendes Paket mit entsprechender config versuchen
+
+#+begin_src emacs-lisp
+(setq centaur-tabs-set-bar 'over
+      centaur-tabs-set-icons t
+      centaur-tabs-gray-out-icons 'buffer
+      centaur-tabs-height 24
+      centaur-tabs-set-modified-marker t
+      centaur-tabs-style "bar"
+      centaur-tabs-modified-marker "•")
+(map! :leader
+      :desc "Toggle tabs globally" "t c" #'centaur-tabs-mode
+      :desc "Toggle tabs local display" "t C" #'centaur-tabs-local-mode)
+(evil-define-key 'normal centaur-tabs-mode-map (kbd "g <right>") 'centaur-tabs-forward        ; default Doom binding is 'g t'
+                                               (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
+                                               (kbd "g <down>")  'centaur-tabs-forward-group
+                                               (kbd "g <up>")    'centaur-tabs-backward-group)
+#+end_src
+
+***** Ivy
+
+#+begin_src emacs-lisp
+(setq ivy-posframe-display-functions-alist
+      '((swiper                     . ivy-posframe-display-at-point)
+        (complete-symbol            . ivy-posframe-display-at-point)
+        (counsel-M-x                . ivy-display-function-fallback)
+        (counsel-esh-history        . ivy-posframe-display-at-window-center)
+        (counsel-describe-function  . ivy-display-function-fallback)
+        (counsel-describe-variable  . ivy-display-function-fallback)
+        (counsel-find-file          . ivy-display-function-fallback)
+        (counsel-recentf            . ivy-display-function-fallback)
+        (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
+        (nil                        . ivy-posframe-display))
+      ivy-posframe-height-alist
+      '((swiper . 20)
+        (t . 10)))
+(ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
+
+(map! :leader
+      (:prefix ("v" . "Ivy")
+       :desc "Ivy push view" "v p" #'ivy-push-view
+       :desc "Ivy switch view" "v s" #'ivy-switch-view))
+#+end_src
+
+***** Zitieren mit org-ref
+
+#+begin_src emacs-lisp
+(setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
+	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
+	bibtex-completion-notes-path "~/Dropbox/emacs/bib/notes/"
+	bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+	bibtex-completion-additional-search-fields '(keywords)
+	bibtex-completion-display-formats
+	'((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+	  (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+	  (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	  (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	  (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+	bibtex-completion-pdf-open-function
+	(lambda (fpath)
+	  (call-process "open" nil 0 nil fpath)))
+(require 'bibtex)
+(setq bibtex-autokey-year-length 4
+	bibtex-autokey-name-year-separator "-"
+	bibtex-autokey-year-title-separator "-"
+	bibtex-autokey-titleword-separator "-"
+	bibtex-autokey-titlewords 2
+	bibtex-autokey-titlewords-stretch 1
+	bibtex-autokey-titleword-length 5
+	org-ref-bibtex-hydra-key-binding (kbd "H-b"))
+(define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
+ (require 'org-ref-ivy)
+(setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+      org-ref-insert-label-function 'org-ref-insert-label-link
+      org-ref-insert-ref-function 'org-ref-insert-ref-link
+      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+(setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
+#+end_src
+
+*** Emacs config
 
 Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doom Emacs erleichtert einem schon einiges und hat das wichtigste und vll daher sinnvoll dort einfach noch meine gewünschten Veränderungen durchzuführen und nicht hier weiter zu machen.
 
@@ -2219,6 +2551,227 @@ in Github hinzufügen:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
 
 Anmerkung: Wenn ich bei Projekt mitarbeite werd ich nie auf Main Branch direkt pushen sondern immer einen Fork/neuen Branch anlegen alles da hin pushen und dann wenn man fertig mit dem Feature oder what ever kann man einen Pull request stellen. Niemand will ohne Kontrolle von anderer Person etwas in Hauptbranch mergen, committen etc. ohne sicher zu sein dass nichts passiert.
+** Rofi
+
+#+begin_src sh
+cd ~/.config/rofi/ && git clone --depth=1 https://github.com/adi1090x/rofi.git
+#+end_src
+
+#+begin_src sh :tangle tangle/config.rasi
+  configuration {
+    display-drun: "Applications:";
+    display-window: "Windows:";
+    drun-display-format: "{name}";
+    font: "JetBrainsMono Nerd Font Medium 10";
+    modi: "window,run,drun";
+  }
+  @theme "/dev/null"
+  * {
+    bg: #11121D;
+    bg-alt: #444b6a;
+    fg: #FFFFFF;
+    fg-alt: #787c99;
+    background-color: @bg;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+  }
+  window {
+    width: 30%;
+  }
+  element {
+    padding: 8 0;
+    text-color: @fg-alt;
+  }
+  element selected {
+    text-color: @fg;
+  }
+  element-text {
+    background-color: inherit;
+    text-color: inherit;
+    vertical-align: 0.5;
+  }
+  element-icon {
+    size: 30;
+  }
+  entry {
+    background-color: @bg-alt;
+    padding: 12;
+    text-color: @fg;
+  }
+  inputbar {
+    children: [prompt, entry];
+  }
+  listview {
+    padding: 8 12;
+    background-color: @bg;
+    columns: 1;
+    lines: 8;
+  }
+  mainbox {
+    background-color: @bg;
+    children: [inputbar, listview];
+  }
+  prompt {
+    background-color: @bg-alt;
+    enabled: true;
+    padding: 12 0 0 12;
+    text-color: @fg;
+  }
+  /* vim: ft=sass
+#+end_src
+
+- Falls ich diese config will muss ich oben das verschiebungsskript ergänzen. Momentan benutze ich diese flexiblere Variante: https://github.com/adi1090x/rofi mit den folgenden zwei Sourceblocks (qtile ist momentan auf diese angepasst)
+
+#+begin_src rasi :tangle tangle/mane.rasi
+/*
+ *
+ * Config bearbeitet von Mane
+ *
+ */
+
+configuration {
+	font:							"Noto Sans Bold 10";
+    show-icons:                     true;
+	icon-theme: 					"Papirus";
+    display-drun: 					"";
+    drun-display-format:            "{name}";
+    disable-history:                false;
+	sidebar-mode: 					false;
+}
+
+ * {
+    background:                     #282c34a7;
+    background-alt:              	#00000000;
+    background-bar:                 #f2f2f215;
+    foreground:                     #f2f2f2EE;
+    accent:			            	#3DAEE966;
+}
+
+window {
+    transparency:                   "real";
+    background-color:               @background;
+    text-color:                     @foreground;
+	border:							0px;
+	border-color:					@border;
+    border-radius:                  0px;
+	width:							100%;
+	height:							100%;
+}
+
+prompt {
+    enabled: 						true;
+	padding: 						0.30% 1% 0% -0.5%;
+	background-color: 				@background-alt;
+	text-color: 					@foreground;
+	font:							"FantasqueSansMono Nerd Font 12";
+}
+
+entry {
+    background-color:               @background-alt;
+    text-color:                     @foreground;
+    placeholder-color:              @foreground;
+    expand:                         true;
+    horizontal-align:               0;
+    placeholder:                    "Search";
+    padding:                        0.10% 0% 0% 0%;
+    blink:                          true;
+}
+
+inputbar {
+	children: 						[ prompt, entry ];
+    background-color:               @background-bar;
+    text-color:                     @foreground;
+    expand:                         false;
+	border:							0% 0% 0% 0%;
+    border-radius:                  12px;
+	border-color:					@accent;
+    margin:                         0% 25% 0% 25%;
+    padding:                        1.5%;
+}
+
+listview {
+    background-color:               @background-alt;
+    columns:                        6;
+    lines:                          4;
+    spacing:                        0%;
+    cycle:                          false;
+    dynamic:                        true;
+    layout:                         vertical;
+}
+
+mainbox {
+    background-color:               @background;
+	border:							0% 0% 0% 0%;
+    border-radius:                  0% 0% 0% 0%;
+	border-color:					@accent;
+    children:                       [ inputbar, listview ];
+    spacing:                       	8%;
+    padding:                        10% 12.5% 10% 12.5%;
+}
+
+element {
+    background-color:               @background-alt;
+    text-color:                     @foreground;
+    orientation:                    vertical;
+    border-radius:                  0%;
+    padding:                        2.5% 0% 2.5% 0%;
+}
+
+element-icon {
+    background-color: 				@background-alt;
+    text-color:       				inherit;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    size:                           60px;
+    border:                         0px;
+}
+
+element-text {
+    background-color: 				@background-alt;
+    text-color:       				inherit;
+    expand:                         true;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    margin:                         0.5% 0.5% -0.5% 0.5%;
+}
+
+element selected {
+    background-color:               @background-bar;
+    text-color:                     @foreground;
+	border:							0% 0% 0% 0%;
+    border-radius:                  12px;
+    border-color:                  	@accent;
+}
+#+end_src
+
+#+begin_src sh :tangle tangle/launcher.sh
+#!/usr/bin/env bash
+
+## Author  : Aditya Shakya
+## Mail    : adi1090x@gmail.com
+## Github  : @adi1090x
+## Twitter : @adi1090x
+
+# Available Styles
+# >> Created and tested on : rofi 1.6.0-1
+#
+# blurry	blurry_full		kde_simplemenu		kde_krunner		launchpad
+# gnome_do	slingshot		appdrawer			appdrawer_alt	appfolder
+# column	row				row_center			screen			row_dock		row_dropdown
+
+theme="mane"
+dir="$HOME/.config/rofi/launchers/misc"
+
+# comment these lines to disable random style
+#themes=($(ls -p --hide="launcher.sh" $dir))
+#theme="${themes[$(( $RANDOM % 16 ))]}"
+
+rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
+#+end_src
+
+** Screencapture
 ** Pycharm über snap
 
 Install snap: https://snapcraft.io/install/snap-store/arch
@@ -3227,6 +3780,7 @@ alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs 
 - virtualbox-guest-utils mit pacman installieren + VBoxClient-all als cmd in Startupskript um clipboard dragandrop etc. zu aktivieren + Einstellungen der VM -> Allgeimene -> Erweiterte -> Gemeinsame Zwischenablage auf bidirektional -> Drag'n'Drop auf bidirektional
   siehe [[https://wiki.archlinux.org/title/VirtualBox/Install_Arch_Linux_as_a_guest][HIER]]
 - Gemeinsamer Ordner host & guest: sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
+- Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
 
 *** Download
 
@@ -3249,528 +3803,3 @@ alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs 
 
 Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
 
-* Systemkonfigurationen
-
-** Aussehen
-
-Es kann das meiste eingestellt werden mit qt5ct, lxappearance, grub-tweaks, archlinux-tweak-tool
-Downloaden kann man vieles [[https://www.gnome-look.org/][HIER]]
-
-*** Themes
-*** Icons
-*** Cursor
-
-** Login Manager
-
-- Ich verwende aktuell sddm mit sugar-candy als theme
-- Nach der Installation ist der Standard Login Screen aktiviert und (hier: sudo nvim /etc/sddm.conf.d/kde_settings.conf) noch keine config vorhanden
-- Um die config zu schreiben einfach das arch-tweak-tool installieren und in den su Modus wechseln und vom Terminal aus im su Modus mit ~archlinux-tweak-tool~ das Tool starten -> in Login wechseln und das zuvor installierte Theme (mit yay installiert) auswählen -> auto-login aktivieren und Desktop Session auf qtile stellen -> Apply Settings -> im Terminal oder in der Gui sollte nun erscheinen dass Theme aktiviert wurde!
-
-#+begin_src sh :tangle no
-yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal wegen Bestätigungen und sudo-privileges
-#+end_src
-
-- Anschließend sollte die config vorhanden sein und man kann Themes auch ohne das Tool wechseln indem man ([[/etc/sddm.conf.d/kde_settings.conf][hier]]: ~sudo nvim /etc/sddm.conf.d/kde_settings.conf~) unter Current das Theme angibt das man haben will -> wie z.B. hier: Current=sugar-dark oder Current=Sugar-Candy
-- Einstellungen zum Theme kann man hier vornehmen:
-  - [[/usr/share/sddm/themes/sugar-dark/theme.conf][sugar-dark Theme]]:
-
-    #+begin_src  :dir /sudo::
-    sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-dark/Hintergrund.jpg
-    sudo sed -i 's/Background="Background.jpg"/Background="Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-dark/theme.conf
-    #+end_src
-
-  - [[/usr/share/sddm/themes/sugar-candy/theme.conf][sugar-candy-Theme]]
-
-    #+begin_src sh  :dir /sudo::
-    sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
-    sudo chmod +666 /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
-    sudo sed -i 's/Mountain.jpg"/Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/BlurRadius="100"/BlurRadius="35"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/HeaderText="Welcome!"/HeaderText="Hi Mane!"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslatePlaceholderUsername=""/TranslatePlaceholderUsername="Benutzername"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslatePlaceholderPassword=""/TranslatePlaceholderPassword="Passwort"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslateShowPassword=""/TranslateShowPassword="Passwort anzeigen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslateLogin=""/TranslateLogin="Anmelden"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslateLoginFailedWarning=""/TranslateLoginFailedWarning="Anmeldung fehlgeschlagen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslateCapslockWarning=""/TranslateCapslockWarning="Capslock aktiv"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslateReboot=""/TranslateReboot="Neu starten"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    sudo sed -i 's/TranslateShutdown=""/TranslateShutdown="Herunterfahren"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
-    #+end_src
-
-    #+RESULTS:
-
-** Tastaturlayout
-
-1. Befehl "localectl status" --> Abfrage momentane Keyboardeinstellungen
-2. System Locales sollte bereits bei Locales eingestellt worden sein sodass nun nur noch folgende 2 Befehle ausgeführt werden müssen
-   - localectl --no-convert set-keymap de-latin1-nodeadkeys
-   - localectl --no-convert set-x11-keymap de pc105 deadgraveacute
-3. Status erneut abfragen und nun sollte folgendes erscheinen
-    >localectl status
-        System Locale: LANG=de_DE.UTF-8
-            VC Keymap: de-latin1-nodeadkeys
-            X11 Layout: de
-            X11 Model: pc105
-            X11 Variant: deadgraveacute
-4. Reboot!! (sonst sieht man keine Änderung)
-5. Wenn locales alle passen es aber immer noch nicht geht probiere: setxkbmap -layout de
-
-** Touchpad einrichten
-
-https://wiki.archlinux.org/title/Touchpad_Synaptics habe aber auch eine Datei die ich hier erstelle und die direkt mit meinen Einstellungen an die richtige Stelle kopiert wird -> siehe Installskript
-
-#+begin_src shell :dir "/sudo::" :cache no
-sudo cp -r /home/flowmis/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
-#+end_src
-
-#+RESULTS:
-
-#+begin_src shell :tangle tangle/70-synaptics.conf
-# Example xorg.conf.d snippet that assigns the touchpad driver
-# to all touchpads. See xorg.conf.d(5) for more information on
-# InputClass.
-# DO NOT EDIT THIS FILE, your distribution will likely overwrite
-# it when updating. Copy (and rename) this file into
-# /etc/X11/xorg.conf.d first.
-# Additional options may be added in the form of
-#   Option "OptionName" "value"
-#
-Section "InputClass"
-        Identifier "touchpad catchall"
-        Driver "synaptics"
-        MatchIsTouchpad "on"
-        Option "TapButton1" "1"
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-        Option "VertEdgeScroll" "on"
-        Option "VertTwoFingerScroll" "on"
-        Option "HorizEdgeScroll" "on"
-        Option "HorizTwoFingerScroll" "on"
-        Option "CircularScrolling" "on"
-        Option "CircScrollTrigger" "2"
-        Option "EmulateTwoFingerMinZ" "40"
-        Option "EmulateTwoFingerMinW" "8"
-        Option "CoastingSpeed" "0"
-        Option "FingerLow" "30"
-        Option "FingerHigh" "50"
-        Option "MaxTapTime" "125"
-# This option is recommend on all Linux systems using evdev, but cannot be
-# enabled by default. See the following link for details:
-# http://who-t.blogspot.com/2010/11/how-to-ignore-configuration-errors.html
-#       MatchDevicePath "/dev/input/event*"
-EndSection
-
-Section "InputClass"
-        Identifier "touchpad ignore duplicates"
-        MatchIsTouchpad "on"
-        MatchOS "Linux"
-        MatchDevicePath "/dev/input/mouse*"
-        Option "Ignore" "on"
-EndSection
-
-# This option enables the bottom right corner to be a right button on clickpads
-# and the right and middle top areas to be right / middle buttons on clickpads
-# with a top button area.
-# This option is only interpreted by clickpads.
-Section "InputClass"
-        Identifier "Default clickpad buttons"
-        MatchDriver "synaptics"
-        Option "SoftButtonAreas" "50% 0 82% 0 0 0 0 0"
-        Option "SecondarySoftButtonAreas" "58% 0 0 15% 42% 58% 0 15%"
-EndSection
-
-# This option disables software buttons on Apple touchpads.
-# This option is only interpreted by clickpads.
-Section "InputClass"
-        Identifier "Disable clickpad buttons on Apple touchpads"
-        MatchProduct "Apple|bcm5974"
-        MatchDriver "synaptics"
-        Option "SoftButtonAreas" "0 0 0 0 0 0 0 0"
-EndSection
-#+end_src
-
-** SSH & GPG/PGP
-- Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
-  - openssh braucht man um ssh keys zu erstellen
-  - gnupg ist die library des OpenPGP Standards
-  - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
-- Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
-- Passphrase ist PIN
-
-** .xprofile
-
-+ Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
-  -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
-
-#+begin_src sh :tangle tangle/.xprofile
-#setxkbmap -layout de &
-xrandr -s 1920x1200 &                               # In VM aktivieren
-VBoxClient-all &                                    # DranDrop und gmeinsames Clipboars in VM aktivieren
-xrdb ~/.Xressources &
-nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
-nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
-picom -f &                                          # setzt Einstellungen des Compositors for Windows
-#loadkeys de-latin1 &
-# /usr/bin/emacs --daemon &
-#touch /var/lock/subsys/local                       # Testob Skript gelaufen ist
-#echo "Skript ausgeführt meldet ManePC whoop whoop" 'date' >> ~/bootup.log
-#cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
-#cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
-#cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
-#chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
-gtk-launch dropbox.desktop &
-# gtk-launch nm-applet.desktop &
-# gtk-launch volumeicon.desktop &
-/usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
-emacsclient -c                                      #
-#+end_src
-
-** .Xressources
-
-Vorher das Packet Material Cursors herunterladen ([[https://www.gnome-look.org/][HIER]]) und in lxappearance installieren
-
-#+begin_src sh :tangle tangle/.Xressources
-Xcursor.theme: Material Cursors
-Xcursor.size: 30
-#+end_src
-
-** Picom
-
-+ picom = fork von compton
-+ Die picom.conf muss in //home/flowmis//.config/picom/ kopiert werden. Falls directory nicht vorhanden muss es erstellt werden (mkdir //home/flowmis//.config/picom). Falls man neue config Datei erstellen will ist es sinnvoll die Beispiel config die mit installiert wird zu kopieren und zu modifizieren: sudo cp //etc/xdg/picom.conf //home/flowmis//.config/picom/picom.conf
-+ Weitere Infos unter: https://wiki.archlinux.org/title/picom
-+ Meine config:
-
-#+begin_src sh :tangle tangle/picom.conf
-shadow = true;
-
-# The blur radius for shadows, in pixels. (defaults to 12)
-shadow-radius = 8;
-
-# The opacity of shadows. (0.0 - 1.0, defaults to 0.75)
-shadow-opacity = .6
-
-# The left offset for shadows, in pixels. (defaults to -15)
-shadow-offset-x = -3;
-
-# The top offset for shadows, in pixels. (defaults to -15)
-shadow-offset-y = -3;
-
-# Specify a list of conditions of windows that should have no shadow.
-#
-# examples:
-#   shadow-exclude = "n:e:Notification";
-#
-# shadow-exclude = []
-shadow-exclude = [
-  "name = 'Notification'",
-  "class_g = 'Conky'",
-  "class_g ?= 'Notify-osd'",
-  "class_g = 'Cairo-clock'",
-  "class_g = 'slop'",
-  "class_g = 'Polybar'",
-  "_GTK_FRAME_EXTENTS@:c"
-];
-
-
-# Fade windows in/out when opening/closing and when opacity changes,
-#  unless no-fading-openclose is used.
-# fading = false
-fading = true;
-
-# Opacity change between steps while fading in. (0.01 - 1.0, defaults to 0.028)
-# fade-in-step = 0.028
-fade-in-step = 0.03;
-
-# Opacity change between steps while fading out. (0.01 - 1.0, defaults to 0.03)
-# fade-out-step = 0.03
-fade-out-step = 0.03;
-
-# The time between steps in fade step, in milliseconds. (> 0, defaults to 10)
-# fade-delta = 10
-
-# Specify a list of conditions of windows that should not be faded.
-# don't need this, we disable fading for all normal windows with wintypes: {}
-fade-exclude = [
-  "class_g = 'slop'"   # maim
-]
-
-# Opacity of inactive windows. (0.1 - 1.0, defaults to 1.0)
-# inactive-opacity = 0.8
-inactive-opacity = 0.60
-
-# Opacity of window titlebars and borders. (0.1 - 1.0, disabled by default)
-# frame-opacity = 1.0
-frame-opacity = 1.00
-
-# Default opacity for dropdown menus and popup menus. (0.0 - 1.0, defaults to 1.0)
-# menu-opacity = 1.0
-# menu-opacity is depreciated use dropdown-menu and popup-menu instead.
-
-#If using these 2 below change their values in line 510 & 511 aswell
-popup_menu = { opacity = 0.8; }
-dropdown_menu = { opacity = 0.8; }
-
-
-# Let inactive opacity set by -i override the '_NET_WM_OPACITY' values of windows.
-# inactive-opacity-override = true
-inactive-opacity-override = false;
-
-# Default opacity for active windows. (0.0 - 1.0, defaults to 1.0)
-active-opacity = 1.00
-
-# Dim inactive windows. (0.0 - 1.0, defaults to 0.0)
-# inactive-dim = 0.0
-
-# Specify a list of conditions of windows that should always be considered focused.
-# focus-exclude = []
-focus-exclude = [
-  "class_g = 'Cairo-clock'",
-  "class_g = 'Bar'",                    # lemonbar
-  "class_g = 'slop'"                    # maim
-];
-
-opacity-rule = [
-  "100:class_g    = 'XTerm'",
-  "100:class_g    = 'URxvt'",
-  "100:class_g    = 'firefox'",
-  "100:class_g    = 'Thunderbird'"
-];
-
-wintypes:
-{
-  normal = { fade = false; shadow = true; }
-  tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
-  dock = { shadow = false; }
-  dnd = { shadow = true; }
-  popup_menu = { opacity = 0.8; }
-  dropdown_menu = { opacity = 0.8; }
-};
-#+end_src
-+ picom in Terminal eingeben um zu aktivieren (oder picom -f)
-
-** Rofi
-
-#+begin_src sh
-cd ~/.config/rofi/ && git clone --depth=1 https://github.com/adi1090x/rofi.git
-#+end_src
-
-#+begin_src sh :tangle tangle/config.rasi
-  configuration {
-    display-drun: "Applications:";
-    display-window: "Windows:";
-    drun-display-format: "{name}";
-    font: "JetBrainsMono Nerd Font Medium 10";
-    modi: "window,run,drun";
-  }
-  @theme "/dev/null"
-  * {
-    bg: #11121D;
-    bg-alt: #444b6a;
-    fg: #FFFFFF;
-    fg-alt: #787c99;
-    background-color: @bg;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    spacing: 0;
-  }
-  window {
-    width: 30%;
-  }
-  element {
-    padding: 8 0;
-    text-color: @fg-alt;
-  }
-  element selected {
-    text-color: @fg;
-  }
-  element-text {
-    background-color: inherit;
-    text-color: inherit;
-    vertical-align: 0.5;
-  }
-  element-icon {
-    size: 30;
-  }
-  entry {
-    background-color: @bg-alt;
-    padding: 12;
-    text-color: @fg;
-  }
-  inputbar {
-    children: [prompt, entry];
-  }
-  listview {
-    padding: 8 12;
-    background-color: @bg;
-    columns: 1;
-    lines: 8;
-  }
-  mainbox {
-    background-color: @bg;
-    children: [inputbar, listview];
-  }
-  prompt {
-    background-color: @bg-alt;
-    enabled: true;
-    padding: 12 0 0 12;
-    text-color: @fg;
-  }
-  /* vim: ft=sass
-#+end_src
-
-- Falls ich diese config will muss ich oben das verschiebungsskript ergänzen. Momentan benutze ich diese flexiblere Variante: https://github.com/adi1090x/rofi mit den folgenden zwei Sourceblocks (qtile ist momentan auf diese angepasst)
-
-#+begin_src rasi :tangle tangle/mane.rasi
-/*
- *
- * Config bearbeitet von Mane
- *
- */
-
-configuration {
-	font:							"Noto Sans Bold 10";
-    show-icons:                     true;
-	icon-theme: 					"Papirus";
-    display-drun: 					"";
-    drun-display-format:            "{name}";
-    disable-history:                false;
-	sidebar-mode: 					false;
-}
-
- * {
-    background:                     #282c34a7;
-    background-alt:              	#00000000;
-    background-bar:                 #f2f2f215;
-    foreground:                     #f2f2f2EE;
-    accent:			            	#3DAEE966;
-}
-
-window {
-    transparency:                   "real";
-    background-color:               @background;
-    text-color:                     @foreground;
-	border:							0px;
-	border-color:					@border;
-    border-radius:                  0px;
-	width:							100%;
-	height:							100%;
-}
-
-prompt {
-    enabled: 						true;
-	padding: 						0.30% 1% 0% -0.5%;
-	background-color: 				@background-alt;
-	text-color: 					@foreground;
-	font:							"FantasqueSansMono Nerd Font 12";
-}
-
-entry {
-    background-color:               @background-alt;
-    text-color:                     @foreground;
-    placeholder-color:              @foreground;
-    expand:                         true;
-    horizontal-align:               0;
-    placeholder:                    "Search";
-    padding:                        0.10% 0% 0% 0%;
-    blink:                          true;
-}
-
-inputbar {
-	children: 						[ prompt, entry ];
-    background-color:               @background-bar;
-    text-color:                     @foreground;
-    expand:                         false;
-	border:							0% 0% 0% 0%;
-    border-radius:                  12px;
-	border-color:					@accent;
-    margin:                         0% 25% 0% 25%;
-    padding:                        1.5%;
-}
-
-listview {
-    background-color:               @background-alt;
-    columns:                        6;
-    lines:                          4;
-    spacing:                        0%;
-    cycle:                          false;
-    dynamic:                        true;
-    layout:                         vertical;
-}
-
-mainbox {
-    background-color:               @background;
-	border:							0% 0% 0% 0%;
-    border-radius:                  0% 0% 0% 0%;
-	border-color:					@accent;
-    children:                       [ inputbar, listview ];
-    spacing:                       	8%;
-    padding:                        10% 12.5% 10% 12.5%;
-}
-
-element {
-    background-color:               @background-alt;
-    text-color:                     @foreground;
-    orientation:                    vertical;
-    border-radius:                  0%;
-    padding:                        2.5% 0% 2.5% 0%;
-}
-
-element-icon {
-    background-color: 				@background-alt;
-    text-color:       				inherit;
-    horizontal-align:               0.5;
-    vertical-align:                 0.5;
-    size:                           60px;
-    border:                         0px;
-}
-
-element-text {
-    background-color: 				@background-alt;
-    text-color:       				inherit;
-    expand:                         true;
-    horizontal-align:               0.5;
-    vertical-align:                 0.5;
-    margin:                         0.5% 0.5% -0.5% 0.5%;
-}
-
-element selected {
-    background-color:               @background-bar;
-    text-color:                     @foreground;
-	border:							0% 0% 0% 0%;
-    border-radius:                  12px;
-    border-color:                  	@accent;
-}
-#+end_src
-
-#+begin_src sh :tangle tangle/launcher.sh
-#!/usr/bin/env bash
-
-## Author  : Aditya Shakya
-## Mail    : adi1090x@gmail.com
-## Github  : @adi1090x
-## Twitter : @adi1090x
-
-# Available Styles
-# >> Created and tested on : rofi 1.6.0-1
-#
-# blurry	blurry_full		kde_simplemenu		kde_krunner		launchpad
-# gnome_do	slingshot		appdrawer			appdrawer_alt	appfolder
-# column	row				row_center			screen			row_dock		row_dropdown
-
-theme="mane"
-dir="$HOME/.config/rofi/launchers/misc"
-
-# comment these lines to disable random style
-#themes=($(ls -p --hide="launcher.sh" $dir))
-#theme="${themes[$(( $RANDOM % 16 ))]}"
-
-rofi -no-lazy-grab -show drun -modi drun -theme $dir/"$theme"
-#+end_src
-
-** Einstellunszeug (Audio, Wlan, Helligkeit,...) & Sonstiges
-
-#+begin_src sh  :dir /sudo::
-sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans htop neofetch dunst bind bmon jq gvfs
-#+end_src
