@@ -66,12 +66,13 @@ echo done
 :LOGBOOK:
 :END:
 
+- [ ] Emacs Roam Dateien mit Erklärungen von [[~/Dropbox/emacs/org-roam/Notizen/2022-04-16-emacs-emacs-tipps-tricks.org][hier]] zu den Modulen verlinken!
 - [ ] Dateien nach meiner Namens konvention umbenennen (siehe Unterpunkt hier unter Linux & Arch)
 - [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
   - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
   - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
   - [ ] https://www.youtube.com/watch?v=LGhifbn6088
-- [ ] Kann ich Repo privat stellen und trotzdem leicht clonen um Installationsskripte auszuführen oder ist entsprechende Iso nötig
+- [ ] Kann ich diese Repo privat stellen und trotzdem leicht clonen/verwenden um das Installationsskript etc. auszuführen oder ist entsprechend vorbereitete/angepasste Iso nötig
 - [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
 - [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
 - [ ] git ssh verstehen und in skript mit rein
