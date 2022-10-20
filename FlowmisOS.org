@@ -1,5 +1,6 @@
 :Einstellungen:
-#+STARTUP: showall hideblocks shrink
+#+TITLE: Install FlowmisOS
+#+STARTUP: folded hideblocks shrink
 #+begin_src shell
 mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
 cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
@@ -40,27 +41,25 @@ echo done
 # - [[https://github.com/fniessen/org-html-themes][Style]]
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
 :END:
-:LINKS:
-+ EMACS
-  + [[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs init][init.el]]
-  + [[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs packages][packages.el]]
-  + [[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs config][config.el]]
-    - [[org:~/FlowmisOS/FlowmisOS.org::Keybindings][Keybindings]]
-    - [[org:~/FlowmisOS/FlowmisOS.org::Funktionen][Funktionen]]
-  + [[org:~/FlowmisOS/FlowmisOS.org::Eigenes Theme +  Einstellungen Erscheinungsbild][Theme]]
-+ Qtile
-  + [[org:~/FlowmisOS/FlowmisOS.org::Qtile config][config.py]]
-+ Terminal
-  + [[org:~/FlowmisOS/FlowmisOS.org::Bash][Bash]]
-  + [[org:~/FlowmisOS/FlowmisOS.org::Alacritty][Alacritty]]
-  + [[org:~/FlowmisOS/FlowmisOS.org::Fish][Fish]]
-+ Systemstart
+-------------------------------------------EMACS--------------------------------------------------------------------
+[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs init][init.el]]
+[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs packages][packages.el]]
+[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs config][config.el]]
+  - [[org:~/FlowmisOS/FlowmisOS.org::Keybindings][Keybindings]]
+  - [[org:~/FlowmisOS/FlowmisOS.org::Funktionen][Funktionen]]
+  - [[org:~/FlowmisOS/FlowmisOS.org::Erscheinungsbild][Erscheinungsbild]]
+-------------------------------------------QTILE--------------------------------------------------------------------
+[[org:~/FlowmisOS/FlowmisOS.org::Qtile config][config.py]]
+-------------------------------------------TERMINAL-----------------------------------------------------------------
+[[org:~/FlowmisOS/FlowmisOS.org::Bash][Bash]]
+[[org:~/FlowmisOS/FlowmisOS.org::Alacritty][Alacritty]]
+[[org:~/FlowmisOS/FlowmisOS.org::Fish][Fish]]
+-------------------------------------------SYSTEMSTAR---------------------------------------------------------------
   + [[org:~/FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
   + [[org:~/FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
-+ VirtualMachine
-  + [[org:~/FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
-:END:
-#+TITLE: Install FlowmisOS
+-------------------------------------------VM----------------------------------------------------------------------
+[[org:~/FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
+-------------------------------------------------------------------------------------------------------------------
 
 * ZEITNAH FlowmisOS
 :LOGBOOK:
@@ -1417,7 +1416,6 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
-        user-mail-address "manemarkushoffmann@gmail.com"                                                        ;GPG configuration, email clients, file templates and snippets,... can use this information - ist optional
         undo-tree-auto-save-history t
         undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history"))
         save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
@@ -1472,7 +1470,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 (nano-modeline-mode)
 (global-hide-mode-line-mode)
 #+end_src
-**** 
+
 **** Dired
 
 [[~/Dropbox/emacs/org-roam/Notizen/2022-08-05-emacs-dired-dateimanager.org][Tipps]]
@@ -1552,7 +1550,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 #+end_src
 
 **** Mail
-
+[[id:48e45b80-c58f-4ed4-9271-fc229b5ef568][Tipps]]
 #+begin_src emacs-lisp :tangle tangle/config.el
 ;;;Mail;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'mu4e)
@@ -1615,12 +1613,12 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
-(global-set-key (kbd "M-ä") 'end-of-line)
-(global-set-key (kbd "M-Ä") 'beginning-of-line)
-(global-set-key (kbd "M-+") 'evil-scroll-page-down)
-(global-set-key (kbd "M-*") 'evil-scroll-page-up)
 ;;leader ist in Doom <SPC> -> prefix der andernorts vergeben ist und hier nicht verwendet werden sollte "d" - dired
 (map! :leader
+       :desc "end of line" "<right>" #'end-of-line
+       :desc "start of line" "<left>" #'beginning-of-line
+       :desc "page down" "<down>" #'evil-scroll-page-down
+       :desc "page up" "<up>" #'evil-scroll-page-up
        :desc "Org babel tangle" "m B" #'org-babel-tangle
        :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window
        :desc "Eshell" "e s" #'eshell
@@ -1752,7 +1750,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 (add-hook 'after-init-hook #'mane-theme-zusatzeinstellungen)
 #+end_src
 
-**** Aussehen
+**** Erscheinungsbild
 
 - Entweder ich mach mir eine seperate theme.el Datei und lade diese dann von meiner config.el, oder ich mache meine Anpassungen direkt in der config.el
 
