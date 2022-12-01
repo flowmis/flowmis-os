@@ -102,6 +102,40 @@ echo done
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem FlowmisOS aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
+*** Ordnerstruktur
+#+BEGIN_SRC dot :file ~/Dropbox/emacs/org-roam/Notizen/bilder/dot/outputfile.svg :results none
+digraph g { fontname="Helvetica,Arial,sans-serif" node [fontname="Helvetica,Arial,sans-serif"] edge [fontname="Helvetica,Arial,sans-serif"]
+graph [ rankdir = "TD" ];
+node [ fontsize = "16" shape = "ellipse" ];
+edge [ ];
+"/" [ label = "<f0> os (windows, linux, ...) root/home /" shape = "record" ];
+"user" [ label = "<f0> user" shape = "record" ];
+"node2" [ label = "<f0> home | <f1> skripte/programme | <f2> download/desktop | <f3> share | <f4> .config | <f5> papierkorb | <f6> work " shape = "record" ];
+"node3" [ label = "<f0> büro-finanzen | <f1> ffff (fun-familie-freunde-freizeit) | <f2> projekte | <f3> bildung-wissen " shape = "record" ];
+"node4" [ label = "<f0> schule | <f1> nebenjob | <f2> projekte | <f3> bewerbung " shape = "record" ];
+"/":f0 -> "user":f0 [ id = 0 ];
+"user":f0 -> "node2":f0 [ id = 1 ];
+"user":f0 -> "node2":f1 [ id = 2 ];
+"user":f0 -> "node2":f2 [ id = 3 ];
+"user":f0 -> "node2":f3 [ id = 4 ];
+"user":f0 -> "node2":f4 [ id = 5 ];
+"user":f0 -> "node2":f5 [ id = 6 ];
+"user":f0 -> "node2":f6 [ id = 7 ];
+"node2":f0 -> "node3":f0 [ id = 8 ];
+"node2":f0 -> "node3":f1 [ id = 9 ];
+"node2":f0 -> "node3":f2 [ id = 10 ];
+"node2":f0 -> "node3":f3 [ id = 11 ];
+"node2":f6 -> "node4":f0 [ id = 12 ];
+"node2":f6 -> "node4":f1 [ id = 13 ];
+"node2":f6 -> "node4":f2 [ id = 14 ];
+"node2":f6 -> "node4":f3 [ id = 15 ];
+}
+#+END_SRC
+
+:RESULTS:
+#+ATTR_HTML: :width 1800
+[[file:~/Dropbox/emacs/org-roam/Notizen/bilder/dot/outputfile.svg]]
+:END:
 *** Wie benenne ich am besten Dateien und strukturiere meine persönliche Daten
 **** Namensgebung für Ordner/Dateien
 - Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
