@@ -1,166 +1,73 @@
 
-* Installation
+* IRGENDWANN Installation
 
-- base-devel: ermöglicht <makepkg -si> um aus Brave Binaries ein Paket zu machen das im Anschluss installiert wird
-- ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
-- Achtung bei Grafiktreibern
-  - Bei VM: xf86-video-fbdev
-  - Liste verfügbarer Open Source-Treiber: ~sudo pacman -Ss xf86-video~
-    - Intel (Open Source): ~sudo pacman -S xf86-video-intel~
-    - Nvidia (Open Source): ~sudo pacman -S xf86-video-nouveau~
-    - Nvidia (proprietäre): ~sudo pacman -S nvidia nvidia-utils~ (sind den open source vozuziehen und bei 2 Grafikkarten sollten nur die Treiber der besseren installiert werden)
-    - ATI-Grafiktreiber: ~sudo pacman -S xf86-video-ati~
-    - Generische VESA-Treiber: ~sudo pacman -S xf86-video-vesa~
+- [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
 
-** Tipps
+** Installationsdateien
 
-- Wenn ich feststecke kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss mit Fn zusammen gedrückt werden!
-- Installation eines Linux Betriebssystems benötigt eigentlich immer folgende Komponenten
-  - Bootmanager (grub)
-  - xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
-  - window/desktop manager (qtile, openbox, xmonad)
-  - login manager (lightdm)
-  - Browser (Brave)
-  - Terminal/Terminal Emulator (Alacritty, Fish, zshell)
-  - Texteditor (Emacs)
-- [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]] bei Problemen durchsuchen
-- Bootstick mit ArchLinux erstellen:
-  - Iso [[https://archlinux.org/download/][downloaden]] und Bootstick erstellen (falls keine VM Installation) -> Auf Windows mit Rufus oder Etcher - [[https://wiki.archlinux.org/title/USB_flash_installation_medium][Alternativen für nicht Windows]]
-  - PGP Signatur mit System auf dem GnupG installiert ist checken sodass man keinen Müll gedownloaded hat und installiert
+- Locales:
+
+#+begin_src shell :tangle tangle/locale.conf
+LANG=de_DE.UTF-8
+LC_CTYPE=de_DE.UTF-8
+#+end_src
+
+- Localhost und die localdomain festlegen:
+
+#+begin_src shell :tangle tangle/hosts
+# Static table lookup for hostnames.
+# See hosts(5) for detailsh
+127.0.0.1    localhost
+::1          localhost
+127.0.1.1    FlowmisPC.localdomain    FlowmisPC
+#+end_src
+
+** Troubleshooting:
+
+- [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]] bei Fragen/Problemen
+- Wenn ich feststecke kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss eventuell mit Fn zusammen gedrückt werden!
+- Etwas vergessen: kann nach der Installation erneut auf Bootstick booten und von diesem die Linux-Filesystem partition mounten und mit arch-chroot auf diese gehen und Dinge installieren (im root Modus und mit hoffentlich funktionierendem Internet)
+
+** Komponenten
+
+- Bootmanager (grub)
+- xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
+- window/desktop manager (qtile, openbox, xmonad)
+- login manager (lightdm)
+- Browser (Brave)
+- Terminal/Terminal Emulator (Alacritty, Fish, zshell)
+- Texteditor (Emacs)
+
+** Installationsschritte
+
+1. Arch iso downloaden
+   - Check ob Datei original und unverändert ist:
    #+begin_src shell
    gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
    pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
    #+end_src
-  - Anmerkung: Arch Linux installation images supporten kein Secure Boot (-> disable Secure Boot to boot the installation medium). Auch auf Boot device Reihenfolge im Bios achten/anpassen um auf Stick zu booten. Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen (Ein Installationshelferskript liegt dort bereits und kann über <archinstall> gestartet werden)
+2. Bootstick erstellen (Achtung Bootstick der mir balena etcher erstellt wurde macht Probleme -> Mit rufus erstellen und bei Partitionsschema GPT statt MBR wählen um mit grub-install bei manueller Installation keine Probleme zu bekommen weil falsches Partitionsschema vorliegt)
+3. BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen
+4. Internet über Lankabel oder iwctl aktivieren und checken ob es geht (~ping google.de~)
 
-** Ohne Installskript
+** Mit Skript
 
-- Höherer Freiheitsgrad und gut für das Verständnis, aber auch höhere Wahrscheinlichkeit etwas falsch zu machen
-    #+begin_example
-    Keyboard konfigurieren:
-    ls /sys/firmware/efi/efivars                              # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
-    ls /usr/share/kbd/keymaps/**/*.map.gz                    # Läd alle vorhandenen Tastaturlayouts
-    loadkeys de-latin1                                        # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
-
-    Internet konfigurieren:
-    ip link                                                   # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird (Achtung dass rfkill die Karte nicht blockiert) und mit welchem Namen man es ansprechen kann (oft wlan0)
-    iwctl                                                     # Einloggen ins Wlan (Ethernet macht es einfacher) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
-    device list                                               # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
-    station "" scan                                           # "" durch Wlan Karte ersetzen (meist wlan0) -> scant nach vorhandenen Wlans die durch Wlan Karte gefunden werden
-    station "" get-networks                                   # Listet gefundene Wlan Netzwerke auf
-    station "" connect "Name Wlan"                            # Verbindung zu Wlan herstellen
-    exit                                                      # Verlassen von iwctl
-    #DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and systemd-resolved) should work out of the box for Ethernet, WLAN, and WWAN network interfaces.
-    ping archlinux.org                                        # Internetcheck -> ISO hat systemd mit Internet etc. (später installiertes System hat es nicht) -> NetworkManager enablen mit systemctl
-
-    Speicher formatieren:
-    *fdisk /dev/sda                                           # In VM: <n> <p> <Enter> <Enter> <Enter> <w>
-        wenn keine VM:
-        fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
-        fdisk //dev//"Partitionsname"                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
-        fdisk //dev//"Speicherort für Betriebssystem"           # in die für das Betriebssystem gewünschte Partition wechseln
-        <g><n><1><Enter><+550M>                               # EFI Partition erstellen: <g> kreiert Label - GPT disk label (for what?) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
-        <n><2><Enter><+2G>                                    # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
-        <n><3><Enter><Enter>                                  # Linux Filesystem Partition mit restlichem Speicher erstellen
-        <t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
-        <t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
-        <w>                                                   # write changes und fdisk verlassen
-        mkfs.fat -F32 /dev/"EFI_Partitionsname/Partition1"    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
-        mkswap /dev/"swap_Partitionsname/Partition2"
-        swapon /dev/"swap_Partitionsname/Partition2"
-    *mkfs.ext4 /dev/sda1                                       # ACHTUNG: sda1 umbenennen in Namen der Partition 3 die mit Linux Filesystem erstellt wurde -> Linux Filesystem wird im Speicher angelegt
-    *mount /dev/sda1 /mnt                                      # ACHTUNG: sda1 umbenenn in Namen der Partition 3 -> Einhängen des Speichers um Veränderungen vornehmen zu können
-    *pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
-    *genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
-    *arch-chroot /mnt                                          # Mit root in /mnt gehen
-    *pacman -S neovim sudo git
-    *passwd
-    *useradd -m flowmis
-    *passwd flowmis
-    *cd /home/flowmis
-    *git clone https://github.com/flowmis/FlowmisOS.git
-    *cd FlowmisOS/tangle
-    *. rootinstall.sh
-    *EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
-    *exit
-    *umount -l /mnt
-    *reboot & login
-    *cd FlowmisOS/tangle
-    *. install.sh
-    *reboot und genießen :)
-        #Eventuell neu in Wlan anmelden (nun mit NetworkManager statt wie zuvor mit iwctl)
-        sudo NetworkManager                                          # keine Fehlermeldung = past alles
-        sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
-        sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
-    #+end_example
-- Zudem brauche ich folgende Dateien
-    #+begin_src shell :tangle tangle/rootinstall.sh
-    cd /home/flowmis/ && chown flowmis FlowmisOS/ && chgrp flowmis FlowmisOS/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
-    usermod -aG wheel,audio,video,optical,storage flowmis                       # Erteilen der Rechte bzw. in welcher Gruppe der User ist
-    ###   Falls manuelle Installation - Skriptinstallation kümmert sich sonst   m#############################################################################################################
-    pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager
-    ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
-    hwclock --systohc                                                           # setzt Zeit
-    mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
-    sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
-    locale-gen                                                                  # generiert die locales
-    echo Arch | cat > /etc/hostname                                             # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-    mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
-    nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds
-    ###   Uncomment Grafiktreiber des Geräts   ###############################################################################################################################################
-    # pacman -S xf86-video-fbdev                                                  # Grafiktreiber wählen
-
-
-    ###   Uncomment bei Tastaturlayout Deutsch   #############################################################################################################################################
-    # localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
-    # setxkbmap -layout de                                                        # Tastaturlayout auf Deutsch
-
-
-
-    ###   Restliche Installation   ###########################################################################################################################################################
-    mkdir /boot/EFI                                                             # Erstellung des Bootdirectories
-    mount /dev/sda1 boot/EFI                                                    # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
-    grub-install                                                                # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
-    grub-mkconfig -o /boot/grub/grub.cfg                                        # Ohne diese wird es zu Problemen beim booten kommen
-    timedatectl set-ntp true && timedatectl status                              # Zeit und Datum über das network transfer protocol einholen
-    #+end_src
-  - Locales:
-    #+begin_src shell :tangle tangle/locale.conf
-    LANG=de_DE.UTF-8
-    LC_CTYPE=de_DE.UTF-8
-    #+end_src
-  - Localhost und die localdomain festlegen:
-    #+begin_src shell :tangle tangle/hosts
-    # Static table lookup for hostnames.
-    # See hosts(5) for detailsh
-    127.0.0.1    localhost
-    ::1          localhost
-    127.0.1.1    FlowmisPC.localdomain    FlowmisPC
-    #+end_src
-
-** Mit Installskript
-
-*** Anleitung Skript
-
-1. Arch iso downloaden
-2. Bootstick erstellen
-3. BIOS Bootreihenfolge auf Bootsick ändern
-4. Internet über iwctl oder Lankabel aktivieren und checken ob es geht
-5. ~python -m archinstall~
-   1. locale-lang auf de.DE
-   2. Bootloader auf Grub ändern
-   3. Root Passwort einstellen
-   4. Account/User+Passwort hinzufügen
-   5. Profil auf xorg ändern und Grafiktreiber wählen (Nvidia proprietary bei momentanem Laptop, oder VM falls VM,...)
-   6. Audio -> pulseaudio wählen
-   7. NetworkManager einstellen und zusätzliche Programmen angeben die direkt installiert werden sollen (git installieren)
-   8. Timezone auf Berlin
-   9. Festplatte wählen, alles wipen lassen und ext4 filesystem konfigurieren lassen
-   10. Konfiguration in /home speichern und Installation starten
-6. reboot & login in erstellten Account (Umschalten von Wayland auf Qtile!)
-7. Anmelden in Wlan mit nmcli
-9. ~sudo pacman -S git && cd ~ && git clone https://github.com/flowmis/FlowmisOS.git && echo 'FlowmisOS geklont'~
-10. MinimalInstall.sh ausführen und anschließend mit Standard DoomEmacs in dies Datei und die gewollten Module installieren: ~. ~/FlowmisOS/tangled/MinimalInstall.sh~
+1. ~python -m archinstall~
+   Einstellungen:
+   - Sprache auf de & locale-lang auf de.DE
+   - Grub als Bootloader wählen
+   - Root Passwort vergeben + Account/User mit Passwort erstellen
+   - Profil auf xorg ändern
+   - Dem Gerät entsprechende Grafiktreiber wählen
+   - pulseaudio wählen
+   - NetworkManager wählen
+   - Timezone auf Europe-Berlin
+   - Festplatte wählen, alles wipen + ext4 filesystem konfigurieren
+   - Installation starten
+2. reboot & login in erstellten Account (Umschalten von Wayland auf Qtile!)
+3. Anmelden in Wlan mit nmcli
+4. ~sudo pacman -S git && cd ~ && git clone https://github.com/flowmis/FlowmisOS.git && echo 'FlowmisOS geklont'~
+5. MinimalInstall.sh ausführen und anschließend mit Standard DoomEmacs in dies Datei und die gewollten Module installieren: ~. ~/FlowmisOS/tangled/MinimalInstall.sh~
 
 #+begin_src shell :tangle tangle/MinimalInstall.sh
 mkdir -p ~/.config/{alacritty,fish} && echo 'Ordner erstellt'
@@ -172,14 +79,84 @@ sudo systemctl enable sddm
 cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install && ~/.emacs.d/bin/doom sync && ~/.emacs.d/bin/doom doctor && echo 'Installation beendet'
 #+end_src
 
-  - ~exa~ ist bessereres ~ls~ -> schönerer/übersichtlichere Darstellung -> wird in meinen aliase verwendet -> falls nicht installiert sind entsprechende aliase nicht funktionsfähig
-  - ~starship~ -> < und > statt sinnloser Angabe vom Standardpfad -> übersichtlicheres Terminal
+- ~exa~ ist bessereres ~ls~ -> schönerer/übersichtlichere Darstellung -> wird in meinen aliase verwendet -> falls nicht installiert sind entsprechende aliase nicht funktionsfähig
+- ~starship~ -> < und > statt sinnloser Angabe vom Standardpfad -> übersichtlicheres Terminal
+- base-devel: ermöglicht <makepkg -si> um aus Brave Binaries ein Paket zu machen das im Anschluss installiert wird
+- ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
 
+** Ohne Skript
 
-* Tower
-- Display hat Auflösung 3840x1600
-- BIOS: UEFI
-- AMD Ryzen 2700x 8 Kerne & 16 logische Prozessoren
-- B450 Gaming Pro Carbon AC (MS-7B85)
-- 16GB Ram
-- AMD Radeon RX 580 Series
+#+begin_example sh
+#ls /sys/firmware/efi/efivars                               # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
+#ls /usr/share/kbd/keymaps/**/*.map.gz                      # Läd alle vorhandenen Tastaturlayouts
+loadkeys de-latin1                                              # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
+ip link                                                     # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird und mit welchem Namen weitergemacht werden kann - oft wlan0 (Achtung dass rfkill die Karte nicht blockiert)
+iwctl                                                     # Einloggen Wlan (Ethernet eigentlich zu bevorzugen) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
+device list                                               # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
+station "" scan                                           # "" durch Wlan Karte ersetzen (meist wlan0) -> scant nach vorhandenen Wlans die durch Wlan Karte gefunden werden
+station "" get-networks                                   # Listet gefundene Wlan Netzwerke auf
+station "" connect "Name Wlan"                            # Verbindung zu Wlan herstellen
+exit                                                      # Verlassen von iwctl
+ping archlinux.org                                        # Internetcheck -> ISO hat systemd mit Internet etc. (später installiertes System hat es nicht) -> NetworkManager enablen mit systemctl
+
+Speicher konfigurieren (Beispiel wenn man auf sda installieren will - ansonsten halt an gwünschte Festplatte anpassen z.B. nvme...)
+# In VM reicht: fdisk /dev/sda + <n> + <p> + <Enter> + <Enter> + <Enter> <w>
+fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
+fdisk /dev/sda                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
+<g><n><1><Enter><+550M>                               # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
+<n><2><Enter><+2G>                                    # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
+<n><3><Enter><Enter>                                  # Linux Filesystem Partition mit restlichem Speicher erstellen
+<t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
+<t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
+<w>                                                   # write changes und fdisk verlassen
+mkfs.fat -F32 /dev/sda1    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
+mkswap /dev/sda2
+swapon /dev/sda2
+mkfs.ext4 /dev/sda3                                       # ACHTUNG: bei VM sda1
+mount /dev/sda3 /mnt                                      # ACHTUNG: bei VM sda1
+pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
+genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
+arch-chroot /mnt                                          # Mit root in /mnt gehen
+pacman -S neovim sudo git
+passwd
+useradd -m flowmis
+passwd flowmis
+usermod -aG wheel,audio,video,optical,storage flowmis                       # Erteilen der Rechte bzw. in welcher Gruppe der User ist
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
+cd /home/flowmis/ && git clone https://github.com/flowmis/FlowmisOS.git
+cd /home/flowmis/ && chown flowmis FlowmisOS/ && chgrp flowmis FlowmisOS/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
+cd /home/flowmis/FlowmisOS/tangle
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+hwclock --systohc                                                           # setzt Zeit
+mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+locale-gen                                                                  # generiert die locales
+echo FlowmisPC | cat > /etc/hostname                                             # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+## choose Grafiktreiber - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren################################################################################
+# pacman -S xf86-video-fbdev                            # Grafiktreiber VM
+# sudo pacman -S xf86-video-intel                       # Intel (Open Source)
+# sudo pacman -S xf86-video-nouveau                     # Nvidia (Open Source)
+# sudo pacman -S nvidia nvidia-utils                    # Nvidia (proprietäre - meist besser als open source)
+# sudo pacman -S xf86-video-ati                         # ATI-Grafiktreiber
+# sudo pacman -S xf86-video-amdgpu                      # AMD-Grafiktreiber
+# sudo pacman -S xf86-video-vesa                        # Generische VESA-Treiber
+### Tastaturlayout auf Deutsch #############################################################################################################################################
+# localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
+# setxkbmap -layout de                                  # Tastaturlayout auf Deutsch
+mkdir /boot/EFI                                                             # Erstellung des Bootdirectories
+mount /dev/sda1 boot/EFI                                                    # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
+grub-install                                                                # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
+grub-mkconfig -o /boot/grub/grub.cfg                                        # Ohne diese wird es zu Problemen beim booten kommen
+timedatectl set-ntp true && timedatectl status                              # Zeit und Datum über das network transfer protocol einholen
+EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
+systemctl enable NetworkManager
+systemctl enable sddm
+exit
+umount -l /mnt
+reboot & login
+reboot                                              # und genießen - eventuell neu in Wlan anmelden (NetworkManager statt iwctl)
+sudo NetworkManager                                          # keine Fehlermeldung = past alles
+sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
+sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+#+end_example
