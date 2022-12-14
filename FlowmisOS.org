@@ -642,12 +642,12 @@ EndSection
 - Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
 - Passphrase ist PIN
 ** Externe Geräte anschließen
-
+*** Speicher
 - Festplatten anzeigen - wenn ich alles wie hier beschrieben installiert habe sollte es ausreichen folgendes zu installieren und pacman übernimmt das mounten von selbst
   - ~pacman -Syu~
   - ~pacman -S ntfs-3g~
 
-Arch mehrere feste Festplatte:
+Arch mit mehreren fest verbauten Festplatten:
 1. ~fdisk -l~ zeigt mir den Namen der erkannten Festplatten
 2. ~fdisk /dev/sdb~ Achtung: Name anpassen falls nicht sdb ist
 3. Mit ~d~ alle Partitionen etc. löschen + mit ~g~ eine GPT Partitionstabelle erstellen + ~w~ zum schreiben
@@ -664,6 +664,26 @@ Arch mehrere feste Festplatte:
     # /dev/sdb
     /dev/sdb                                        /home/flowmis/speicher-haupt    auto    noauto,user,exec    0 0
     #+end_src
+*** Eingabegeräte Tastatur/Maus
+- Logitech G910-Tastatur:
+  - Installation: ~yay -S g810-led-git~ (alternativ siehe [[https://github.com/MatMoul/g810-led/blob/master/INSTALL.md][hier]])
+  - Einrichtung:
+    - ~sudo g810-led -p /etc/g810-led/profile~ # Load a profile
+    - ~sudo g810-led -a 00ff00~ # Set color of all keys
+    - ... weitere Beispiele sieher [[https://github.com/MatMoul/g810-led][hier]]
+*** Bluetooth
+- bluez etc. mit pacman installieren
+- check status: ~sudo systemctl status bluetooth.service~ (damit scan und connect klappt muss hier enabled kommen)
+- enable bluetooth.service: ~sudo systemctl enable bluetooth.service~
+- Einstellungen vornhemen:
+  - ~bluetoothctl~
+  - ~power on~ (bluetoth an und aus ~power off~)
+  - ~scan~ (zeigt pairable devices)
+  - ~pair "devicename"~ (baut Verbindung auf)
+  - ~connect "devicename"~ (verbindet zu einem Gerät)
+  - ~trust "devicename"~ (ermöglicht automatisch eine Verbindung herzustellen)
+  - ... - use Tab to see option or to fill with name of device etc.
+
 
 ** .xprofile
 
