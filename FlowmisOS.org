@@ -143,10 +143,67 @@ echo done
 - Datum und eventuell Timestamp der letzten Bearbeitung -> Format nach ISO 8601: YYYY-MM-DD
 - Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
 
-**** Speicherstruktur unabhängig vom Betriebssystem
-- folgende Ordner brauche ich: Cloud (Google Drive, Dropbox), Hauptordner (bilder, videos, pdfs, downloads, sortieren -> mit entsprechenden Unterordnern home/work und darin Freizeitprojekte und Arbeitsprojekte)
-- Auf meinen externen Festplatten mache ich regelmäßige Backups von diesen Ordnern
-- In meiner Cloud sind die nicht Speicherlastigen Dateien und das was oft synchroniesiert werden muss (2nd Brain aus Textdateien, Passwörter, ...)
+**** Sicherung/Backups
+
+- Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
+- Meine Backup der Daten erfolgt wie hier erklärt:
+
+***** Git
+- Commit:
+  1. Add the _right_ changes
+     - Nicht einfach alles was verändert wurde in einen commit packen - nur das stagen was inhaltlich gut in einen aussagekräftigen commit passt
+     - große commits lieber aufteilen und mehrmals nach unterschiedlichen Themen stagen
+     - auch innerhalb einer Datei kann man auswählen welche von mehreren Änderungen man stagen will: ~git add -p "Dateiname"~ + mit y und n wählen was gestaged werden soll -> git status sollte dann die Datei bei staged und unstaged aufführen
+  2. Compose _good_ commit messages
+     - Zeile 1: Subject - Kurzbeschreibung (sollte gewisse Länge nicht unterschreiten)
+     - Zeile 3 (durch leere Zeile 2 erkennt git das nun der Body kommt): Body - more detailed (was wurde geändert und warum, auf was muss weiter geachtet werden...)
+  3. check the subject and body of commits with ~git log~
+- Branching Strategies
+  1. Da git es einem nicht vorschreibt sollte im Team ein branching workflow schriftlich im Repo ausgemacht werden (avoid collisions and mistakes) - Abhängig von Größe des Teams/Projekts und wie Veröffentlichungen etc. gehandhabt werden -> erlaubt neuen Teilnehmern schnellen Einstieg
+  2. Sinnvoll ist beispielsweise eine funktionelle Aufteilung in feature (short-lived branch die in develop branch münden), develop (mündet nach gewisser Testphase in main branch) & main (long-running branch) branches!
+- Backup with git:
+  1. in Ordner 1 gehen von dem Backup gemacht werden soll und git repo initiieren ~git init~ (alternativ in leerem Ornder ~git init~ und dann alle Dateien in diesen Ordner kopieren)
+  2. ~git status~ um die vorhandenen Dateien und Ordner anzuzeigen
+  3. ~vim .gitignore~ und ergänzen um Name von Dateien/Ordner, die nicht gestaged, gecloned,... werden sollen -> nun nochmals ~git status~ und Dateien/Ordner sollten nun nicht mehr angezeigt werden
+  4. ~git add .~
+  5. ~git status~ (Dateien sollten nun grün, also gestaged sein)
+  6. ~git commit -m "erster commit"~
+  7. in den Ornder 2 gehen wo das Backup rein soll und dort ~git init~ + ~git remote add origin "Pfad zum Ordner 1"~
+  8. zurück in Ordner 1 gehen und ~git remote add origin "Pfad zum Ordner 2"~ die beiden Ordner koppeln
+  9. In Ordner 2 gehen und Dateien laden mit ~git pull origin master~
+  10. Nun ein Skript erstellen das aus Ordner 2 ~git pull~ ausführt und regelmäßig und vorallem vor dem update des backups mit git pull in Ordner 1 die Änderungen committen!
+  11. _Alternativ git bundle oder git mirror:_
+    ~git bundle~ - 1 Datei die man leicht kopieren kann oder per Mail verschicken
+      - See [[https://git-scm.com/book/en/v2/Git-Tools-Bundling][bundle]] - also [[https://stackoverflow.com/questions/2545765/how-can-i-email-someone-a-git-repository/2545784#2545784]["How can I email someone a git repository?"]] with the command: ~git bundle create /tmp/foo-all --all~
+      - using that bundle, you can clone it, specifying a non-existent folder (outside of any git repo): ~git clone /tmp/foo-all newFolder~
+      ~git clone --mirror other/repo.git~
+  12. _Unterschied mirror & bundle:_
+    ~git bundle --all~
+      - docs: man git-bundle, man git-rev-list
+      - Atomic = "Hot-Copy"
+      - Bundles are dump files and can be directly used with git (verify, clone, etc.).
+      - Supports incremental extraction.
+      - Verifiable via git bundle verify.
+      ~git clone --mirror~
+      - docs: man git-clone, man git-fsck, What's the difference between git clone --mirror and git clone --bare
+      - Atomic = "Hot-Copy"
+      - Mirrors are real git repositories.
+      - Primary intention of this command is to build a full active mirror, that periodically fetches updates from the original repository.
+      - Supports hardlinks for mirrors on same file system to avoid wasting space.
+      - Verifiable via git fsck.
+      - Mirrors can be used as a basis for a full file backup script.
+
+***** rsync
+Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
+- ~sudo pacman -S rsync~
+- ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")
+- wichtige commands:
+  - Backup erstellen: ~rsync -arv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (a = archive - sollte man machen um alles vollständig mit Attributen zu übertragen; v = verbose - zeigt an was gemacht wird)
+  - Backup auf Server/Remote: ~rsync -arv "/Pfad/Ordner mit Dateien" "flowmis@192.168.10.127:/home/flowmis/Backup-Ordner"~ (IP etc. halt anpassen - geht easy mit ssh)
+  - Sicheres Update des Backups nachdem Änderungen vorgenommen wurden (gelöschte Dateien werden beim Backup nicht gelöscht! - namentlich geänderte Dateien sind dann doppelt vorhanden?):  ~rsync -aurnv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (u = update - nur neue und inhaltlich geänderte Dateien werden übertragen; n = dry run - *ACHTUNG:* macht die Aktion nicht wirklich und zeigt nur an was es machen würde -> wenn ich damit zufrieden bin gleichen Befehl nun einfach ohne n und dann macht updated es das Backup)
+  - Schnelles Update Backup:  ~rsync -aurv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+  - Schnelles Update Backup + Löschen im Backup falls was gelöscht wurde:  ~rsync -aurv --delete "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+
 *** Terminal/Konsole/Shell/CLI
 | Terminal                                                                                    | Console                                                                                                                                          | Shell                                                                                                     | Command-line                                                                                                                                     |
 | <35>                                                                                        | <35>                                                                                                                                             | <35>                                                                                                      | <35>                                                                                                                                             |
@@ -684,7 +741,6 @@ Arch mit mehreren fest verbauten Festplatten:
   - ~trust "devicename"~ (ermöglicht automatisch eine Verbindung herzustellen)
   - ... - use Tab to see option or to fill with name of device etc.
 
-
 ** .xprofile
 
 + Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
@@ -843,5 +899,3 @@ sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-man
 #+end_src
 
 ** HDMI, USB, SD-Karten, etc.
-** Backup/Systemwiederherstellung
-
