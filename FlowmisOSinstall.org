@@ -1,4 +1,11 @@
 
+[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs init][init.el]]
+[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs packages][packages.el]]
+[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs config][config.el]]
+  - [[org:~/FlowmisOS/FlowmisOS.org::Keybindings][Keybindings]]
+  - [[org:~/FlowmisOS/FlowmisOS.org::Funktionen][Funktionen]]
+  - [[org:~/FlowmisOS/FlowmisOS.org::Erscheinungsbild][Erscheinungsbild]]
+
 * IRGENDWANN Installation
 
 - [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
