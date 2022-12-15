@@ -141,9 +141,34 @@ echo done
 *** Sicherung/Backups
 
 - Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
-- Meine Backup der Daten erfolgt wie hier erklärt:
+- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit git machen - siehe git):
 
-**** Git
+**** rsync
+Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
+- ~sudo pacman -S rsync~
+- ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")
+- wichtige commands:
+  - Backup erstellen: ~rsync -arv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (a = archive - sollte man machen um alles vollständig mit Attributen zu übertragen; v = verbose - zeigt an was gemacht wird)
+  - Backup auf Server/Remote: ~rsync -arv "/Pfad/Ordner mit Dateien" "flowmis@192.168.10.127:/home/flowmis/Backup-Ordner"~ (IP etc. halt anpassen - geht easy mit ssh)
+  - Sicheres Update des Backups nachdem Änderungen vorgenommen wurden (gelöschte Dateien werden beim Backup nicht gelöscht! - namentlich geänderte Dateien sind dann doppelt vorhanden?):  ~rsync -aurnv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (u = update - nur neue und inhaltlich geänderte Dateien werden übertragen; n = dry run - *ACHTUNG:* macht die Aktion nicht wirklich und zeigt nur an was es machen würde -> wenn ich damit zufrieden bin gleichen Befehl nun einfach ohne n und dann macht updated es das Backup)
+  - Schnelles Update Backup:  ~rsync -aurv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+  - Schnelles Update Backup + Löschen im Backup falls was gelöscht wurde:  ~rsync -aurv --delete "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+
+
+** Programme
+
+*** Terminal/Konsole/Shell/CLI
+| Terminal                                                                                    | Console                                                                                                                                          | Shell                                                                                                     | Command-line                                                                                                                                     |
+| <35>                                                                                        | <35>                                                                                                                                             | <35>                                                                                                      | <35>                                                                                                                                             |
+|---------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------|
+| gnome-terminal, command prompt,...                                                          | Xbox, Playstation, Wii, Switch,...                                                                                                               | bash, fish, zsh,sh,cmd,Power Shell,...                                                                    | DOS Shell,...                                                                                                                                    |
+| text input and output environment                                                           | physical terminal = console                                                                                                                      | command-line interpreter                                                                                  | command line = command prompt = type of interface                                                                                                |
+| wrapper program that runs a shell & allows to enter commands                                | -                                                                                                                                                | shell = program that actually processes commands and outputs results                                      | command-line interface = any type of interface that is used to enter (textual) commands. One of these is the terminal, but some programs have their own command-line interfaces |
+| a program that displays a graphical interface and allows you to interact with the shell     | consisted of a single keyboard and monitor plugged into a dedicated serial console port on a computer for low-level direct communication with the operating system | is a user interface for accessing the services of an operating system                                     | a computer program that processes commands in the form of lines of text - user typically interacts with the shell via a command-line interface (CLI) |
+| a device that allows users to interact with computers, typically via a keyboard and display | a physical terminal that is the primary terminal that is directly connected to a machine - it is recognized by the operating system as a (kernel-implemented) terminal | a primary interface that users see when they log in, and its primary function is to launch other programs | an interface that allows a user to type a command (which is expressed as a sequence of characters — typically a command name followed by some parameters) and then press the Return key to execute that command |
+
+*** Git
+**** Einleitung
 - Git kann für dein Eigengebrauch sowie für kollektive Bearbeitung von Dateien genutzt werden, da es Veränderungen über die Zeit zu dokumentieren vermag
     #+CAPTION: Git Overview
     #+ATTR_HTML: :width 800
@@ -179,7 +204,8 @@ echo done
     workflow like that of the Linux kernel. People ('lieutenants') are in charge of a specific subsystem of the project and they merge in all changes related to that subsystem. Another integrator (the 'dictator') can pull changes from only his/her lieutenants and then push to the 'blessed' repository that everyone then clones from again.
 - Pull Request:
   1.
-- Backup with git:
+**** SSH & Github
+**** Backup Data on cold storage (Festplatte) with git:
   1. in Ordner 1 gehen von dem Backup gemacht werden soll und git repo initiieren ~git init~ (alternativ in leerem Ornder ~git init~ und dann alle Dateien in diesen Ordner kopieren)
   2. ~git status~ um die vorhandenen Dateien und Ordner anzuzeigen
   3. ~vim .gitignore~ und ergänzen um Name von Dateien/Ordner, die nicht gestaged, gecloned,... werden sollen -> nun nochmals ~git status~ und Dateien/Ordner sollten nun nicht mehr angezeigt werden
@@ -210,30 +236,6 @@ echo done
       - Supports hardlinks for mirrors on same file system to avoid wasting space.
       - Verifiable via git fsck.
       - Mirrors can be used as a basis for a full file backup script.
-
-**** rsync
-Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
-- ~sudo pacman -S rsync~
-- ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")
-- wichtige commands:
-  - Backup erstellen: ~rsync -arv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (a = archive - sollte man machen um alles vollständig mit Attributen zu übertragen; v = verbose - zeigt an was gemacht wird)
-  - Backup auf Server/Remote: ~rsync -arv "/Pfad/Ordner mit Dateien" "flowmis@192.168.10.127:/home/flowmis/Backup-Ordner"~ (IP etc. halt anpassen - geht easy mit ssh)
-  - Sicheres Update des Backups nachdem Änderungen vorgenommen wurden (gelöschte Dateien werden beim Backup nicht gelöscht! - namentlich geänderte Dateien sind dann doppelt vorhanden?):  ~rsync -aurnv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (u = update - nur neue und inhaltlich geänderte Dateien werden übertragen; n = dry run - *ACHTUNG:* macht die Aktion nicht wirklich und zeigt nur an was es machen würde -> wenn ich damit zufrieden bin gleichen Befehl nun einfach ohne n und dann macht updated es das Backup)
-  - Schnelles Update Backup:  ~rsync -aurv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
-  - Schnelles Update Backup + Löschen im Backup falls was gelöscht wurde:  ~rsync -aurv --delete "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
-
-
-** Programme
-
-*** Terminal/Konsole/Shell/CLI
-| Terminal                                                                                    | Console                                                                                                                                          | Shell                                                                                                     | Command-line                                                                                                                                     |
-| <35>                                                                                        | <35>                                                                                                                                             | <35>                                                                                                      | <35>                                                                                                                                             |
-|---------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------|
-| gnome-terminal, command prompt,...                                                          | Xbox, Playstation, Wii, Switch,...                                                                                                               | bash, fish, zsh,sh,cmd,Power Shell,...                                                                    | DOS Shell,...                                                                                                                                    |
-| text input and output environment                                                           | physical terminal = console                                                                                                                      | command-line interpreter                                                                                  | command line = command prompt = type of interface                                                                                                |
-| wrapper program that runs a shell & allows to enter commands                                | -                                                                                                                                                | shell = program that actually processes commands and outputs results                                      | command-line interface = any type of interface that is used to enter (textual) commands. One of these is the terminal, but some programs have their own command-line interfaces |
-| a program that displays a graphical interface and allows you to interact with the shell     | consisted of a single keyboard and monitor plugged into a dedicated serial console port on a computer for low-level direct communication with the operating system | is a user interface for accessing the services of an operating system                                     | a computer program that processes commands in the form of lines of text - user typically interacts with the shell via a command-line interface (CLI) |
-| a device that allows users to interact with computers, typically via a keyboard and display | a physical terminal that is the primary terminal that is directly connected to a machine - it is recognized by the operating system as a (kernel-implemented) terminal | a primary interface that users see when they log in, and its primary function is to launch other programs | an interface that allows a user to type a command (which is expressed as a sequence of characters — typically a command name followed by some parameters) and then press the Return key to execute that command |
 
 *** Pacman
 
@@ -719,6 +721,7 @@ EndSection
   - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
 - Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
 - Passphrase ist PIN
+
 ** Externe Geräte anschließen
 *** Speicher
 - Festplatten anzeigen - wenn ich alles wie hier beschrieben installiert habe sollte es ausreichen folgendes zu installieren und pacman übernimmt das mounten von selbst
@@ -775,6 +778,8 @@ Arch mit mehreren fest verbauten Festplatten:
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
+# sudo g810-led -k logo 723535                      # setzt Farbeinstellungen für meine Logitech Tastatur
+# sudo g810-led -fx color keys 723535               # setzt Farbeinstellungen für meine Logitech Tastatur
 # loadkeys de-latin1 &
 # /usr/bin/emacs --daemon &
 # cp /usr/share/applications/dropbox.desktop ~/.config/autostart/

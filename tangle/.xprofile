@@ -5,6 +5,8 @@
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
+# sudo g810-led -k logo 723535                      # setzt Farbeinstellungen für meine Logitech Tastatur
+# sudo g810-led -fx color keys 723535               # setzt Farbeinstellungen für meine Logitech Tastatur
 # loadkeys de-latin1 &
 # /usr/bin/emacs --daemon &
 # cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
