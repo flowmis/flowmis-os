@@ -18,11 +18,6 @@ cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
 
-#+RESULTS:
-| ###########################Doom  | ready########################### |
-| ###########################Qtile | ready########################### |
-| done                             |                                  |
-
 #+HTML_HEAD: <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> <script> mermaid.initialize({startOnLoad:true}); </script> <style> .mermaid {  /* add custom styling */  } </style>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
@@ -102,8 +97,9 @@ echo done
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem FlowmisOS aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
-*** Ordnerstruktur
+** Data
 
+*** Ordnerstruktur
 - Tool um Ordner und Dateistruktur abzubilden: =tree=
     #+begin_src shell :dir /sudo:: :results none
     sudo pacman -S tree
@@ -131,8 +127,7 @@ echo done
     - /proc - eingebildetes Dateisystem = existiert nicht wirklich bzw. wird kurzzeitig im RAM erstellt/genutzt wenn Kernel bestimmte Dinge machen muss, oder bestimmte Prozesse verfolgt
     - /opt - optionale Software und Dateien = wird man wenig drin machen
 
-*** Wie benenne ich am besten Dateien und strukturiere meine persönliche Daten
-**** Namensgebung für Ordner/Dateien
+*** Namensgebung
 - Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
   - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/A-Z/a-z/' *~
 - Wörter nicht mit Leerzeichen trennen und nicht mit _ sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
@@ -143,12 +138,17 @@ echo done
 - Datum und eventuell Timestamp der letzten Bearbeitung -> Format nach ISO 8601: YYYY-MM-DD
 - Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
 
-**** Sicherung/Backups
+*** Sicherung/Backups
 
 - Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
 - Meine Backup der Daten erfolgt wie hier erklärt:
 
-***** Git
+**** Git
+- Git kann für dein Eigengebrauch sowie für kollektive Bearbeitung von Dateien genutzt werden, da es Veränderungen über die Zeit zu dokumentieren vermag
+    #+CAPTION: Git Overview
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-5.png]]
+- Git nutzt Kryptographie und die die Integrität der Daten sicherzustellen. Jede Datei und jeder Commit der in ein Repo eingeht und verändert wird, wird mit in einem Hashfunktion gegeben und führt zu einer checksum. Jeder geänderter Bit würde die Checksum verändern und dadurch wird sichergestellt, dass keine Bits verloren gehen. Jede Änderung einer Datei, eines Commits,... führt dazu dass sich die ID und die IDs aller darauf folgenden Sicherungspunkte ändern. Bei einer Commit ID kann man sicher sein dass das Projekt exakt dem Inhalt des zuvor gemachten Commits entspricht und am Commit selbst nichts verändert wurde und zudem, dass nichts in der Geschichte bis zu diesem Commit verändert wurde, da auch das die aktuelle Commit ID ändern würde.
 - Commit:
   1. Add the _right_ changes
      - Nicht einfach alles was verändert wurde in einen commit packen - nur das stagen was inhaltlich gut in einen aussagekräftigen commit passt
@@ -158,9 +158,27 @@ echo done
      - Zeile 1: Subject - Kurzbeschreibung (sollte gewisse Länge nicht unterschreiten)
      - Zeile 3 (durch leere Zeile 2 erkennt git das nun der Body kommt): Body - more detailed (was wurde geändert und warum, auf was muss weiter geachtet werden...)
   3. check the subject and body of commits with ~git log~
-- Branching Strategies
+- Branching Strategies:
+    #+CAPTION: Git Overview
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-1.png]]
   1. Da git es einem nicht vorschreibt sollte im Team ein branching workflow schriftlich im Repo ausgemacht werden (avoid collisions and mistakes) - Abhängig von Größe des Teams/Projekts und wie Veröffentlichungen etc. gehandhabt werden -> erlaubt neuen Teilnehmern schnellen Einstieg
   2. Sinnvoll ist beispielsweise eine funktionelle Aufteilung in feature (short-lived branch die in develop branch münden), develop (mündet nach gewisser Testphase in main branch) & main (long-running branch) branches!
+  3. Unterschiedliche Workflows:
+    #+CAPTION: Subversion-Style Workflow
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-2.png]]
+    A centralized workflow is very common, especially from people transitioning from a centralized system. Git will not allow you to push if someone has pushed since the last time you fetched, so a centralized model where all developers push to the same server works just fine.
+    #+CAPTION: Integration Manager Workflow
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-3.png]]
+    integration manager — person who commits to the 'blessed' repository. A number of developers then clone from that repository, push to their own independent repositories, and ask the integrator to pull in their changes. This is the type of development model often seen with open source or GitHub repositories.
+    #+CAPTION: Dictator and Lieutenants Workflow
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-4.png]]
+    workflow like that of the Linux kernel. People ('lieutenants') are in charge of a specific subsystem of the project and they merge in all changes related to that subsystem. Another integrator (the 'dictator') can pull changes from only his/her lieutenants and then push to the 'blessed' repository that everyone then clones from again.
+- Pull Request:
+  1.
 - Backup with git:
   1. in Ordner 1 gehen von dem Backup gemacht werden soll und git repo initiieren ~git init~ (alternativ in leerem Ornder ~git init~ und dann alle Dateien in diesen Ordner kopieren)
   2. ~git status~ um die vorhandenen Dateien und Ordner anzuzeigen
@@ -193,7 +211,7 @@ echo done
       - Verifiable via git fsck.
       - Mirrors can be used as a basis for a full file backup script.
 
-***** rsync
+**** rsync
 Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
 - ~sudo pacman -S rsync~
 - ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")
@@ -203,6 +221,9 @@ Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu h
   - Sicheres Update des Backups nachdem Änderungen vorgenommen wurden (gelöschte Dateien werden beim Backup nicht gelöscht! - namentlich geänderte Dateien sind dann doppelt vorhanden?):  ~rsync -aurnv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (u = update - nur neue und inhaltlich geänderte Dateien werden übertragen; n = dry run - *ACHTUNG:* macht die Aktion nicht wirklich und zeigt nur an was es machen würde -> wenn ich damit zufrieden bin gleichen Befehl nun einfach ohne n und dann macht updated es das Backup)
   - Schnelles Update Backup:  ~rsync -aurv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
   - Schnelles Update Backup + Löschen im Backup falls was gelöscht wurde:  ~rsync -aurv --delete "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+
+
+** Programme
 
 *** Terminal/Konsole/Shell/CLI
 | Terminal                                                                                    | Console                                                                                                                                          | Shell                                                                                                     | Command-line                                                                                                                                     |
@@ -898,4 +919,3 @@ wintypes:
 sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans htop neofetch dunst bind bmon jq gvfs
 #+end_src
 
-** HDMI, USB, SD-Karten, etc.
