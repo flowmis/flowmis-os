@@ -169,7 +169,7 @@ sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbin
 #+end_example
 
 
-* Hauptmodule/Programme installieren & konfigurieren
+* Module installieren & konfigurieren
 
 src-blocks mit sudo Befehlen auszuführen:
 
@@ -183,13 +183,6 @@ src-blocks mit sudo Befehlen auszuführen:
     sudo pacman -S qtile fish alacritty pcmanfm sddm emacs-nativecomp neovim fd ripgrep
     #+end_src
 
- LoginManager
- Text Editor
- Mail Client
- Window Manag
- CLI
- Browser
- Passwortmana
 ** Brave
 
 In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs zwischendrin sudo legitmation braucht und auf Fragen geantwortet werden was Probleme verursacht wenn man mit org-src block nicht interaktiv agieren kann
@@ -570,7 +563,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 - Module $ flags für Doom Emacs finde ich [[https://github.com/doomemacs/doomemacs/tree/develop/modules][hier]]
 - Beispiel für :lang mit org als Modul und seinen möglichen flags [[https://github.com/doomemacs/doomemacs/tree/develop/modules/lang/org#plugins][hier]]
 
-#+BEGIN_SRC emacs-lisp :tangle tangle/init.el
+#+BEGIN_SRC elisp :tangle tangle/init.el
 ;;; init.el -*- lexical-binding: t; -*-
 
 ;; This file controls what Doom modules are enabled and what order they load
@@ -799,7 +792,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
     (package! builtin-package :pin "1a2b3c4d5e")
 - Doom's packages are pinned to a specific commit and updated from release to release. The `unpin!' macro allows you to unpin single packages... (unpin! pinned-package) ...or multiple packages (unpin! pinned-package another-pinned-package) ...Or *all* packages (NOT RECOMMENDED; will likely break things) (unpin! t)
 
-#+BEGIN_SRC emacs-lisp :tangle tangle/packages.el
+#+BEGIN_SRC elisp :tangle tangle/packages.el
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (package! gitconfig-mode
@@ -909,7 +902,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
   - Mit dem alpha Wert kann man aktives Emacs Window durchsichtig machen, aber auch inaktive Emacs Windows
 **** Grundeinstellungen
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 ;;;INIT AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
@@ -930,13 +923,8 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         eshell-aliases-file "~/.config/doom/eshell/aliases"
         eshell-buffer-maximum-lines 5000
         eshell-scroll-to-bottom-on-input t
-        org-directory "~/Dropbox/emacs/org-roam/Notizen/"
-        org-agenda-files '("~/Dropbox/emacs/org-roam/Notizen/roam-orga/agenda.org"
-                           "~/FlowmisOS/FlowmisOS.org"
-                           "~/Dropbox/emacs/org-roam/Notizen/roam-orga/gcal.org"
-                           "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org"
-                           "~/Dropbox/emacs/org-roam/Notizen/2022-04-16-dlt.org"
-                           "~/Dropbox/emacs/org-roam/Notizen/2022-03-22-bücher.org")))
+        org-directory "~/Dropbox/2nd-brain/org-roam/notes/"
+        ))
 ;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
@@ -950,7 +938,6 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         org-journal-file-format "%Y-%m-%d.org"
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
-        org-todo-keywords '((sequence "EILIG(e)" "ZEITNAH(z)" "IRGENDWANN(i)" "PAUSIERT(p@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)" "DELEGIERT(d@/!)"))                                                                               ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-capture-templates '(("1" "Eilig" entry (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
                                 ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Einkaufsliste"))
                                 ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Wunschliste"))
@@ -964,17 +951,63 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** Test
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nano-modeline-mode)
 (global-hide-mode-line-mode)
 #+end_src
 
+**** Agenda
+
+[[id:cb653e79-fefb-47cc-9f1d-d43430ffb7c8][Agenda]]
+
+#+begin_src elisp :tangle tangle/config.el
+;;;Agenda;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! org
+  :config
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
+        org-agenda-files '("~/FlowmisOS/FlowmisOS.org"
+                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/gcal.org"
+                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/home.org"
+                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/work.org"
+                           )
+        org-agenda-custom-commands
+        '(("d" "Daily agenda and all TODOs"
+           ((tags "PRIORITY=\"A\""
+                  ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                   (org-agenda-overriding-header "Es eilt:")))
+            (agenda "" ((org-agenda-start-day "-1d")
+                        (org-agenda-span 4)
+                        (org-agenda-overriding-header "Agenda:")
+                        ))
+            (alltodo ""
+                     ((org-agenda-skip-function '(or (mane-skip-subtree-if-habit)
+                                                     (mane-skip-subtree-if-priority ?A)
+                                                     (org-agenda-skip-if nil '(scheduled deadline))))
+                      (org-agenda-overriding-header "Irgendwann erledigen:"))))
+           ;((org-agenda-compact-blocks t))     ;Falls ich keine Trennlinie angezeigt bekommen will
+           )))
+  (defun mane-skip-subtree-if-priority (priority)
+    "Skip agenda subtree."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t)))
+          (pri-value (* 1000 (- org-lowest-priority priority)))
+          (pri-current (org-get-priority (thing-at-point 'line t))))
+      (if (= pri-value pri-current)
+          subtree-end
+        nil)))
+  (defun mane-skip-subtree-if-habit ()
+    "Skip an agenda entry if it has a STYLE property equal to \"habit\"."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (if (string= (org-entry-get nil "STYLE") "habit")
+          subtree-end
+        nil))))
+#+end_src
+
 **** Dired
 
-[[~/Dropbox/emacs/org-roam/Notizen/2022-08-05-emacs-dired-dateimanager.org][Tipps]]
+[[id:790532d5-262d-44d0-9ac8-a12660425675][Dired]]
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! dired
   :hook
@@ -1017,7 +1050,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** 2nd Brain
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;;ROAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
@@ -1040,7 +1073,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** Snippets
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'yasnippet)
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
@@ -1050,7 +1083,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** Mail
 [[id:48e45b80-c58f-4ed4-9271-fc229b5ef568][Tipps]]
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;;Mail;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'mu4e)
 (require 'smtpmail)
@@ -1090,7 +1123,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** Kalender
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
       org-gcal-client-secret "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"
@@ -1108,7 +1141,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** Keybindings
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
@@ -1177,7 +1210,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** Funktionen
 
-#+begin_src emacs-lisp :tangle tangle/config.el
+#+begin_src elisp :tangle tangle/config.el
 (defun activate-ditaa-path ()
  (interactive)
  (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar"))
@@ -1253,7 +1286,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 - Entweder ich mach mir eine seperate theme.el Datei und lade diese dann von meiner config.el, oder ich mache meine Anpassungen direkt in der config.el
 
-#+begin_src emacs-lisp :tangle tangle/themes/doom-mane-theme.el
+#+begin_src elisp :tangle tangle/themes/doom-mane-theme.el
 ;;; doom-mane-theme.el --- mane light soft -*- lexical-binding: t; no-byte-compile: t; -*-
 (require 'doom-themes)
 
@@ -1772,7 +1805,7 @@ background contrast. All other values default to \"medium\"."
 
 - Momentan komm ich mit den vorkonfigurierten gut zurecht - musste ich in init.el aktivieren!
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 (use-package multiple-cursors        ;Habe das Paket von hlissner in init.el aktiviert weil ich es besser finde!
   :config
   (setq mc/always-run-for-all 1)
@@ -1787,7 +1820,7 @@ background contrast. All other values default to \"medium\"."
 
 ***** Dashboard
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 ;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :dashboard
@@ -1800,7 +1833,7 @@ background contrast. All other values default to \"medium\"."
 
 ***** Funktion open dired
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 ;; (defun xah-open-in-external-app (&optional @fname)
 ;; "Open the current file or dired marked files in external app.
 ;; The app is chosen from your OS's preference.
@@ -1841,7 +1874,7 @@ background contrast. All other values default to \"medium\"."
 
 ***** Spellcheck
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 (setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
 (global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
 
@@ -1855,7 +1888,7 @@ background contrast. All other values default to \"medium\"."
 - Wenn ich es nutzen will muss ich es in init.el aktivieren und schauen ob dieser config Abschnitt so noch passt
 - Finde für github Projekte treemacs (aktiviere in init.el) noch besser da es mit evil keys geht und ähnlich zu org-mode ist - <Spc-o p> um treemacs aus Projekt zu öffnen
 
-#+begin_src emacs-lisp :tangle
+#+begin_src elisp
 (after! neotree
   (setq neo-smart-open t
         neo-window-fixed-size nil))
@@ -1870,7 +1903,7 @@ background contrast. All other values default to \"medium\"."
 
 - Falls ich unzufrieden bin wie Emacs das einrücken mit Tabs macht kann ich folgendes Paket mit entsprechender config versuchen
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 (setq centaur-tabs-set-bar 'over
       centaur-tabs-set-icons t
       centaur-tabs-gray-out-icons 'buffer
@@ -1889,7 +1922,7 @@ background contrast. All other values default to \"medium\"."
 
 ***** Ivy
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 (setq ivy-posframe-display-functions-alist
       '((swiper                     . ivy-posframe-display-at-point)
         (complete-symbol            . ivy-posframe-display-at-point)
@@ -1914,7 +1947,7 @@ background contrast. All other values default to \"medium\"."
 
 ***** Zitieren mit org-ref
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 (setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
 	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
 	bibtex-completion-notes-path "~/Dropbox/emacs/bib/notes/"
@@ -1952,7 +1985,7 @@ background contrast. All other values default to \"medium\"."
 
 Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doom Emacs erleichtert einem schon einiges und hat das wichtigste und vll daher sinnvoll dort einfach noch meine gewünschten Veränderungen durchzuführen und nicht hier weiter zu machen.
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 
 ;;init.el ist das was beim Start von Emacs geladen wird und das hässliche Emacs in ein schönes mit Themes ändert und Funktionalität hinzufügt
 
@@ -2010,55 +2043,6 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
   :custom ((doom-modeline-height 15)))
 #+end_src
 
-** Git
-
-git clone mit ssh link (Achtung nicht mit https:// link!) und ssh keys in github hinzufügen und in home/flowmis/.ssh erstellen mit dem Befehl: ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~ -> Passphrase etc. einfach weglassen und dann mit ~cat~ den pub Key auslesen und komplett kopieren um ihn in Github hinzuzufügen
-
-#+begin_src shell :tangle tangle/.gitconfig
-[user]
-name = flowmis
-email = hedwig.lanter@gmx.de
-[credential]
-helper = store
-#+end_src
-
-1. Neuer Token(ist als Passw. für remote zugriff auf Repo nötig): UserIcon oben rechts auf Hompage -> Settings -> Developer --> Neuer Token (Ablaufdatum eingeben und repo ankreuzen - sollte als Rechtevergabe ausreichen)
-2. Git installieren: sudo pacman -S git
-3. Git Credentials einrichten:
-        git config --global user.name flowmis                   -> Global user config
-        git config --global user.email hedwig.lanter@gmx.de     -> Global user config
-        git config -l                                           -> Status überprüfen
-        git config --global credential.helper store             -> keine ständige Neuanmeldung (Geht auch über SSH-Verbindung)
-4. Git Initialisierung:
-        In Verzeichnis für Repo navigieren
-        git init .                                              -> Neues git initiieren (nur falls nötig)
-        oder: git clone "Link zur Repo"                         -> Files werden heruntergeladen
-        oder: git pull und git merge je nachdem was der Stand ist
-
-| Befehl                  | Beschriebung                                                                                                      |   |
-|-------------------------+-------------------------------------------------------------------------------------------------------------------+---|
-| git diff                | zeigt Unterschiede an                                                                                             |   |
-| git branch              | zeigt die Branches                                                                                                |   |
-| git branch -M main      | benennt Hauptbranch um von master zu main - wegen neuen Sprachregeln wo es kein Master und Slave geben soll       |   |
-| git branch r/a          | r zeigt remote branches und a zeigt alle branches                                                                 |   |
-| git branch feature-a    | macht neuen branch mit Name feature a -> hier kann man ohne Hauptbranch zu gefährden beliebig herumspielen        |   |
-| git checkout feature-a  | wechselt auf feature-a branch                                                                                     |   |
-| git checkout -          | wechselt auf main branch bzw. auf einen anderen                                                                   |   |
-| git log                 | zeigt die commits an                                                                                              |   |
-| git add ./*/Dateiname   | Staging von veränderten Dateien                                                                                   |   |
-| git commit -m "Text"    | richtet Checkpoints ein und hier sollte genau beschrieben werden was geändert wurde da man vll wieder zurück will |   |
-| git push -u origin main | Pusht die locale Repo hoch (falls sie master statt main hat muss dass noch ändern)                                |   |
-| git push                | Pusht veränderungen hoch                                                                                          |   |
-| git status              | zeigt momentanen Status des Branches an und sagt was zu machen ist                                                |   |
-| git pull                | holt alles runter falls sich etwas verändert hat und man es local noch nicht hat                                  |   |
-| git branch -d Name      | Köscht Brach der Name heissttxt                                                                                   |   |
-
-SSH Key generieren und in Github hinzufügen (Neuen Key auf Linux generieren):
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-in Github hinzufügen:
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
-
-Anmerkung: Wenn ich bei Projekt mitarbeite werd ich nie auf Main Branch direkt pushen sondern immer einen Fork/neuen Branch anlegen alles da hin pushen und dann wenn man fertig mit dem Feature oder what ever kann man einen Pull request stellen. Niemand will ohne Kontrolle von anderer Person etwas in Hauptbranch mergen, committen etc. ohne sicher zu sein dass nichts passiert.
 ** Terminal/Shell/CLI
 
 Qtile startet Alacritty da es der effizienteste Terminal Emulator ist. In der Alacritty Config habe ich alle bash aliases die in der .bashrc stehen. Allerdings habe ich in die alacritty config geschrieben dass sofort fish gestartet wird und ich dadurch die coolen autofilldinge von fish habe. Bei fish muss ich dann aber in der config zu fish die aliase extra setzen, also wenn es zu Problemen kommt ist es nicht ganz einfach durchzusteigen, aber an sich ist das Setup geil da es das beste von allem hat. Themes muss ich in der Alacritty config ändern wenn ich will.

@@ -42,7 +42,7 @@ echo done
 [[org:~/FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
 -------------------------------------------------------------------------------------------------------------------
 
-* ZEITNAH FlowmisOS
+* TODO [#B] FlowmisOS [0%]
 :LOGBOOK:
 :END:
 
@@ -366,6 +366,7 @@ https://wiki.archlinux.de/title/Pacman
 | pacman -U emacs.tar.gz | installiert lokale Datei emacs.tar.gz                                         |
 
 **** Weitere Programme
+
 - ScreenRecorder: deepin-screen-recorder
 - Screenshots: flameshot (ähnlich zu snipping tool) -> Alternative: spectacle od. maim (Nachfolger von scrot)
 - Task-Manger: htop -> Alternative: interactive process viewer
