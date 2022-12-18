@@ -1,12 +1,34 @@
-
+:Einstellungen:
+#+TITLE: Install FlowmisOS
+#+STARTUP: folded hideblocks shrink
+#+begin_src shell
+mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
+cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+cp -u ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
+cp -u ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
+cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
+cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
+cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+cp -u ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
+echo done
+#+end_src
+:END:
+-------------------------------------------------------------------------------------------------------------------
+[[~/FlowmisOS/FlowmisOS.org][FlowmisOS]]
 [[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs init][init.el]]
 [[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs packages][packages.el]]
 [[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs config][config.el]]
   - [[org:~/FlowmisOS/FlowmisOS.org::Keybindings][Keybindings]]
   - [[org:~/FlowmisOS/FlowmisOS.org::Funktionen][Funktionen]]
   - [[org:~/FlowmisOS/FlowmisOS.org::Erscheinungsbild][Erscheinungsbild]]
+-------------------------------------------------------------------------------------------------------------------
 
-* IRGENDWANN Installation
+* Installation
 
 - [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
 
@@ -35,17 +57,7 @@ LC_CTYPE=de_DE.UTF-8
 - Wenn ich feststecke kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss eventuell mit Fn zusammen gedrückt werden!
 - Etwas vergessen: kann nach der Installation erneut auf Bootstick booten und von diesem die Linux-Filesystem partition mounten und mit arch-chroot auf diese gehen und Dinge installieren (im root Modus und mit hoffentlich funktionierendem Internet)
 
-** Komponenten
-
-- Bootmanager (grub)
-- xorg server, systemd (erster Prozess der ausgeführt wird und das starten/beenden etc. anderer Prozesse ermöglicht)
-- window/desktop manager (qtile, openbox, xmonad)
-- login manager (lightdm)
-- Browser (Brave)
-- Terminal/Terminal Emulator (Alacritty, Fish, zshell)
-- Texteditor (Emacs)
-
-** Installationsschritte
+** Installation
 
 1. Arch iso downloaden
    - Check ob Datei original und unverändert ist:
@@ -57,7 +69,7 @@ LC_CTYPE=de_DE.UTF-8
 3. BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen
 4. Internet über Lankabel oder iwctl aktivieren und checken ob es geht (~ping google.de~)
 
-** Mit Skript
+*** Mit Skript
 
 1. ~python -m archinstall~
    Einstellungen:
@@ -91,7 +103,7 @@ cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d &&
 - base-devel: ermöglicht <makepkg -si> um aus Brave Binaries ein Paket zu machen das im Anschluss installiert wird
 - ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
 
-** Ohne Skript
+*** Ohne Skript
 
 #+begin_example sh
 #ls /sys/firmware/efi/efivars                               # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?

@@ -1,5 +1,5 @@
 :Einstellungen:
-#+TITLE: Install FlowmisOS
+#+TITLE: FlowmisOS
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
 mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
@@ -36,6 +36,8 @@ echo done
 # - [[https://github.com/fniessen/org-html-themes][Style]]
 # - bigblow statt readtheorg ist zweite einfach vorhanden Möglichkeit das Aussehen zu ändern
 :END:
+-------------------------------------------------------------------------------------------------------------------
+[[~/FlowmisOS/FlowmisOSinstall.org][Installation]]
 [[org:~/FlowmisOS/FlowmisOS.org::Qtile config][config.py]]
 [[org:~/FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
 [[org:~/FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
@@ -46,37 +48,15 @@ echo done
 :LOGBOOK:
 :END:
 
-- [ ] Emacs Roam Dateien mit Erklärungen von [[~/Dropbox/emacs/org-roam/Notizen/2022-04-16-emacs-emacs-tipps-tricks.org][hier]] zu den Modulen verlinken!
-- [ ] Dateien nach meiner Namens konvention umbenennen (siehe Unterpunkt hier unter Linux & Arch)
-- [ ] DualBoot installieren und checken ob Update Zeug dann problemlos funktioniert oder ob VM nicht doch bessere Wahl ist
-  - [ ] https://www.youtube.com/watch?v=0SI5btORaeM
-  - [ ] https://www.youtube.com/watch?v=L1B1O0R1IHA
-  - [ ] https://www.youtube.com/watch?v=LGhifbn6088
-- [ ] Kann ich diese Repo privat stellen und trotzdem leicht clonen/verwenden um das Installationsskript etc. auszuführen oder ist entsprechend vorbereitete/angepasste Iso nötig
-- [ ] Alacritty sweeter machen, so dass ähnlicher zu fish shell oder aber eshell besser machen und versuchen mehr mit emacs zu arbeiten und weniger im terminal
-- [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
-- [ ] git ssh verstehen und in skript mit rein
-  - [ ] https://www.youtube.com/watch?v=3aKda-oXWc8
-- [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
-- [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
-- [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
-- [ ] HDMI und zeite Bildschirme ebenso wie USB besser erkennen und formatieren können bzw Einstellungen machen können
-- [ ] Grafikkartenprobleme lösen (https://wiki.freedesktop.org/nouveau/Optimus/,... )
-- [ ] Qtile Widgets überarbeiten
-  - [ ] Widgets überarbeiten
-  - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
-  - [ ] Neue Floating Windows die aufpoppen in den Vordergrund bringen
-- [ ] EMACS
-  - [ ] Eigenes Theme überarbeiten -> Markierungszeug mit =+~*... schöner machen (verbatim heisst es?)
-- [ ] .bashrc bashprofile und bashhistory zu configs
-- [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem erstellen - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
-- [ ] Jupyter, WolframAplpha und Coding richtig einrichten in OrgMode -> und Brave in Buffer öffnen statt seperat
-  - Jupyter mit Emacs ersetzen: https://www.youtube.com/watch?v=dh5dtKDWgyM -> Problem?: Interactive inputs gehen im org mode nicht so wie easy wie bei jupyter
-  - https://github.com/ravarspath/emacs-conf
-  - https://github.com/ravarspath/ob-wolfram
-    so sollte ich es dann benutzen können:
-  - https://www.youtube.com/watch?v=RD0o2pkJBaI
-  - Jupyter hieß mal IPython und das konnte man auf jedenfall installieren und in Emacs nutzen - In Jupyter kann man Extensions importieren wie z.B. qgrid (ermöglich interaktiv mit Tabellen in Zelle zu agieren bissl wie in Excel) und SQL
+  - [ ] Kann ich diese Repo privat stellen und trotzdem leicht clonen/verwenden um das Installationsskript etc. auszuführen oder ist entsprechend vorbereitete/angepasste Iso nötig
+  - [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
+  - [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
+  - [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
+  - [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
+  - [ ] Qtile Widgets überarbeiten
+    - [ ] Widgets überarbeiten
+    - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
+  - [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem erstellen - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
 
 * Linux & Arch
 
