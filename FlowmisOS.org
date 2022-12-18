@@ -2,21 +2,14 @@
 #+TITLE: FlowmisOS
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
-mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
-cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
-cp -u ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
-cp -u ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
-cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-cp -u ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+# cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+# cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
 cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
+
+#+RESULTS:
+: done
 
 #+HTML_HEAD: <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> <script> mermaid.initialize({startOnLoad:true}); </script> <style> .mermaid {  /* add custom styling */  } </style>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
@@ -38,7 +31,6 @@ echo done
 :END:
 -------------------------------------------------------------------------------------------------------------------
 [[~/FlowmisOS/FlowmisOSinstall.org][Installation]]
-[[org:~/FlowmisOS/FlowmisOS.org::Qtile config][config.py]]
 [[org:~/FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
 [[org:~/FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
 [[org:~/FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]

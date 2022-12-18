@@ -2,30 +2,35 @@
 #+TITLE: Install FlowmisOS
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
-mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
+# mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
 cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
 cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
-cp -u ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
-cp -u ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
-cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-cp -u ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
-cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
+# cp -u ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
+# cp -u ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
+# cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
+# cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+# cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
+# cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+# cp -u ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+# cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+# cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+# cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
+
+#+RESULTS:
+| ###########################Qtile | ready########################### |
+| done                             |                                  |
+
 :END:
 -------------------------------------------------------------------------------------------------------------------
 [[~/FlowmisOS/FlowmisOS.org][FlowmisOS]]
-[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs init][init.el]]
-[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs packages][packages.el]]
-[[org:~/FlowmisOS/FlowmisOS.org::DoomEmacs config][config.el]]
-  - [[org:~/FlowmisOS/FlowmisOS.org::Keybindings][Keybindings]]
-  - [[org:~/FlowmisOS/FlowmisOS.org::Funktionen][Funktionen]]
-  - [[org:~/FlowmisOS/FlowmisOS.org::Erscheinungsbild][Erscheinungsbild]]
+[[org:~/FlowmisOS/FlowmisOSinstall.org::DoomEmacs init][init.el]]
+[[org:~/FlowmisOS/FlowmisOSinstall.org::DoomEmacs packages][packages.el]]
+[[org:~/FlowmisOS/FlowmisOSinstall.org::DoomEmacs config][config.el]]
+  - [[org:~/FlowmisOS/FlowmisOSinstall.org::Keybindings][Keybindings]]
+  - [[org:~/FlowmisOS/FlowmisOSinstall.org::Funktionen][Funktionen]]
+  - [[org:~/FlowmisOS/FlowmisOSinstall.org::Erscheinungsbild][Erscheinungsbild]]
 -------------------------------------------------------------------------------------------------------------------
 
 * Installation
@@ -291,7 +296,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          # Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
          # Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
-         Key([mod], "e", lazy.spawn('emacs ~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org'), desc='EMACS'),
+         Key([mod], "e", lazy.spawn('emacs ~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org'), desc='EMACS'),
          Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
          # Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
@@ -609,15 +614,15 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        :ui
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       doom-dashboard    ; a nifty splash screen for Emacs
+       ;; doom-dashboard    ; a nifty splash screen for Emacs
        ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
        (ligatures +extras)         ; ligatures and symbols to make your code pretty again
-       minimap           ; show a map of the code on the side
-       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;; minimap           ; show a map of the code on the side
+       ;; modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
        ;; neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
@@ -764,7 +769,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
        :email
        (mu4e +org +gmail)
-       smtpmail
+       ;;smtpmail
        ;;notmuch        ;mu4e aber einfacher?(hier kann ich Mails nicht löschen? - muss ich es vom Server/Anbieter löschen können, oder reichen tags und Archiv?)
 
        ;;(wanderlust +gmail)
@@ -813,7 +818,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;; (package! gitignore-mode
 ;;      :recipe (       :host github :repo "magit/git-modes"
 ;;                      :files ("gitignore-mode.el"             )))
-(package! dashboard)
+;; (package! dashboard)
 (package! dired-open)
 (package! org-tree-slide)
 (package! ox-reveal)
@@ -921,7 +926,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
   :init
   (setq user-full-name "Markus Hoffmann"
         undo-tree-auto-save-history t
-        undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history"))
+        undo-tree-history-directory-alist '(("." . "~/Dropbox/2nd-brain/undo-tree-history/"))
         save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
         org-log-into-drawer 1                                                                                   ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
         doom-scratch-initial-major-mode 'lisp-interaction-mode                                                  ;scratch buffer automatisch im elisp mode um Dinge zu testen
@@ -935,7 +940,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         eshell-aliases-file "~/.config/doom/eshell/aliases"
         eshell-buffer-maximum-lines 5000
         eshell-scroll-to-bottom-on-input t
-        org-directory "~/Dropbox/2nd-brain/org-roam/notes/"
+        org-directory "~/Dropbox/2nd-brain/org-roam-notes/"
         ))
 ;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
@@ -944,18 +949,18 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-log-done 'time
         delete-by-moving-to-trash t     ;oder 'move-file-to-trash t'??
-        trash-directory "~/.Papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
-        org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/roam-orga/journal/"
+        trash-directory "~/.papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
+        ;; org-journal-dir "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
-        org-capture-templates '(("1" "Eilig" entry (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
-                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Einkaufsliste"))
-                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Wunschliste"))
-                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/work.org" "Abrechnungen Jo"))
-                                ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/roam-orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
+        org-capture-templates '(("1" "TODO" entry (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
+                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Einkaufsliste"))
+                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Wunschliste"))
+                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org" "Abrechnungen Jo"))
+                                ("a" "Appointment" entry (file  "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
 ;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
@@ -979,9 +984,9 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-agenda-files '("~/FlowmisOS/FlowmisOS.org"
-                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/gcal.org"
-                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/home.org"
-                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/work.org"
+                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org"
+                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"
+                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"
                            )
         org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
@@ -1066,19 +1071,19 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;;;ROAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
-  (setq org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
+  (setq org-roam-directory "~/Dropbox/2nd-brain/org-roam-notes"
         org-roam-db-autosync-mode t   ;Falls Probleme manuell <M-x org-roam-db-sync> um neu angelegte files in roam zu finden
         org-roam-ui-sync-theme t      ;Falls Probleme manuell <M-x org-roam-ui-sync-theme> und dann neustart des ui-mode um Brain im Browser zu navigieren (nun im gleichen Theme wie Emacs)
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t
-        org-roam-capture-templates '(("b" "book notes" plain (file "~/Dropbox/emacs/org-roam/templates/BookTemplate.org")
+        org-roam-capture-templates '(("b" "book notes" plain (file "~/Dropbox/2nd-brain/templates/BookTemplate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)
-                                     ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/emacs/org-roam/templates/normal.org")
+                                     ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/2nd-brain/templates/normal.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)
-                                     ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
+                                     ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/2nd-brain/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
 #+end_src
@@ -1089,13 +1094,15 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'yasnippet)
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(setq yas-snippet-dirs '("/home/flowmis/Dropbox/emacs/yasnippets/"))
+(setq yas-snippet-dirs '("~/Dropbox/2nd-brain/yasnippets/"))
 (yas-global-mode 1)
 #+end_src
 
 **** Mail
+
 [[id:48e45b80-c58f-4ed4-9271-fc229b5ef568][Tipps]]
-#+begin_src elisp :tangle tangle/config.el
+
+#+begin_src elisp (:tangle tangle/config.el)
 ;;;Mail;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'mu4e)
 (require 'smtpmail)
@@ -1135,18 +1142,18 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 **** Kalender
 
-#+begin_src elisp :tangle tangle/config.el
+#+begin_src elisp (:tangle tangle/config.el)
 ;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
       org-gcal-client-secret "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"
-      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/roam-orga/gcal.org")))
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org")))
 (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
 (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
 (require 'calfw)
 (require 'calfw-org)
 (setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
       org-gcal-client-secret "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"
-      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" . "~/Dropbox/emacs/org-roam/Notizen/roam-orga/gcal.org")))
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" . "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org")))
 (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
 (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
 #+end_src
@@ -1169,14 +1176,13 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        :desc "Counsel eshell history" "e h" #'counsel-esh-history
        :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("-" . "open file")
-       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/roam-orga/agenda.org"))
        :desc "Edit FlowmisOs.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
        :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
        :desc "Edit qtile config" "q" #'(lambda () (interactive) (find-file "~/.config/qtile/config.py"))
-       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org"))
-       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/roam-orga/work.org"))
-       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/2022-03-22-bücher.org"))
+       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"))
+       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"))
+       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/bücher.org"))
        :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
        :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
        :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
@@ -1784,13 +1790,13 @@ background contrast. All other values default to \"medium\"."
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
         org-superstar-item-bullet-alist '((?* . ?>) (?+ . ?>) (?- . ?>))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
         org-hide-emphasis-markers t                                                                             ;+=/*~ etc. werden nicht angezeigt
-        org-todo-keyword-faces (quote (("EILIG" :foreground "#9d0006" :weight normal :underline t)
-                                       ("ZEITNAH" :foreground "#d65d0e" :weight normal :underline t)
-                                       ("IRGENDWANN" :foreground "#c27da7" :weight normal :underline t)
-                                       ("PAUSIERT" :foreground "#613e53" :weight normal :underline t)
-                                       ("BEENDET" :foreground "#000000" :weight normal :underline t)
-                                       ("ABGEBROCHEN" :foreground "#000000" :weight normal :underline t)
-                                       ("DELEGIERT" :foreground "#613e53" :weight normal :underline t)))
+        ;; org-todo-keyword-faces (quote (("EILIG" :foreground "#9d0006" :weight normal :underline t)
+        ;;                                ("ZEITNAH" :foreground "#d65d0e" :weight normal :underline t)
+        ;;                                ("IRGENDWANN" :foreground "#c27da7" :weight normal :underline t)
+        ;;                                ("PAUSIERT" :foreground "#613e53" :weight normal :underline t)
+        ;;                                ("BEENDET" :foreground "#000000" :weight normal :underline t)
+        ;;                                ("ABGEBROCHEN" :foreground "#000000" :weight normal :underline t)
+        ;;                                ("DELEGIERT" :foreground "#613e53" :weight normal :underline t)))
 
         ;; org-fancy-priorities-list '((?A . "⏰")                                                              ;wird mit +pretty flag in init.el installiert, aber macht es finde ich hässlich
         ;;                             (?B . "🐶")
@@ -1960,9 +1966,9 @@ background contrast. All other values default to \"medium\"."
 ***** Zitieren mit org-ref
 
 #+begin_src elisp
-(setq bibtex-completion-bibliography '("~/Dropbox/emacs/bib/references.bib")
-	bibtex-completion-library-path '("~/Dropbox/emacs/bib/bibtex-pdfs/")
-	bibtex-completion-notes-path "~/Dropbox/emacs/bib/notes/"
+(setq bibtex-completion-bibliography '("~/Dropbox/2nd-brain/bib/references.bib")
+	bibtex-completion-library-path '("~/Dropbox/2nd-brain/bib/bibtex-pdfs/")
+	bibtex-completion-notes-path "~/Dropbox/2nd-brain/bib/notes/"
 	bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
 	bibtex-completion-additional-search-fields '(keywords)
 	bibtex-completion-display-formats

@@ -31,15 +31,15 @@
        :ui
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       doom-dashboard    ; a nifty splash screen for Emacs
+       ;; doom-dashboard    ; a nifty splash screen for Emacs
        ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
        (ligatures +extras)         ; ligatures and symbols to make your code pretty again
-       minimap           ; show a map of the code on the side
-       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;; minimap           ; show a map of the code on the side
+       ;; modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
        ;; neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
@@ -186,7 +186,7 @@
 
        :email
        (mu4e +org +gmail)
-       smtpmail
+       ;;smtpmail
        ;;notmuch        ;mu4e aber einfacher?(hier kann ich Mails nicht löschen? - muss ich es vom Server/Anbieter löschen können, oder reichen tags und Archiv?)
 
        ;;(wanderlust +gmail)

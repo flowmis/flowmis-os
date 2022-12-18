@@ -6,7 +6,7 @@
 ;; (package! gitignore-mode
 ;;      :recipe (       :host github :repo "magit/git-modes"
 ;;                      :files ("gitignore-mode.el"             )))
-(package! dashboard)
+;; (package! dashboard)
 (package! dired-open)
 (package! org-tree-slide)
 (package! ox-reveal)

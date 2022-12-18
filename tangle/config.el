@@ -4,7 +4,7 @@
   :init
   (setq user-full-name "Markus Hoffmann"
         undo-tree-auto-save-history t
-        undo-tree-history-directory-alist '(("." . "~/Dropbox/emacs/undo-tree-history"))
+        undo-tree-history-directory-alist '(("." . "~/Dropbox/2nd-brain/undo-tree-history/"))
         save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
         org-log-into-drawer 1                                                                                   ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
         doom-scratch-initial-major-mode 'lisp-interaction-mode                                                  ;scratch buffer automatisch im elisp mode um Dinge zu testen
@@ -18,7 +18,7 @@
         eshell-aliases-file "~/.config/doom/eshell/aliases"
         eshell-buffer-maximum-lines 5000
         eshell-scroll-to-bottom-on-input t
-        org-directory "~/Dropbox/2nd-brain/org-roam/notes/"
+        org-directory "~/Dropbox/2nd-brain/org-roam-notes/"
         ))
 ;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
@@ -27,18 +27,18 @@
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-log-done 'time
         delete-by-moving-to-trash t     ;oder 'move-file-to-trash t'??
-        trash-directory "~/.Papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
-        org-journal-dir "~/Dropbox/emacs/org-roam/Notizen/roam-orga/journal/"
+        trash-directory "~/.papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
+        ;; org-journal-dir "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
-        org-capture-templates '(("1" "Eilig" entry (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
-                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Einkaufsliste"))
-                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Wunschliste"))
-                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/emacs/org-roam/Notizen/roam-orga/work.org" "Abrechnungen Jo"))
-                                ("a" "Appointment" entry (file  "~/Dropbox/emacs/org-roam/Notizen/roam-orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
+        org-capture-templates '(("1" "TODO" entry (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
+                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Einkaufsliste"))
+                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Wunschliste"))
+                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org" "Abrechnungen Jo"))
+                                ("a" "Appointment" entry (file  "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
 ;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
@@ -52,9 +52,9 @@
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-agenda-files '("~/FlowmisOS/FlowmisOS.org"
-                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/gcal.org"
-                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/home.org"
-                           "~/Dropbox/2nd-brain/org-roam/notes/roam-orga/work.org"
+                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org"
+                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"
+                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"
                            )
         org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
@@ -129,77 +129,27 @@
 ;;;ROAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
-  (setq org-roam-directory "~/Dropbox/emacs/org-roam/Notizen"
+  (setq org-roam-directory "~/Dropbox/2nd-brain/org-roam-notes"
         org-roam-db-autosync-mode t   ;Falls Probleme manuell <M-x org-roam-db-sync> um neu angelegte files in roam zu finden
         org-roam-ui-sync-theme t      ;Falls Probleme manuell <M-x org-roam-ui-sync-theme> und dann neustart des ui-mode um Brain im Browser zu navigieren (nun im gleichen Theme wie Emacs)
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t
-        org-roam-capture-templates '(("b" "book notes" plain (file "~/Dropbox/emacs/org-roam/templates/BookTemplate.org")
+        org-roam-capture-templates '(("b" "book notes" plain (file "~/Dropbox/2nd-brain/templates/BookTemplate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)
-                                     ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/emacs/org-roam/templates/normal.org")
+                                     ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/2nd-brain/templates/normal.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)
-                                     ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/emacs/org-roam/templates/Zitate.org")
+                                     ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/2nd-brain/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
 
 ;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'yasnippet)
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(setq yas-snippet-dirs '("/home/flowmis/Dropbox/emacs/yasnippets/"))
+(setq yas-snippet-dirs '("~/Dropbox/2nd-brain/yasnippets/"))
 (yas-global-mode 1)
-
-;;;Mail;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'mu4e)
-(require 'smtpmail)
-(require 'org-mu4e)
-(setq send-mail-function 'smtpmail-send-it
-      message-send-mail-function 'smtpmail-send-it
-      starttls-use-gnutls t
-      ;; smtpmail-smtp-user "manemarkushoffmann@gmail" ;oder Markus Hoffmann??
-      mu4e-sent-messages-behavior 'sent
-      mu4e-sent-folder "/home/flowmis/.mail/Gesendet"
-      mu4e-drafts-folder "/home/flowmis/.mail/Entwürfe"
-      mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
-      smtpmail-stream-type 'starttls
-      mu4e-root-maildir "/home/flowmis/.mail"
-      mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
-      mu4e-get-mail-command "mbsync -a"
-      mu4e-update-interval 300 ;; second
-      mu4e-compose-signature-auto-include nil
-      mu4e-attachment-dir "~/Downloads"
-      ;; smtpmail-starttls-credentials '(("smtp.gmail.com" "587" nil nil))
-      ;; smtpmail-auth-credentials (expand-file-name "~/.authinfo")
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587
-      smtpmail-debug-info t
-      ;; starttls-extra-arguments nil
-      ;; starttls-gnutls-program "/usr/bin/gnutls-cli"
-      ;; starttls-extra-arguments nil
-      ;; starttls-use-gnutls t
-      mu4e-use-fancy-chars t
-      org-mu4e-convert-to-html t
-      mu4e-maildir-shortcuts '(("/home/flowmis/.mail/Papierkorb" . ?p)
-                               ("/home/flowmis/.mail/Archiv" . ?a)
-                               ("/home/flowmis/.mail/Entwürfe" .?e)
-                               ("/home/flowmis/.mail/Gesendet" .?g)))
-
-;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
-      org-gcal-client-secret "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"
-      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/Dropbox/emacs/org-roam/Notizen/roam-orga/gcal.org")))
-(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
-(require 'calfw)
-(require 'calfw-org)
-(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
-      org-gcal-client-secret "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"
-      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" . "~/Dropbox/emacs/org-roam/Notizen/roam-orga/gcal.org")))
-(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
 
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
@@ -216,14 +166,13 @@
        :desc "Counsel eshell history" "e h" #'counsel-esh-history
        :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("-" . "open file")
-       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/roam-orga/agenda.org"))
        :desc "Edit FlowmisOs.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
        :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
        :desc "Edit qtile config" "q" #'(lambda () (interactive) (find-file "~/.config/qtile/config.py"))
-       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/roam-orga/home.org"))
-       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/roam-orga/work.org"))
-       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/emacs/org-roam/Notizen/2022-03-22-bücher.org"))
+       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"))
+       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"))
+       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/bücher.org"))
        :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
        :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
        :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))

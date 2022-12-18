@@ -483,13 +483,13 @@ background contrast. All other values default to \"medium\"."
         ;; org-superstar-headline-bullets-list '("◉" "○" "✿")                                                      ;wenn ich Bullets will hier deren Erscheinungsform einstellen (Anzahl egal da es durch Liste cycled)
         org-superstar-item-bullet-alist '((?* . ?>) (?+ . ?>) (?- . ?>))                                        ;Listen werden wie hier angegeben angezeigt (quasi das Aufzählungszeichen)
         org-hide-emphasis-markers t                                                                             ;+=/*~ etc. werden nicht angezeigt
-        org-todo-keyword-faces (quote (("EILIG" :foreground "#9d0006" :weight normal :underline t)
-                                       ("ZEITNAH" :foreground "#d65d0e" :weight normal :underline t)
-                                       ("IRGENDWANN" :foreground "#c27da7" :weight normal :underline t)
-                                       ("PAUSIERT" :foreground "#613e53" :weight normal :underline t)
-                                       ("BEENDET" :foreground "#000000" :weight normal :underline t)
-                                       ("ABGEBROCHEN" :foreground "#000000" :weight normal :underline t)
-                                       ("DELEGIERT" :foreground "#613e53" :weight normal :underline t)))
+        ;; org-todo-keyword-faces (quote (("EILIG" :foreground "#9d0006" :weight normal :underline t)
+        ;;                                ("ZEITNAH" :foreground "#d65d0e" :weight normal :underline t)
+        ;;                                ("IRGENDWANN" :foreground "#c27da7" :weight normal :underline t)
+        ;;                                ("PAUSIERT" :foreground "#613e53" :weight normal :underline t)
+        ;;                                ("BEENDET" :foreground "#000000" :weight normal :underline t)
+        ;;                                ("ABGEBROCHEN" :foreground "#000000" :weight normal :underline t)
+        ;;                                ("DELEGIERT" :foreground "#613e53" :weight normal :underline t)))
 
         ;; org-fancy-priorities-list '((?A . "⏰")                                                              ;wird mit +pretty flag in init.el installiert, aber macht es finde ich hässlich
         ;;                             (?B . "🐶")
