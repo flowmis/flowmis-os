@@ -466,7 +466,7 @@ background contrast. All other values default to \"medium\"."
 
 ;;;Some Mane-Theme specials!!!;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (set-frame-parameter (selected-frame) 'alpha '(97 . 70))                                                        ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
-(setq visual-fill-column-width 190     ;Größe des seitlichen Rahmen
+(setq visual-fill-column-width 280     ;Größe des seitlichen Rahmen
       visual-fill-column-center-text t) ;rückt Text in Mitte
 (global-visual-fill-column-mode t)
 (after! org

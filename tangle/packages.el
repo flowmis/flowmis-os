@@ -20,6 +20,7 @@
 (package! graphviz-dot-mode)
 (package! org-fancy-priorities :disable t)
 (package! nano-modeline)
+(package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
 ;; (package! async)
