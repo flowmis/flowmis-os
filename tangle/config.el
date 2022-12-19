@@ -47,6 +47,14 @@
 (nano-modeline-mode)
 (global-hide-mode-line-mode)
 
+;;;org-download;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'org-download)
+(setq-default org-download-image-dir "~/Dropbox/2nd-brain/org-roam-notes/bilder/org-download")
+(add-hook 'dired-mode-hook 'org-download-enable)
+(setq-default org-download-screenshot-method "flameshot gui --raw > %s")
+(setq-default org-download-heading-lvl nil) ;falls ich das nicht habe wird ein Ordner erstellt mmit dem Namen des Headers unter den das Bild eingefügt wird - so kommt kein zusätzlicher Ordner
+(setq-default org-download-timestamp "%Y-%m-%d-%H-%M-%S-")
+
 ;;;Agenda;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
@@ -166,7 +174,7 @@
        :desc "Counsel eshell history" "e h" #'counsel-esh-history
        :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("-" . "open file")
-       :desc "Edit FlowmisOs.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
+       :desc "Edit FlowmisOs.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOSinstall.org"))
        :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
        :desc "Edit qtile config" "q" #'(lambda () (interactive) (find-file "~/.config/qtile/config.py"))
@@ -206,6 +214,9 @@
        :desc "List bookmarks" "L" #'list-bookmarks
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save)
       (:prefix ("v". "Manes Funktionen")
+       :desc "org-roam-buffer-toggle" "s" #'org-download-screenshot
+       :desc "org-roam-buffer-toggle" "S" #'org-download-clipboard
+       :desc "org-roam-buffer-toggle" "r" #'org-download-rename-at-point
        :desc "org-roam-buffer-toggle" "u" #'org-roam-ui-open
        :desc "find node/new node" "f" #'org-roam-node-find
        :desc "insert node" "i" #'org-roam-node-insert

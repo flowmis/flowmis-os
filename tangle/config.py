@@ -57,7 +57,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          # Key([], "XF86Cut", lazy.spawn('simplescreenrecorder'), desc='Screenrecord1'),
          # Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
          # Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
-         Key([], "F11", lazy.spawn('flameshot'), desc='Screenshot2'),
+         Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs ~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org'), desc='EMACS'),
          Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates

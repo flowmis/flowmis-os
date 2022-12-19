@@ -2,18 +2,22 @@
 #+TITLE: FlowmisOS
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
-# cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
+cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 # cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+# cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 echo done
 #+end_src
+
+#+RESULTS:
+: done
+
 :END:
--------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 [[~/FlowmisOS/FlowmisOSinstall.org][Installation]]
 [[org:~/FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
 [[org:~/FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
 [[org:~/FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
--------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 * TODO [#B] FlowmisOS [0%]
 :LOGBOOK:
@@ -713,8 +717,15 @@ _Logitech G910-Tastatur:_
     - ~sudo g810-led -p /etc/g810-led/profile~ # Load a profile
     - ~sudo g810-led -a 00ff00~ # Set color of all keys
     - ... weitere Beispiele sieher [[https://github.com/MatMoul/g810-led][hier]]
+  - GKeys & Treiber - siehe [[https://github.com/JSubelj/g910-gkey-macro-support/wiki/Detailed-installationhttps://github.com/JSubelj/g910-gkey-macro-support/wiki/Detailed-installation][hier]]:
+    1. ~sudo modprobe uinput~
+    2. ~wget https://github.com/JSubelj/g910-gkey-macro-support/archive/refs/heads/master.zip; unzip master.zip~
+    3. ~cd g910-gkey-macro-support-master/~
+    4. ~chmod +x installer.sh; sudo ./installer.sh~
+    5. ~systemctl status g910-gkeys~ - check if it worked (in Texteingabe gehen und G1 drücken - sollte *Its WORKING!!!* automatisch tippen)
+    6. Konfiguration siehe [[https://github.com/JSubelj/g910-gkey-macro-support/wiki/Configuration][hier]]: ~sudo nvim /etc/g910-gkeys/config.json~
 
-***** Touchpad einrichten
+**** Touchpad einrichten
 
 https://wiki.archlinux.org/title/Touchpad_Synaptics habe aber auch eine Datei die ich hier erstelle und die direkt mit meinen Einstellungen an die richtige Stelle kopiert wird -> siehe Installskript
 
@@ -815,15 +826,20 @@ EndSection
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
-# sudo g810-led -k logo 723535                      # setzt Farbeinstellungen für meine Logitech Tastatur
-# sudo g810-led -fx color keys 723535               # setzt Farbeinstellungen für meine Logitech Tastatur
+#g810-led -s color all ff0000 #startup effect
+g810-led -fx color all 880000 #ganzes Keyboard Farbe ändern
+g810-led -g keys 723535
+# g810-led -k logo 987bfe
+# g810-led -k g1 ce7ea2 && g810-led -k g2 ce7ea2 && g810-led -k g3 ce7ea2 && g810-led -k g4 ce7ea2 && g810-led -k g5 ce7ea2 && g810-led -k g6 ce7ea2 && g810-led -k g7 ce7ea2 && g810-led -k g8 ce7ea2 && g810-led -k g9 ce7ea2     # setzt Farbeinstellungen für meine Logitech Tastatur
+# g810-led -g functions ff00ff
+# g810-led -g multimedia ff00ff
 # loadkeys de-latin1 &
 # /usr/bin/emacs --daemon &
 # cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
 # cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
 # cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
 # chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
-# gtk-launch dropbox.desktop &
+gtk-launch dropbox.desktop &
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 # /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo

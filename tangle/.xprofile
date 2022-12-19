@@ -5,15 +5,20 @@
 nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
-# sudo g810-led -k logo 723535                      # setzt Farbeinstellungen für meine Logitech Tastatur
-# sudo g810-led -fx color keys 723535               # setzt Farbeinstellungen für meine Logitech Tastatur
+#g810-led -s color all ff0000 #startup effect
+g810-led -fx color all 880000 #ganzes Keyboard Farbe ändern
+g810-led -g keys 723535
+# g810-led -k logo 987bfe
+# g810-led -k g1 ce7ea2 && g810-led -k g2 ce7ea2 && g810-led -k g3 ce7ea2 && g810-led -k g4 ce7ea2 && g810-led -k g5 ce7ea2 && g810-led -k g6 ce7ea2 && g810-led -k g7 ce7ea2 && g810-led -k g8 ce7ea2 && g810-led -k g9 ce7ea2     # setzt Farbeinstellungen für meine Logitech Tastatur
+# g810-led -g functions ff00ff
+# g810-led -g multimedia ff00ff
 # loadkeys de-latin1 &
 # /usr/bin/emacs --daemon &
 # cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
 # cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
 # cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
 # chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
-# gtk-launch dropbox.desktop &
+gtk-launch dropbox.desktop &
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 # /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
