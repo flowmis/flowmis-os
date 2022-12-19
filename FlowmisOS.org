@@ -723,7 +723,11 @@ _Logitech G910-Tastatur:_
     3. ~cd g910-gkey-macro-support-master/~
     4. ~chmod +x installer.sh; sudo ./installer.sh~
     5. ~systemctl status g910-gkeys~ - check if it worked (in Texteingabe gehen und G1 drücken - sollte *Its WORKING!!!* automatisch tippen)
-    6. Konfiguration siehe [[https://github.com/JSubelj/g910-gkey-macro-support/wiki/Configuration][hier]]: ~sudo nvim /etc/g910-gkeys/config.json~
+    6. ~sudo systemctl enable --now g910-gkeys.service~
+    7. Konfiguration siehe [[https://github.com/JSubelj/g910-gkey-macro-support/wiki/Configuration][hier]]: ~sudo nvim /etc/g910-gkeys/config.json~
+    8. ~su~
+    9. echo uinput > /etc/modules-load.d/uinput.conf
+    10. Restart - check GKeys und wenn sie nicht geben bei 1 beginnen und schauen was nach 6. wenn es noch geht falsch lief und beim Start nicht automatisch aktiviert ist dass es geht
 
 **** Touchpad einrichten
 
