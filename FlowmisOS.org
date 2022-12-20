@@ -12,17 +12,40 @@ echo done
 : done
 
 :END:
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 [[~/FlowmisOS/FlowmisOSinstall.org][Installation]]
 [[org:~/FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
 [[org:~/FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
 [[org:~/FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+[[id:32810af0-a736-4af1-a2b0-2fc582440298][Home]]
+  |__[[id:413e46b3-0448-40b6-8ffc-9cf5bcbfd35d][büro-finanzen]]
+  |__[[id:5733c22e-e943-4c5f-8317-0ee1aafbeb82][bildung-wissen]]
+  |__[[id:fb5224f1-e780-4d42-8161-ab7d07e2d1a4][fff]]
+-----------------------------------------------------------------------------------------------------------------------------------------
+[[id:b7260bc6-ade9-4b8c-82bd-7a74a7bc8ec5][Work]]
+  |__[[id:a3575415-b395-4768-8af0-403f733582c4][Schule]]
+     |__[[id:cf400bfb-f204-46ec-869e-2e61c6bf0ffe][Nachhilfe]]
+     |__[[id:f475c27f-86fa-4c59-a6f6-5401d21793f0][Sportunterricht]]
+     |__[[id:c2da6d13-d0e2-4ad1-bdcf-a18b338907cc][Chemieunterricht]]
+     |__[[id:5cffb0aa-6521-4e5c-96fc-5f2bd5f9ad57][Referendariat]]
+-----------------------------------------------------------------------------------------------------------------------------------------
+2nd Brain
+  |__[[id:a17e22d2-1593-4fe7-a777-329b8b9498a4][Rezepte]]
+-----------------------------------------------------------------------------------------------------------------------------------------
+[[id:b15cd936-90e9-4959-af85-2f4831b61c1e][Projekte]]
+-----------------------------------------------------------------------------------------------------------------------------------------
+[[id:b2503af1-ed37-4ded-81f7-a0aed8bd416c][Skripte, Programme, etc.]]
+-----------------------------------------------------------------------------------------------------------------------------------------
+
 
 * TODO [#B] FlowmisOS [0%]
 :LOGBOOK:
 :END:
 
+  - [ ] genauere Ordnerstruktur jeweils in die entsprechenden .org Datei ganz oben einfügen -> Haupt org files Standardsieren und prinzipiell gleich aufbauen
   - [ ] Kann ich diese Repo privat stellen und trotzdem leicht clonen/verwenden um das Installationsskript etc. auszuführen oder ist entsprechend vorbereitete/angepasste Iso nötig
   - [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
   - [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
@@ -35,26 +58,28 @@ echo done
 
 * Linux & Arch
 
+
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem FlowmisOS aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
 ** Data
 
 *** Ordnerstruktur
-
-- Tool um Ordner und Dateistruktur abzubilden: =tree=
+- _Tool to see Ordner & Dateistruktur:_ =tree=
     #+begin_src shell :dir /sudo:: :results none
     sudo pacman -S tree
-    sudo tree -CL 1 /
+    sudo tree -dCL 3 /
     #+end_src
-  - Flags (siehe auch ~sudo man tree~):
+  - _Flags_:
+    (siehe auch ~sudo man tree~)
     -d = nur Ordner ohne Dateien
     -L = zeigt Ordner nur bis zu dem Level das man angibt, also bei -L 2 zeigt es die Ordner im aktuellen Verzeichnis + die darunter, aber nicht weiter
     -C = gibt dem Output Farbe
-- Linux Standard Dateisystem erklärt:
+- _Linux Standard Dateisystem erklärt:_
   - mit dem Tool tree kann man sich die unterste Ordnerstruktur von Linux, also die Wurzel des Baums, bzw. den root Ordner anzeigen lassen (/):
-    [[~/Dropbox/2nd-brain/org-roam-notes/bilder/2022-12-13_14-46.png]]
-  - Bedeutung der Ordner:
+                                                    #+ATTR_HTML: :width 300
+                                                    [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-ordner-struktur-linux.png]]
+  - _Bedeutung der Ordner:_
     - /bin - binaries = essentielle asuführbare Dateien (ls, curl, gzip,... ~which curl~ um zu sehen wo die binaries von beispielsweise curl liegen)
     - /sbin - system binaries = system binaries für root und superuser (mount, mkswap,...)
     - /usr/bin - nicht essentielle vom Nutzer hinzugefügte binaries
@@ -68,6 +93,18 @@ echo done
     - /tmp - temporary files = nach reboot oder ähnlichem sind diese nicht mehr vorhanden
     - /proc - eingebildetes Dateisystem = existiert nicht wirklich bzw. wird kurzzeitig im RAM erstellt/genutzt wenn Kernel bestimmte Dinge machen muss, oder bestimmte Prozesse verfolgt
     - /opt - optionale Software und Dateien = wird man wenig drin machen
+- _Meine Struktur:_ /  root  OS(Windows, Linux,...)  -->  /home/user  -->  "falls vorhanden: Ein mit VM geteilter Ordner oder ein Festplattenordner"  --> folgende Ordnerstruktur (2 Ebenen tief):
+                                                    #+ATTR_HTML: :width 500
+                                                    [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-ordner-struktur-meine1.png]]
+                                                    #+ATTR_HTML: :width 350
+                                                    [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-ordner-struktur-meine2.png]]
+                                                    #+ATTR_HTML: :width 500
+                                                    [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-ordner-struktur-meine3.png]]
+- Mein 2nd-brain:
+                                                    #+ATTR_HTML: :width 333
+                                                    [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-2nd-brain-2d.png]]
+                                                    #+ATTR_HTML: :width 333
+                                                    [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-2nd-brain-3d.png]]
 
 *** Namensgebung
 
@@ -83,8 +120,9 @@ echo done
 
 *** Sicherung/Backups
 
+- Backups von was, wie und wo hin?
 - Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
-- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit git machen - siehe [[file:~/FlowmisOS/FlowmisOS.org::Backup Data on Cold-Storage (Festplatte)][git]]):
+- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit Versionskontrolle und git machen - siehe [[file:~/FlowmisOS/FlowmisOS.org::Backup Data on Cold-Storage (Festplatte)][git]]):
 
 **** rsync
 Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)

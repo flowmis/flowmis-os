@@ -4,7 +4,7 @@
 #+begin_src shell
 # mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
 cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
-# cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -u ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -u ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
@@ -19,8 +19,9 @@ echo done
 #+end_src
 
 #+RESULTS:
-| ###########################Doom | ready########################### |
-| done                            |                                  |
+| ###########################Doom  | ready########################### |
+| ###########################Qtile | ready########################### |
+| done                             |                                  |
 
 :END:
 -------------------------------------------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ pacman-key -v archlinux-version-x86_64.iso.sig                                  
    #+end_src
 2. _Falls VM:_ ISO in die VM laden + Speicher, CPU, RAM, GPU etc. der virtuellen Maschine zuweisen und mit funktionsfähigem Internet (auf dem Hostsystem) die VM booten
    - Standardmäßig Skript install-vm verwenden. Falls ich Installation in VM lieber step by step (wie bei Hardware machen will) um alles selbst zu konfigurieren, muss ich das untere Skript install-hardware-modified verwenden.
-   #+begin_src shell :tangle tangle/install-vm
+   #+begin_src shell :tangle tangle/install-vm.sh
 # 1. ~python -m archinstall~
 #    Einstellungen:
 #    - Sprache auf de & locale-lang auf de.DE
@@ -129,13 +130,7 @@ locale-gen                                                                  # ge
 echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
 ##Grafiktreiber wählen - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren
-# pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
-# sudo pacman -S xf86-video-intel                                           # Intel (Open Source)
-# sudo pacman -S xf86-video-nouveau                                         # Nvidia (Open Source)
-# sudo pacman -S nvidia nvidia-utils                                        # Nvidia (proprietäre - meist besser als open source)
-# sudo pacman -S xf86-video-ati                                             # ATI-Grafiktreiber
-# sudo pacman -S xf86-video-amdgpu                                          # AMD-Grafiktreiber
-# sudo pacman -S xf86-video-vesa                                            # Generische VESA-Treiber
+pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
 ##Tastaturlayout auf Deutsch
 # localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
 # setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
@@ -170,24 +165,24 @@ mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # ve
    - Keyboardlayout wählen
         ~ls /usr/share/kbd/keymaps/**/*.map.gz~                      # Läd alle vorhandenen Tastaturlayouts
         ~loadkeys de-latin1~                                         # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
-#+begin_src shell :tangle tangle/install-hardware
-# In VM reicht: fdisk /dev/sda + <n> + <p> + <Enter> + <Enter> + <Enter> <w>
-fdisk -l                                              # Alternativ: <lsblk> -> listet vorhandene Partitionen -> Man sollte alles löschen was man nicht braucht
-fdisk /dev/sda                           # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
-<g><n><1><Enter><+550M>                               # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
-<n><2><Enter><+2G>                                    # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
-<n><3><Enter><Enter>                                  # Linux Filesystem Partition mit restlichem Speicher erstellen
-<t><1><L><1>                                          # Partitionstypen ändern <t>: <1><L><1>   <- Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
-<t><2><19>                                            # Partition 2 von Standard Linux Filesystem Partition zu swap Partion verändern -> Partition 3 muss man nicht ändern da Standard passt
-<w>                                                   # write changes und fdisk verlassen
-mkfs.fat -F32 /dev/sda1    # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
+#+begin_src shell :tangle tangle/install-hardware.sh
+##Speicher formmatieren (Annahme die Festplatte wird als sda erkannt - ansonsten die Namen entsprechend abändern)
+fdisk -l                                                                    # Alternativ: <lsblk> 
+fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
+<g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
+<n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
+<n><3><Enter><Enter>                                                        # Linux Filesystem Partition mit restlichem Speicher erstellen
+<t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
+<t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
+<w>                                                                         # write changes und fdisk verlassen
+mkfs.fat -F32 /dev/sda1                                                     
 mkswap /dev/sda2
 swapon /dev/sda2
-mkfs.ext4 /dev/sda3                                       # ACHTUNG: bei VM sda1
-mount /dev/sda3 /mnt                                      # ACHTUNG: bei VM sda1
-pacstrap /mnt base linux linux-firmware                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
-genfstab -U /mnt >> /mnt/etc/fstab                        # generiert FileSystemTable
-arch-chroot /mnt                                          # Mit root in /mnt gehen
+mkfs.ext4 /dev/sda3                                       
+mount /dev/sda3 /mnt                                      
+pacstrap /mnt base linux linux-firmware                                     # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
+genfstab -U /mnt >> /mnt/etc/fstab                                          # generiert FileSystemTable
+arch-chroot /mnt                                                            # Mit root in /mnt gehen
 pacman -S neovim sudo git
 passwd
 useradd -m flowmis
@@ -196,40 +191,40 @@ usermod -aG wheel,audio,video,optical,storage flowmis                       # Er
 pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
 cd /home/flowmis/ && git clone https://github.com/flowmis/FlowmisOS.git
 cd /home/flowmis/ && chown flowmis FlowmisOS/ && chgrp flowmis FlowmisOS/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
-cd /home/flowmis/FlowmisOS/tangle
+. /home/flowmis/FlowmisOS/tangle/install-hardware.sh
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
 hwclock --systohc                                                           # setzt Zeit
 mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
 sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
 locale-gen                                                                  # generiert die locales
-echo FlowmisPC | cat > /etc/hostname                                             # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
 mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
 ## choose Grafiktreiber - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren################################################################################
-# pacman -S xf86-video-fbdev                            # Grafiktreiber VM
-# sudo pacman -S xf86-video-intel                       # Intel (Open Source)
-# sudo pacman -S xf86-video-nouveau                     # Nvidia (Open Source)
-# sudo pacman -S nvidia nvidia-utils                    # Nvidia (proprietäre - meist besser als open source)
-# sudo pacman -S xf86-video-ati                         # ATI-Grafiktreiber
-# sudo pacman -S xf86-video-amdgpu                      # AMD-Grafiktreiber
-# sudo pacman -S xf86-video-vesa                        # Generische VESA-Treiber
+# pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
+# sudo pacman -S xf86-video-intel                                           # Intel (Open Source)
+# sudo pacman -S xf86-video-nouveau                                         # Nvidia (Open Source)
+# sudo pacman -S nvidia nvidia-utils                                        # Nvidia (proprietäre - meist besser als open source)
+# sudo pacman -S xf86-video-ati                                             # ATI-Grafiktreiber
+# sudo pacman -S xf86-video-amdgpu                                          # AMD-Grafiktreiber
+# sudo pacman -S xf86-video-vesa                                            # Generische VESA-Treiber
 ### Tastaturlayout auf Deutsch #############################################################################################################################################
 # localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
-# setxkbmap -layout de                                  # Tastaturlayout auf Deutsch
+# setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
 mkdir /boot/EFI                                                             # Erstellung des Bootdirectories
 mount /dev/sda1 boot/EFI                                                    # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
 grub-install                                                                # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
 grub-mkconfig -o /boot/grub/grub.cfg                                        # Ohne diese wird es zu Problemen beim booten kommen
 timedatectl set-ntp true && timedatectl status                              # Zeit und Datum über das network transfer protocol einholen
-EDITOR=nvim visudo                                        # uncomment #%wheel ALL=(ALL) ALL
+EDITOR=nvim visudo                                                          # uncomment #%wheel ALL=(ALL) ALL
 systemctl enable NetworkManager
 systemctl enable sddm
 exit
 umount -l /mnt
 reboot & login
-reboot                                              # und genießen - eventuell neu in Wlan anmelden (NetworkManager statt iwctl)
-sudo NetworkManager                                          # keine Fehlermeldung = past alles
-sudo nmcli device wifi list                             # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
-sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"     # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+reboot                                                                      # und genießen - eventuell neu in Wlan anmelden (NetworkManager statt iwctl)
+sudo NetworkManager                                                         # keine Fehlermeldung = past alles
+sudo nmcli device wifi list                                                 # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
+sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"         # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
 #+end_src
 
 * Module installieren & konfigurieren
@@ -342,7 +337,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          # Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
          # Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
-         Key([mod], "e", lazy.spawn('emacs ~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org'), desc='EMACS'),
+         Key([mod], "e", lazy.spawn('emacs ~/Dropbox/2nd-brain/org-roam-notes/home.org'), desc='EMACS'),
          Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
          # Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
@@ -1238,12 +1233,12 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
        :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("-" . "open file")
        :desc "Edit FlowmisOs.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOSinstall.org"))
+       :desc "Edit FlowmisOs.org" "F" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
        :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
        :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
        :desc "Edit qtile config" "q" #'(lambda () (interactive) (find-file "~/.config/qtile/config.py"))
-       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"))
-       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"))
-       :desc "Edit Bücher" "b" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/bücher.org"))
+       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/home.org"))
+       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/work.org"))
        :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
        :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
        :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
