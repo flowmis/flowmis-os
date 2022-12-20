@@ -100,7 +100,8 @@ echo done
                                                     [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-ordner-struktur-meine2.png]]
                                                     #+ATTR_HTML: :width 500
                                                     [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-ordner-struktur-meine3.png]]
-- Mein 2nd-brain:
+
+- _Mein 2nd-brain:_
                                                     #+ATTR_HTML: :width 333
                                                     [[file:../Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2022-12-20-2nd-brain-2d.png]]
                                                     #+ATTR_HTML: :width 333
