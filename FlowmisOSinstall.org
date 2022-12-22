@@ -83,10 +83,10 @@ pacman-key -v archlinux-version-x86_64.iso.sig                                  
 #    - Timezone auf Europe-Berlin
 #    - Festplatte wählen, alles wipen + ext4 filesystem konfigurieren
 #    - Installation starten
-# 2. reboot & login in erstellten Account (Umschalten von Wayland auf Qtile!)
+# 2. reboot & login in
 # 3. Anmelden in Wlan mit nmcli
 # 4. ~sudo pacman -S git && cd ~ && git clone https://github.com/flowmis/FlowmisOS.git && echo 'FlowmisOS geklont'~
-# 5. MinimalInstall.sh ausführen und anschließend mit Standard DoomEmacs in dies Datei und die gewollten Module installieren: ~. ~/FlowmisOS/tangled/MinimalInstall.sh~
+# 5. gewollte Module installieren:
 mkdir -p ~/.config/{alacritty,fish} && echo 'Ordner erstellt'
 sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
