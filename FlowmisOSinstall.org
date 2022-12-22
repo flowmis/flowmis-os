@@ -93,7 +93,7 @@ pacman-key -v archlinux-version-x86_64.iso.sig                                  
     # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
     # - Ordner einhängen: sudo mount -t vboxsf share /home/flowmis/share
     # - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/FlowmisOS.git mein Repo geklont werden kann
-# 5. Dieses Skript ausführen:
+# 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
 mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
 sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
@@ -254,7 +254,7 @@ src-blocks mit sudo Befehlen auszuführen:
 In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs zwischendrin sudo legitmation braucht und auf Fragen geantwortet werden was Probleme verursacht wenn man mit org-src block nicht interaktiv agieren kann
 
 #+begin_src sh
-cd ~ && git clone https://aur.archlinux.org/brave-bin.git && cd ~/brave-bin/ && makepkg -si && rm -rf ~/brave-bin/ && echo '###########################installed brave###########################'
+cd ~ && git clone https://aur.archlinux.org/brave-bin.git && cd ~/brave-bin/ && makepkg -si && cd ~ && rm -rf ~/brave-bin/ && echo '###########################installed brave###########################'
 #+end_src
 
 ** Yay + Yay Packages
@@ -262,7 +262,7 @@ cd ~ && git clone https://aur.archlinux.org/brave-bin.git && cd ~/brave-bin/ && 
 In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs zwischendrin sudo legitmation braucht und auf Fragen geantwortet werden was Probleme verursacht wenn man mit org-src block nicht interaktiv agieren kann
 
 #+begin_src sh
-cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && rm -rf ~/yay-git/ && yay -Syu && cd ~ && rm -rf ~/yay-git/ && yay -S dropbox archlinux-tweak-tool-git termite otf-alegreya-sans mu && echo '###########################installed yay###########################'
+cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S dropbox archlinux-tweak-tool-git termite otf-alegreya-sans mu && echo '###########################installed yay###########################'
 #+end_src
 
 ** Qtile
