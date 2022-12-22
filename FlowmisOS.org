@@ -630,31 +630,21 @@ sudo pacman -S simplescreenrecorder viewnior deepin-screen-recorder flameshot gi
 
 ***** Virtual Box
 
+- Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
+- =Neu= -> je nach Name den man der Maschine gibt sucht es automatisch richtige Version und Typ - ansonsten manuell wählen -> Einstellungen folgen bis Maschine erstellt wurde -> Maschine auswählen und =Ändern= drücken -> =System= -> uncheck =Diskettenlaufwerk= -> check =EFI aktivieren= -> =Prozessor= -> Einstellen wie viele Prozessoren ich geben will -> =Massenspeicher= -> Unter =Controller:IDE= die .iso Datei reinladen -> =Starten= der Maschine -> Maschine nach der Installation herunterfahren ->  =Massenspeicher=  und .iso entfernen -> Maschine nun fertig und kann gestartet werden
+- Extension Pack und VirtualBox von [[https://www.virtualbox.org/wiki/Downloads][hier]] (in Arch durch Packetmanager) downloaden + installieren
 - virtualbox-guest-utils mit pacman installieren + VBoxClient-all als cmd in Startupskript um clipboard dragandrop etc. zu aktivieren + Einstellungen der VM -> Allgeimene -> Erweiterte -> Gemeinsame Zwischenablage auf bidirektional -> Drag'n'Drop auf bidirektional
   siehe [[https://wiki.archlinux.org/title/VirtualBox/Install_Arch_Linux_as_a_guest][HIER]]
 - Gemeinsamer Ordner host & guest: sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
 - Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
+- _Extension pack installieren:_
+  - in Arch?
+  - Windows
+    - check virtualbox for updates & update
+    - download Extension pack and check if version is the same than virtual box
+    - Einstellungen -> Zusatzpakete -> Paket das gedownloaded wurde installieren
 
-****** Download
 
-- Extension Pack und VirtualBox von [[https://www.virtualbox.org/wiki/Downloads][hier]]
-- virtualbox kann ich in Arch auch durch meinen Packetmanager installieren
-
-****** Extension pack installieren
-
-- in Arch?
-- Windows
-  - check virtualbox for updates & update
-  - download Extension pack and check if version is the same than virtual box
-  - Einstellungen -> Zusatzpakete -> Paket das gedownloaded wurde installieren
-
-****** Installieren von images
-
-- =Neu= -> je nach Name den man der Maschine gibt sucht es automatisch richtige Version und Typ - ansonsten manuell wählen -> Einstellungen folgen bis Maschine erstellt wurde -> Maschine auswählen und =Ändern= drücken -> =System= -> uncheck =Diskettenlaufwerk= -> check =EFI aktivieren= -> =Prozessor= -> Einstellen wie viele Prozessoren ich geben will -> =Massenspeicher= -> Unter =Controller:IDE= die .iso Datei reinladen -> =Starten= der Maschine -> Maschine nach der Installation herunterfahren ->  =Massenspeicher=  und .iso entfernen -> Maschine nun fertig und kann gestartet werden
-
-****** Keybindings
-
-Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
 
 * Systemkonfigurationen
 
