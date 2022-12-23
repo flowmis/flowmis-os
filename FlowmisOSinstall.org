@@ -1015,7 +1015,10 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nano-modeline-mode)
 (global-hide-mode-line-mode)
+(set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
 #+end_src
+
+#+RESULTS:
 
 **** Screenshots/org-download
 siehe [[https://github.com/abo-abo/org-download][hier]]
