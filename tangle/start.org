@@ -1,6 +1,4 @@
-#+STARTUP: inlineimages
-
-[[file:./images/emacs-start-page.png]]
+[[file:./banner/banner5.png]]
 
 ⦿ *Shortcuts/Jumps* (Press =1-9= um direkt zu einer Datei zu springen)
 |---+----------------------+--------------------------------------|
@@ -42,6 +40,9 @@
 
 =NOTE=: 'SPC f p' [[elisp:(doom/find-file-in-private-config)][doom/find-file-in-private-config]])
 
+:DASHBOARD-EINSTELLUNGEN:
+#+STARTUP: inlineimages
 ;; Local Variables:
 ;; eval: (start-mode)
 ;; End:
+:END:
