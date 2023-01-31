@@ -44,6 +44,27 @@
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq initial-buffer-choice "~/.config/doom/start.org")
+
+(define-minor-mode start-mode
+  "Provide functions for custom start page."
+  :lighter " start"
+  :keymap (let ((map (make-sparse-keymap)))
+          ;;(define-key map (kbd "M-z") 'eshell)
+            (evil-define-key 'normal start-mode-map
+              (kbd "1") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/home.org"))
+              (kbd "2") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/work.org"))
+              (kbd "3") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/work/2022-12-15-schule.org"))
+              (kbd "4") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/bildung-wissen/2022-12-15-bildung-wissen.org"))
+              (kbd "5") '(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+              (kbd "6") '(lambda () (interactive) (find-file "~/.config/doom/packages.el"))
+              (kbd "7") '(lambda () (interactive) (find-file "~/.config/doom/config.el"))
+              (kbd "8") '(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOSinstall.org"))
+              (kbd "9") '(lambda () (interactive) (find-file "~/.config/qtile/config.py")))
+          map))
+
+(add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
+(provide 'start-mode)
 (nano-modeline-mode)
 (global-hide-mode-line-mode)
 (set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
@@ -175,16 +196,8 @@
        :desc "Counsel eshell history" "e h" #'counsel-esh-history
        :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("-" . "open file")
-       :desc "Edit FlowmisOs.org" "f" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOSinstall.org"))
-       :desc "Edit FlowmisOs.org" "F" #'(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOS.org"))
-       :desc "Edit eshell aliases" "e a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
-       :desc "Edit eshell aliases" "e p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))
-       :desc "Edit qtile config" "q" #'(lambda () (interactive) (find-file "~/.config/qtile/config.py"))
-       :desc "Edit Home" "h" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/home.org"))
-       :desc "Edit Work" "w" #'(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/work.org"))
-       :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
-       :desc "Edit local/tangled doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
-       :desc "Edit local/tangled doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el")))
+       :desc "Gehe zum Dashboard" "-" #'(lambda () (interactive) (find-file "~/.config/doom/start.org"))
+       :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el")))
       (:prefix ("e". "evaluate/EWW")
        :desc "Evaluate elisp in buffer" "b" #'eval-buffer
        :desc "Evaluate defun" "d" #'eval-defun

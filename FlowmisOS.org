@@ -126,6 +126,7 @@ echo done
 - Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit Versionskontrolle und git machen - siehe [[file:~/FlowmisOS/FlowmisOS.org::Backup Data on Cold-Storage (Festplatte)][git]]):
 
 **** rsync
+
 Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
 - ~sudo pacman -S rsync~
 - ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")

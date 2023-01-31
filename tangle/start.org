@@ -1,0 +1,47 @@
+#+STARTUP: inlineimages
+
+[[file:./images/emacs-start-page.png]]
+
+⦿ *Shortcuts/Jumps* (Press =1-9= um direkt zu einer Datei zu springen)
+|---+----------------------+--------------------------------------|
+| =1= | [[~/Dropbox/2nd-brain/org-roam-notes/home.org][home.org]]             | Freizeit und Hobby                   |
+| =2= | [[~/Dropbox/2nd-brain/org-roam-notes/work.org][work.org]]             | Arbeit allgemein                     |
+| =3= | [[~/Dropbox/2nd-brain/org-roam-notes/work/2022-12-15-schule.org][schule.org]]           | Schule                               |
+| =4= | [[~/Dropbox/2nd-brain/org-roam-notes/bildung-wissen/2022-12-15-bildung-wissen.org][bildung-wissen.org]]   | Bücher, Zitate,...                   |
+| =5= | [[~/.config/doom/init.el][init.el]]              | Doom initiale Paketinstallation etc. |
+| =6= | [[~/.config/doom/packages.el][packages.el]]          | Doom Pakete                          |
+| =7= | [[~/.config/doom/config.el][config.el]]            | Doom config                          |
+| =8= | [[~/FlowmisOS/FlowmisOSinstall.org][FlowmisOSinstall.org]] | FlowmisOS                            |
+| =9= | [[~/.config/qtile/config.py][config.py]]            | Qtile config                         |
+|---+----------------------+--------------------------------------|
+
+⦿ *IMPORTANT KEYBINDINGS*
+|-----------+------------------------------------|
+| SPC f r   | Find a recent file                 |
+| SPC d d   | Dired file manager                 |
+| SPC h r r | Reload Doom Emacs                  |
+| SPC f u   | Find file and open as root         |
+| SPC f U   | Open current file as root          |
+| SPC o e   | Toggle the eshell                  |
+|-----------+------------------------------------|
+
+⦿ *BUFFERS AND SPLITS*
+|------------------------------+------------------------------+-----------------------------|
+| (SPC b i) [[elisp:(ibuffer)][ibuffer]]            | (SPC b p) [[elisp:(previous-buffer)][previous-buffer]]    | (SPC b n) [[elisp:(next-buffer)][next-buffer]]       |
+| (SPC b k) [[elisp:(kill-buffer)][kill-buffer]]        | (SPC b s) [[elisp:(save-buffer)][save-buffer]]        | (SPC b u) /sudo-save-buffer/  |
+| (SPC w s) [[elisp:(evil-window-split)][evil-window-split]]  | (SPC w v) [[elisp:(evil-window-vsplit)][evil-window-vsplit]] | (SPC w w) [[elisp:(evil-window-next)][evil-window-next]]  |
+| (SPC w c) [[elisp:(evil-window-delete)][evil-window-delete]] | (SPC w l) [[elisp:(evil-window-left 1)][evil-window-left]]   | (SPC w h) [[elisp:(evil-window-right 1)][evil-window-right]] |
+|------------------------------+------------------------------+-----------------------------|
+
+⦿ *HELP INFORMATION*
+|-----------------------------+-----------------------------+-------------------------------|
+| (SPC h d h) [[elisp:(doom/help)][doom/help]]       | (SPC h d f) [[elisp:(doom/help-faq)][doom/help-faq]]   | (SPC h i) [[elisp:(info)][info]]                |
+| (SPC h f) [[elisp:(counsel-describe-function)][describe-function]] | (SPC h v) [[elisp:(counsel-describe-variable)][describe-variable]] | (SPC h b b) [[elisp:(counsel-descbinds)][describe-bindings]] |
+|-----------------------------+-----------------------------+-------------------------------|
+
+
+=NOTE=: 'SPC f p' [[elisp:(doom/find-file-in-private-config)][doom/find-file-in-private-config]])
+
+;; Local Variables:
+;; eval: (start-mode)
+;; End:

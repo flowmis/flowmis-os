@@ -18,9 +18,10 @@
     # - sudo VBoxClient-all
     # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Erweitert -> Gemeinsame Zwischenablage & Drag'n'Drop auf bidirektional stellen
     # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
-    # - Ordner einhängen: sudo mount -t vboxsf share /home/flowmis/share
+    # - Ordner einhängen und checken ob es geht: sudo mount -t vboxsf share /home/flowmis/share
+    # - fstab um folgende Linie ergänzen dass geteilter Ordner automatisch eingehängt wird:
     # - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/FlowmisOS.git mein Repo geklont werden kann
-# 5. Dieses Skript ausführen:
+# 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
 mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
 sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
 cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
