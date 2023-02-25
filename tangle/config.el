@@ -45,6 +45,7 @@
 
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq initial-buffer-choice "~/.config/doom/start.org")
+(setq org-latex-hyperref-template nil)
 
 (define-minor-mode start-mode
   "Provide functions for custom start page."
