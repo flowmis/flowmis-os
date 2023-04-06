@@ -10,16 +10,18 @@
 # cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 # cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 # cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+# cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 # cp -u ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+# cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 # cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
 
 #+RESULTS:
-: done
+| ###########################Doom  | ready########################### |
+| ###########################Qtile | ready########################### |
+| done                             |                                  |
 
 :END:
 -------------------------------------------------------------------------------------------------------------------
@@ -816,7 +818,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        ;;zig               ; C, but simpler
 
        :email
-       (mu4e +org +gmail)
+       ;; (mu4e +org +gmail)
        ;;smtpmail
        ;;notmuch        ;mu4e aber einfacher?(hier kann ich Mails nicht löschen? - muss ich es vom Server/Anbieter löschen können, oder reichen tags und Archiv?)
 
@@ -2302,13 +2304,6 @@ up () {
 
 # vim and emacs
 alias vim="nvim"
-alias em="/usr/bin/emacs -nw"
-alias emacs="emacsclient -c -a 'emacs'"
-alias doomsync="~/.emacs.d/bin/doom sync"
-alias doombuild="~/.emacs.d/bin/doom build"
-alias doomdoctor="~/.emacs.d/bin/doom doctor"
-alias doomupgrade="~/.emacs.d/bin/doom upgrade"
-alias doompurge="~/.emacs.d/bin/doom purge"
 
 # Change Wallpaper
 alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
@@ -2975,13 +2970,6 @@ alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrou
 
 # vim and emacs
 alias vim='nvim'
-alias em='/usr/bin/emacs -nw'
-alias emacs="emacsclient -c -a 'emacs'"
-alias doomsync="~/.emacs.d/bin/doom sync"
-alias doomdoctor="~/.emacs.d/bin/doom doctor"
-alias doombuild="~/.emacs.d/bin/doom build"
-alias doomupgrade="~/.emacs.d/bin/doom upgrade"
-alias doompurge="~/.emacs.d/bin/doom purge"
 
 # Changing "ls" to "exa"
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
