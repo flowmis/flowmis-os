@@ -1025,7 +1025,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package! gptel
  :config
- (setq! gptel-api-key "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"))
+ (setq! gptel-api-key ""))
 (setq initial-buffer-choice "~/.config/doom/start.org")
 (setq org-latex-hyperref-template nil)
 
