@@ -44,6 +44,9 @@
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package! gptel
+ :config
+ (setq! gptel-api-key "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"))
 (setq initial-buffer-choice "~/.config/doom/start.org")
 (setq org-latex-hyperref-template nil)
 
