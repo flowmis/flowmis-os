@@ -36,16 +36,20 @@ bind -m vi-insert 'Control-l: clear-screen'
 # PS1='[\u@\h \W]\$ '
 
 ### PATH
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
+if [ -d "$HOME/.bin" ] ; then
+  PATH="$HOME/.bin:$PATH"
 fi
 
-if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$HOME/Applications" ] ;
-  then PATH="$HOME/Applications:$PATH"
+if [ -d "$HOME/Applications" ] ; then
+  PATH="$HOME/Applications:$PATH"
+fi
+
+if [ -d "$HOME/.config/emacs/bin" ] ; then
+  PATH="$HOME/.config/emacs/bin:$PATH"
 fi
 
 ### CHANGE TITLE OF TERMINALS
@@ -155,6 +159,9 @@ alias pc='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
 # Bluetooth
 alias blueon='bluetoothctl power on'
 alias bluecon='bluetoothctl connect CC:98:8B:64:28:0D'
+
+# Sleeptimer
+alias sleep='python /home/flowmis/speicher-haupt/skripte-programme-configs/skripte/sleeptimer.py'
 
 # activate/mount VM shared Folder
 alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'

@@ -3,25 +3,23 @@
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
 # mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/FlowmisOS/tangle/start.org ~/.config/doom/start.org && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
-cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+# cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/FlowmisOS/tangle/start.org ~/.config/doom/start.org && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
+# cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -u ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -u ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
 # cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
 # cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-# cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
+cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
 # cp -u ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-# cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
+cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
 # cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
 
 #+RESULTS:
-| ###########################Doom  | ready########################### |
-| ###########################Qtile | ready########################### |
-| done                             |                                  |
+: done
 
 :END:
 -------------------------------------------------------------------------------------------------------------------
@@ -2212,16 +2210,20 @@ bind -m vi-insert 'Control-l: clear-screen'
 # PS1='[\u@\h \W]\$ '
 
 ### PATH
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
+if [ -d "$HOME/.bin" ] ; then
+  PATH="$HOME/.bin:$PATH"
 fi
 
-if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$HOME/Applications" ] ;
-  then PATH="$HOME/Applications:$PATH"
+if [ -d "$HOME/Applications" ] ; then
+  PATH="$HOME/Applications:$PATH"
+fi
+
+if [ -d "$HOME/.config/emacs/bin" ] ; then
+  PATH="$HOME/.config/emacs/bin:$PATH"
 fi
 
 ### CHANGE TITLE OF TERMINALS
@@ -2331,6 +2333,9 @@ alias pc='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
 # Bluetooth
 alias blueon='bluetoothctl power on'
 alias bluecon='bluetoothctl connect CC:98:8B:64:28:0D'
+
+# Sleeptimer
+alias sleep='python /home/flowmis/speicher-haupt/skripte-programme-configs/skripte/sleeptimer.py'
 
 # activate/mount VM shared Folder
 alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
@@ -2755,7 +2760,7 @@ key_bindings:
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
 set -e fish_user_paths
-set -U fish_user_paths $HOME/.local/bin $HOME/Applications $fish_user_paths
+set -U fish_user_paths $HOME/.local/bin $HOME/Applications $HOME/.config/emacs/bin $fish_user_paths
 
 ### EXPORT ###
 set fish_greeting                                 # Supresses fish's intro message

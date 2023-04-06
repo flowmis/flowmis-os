@@ -19,6 +19,10 @@ g810-led -g keys 723535
 # cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
 # chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
 gtk-launch dropbox.desktop &
+gtk-launch thunderbird.desktop &
+gtk-launch lxappearance.desktop &
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 # /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
+mount /dev/nvme0n1
+mount /dev/sdb
