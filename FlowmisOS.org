@@ -1009,10 +1009,11 @@ wintypes:
 #+end_src
 + picom in Terminal eingeben um zu aktivieren (oder picom -f)
 
-** Audio, Wlan, Helligkeit, etc.
+** Audio, Wlan, Helligkeit, mehrere Anzeigen, HDMI etc.
 
 - Sound: ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
+- *arandr* als Programm um Auflösung, Anordnung etc. von einem Beamer oder einem weiteren Display einzustellen -> ist eine grafische Oberfläche von xrandr
 
 #+begin_src sh  :dir /sudo::
-sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans stacer neofetch dunst bind bmon jq gvfs
+sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans stacer neofetch dunst bind bmon jq gvfs arandr
 #+end_src
