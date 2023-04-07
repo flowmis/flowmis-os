@@ -244,6 +244,14 @@
        :desc "Starte Präsentationsmodus" "p" #'pres-start
        :desc "Beende Präsentationsmodus" "P" #'pres-end))
 
+(defun mane-rezepte-export-org-to-html ()
+  "Rezeptdateien als html an entsprechenden Ort exportieren."
+  (interactive)
+  (let* ((source-dir "~/Dropbox/2nd-brain/org-roam-notes/rezepte/")
+         (org-files (directory-files-recursively source-dir "\\.org$")))
+    (dolist (file org-files)
+      (with-current-buffer (find-file-noselect file)
+        (org-html-export-to-html nil nil nil nil nil)))))
 (defun activate-ditaa-path ()
  (interactive)
  (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar"))

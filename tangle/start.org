@@ -37,6 +37,11 @@
 | (SPC h f) [[elisp:(counsel-describe-function)][describe-function]] | (SPC h v) [[elisp:(counsel-describe-variable)][describe-variable]] | (SPC h b b) [[elisp:(counsel-descbinds)][describe-bindings]] |
 |-----------------------------+-----------------------------+-------------------------------|
 
+⦿ *Eigene Funktionen*
+|---------------------------------------+----------------------------------------------------------------------------------------------------------------------|
+| <M-x mane-rezepte-export-org-to-html> | exportiert alle Rezepte aus meinem 2nd brain an die github repo die es mir ermöglicht aus dem web darauf zuzugreifen |
+|                                       |                                                                                                                      |
+|---------------------------------------+----------------------------------------------------------------------------------------------------------------------|
 
 =NOTE=: 'SPC f p' [[elisp:(doom/find-file-in-private-config)][doom/find-file-in-private-config]])
 
