@@ -216,7 +216,7 @@ alias .5='cd ../../../../..'
 alias sleep='python /home/flowmis/speicher-haupt/skripte-programme-configs/skripte/sleeptimer.py '
 
 # Change Wallpaper
-alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
 
 # vim and emacs
 alias vim='nvim'

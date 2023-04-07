@@ -2,7 +2,7 @@
 # xrandr -s 1920x1200 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 # xrdb ~/.Xressources &
-nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
+nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #g810-led -s color all ff0000 #startup effect

@@ -46,7 +46,7 @@
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package! gptel
  :config
- (setq! gptel-api-key "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"))
+ (setq! gptel-api-key ""))
 (setq initial-buffer-choice "~/.config/doom/start.org")
 (setq org-latex-hyperref-template nil)
 
@@ -63,7 +63,7 @@
               (kbd "5") '(lambda () (interactive) (find-file "~/.config/doom/init.el"))
               (kbd "6") '(lambda () (interactive) (find-file "~/.config/doom/packages.el"))
               (kbd "7") '(lambda () (interactive) (find-file "~/.config/doom/config.el"))
-              (kbd "8") '(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOSinstall.org"))
+              (kbd "8") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
               (kbd "9") '(lambda () (interactive) (find-file "~/.config/qtile/config.py")))
           map))
 
@@ -85,7 +85,7 @@
 (after! org
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
-        org-agenda-files '("~/FlowmisOS/FlowmisOS.org"
+        org-agenda-files '("~/flowmis-os/flowmis-os.org"
                            "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org"
                            "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"
                            "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"

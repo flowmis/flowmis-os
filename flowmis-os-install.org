@@ -1,36 +1,31 @@
 :Einstellungen:
-#+TITLE: Install FlowmisOS
+#+TITLE: Install flowmis-os
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
 # mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/FlowmisOS/tangle/start.org ~/.config/doom/start.org && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
-# cp -u ~/FlowmisOS/tangle/config.py ~/.config/qtile/config.py && cp -u ~/FlowmisOS/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
-# cp -u ~/FlowmisOS/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
-# cp -u ~/FlowmisOS/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
-# cp -u ~/FlowmisOS/tangle/config.rasi ~/.config/rofi/config.rasi
-# cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-# cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-# cp -u ~/FlowmisOS/tangle/.bashrc ~/.bashrc
-# cp -u ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-# cp -u ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish
-# cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
-# cp -u ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf
+cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+# cp -u ~/flowmis-os/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
+# cp -u ~/flowmis-os/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
+# cp -u ~/flowmis-os/tangle/config.rasi ~/.config/rofi/config.rasi
+cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
+cp -u ~/flowmis-os/tangle/.Xressources ~/.Xressources
+cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
+cp -u ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
+# cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
+cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
 
 #+RESULTS:
-| ###########################Doom | ready########################### |
-| done                            |                                  |
+| ###########################Doom  | ready########################### |
+| ###########################Qtile | ready########################### |
+| done                             |                                  |
 
 :END:
 -------------------------------------------------------------------------------------------------------------------
-[[~/FlowmisOS/FlowmisOS.org][FlowmisOS]]
-[[org:~/FlowmisOS/FlowmisOSinstall.org::DoomEmacs init][init.el]]
-[[org:~/FlowmisOS/FlowmisOSinstall.org::DoomEmacs packages][packages.el]]
-[[org:~/FlowmisOS/FlowmisOSinstall.org::DoomEmacs config][config.el]]
-  - [[org:~/FlowmisOS/FlowmisOSinstall.org::Keybindings][Keybindings]]
-  - [[org:~/FlowmisOS/FlowmisOSinstall.org::Funktionen][Funktionen]]
-  - [[org:~/FlowmisOS/FlowmisOSinstall.org::Erscheinungsbild][Erscheinungsbild]]
+- [[~/flowmis-os/flowmis-os.org][flowmis-os]]
 -------------------------------------------------------------------------------------------------------------------
 
 * Installation
@@ -92,13 +87,13 @@ pacman-key -v archlinux-version-x86_64.iso.sig                                  
     # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
     # - Ordner einhängen und checken ob es geht: sudo mount -t vboxsf share /home/flowmis/share
     # - fstab um folgende Linie ergänzen dass geteilter Ordner automatisch eingehängt wird:
-    # - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/FlowmisOS.git mein Repo geklont werden kann
+    # - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/flowmis-os.git mein Repo geklont werden kann
 # 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
 mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
-sudo cp -r ~/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
-cp -r ~/FlowmisOS/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/FlowmisOS/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
-# cp -r ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-cp -r ~/FlowmisOS/tangle/.bashrc ~/.bashrc && cp -r ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig && cp -r ~/FlowmisOS/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
+sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
+cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
+# cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
+cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
 sudo pacman -Syu && sudo pacman -S qtile picom fish exa starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
 # exa: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht exa schreiben muss
 # starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
@@ -127,16 +122,16 @@ cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d &&
 # passwd flowmis
 # usermod -aG wheel,audio,video,optical,storage flowmis                     # Erteilen der Rechte bzw. in welcher Gruppe der User ist
 # pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
-# cd /home/flowmis/ && git clone https://github.com/flowmis/FlowmisOS.git
-# . /home/flowmis/FlowmisOS/tangle/install-hardware-modified.sh
-cd /home/flowmis/ && chown flowmis FlowmisOS/ && chgrp flowmis FlowmisOS/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
+# cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
+# . /home/flowmis/flowmis-os/tangle/install-hardware-modified.sh
+cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
 hwclock --systohc                                                           # setzt Zeit
-mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
 sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
 locale-gen                                                                  # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
 ##Grafiktreiber wählen - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren
 pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
 ##Tastaturlayout auf Deutsch
@@ -197,16 +192,16 @@ useradd -m flowmis
 passwd flowmis
 usermod -aG wheel,audio,video,optical,storage flowmis                       # Erteilen der Rechte bzw. in welcher Gruppe der User ist
 pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
-cd /home/flowmis/ && git clone https://github.com/flowmis/FlowmisOS.git
-cd /home/flowmis/ && chown flowmis FlowmisOS/ && chgrp flowmis FlowmisOS/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
-. /home/flowmis/FlowmisOS/tangle/install-hardware.sh
+cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
+cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
+. /home/flowmis/flowmis-os/tangle/install-hardware.sh
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
 hwclock --systohc                                                           # setzt Zeit
-mv /home/flowmis/FlowmisOS/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
 sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
 locale-gen                                                                  # generiert die locales
 echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-mv /home/flowmis/FlowmisOS/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
 ## choose Grafiktreiber - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren################################################################################
 # pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
 # sudo pacman -S xf86-video-intel                                           # Intel (Open Source)
@@ -347,7 +342,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),    #'emacs ~/Dropbox/2nd-brain/org-roam-notes/home.org' wenn man bestimmte Datei beim Start öffnen will
          Key([mod], "p", lazy.spawn('keepassxc ~/HotPassw.kdbx'), desc='Passwortmanager'),    #'emacs ~/Dropbox/2nd-brain/org-roam-notes/home.org' wenn man bestimmte Datei beim Start öffnen will
-         Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
+         Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
          # Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
          Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
@@ -621,7 +616,7 @@ Zuerts Yay und Yay Packages installieren! Dann folgendes:
 #+begin_src sh  :dir /sudo::
 sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync && pip install jupyter notebook && echo 'Doom dependencies installiert' &&
 mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-cp -u ~/FlowmisOS/tangle/config.el ~/.config/doom/config.el && cp -u ~/FlowmisOS/tangle/init.el ~/.config/doom/init.el && cp -u ~/FlowmisOS/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/FlowmisOS/tangle/banner/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/themes/ ~/.config/doom/ && cp -R ~/FlowmisOS/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
 rm -rf ~/.doom.d && doomsync && doomdoctor
 #+end_src
 
@@ -1042,7 +1037,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
               (kbd "5") '(lambda () (interactive) (find-file "~/.config/doom/init.el"))
               (kbd "6") '(lambda () (interactive) (find-file "~/.config/doom/packages.el"))
               (kbd "7") '(lambda () (interactive) (find-file "~/.config/doom/config.el"))
-              (kbd "8") '(lambda () (interactive) (find-file "~/FlowmisOS/FlowmisOSinstall.org"))
+              (kbd "8") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
               (kbd "9") '(lambda () (interactive) (find-file "~/.config/qtile/config.py")))
           map))
 
@@ -1077,7 +1072,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 (after! org
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
-        org-agenda-files '("~/FlowmisOS/FlowmisOS.org"
+        org-agenda-files '("~/flowmis-os/flowmis-os.org"
                            "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org"
                            "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"
                            "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"
@@ -2318,7 +2313,7 @@ up () {
 alias vim="nvim"
 
 # Change Wallpaper
-alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
 
 # Changing "ls" to "exa"
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
@@ -2905,7 +2900,7 @@ alias .5='cd ../../../../..'
 alias sleep='python /home/flowmis/speicher-haupt/skripte-programme-configs/skripte/sleeptimer.py '
 
 # Change Wallpaper
-alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
 
 # vim and emacs
 alias vim='nvim'

@@ -1,10 +1,10 @@
 :Einstellungen:
-#+TITLE: FlowmisOS
+#+TITLE: flowmis-os
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
-cp -u ~/FlowmisOS/tangle/.xprofile ~/.xprofile
-# cp -u ~/FlowmisOS/tangle/.Xressources ~/.Xressources
-# cp -u ~/FlowmisOS/tangle/.gitconfig ~/.gitconfig
+# cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
+# cp -u ~/flowmis-os/tangle/.Xressources ~/.Xressources
+# cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
 echo done
 #+end_src
 
@@ -13,10 +13,10 @@ echo done
 
 :END:
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[[~/FlowmisOS/FlowmisOSinstall.org][Installation]]
-[[org:~/FlowmisOS/FlowmisOS.org::.xprofile][.xprofile]]
-[[org:~/FlowmisOS/FlowmisOS.org::.Xressources][.Xressources]]
-[[org:~/FlowmisOS/FlowmisOS.org::Virtual Box][VirtualBox]]
+[[~/flowmis-os/flowmis-os-install.org][Installation]]
+[[org:~/flowmis-os/flowmis-os.org::.xprofile][.xprofile]]
+[[org:~/flowmis-os/flowmis-os.org::.Xressources][.Xressources]]
+[[org:~/flowmis-os/flowmis-os.org::Virtual Box][VirtualBox]]
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ echo done
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 
-* TODO [#B] FlowmisOS [0%]
+* TODO [#B] flowmis-os [0%]
 :LOGBOOK:
 :END:
 
@@ -59,7 +59,7 @@ echo done
 * Linux & Arch
 
 
- 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem FlowmisOS aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
+ 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem flowmis-os aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
 
 ** Data
@@ -123,7 +123,7 @@ echo done
 
 - Backups von was, wie und wo hin?
 - Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
-- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit Versionskontrolle und git machen - siehe [[file:~/FlowmisOS/FlowmisOS.org::Backup Data on Cold-Storage (Festplatte)][git]]):
+- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit Versionskontrolle und git machen - siehe [[file:~/flowmis-os/flowmis-os.org::Backup Data on Cold-Storage (Festplatte)][git]]):
 
 **** rsync
 
@@ -297,7 +297,7 @@ helper = store
 
 ***** SSH & Github
 
-- SSH-Key erstellen siehe [[file:~/FlowmisOS/FlowmisOS.org::SSH & GPG/PGP][hier]]
+- SSH-Key erstellen siehe [[file:~/flowmis-os/flowmis-os.org::SSH & GPG/PGP][hier]]
 - Bei Github anmelden und Public SSH-Key dort hinzufügen
 - Nun kann ich Repo etc über ssh statt https downloaden und brauche keine git-credential Datei für private Repos!
 - Wenn ich meine Daten von der Festplatte ziehe kann ich auch meinen SSH-Key mit kopieren statt neue zu erstellen kann ich dann direkt auf Github zugreifen?
@@ -677,14 +677,14 @@ yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal w
   - [[/usr/share/sddm/themes/sugar-dark/theme.conf][sugar-dark Theme]]:
 
 #+begin_src  :dir /sudo::
-sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-dark/Hintergrund.jpg
+sudo cp -r /home/flowmis/flowmis-os/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-dark/Hintergrund.jpg
 sudo sed -i 's/Background="Background.jpg"/Background="Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-dark/theme.conf
 #+end_src
 
   - [[/usr/share/sddm/themes/sugar-candy/theme.conf][sugar-candy-Theme]]
 
 #+begin_src sh  :dir /sudo::
-sudo cp -r /home/flowmis/FlowmisOS/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
+sudo cp -r /home/flowmis/flowmis-os/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
 sudo chmod +666 /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
 sudo sed -i 's/Mountain.jpg"/Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
 sudo sed -i 's/BlurRadius="100"/BlurRadius="35"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
@@ -766,7 +766,7 @@ _Logitech G910-Tastatur:_
 https://wiki.archlinux.org/title/Touchpad_Synaptics habe aber auch eine Datei die ich hier erstelle und die direkt mit meinen Einstellungen an die richtige Stelle kopiert wird -> siehe Installskript
 
 #+begin_src shell :dir "/sudo::" :cache no
-sudo cp -r /home/flowmis/FlowmisOS/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
+sudo cp -r /home/flowmis/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
 #+end_src
 
 #+RESULTS:
@@ -859,7 +859,7 @@ EndSection
 # xrandr -s 1920x1200 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 # xrdb ~/.Xressources &
-nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds &
+nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #g810-led -s color all ff0000 #startup effect

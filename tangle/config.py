@@ -60,7 +60,7 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
          Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),    #'emacs ~/Dropbox/2nd-brain/org-roam-notes/home.org' wenn man bestimmte Datei beim Start öffnen will
          Key([mod], "p", lazy.spawn('keepassxc ~/HotPassw.kdbx'), desc='Passwortmanager'),    #'emacs ~/Dropbox/2nd-brain/org-roam-notes/home.org' wenn man bestimmte Datei beim Start öffnen will
-         Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'), desc="Wallpaperwechsel"),
+         Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
          # Key([mod], "a", lazy.spawn("sh /home/flowmis/.config/rofi/launchers/misc/launcher.sh"), desc='AppLauncher'),
          Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),

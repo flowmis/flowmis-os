@@ -130,7 +130,7 @@ up () {
 alias vim="nvim"
 
 # Change Wallpaper
-alias wallpaper='nitrogen --random --set-scaled /home/flowmis/FlowmisOS/Backgrounds'
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
 
 # Changing "ls" to "exa"
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
