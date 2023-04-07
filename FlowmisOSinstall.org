@@ -61,7 +61,7 @@ LC_CTYPE=de_DE.UTF-8
 #+end_src
 
 ** Installation
-1. Arch iso downloaden
+1. Arch iso downloaden:
    - Check ob Datei original und unverändert ist:
    #+begin_src shell
 gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
