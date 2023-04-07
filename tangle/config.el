@@ -12,7 +12,7 @@
         confirm-kill-emacs nil                                                                                  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
         org-publish-use-timestamps-flag nil                                                                     ;exportiert alles - macht Export leichter nachzuvollziehen
         org-export-with-broken-links t                                                                          ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
-        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmi/Git/pres/reveal" -> ist lokaler Pfad?
+        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmi/Git/pages/reveal" -> ist lokaler Pfad?
         org-reveal-mathjax t                                                                                    ;brauch ich es oder geht es auch ohne?
         eshell-rc-script "~/.config/doom/eshell/profile"
         eshell-aliases-file "~/.config/doom/eshell/aliases"
