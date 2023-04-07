@@ -8,13 +8,13 @@ cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis
 # cp -u ~/flowmis-os/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -u ~/flowmis-os/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -u ~/flowmis-os/tangle/config.rasi ~/.config/rofi/config.rasi
-cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
-cp -u ~/flowmis-os/tangle/.Xressources ~/.Xressources
-cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
-cp -u ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
-cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
+# cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
+# cp -u ~/flowmis-os/tangle/.Xressources ~/.Xressources
+# cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
+# cp -u ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+# cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
-cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
+# cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
 
