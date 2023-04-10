@@ -12,7 +12,7 @@
         confirm-kill-emacs nil                                                                                  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
         org-publish-use-timestamps-flag nil                                                                     ;exportiert alles - macht Export leichter nachzuvollziehen
         org-export-with-broken-links t                                                                          ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
-        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmi/Git/pages/reveal" -> ist lokaler Pfad?
+        org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmis/pages/reveal" -> ist lokaler Pfad?
         org-reveal-mathjax t                                                                                    ;brauch ich es oder geht es auch ohne?
         eshell-rc-script "~/.config/doom/eshell/profile"
         eshell-aliases-file "~/.config/doom/eshell/aliases"
@@ -44,6 +44,33 @@
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! org
+  (add-to-list 'org-latex-classes
+               '("maneart"
+                 "\\documentclass{article}
+                  [NO-DEFAULT-PACKAGES]
+                  [PACKAGES]
+                  [EXTRA]"
+                  ; NO-DEFAULT-PACKAGES] verhindert das Laden der Standard-Latex-Pakete, [PACKAGES] ermöglicht das Laden zusätzlicher Pakete und [EXTRA] enthält zusätzlichen LaTeX-Code, der in der Kopfzeile der Dokumentklasse platziert wird.
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("manepres"
+                 "\\documentclass{beamer}
+                  [NO-DEFAULT-PACKAGES]
+                  [PACKAGES]
+                  [EXTRA]"
+                  ; NO-DEFAULT-PACKAGES] verhindert das Laden der Standard-Latex-Pakete, [PACKAGES] ermöglicht das Laden zusätzlicher Pakete und [EXTRA] enthält zusätzlichen LaTeX-Code, der in der Kopfzeile der Dokumentklasse platziert wird.
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  )
+
 (use-package! gptel
  :config
  (setq! gptel-api-key ""))
