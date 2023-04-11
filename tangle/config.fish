@@ -240,6 +240,15 @@ alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
 alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
 alias pc='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
 
+# Backup
+alias backuphw='rsync -aurnv ~/speicher-haupt/* /run/media/flowmis/home-and-work/work/ && rsync -aurnv ~/speicher-big/* /run/media/flowmis/home-and-work/home/'
+alias backuphwdo='rsync -aurv ~/speicher-haupt/* /run/media/flowmis/home-and-work/work/ && rsync -aurv ~/speicher-big/* /run/media/flowmis/home-and-work/home/'
+alias backuphwdel='rsync -aurnv --delete ~/speicher-haupt/ /run/media/flowmis/home-and-work/work/ && rsync -aurnv --delete ~/speicher-big/ /run/media/flowmis/home-and-work/home/'
+alias backuphwdeldo='rsync -aurv --delete ~/speicher-haupt/ /run/media/flowmis/home-and-work/work/ && rsync -aurv --delete ~/speicher-big/ /run/media/flowmis/home-and-work/home/'
+alias backuphome='rsync -aurv --delete ~/speicher-big/ /run/media/flowmis/home/'
+# alias backupclouds=''
+# alias backuprepos=''
+
 # bluetooth
 alias blon='bluetoothctl power on && bluetoothctl connect CC:98:8B:64:28:0D'
 alias bloff='bluetoothctl power off && bluetoothctl disconnect CC:98:8B:64:28:0D'
