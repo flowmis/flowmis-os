@@ -722,7 +722,7 @@ Arch mit mehreren fest verbauten Festplatten:
     UUID=064d6fb6-aa09-461b-9601-d1c0c1e24a39       none                            swap    defaults            0 2
 
     # /dev/sdb
-    /dev/sdb                                        /home/flowmis/speicher-haupt    auto    noauto,user,exec    0 0
+    /dev/sdb                                        /home/flowmis/speicher-haupt    auto    user,exec           0 0
     #+end_src
 
 *** Eingabegeräte Tastatur/Maus
