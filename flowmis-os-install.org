@@ -3,8 +3,8 @@
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
 # mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-# cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
-cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
+# cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -u ~/flowmis-os/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -u ~/flowmis-os/tangle/config.rasi ~/.config/rofi/config.rasi
@@ -19,8 +19,8 @@ echo done
 #+end_src
 
 #+RESULTS:
-| ###########################Qtile | ready########################### |
-| done                             |                                  |
+| ###########################Doom | ready########################### |
+| done                            |                                  |
 
 :END:
 -------------------------------------------------------------------------------------------------------------------
@@ -1018,6 +1018,32 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 #+begin_src elisp :tangle tangle/config.el
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun export-chemie-klasse-10-präsentation ()
+  "Export to PDF und hinzufügen der Export Settings als Header - Löschen des Headers klappt noch nicht"
+  (interactive)
+  (let ((header-text "
+
+:LatexExportSettings:
+
+,#+SETUPFILE: ~/Dropbox/2nd-brain/latex/präsentation-vorlage.org
+,#+export_file_name: ~/Dropbox/shared-unterricht/präsentationen/redoxreaktion.pdf
+,#+LATEX_HEADER: \\input{~/Dropbox/2nd-brain/latex/zusatzeinstellungen-präsentation.tex}
+,#+OPTIONS: author:nil date:nil title:nil num:nil toc:nil
+# H:2: Macht irgendwie dass die Umgebung enumerate ab einem gewissen Level automatiusch darum gesetzte wird -vll vützlich für Blöcke?
+# num:t: Nummeriere die Überschriften.
+# toc:t: Füge ein Inhaltsverzeichnis hinzu.
+
+\\maketitle
+
+:END:
+"))
+
+    (save-excursion
+      (goto-char (point-min))
+      (insert "\n" header-text "\n")
+      (org-latex-export-to-pdf)
+      (delete-region (point-min) (+ (length header-text) 2)))))
 (after! org
   (add-to-list 'org-latex-classes
                '("maneart"
@@ -1202,6 +1228,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
                                      ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/2nd-brain/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
+(org-roam-db-sync)
 #+end_src
 
 **** Snippets

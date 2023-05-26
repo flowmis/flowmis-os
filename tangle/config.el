@@ -44,6 +44,32 @@
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun export-chemie-klasse-10-präsentation ()
+  "Export to PDF und hinzufügen der Export Settings als Header - Löschen des Headers klappt noch nicht"
+  (interactive)
+  (let ((header-text "
+
+:LatexExportSettings:
+
+#+SETUPFILE: ~/Dropbox/2nd-brain/latex/präsentation-vorlage.org
+#+export_file_name: ~/Dropbox/shared-unterricht/präsentationen/redoxreaktion.pdf
+#+LATEX_HEADER: \\input{~/Dropbox/2nd-brain/latex/zusatzeinstellungen-präsentation.tex}
+#+OPTIONS: author:nil date:nil title:nil num:nil toc:nil
+# H:2: Macht irgendwie dass die Umgebung enumerate ab einem gewissen Level automatiusch darum gesetzte wird -vll vützlich für Blöcke?
+# num:t: Nummeriere die Überschriften.
+# toc:t: Füge ein Inhaltsverzeichnis hinzu.
+
+\\maketitle
+
+:END:
+"))
+
+    (save-excursion
+      (goto-char (point-min))
+      (insert "\n" header-text "\n")
+      (org-latex-export-to-pdf)
+      (delete-region (point-min) (+ (length header-text) 2)))))
 (after! org
   (add-to-list 'org-latex-classes
                '("maneart"
@@ -205,6 +231,7 @@
                                      ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/2nd-brain/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
+(org-roam-db-sync)
 
 ;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'yasnippet)
