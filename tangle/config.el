@@ -44,6 +44,37 @@
 (require 'ob-jupyter)                                                                                           ;wenn das nicht ausreicht sollte ich es mit folgendem ersetzen: (require 'jupyter) -> und wenn das auch nicht klappt jupyter-python in source block ersetzen durch nur jupyter
 
 ;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! evil
+(fset 'mane-test-macro
+(kmacro-lambda-form [?i ?H ?a ?l ?l ?o ?  ?\C-x ?q ?, return return ?i ?c ?h ?  ?h ?a ?b ?e ?  ?h ?i ?e ?  backspace ?r ?  ?e ?i ?n ?e ?n ?  ?f backspace ?v ?o ?r ?f ?o backspace ?o ?r ?m ?u ?l ?i ?e ?r ?t ?e ?n ?  ?T ?e ?x ?t ?. ?  ?I ?c ?h ?  ?m ?ö ?c ?h ?t ?e ?  ?d ?i ?r ?  ?s ?a ?g ?e ?n ?: ?  return ?1 ?. ?  ?\C-x ?q C-return ?\C-x ?q C-return ?\C-x ?q return return backspace ?L ?G return ?M ?a ?n ?e] 0 "%d")))
+(map! :leader
+:desc "execute macro von mane"
+"m m 1" #'mane-test-macro)
+
+(defvar mane-block-markup-hidden nil
+  "Variable to track the state of block markup visibility.")
+(defun mane-toggle-block-markup ()
+  "Toggle visibility of Org mode block markup."
+  (interactive)
+  (setq mane-block-markup-hidden (not mane-block-markup-hidden))
+  (if mane-block-markup-hidden
+      (mane-hide-block-markup)
+    (remove-overlays)))
+(defun mane-hide-block-markup ()
+  "Hide Org mode block markup."
+  (interactive)
+  (save-excursion
+    (beginning-of-buffer)
+    (while (re-search-forward "^\\(#\\+begin\\|#\\+end\\)_src" nil t)
+      (let ((overlay (make-overlay (line-beginning-position) (line-end-position))))
+        (overlay-put overlay 'invisible t)))))
+(add-hook 'org-mode-hook #'mane-hide-block-markup)
+(map! :leader
+:desc "begin und end block Kennzeichnung wird ausgeblendet"
+"t 1" #'mane-toggle-block-markup)
+
+(setq mane-toggle-block-markup nil)
+(setq imenu-list-focus-after-activation t)
 
 (defun export-chemie-klasse-10-präsentation ()
   "Export to PDF und hinzufügen der Export Settings als Header - Löschen des Headers klappt noch nicht"
@@ -244,6 +275,7 @@
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
 ;;leader ist in Doom <SPC> -> prefix der andernorts vergeben ist und hier nicht verwendet werden sollte "d" - dired
 (map! :leader
+       :desc "toggle imenu-list" "SPC" #'imenu-list-smart-toggle              ;geht auch mit <Fn rechts> bei aktuellem Laptop
        :desc "end of line" "<right>" #'end-of-line              ;geht auch mit <Fn rechts> bei aktuellem Laptop
        :desc "start of line" "<left>" #'beginning-of-line       ;geht auch mit <Fn links> bei aktuellem Laptop
        :desc "page down" "<down>" #'evil-scroll-page-down       ;geht auch mit <Fn hoch> bei aktuellem Laptop - auch <Strg hoch> oft sinnvoller Sprung

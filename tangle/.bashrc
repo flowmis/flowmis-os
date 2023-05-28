@@ -3,7 +3,7 @@ export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
 export ALTERNATE_EDITOR=""                        # setting for emacsclient
 export EDITOR="emacsclient -t -a ''"              # $EDITOR use Emacs in terminal
 export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
-
+export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini #brauche ich für die nextcloud
 ###Virtualenvwrapper settings
 # export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 # export WORKON_HOME=$HOME/.virtualenvs

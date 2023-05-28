@@ -22,6 +22,7 @@
 (package! org-fancy-priorities :disable t)
 (package! nano-modeline)
 (package! org-download)
+(package! imenu-list)
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
