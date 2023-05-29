@@ -28,6 +28,8 @@ echo done
 - [[~/flowmis-os/flowmis-os.org][flowmis-os]]
 -------------------------------------------------------------------------------------------------------------------
 
+* Installation Windows mit wsl
+https://www.youtube.com/watch?v=h0Wg_aknGdc
 * Installation
 
 - [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
