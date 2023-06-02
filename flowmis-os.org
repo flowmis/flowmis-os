@@ -847,6 +847,14 @@ EndSection
   - ~connect "devicename"~ (verbindet zu einem Gerät)
   - ~trust "devicename"~ (ermöglicht automatisch eine Verbindung herzustellen)
   - ... - use Tab to see option or to fill with name of device etc.
+*** Drucker
+- ~sudo pacman -S usbutils system-config-printer cups~
+- ~lsusb~ check ob er erkannt wird
+- ~yay -Ss brother~ bzw. anderer Namen und dann schauen ob man den Treiber für sein Gerät findet und diesen dann installieren
+- ~sudo systemctl start cups.service~
+- http://localhost:631 öffnen und in der cups Oberfläche ganz oben auf Verwaltung gehen. Dort mit Benutzerdaten anmelden und den Drucker hinzufügen. Im Anschluss kann ich system-config-printer öffnen und dort sollte nun der Drucker sein und konfiguriert werden können. Zudem findet nun auch libre office etc. den Drucker.
+
+
 
 ** .xprofile
 

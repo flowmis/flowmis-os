@@ -145,7 +145,7 @@
        json              ; At least it ain't XML
        ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
-       julia             ; a better, faster MATLAB
+;       julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
@@ -158,10 +158,10 @@
        (org
         +pretty            ; installiert org-fancy priorities, org-superstar, org-appear
         +noter
-        +jupyter
-        +ipython
-        +pandoc
-        +gnuplot)               ; organize your plain life in plain text
+;        +jupyter
+;        +ipython
+         +pandoc
+         +gnuplot)               ; organize your plain life in plain text
        php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
