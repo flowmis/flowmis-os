@@ -279,12 +279,12 @@
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
 ;;leader ist in Doom <SPC> -> prefix der andernorts vergeben ist und hier nicht verwendet werden sollte "d" - dired
-(setq doom-localleader-key "ESC")
+(setq doom-localleader-key "<delete>")
 ;(map! :localleader
 ;       :desc "toggle imenu-list" "SPC" #'imenu-list-smart-toggle)              ;geht auch mit <Fn rechts> bei aktuellem Laptop
 
 (map! :leader
-      :desc "Comment or uncomment lines" "DEL" #'comment-line)
+      :desc "Comment or uncomment lines" "SPC" #'comment-line)
 
 
 
