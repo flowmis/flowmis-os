@@ -1353,7 +1353,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 ;       :desc "toggle imenu-list" "SPC" #'imenu-list-smart-toggle)              ;geht auch mit <Fn rechts> bei aktuellem Laptop
 
 (map! :leader
-      :desc "Comment or uncomment lines" "DEL" #'comment-line)
+      :desc "Comment or uncomment lines" "<delete>" #'comment-line)
 
 
 
