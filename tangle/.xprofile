@@ -6,8 +6,8 @@ nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 #g810-led -s color all ff0000 #startup effect
-g810-led -fx color all 880000 #ganzes Keyboard Farbe ändern
-g810-led -g keys 723535
+# g810-led -fx color all 880000 #ganzes Keyboard Farbe ändern
+# g810-led -g keys 723535
 # g810-led -k logo 987bfe
 # g810-led -k g1 ce7ea2 && g810-led -k g2 ce7ea2 && g810-led -k g3 ce7ea2 && g810-led -k g4 ce7ea2 && g810-led -k g5 ce7ea2 && g810-led -k g6 ce7ea2 && g810-led -k g7 ce7ea2 && g810-led -k g8 ce7ea2 && g810-led -k g9 ce7ea2     # setzt Farbeinstellungen für meine Logitech Tastatur
 # g810-led -g functions ff00ff
@@ -21,6 +21,7 @@ g810-led -g keys 723535
 gtk-launch dropbox.desktop &
 gtk-launch thunderbird.desktop &
 gtk-launch lxappearance.desktop &
+bluetoothctl connect DC:2C:26:12:71:EA
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 # /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo

@@ -406,7 +406,7 @@ background contrast. All other values default to \"medium\"."
    (org-scheduled-today         :foreground mane1)
    (org-sexp-date               :foreground mane1 :underline t)
    (org-table                   :foreground mane1)
-   (org-tag                     :weight 'thin :foreground cyan)
+   (org-tag                     :weight 'thin :foreground base4)
    (org-time-grid               :foreground mane4)
    (org-todo                    :foreground mane1 :weight 'normal)
    (org-upcoming-deadline       :inherit 'font-lock-keyword-face)
