@@ -860,7 +860,7 @@ EndSection
 
 + Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
   -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
-
+  
 #+begin_src sh :tangle tangle/.xprofile
 #setxkbmap -layout de &
 # xrandr -s 1920x1200 &                               # In VM aktivieren
@@ -885,7 +885,8 @@ picom -f &                                          # setzt Einstellungen des Co
 gtk-launch dropbox.desktop &
 gtk-launch thunderbird.desktop &
 gtk-launch lxappearance.desktop &
-bluetoothctl connect DC:2C:26:12:71:EA
+#bluetoothctl connect DC:2C:26:12:71:EA &
+#bluetoothctl connect FC:E8:06:2C:98:5B
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 # /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo

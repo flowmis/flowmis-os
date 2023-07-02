@@ -21,7 +21,8 @@ picom -f &                                          # setzt Einstellungen des Co
 gtk-launch dropbox.desktop &
 gtk-launch thunderbird.desktop &
 gtk-launch lxappearance.desktop &
-bluetoothctl connect DC:2C:26:12:71:EA
+#bluetoothctl connect DC:2C:26:12:71:EA &
+#bluetoothctl connect FC:E8:06:2C:98:5B
 # gtk-launch nm-applet.desktop &
 # gtk-launch volumeicon.desktop &
 # /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
