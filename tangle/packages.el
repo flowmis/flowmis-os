@@ -19,8 +19,8 @@
 (unpin! org-roam) ;macht es stabiler da es nicht wirklich geupdated wird - siehe Info zu unpin!
 (package! org-roam-ui)
 (package! graphviz-dot-mode)
+(package! doom-modeline)
 (package! org-fancy-priorities :disable t)
-(package! nano-modeline)
 (package! org-download)
 (package! imenu-list)
 ;; (package! olivetti)

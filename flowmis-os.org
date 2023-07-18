@@ -860,7 +860,7 @@ EndSection
 
 + Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
   -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
-  
+
 #+begin_src sh :tangle tangle/.xprofile
 #setxkbmap -layout de &
 # xrandr -s 1920x1200 &                               # In VM aktivieren
