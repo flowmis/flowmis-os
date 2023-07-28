@@ -887,6 +887,7 @@ picom -f &                                          # setzt Einstellungen des Co
 gtk-launch dropbox.desktop &
 gtk-launch thunderbird.desktop &
 gtk-launch lxappearance.desktop &
+gtk-launch cerebro.desktop &
 #bluetoothctl connect DC:2C:26:12:71:EA &
 #bluetoothctl connect FC:E8:06:2C:98:5B
 # gtk-launch nm-applet.desktop &
