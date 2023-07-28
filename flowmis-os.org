@@ -362,6 +362,8 @@ https://wiki.archlinux.de/title/Pacman
 
 **** Weitere Programme
 
+- zathura als schöner minimaler pdf reader
+- cerebro als Suche und Appöffnungsprogramm ähnlich zu roofi
 - ScreenRecorder: deepin-screen-recorder
 - Screenshots: flameshot (ähnlich zu snipping tool) -> Alternative: spectacle od. maim (Nachfolger von scrot)
 - System optimzer and application monitor: Stacer https://github.com/oguzhaninan/Stacer
