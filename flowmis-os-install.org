@@ -1,5 +1,4 @@
 :Einstellungen:
-#+TITLE: Install flowmis-os
 #+STARTUP: folded hideblocks shrink
 
 #+begin_src shell
@@ -24,6 +23,7 @@ echo done
 | done                            |                                  |
 
 :END:
+#+TITLE: Install flowmis-os
 -------------------------------------------------------------------------------------------------------------------
 - [[~/flowmis-os/flowmis-os.org][flowmis-os]]
 -------------------------------------------------------------------------------------------------------------------
@@ -1029,7 +1029,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 **** Source Blocks Markup
 
 #+begin_src elisp :tangle tangle/config.el
-;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;Src-Blck-Markup;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar mane-block-markup-hidden nil
   "Variable to track the state of block markup visibility.")
 (defun mane-toggle-block-markup ()
@@ -1061,6 +1061,20 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 (use-package! gptel
  :config
  (setq! gptel-api-key ""))
+#+end_src
+
+**** Verschlüsselung
+
+#+begin_src elisp :tangle tangle/config.el
+;;;Verschlüsselung;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance '("crypt"))
+
+(setq org-crypt-key t)
+;; GPG key to use for encryption. - kann ich statt t auch den Fingerabdruck angeben der standardmäßig verwendet werden soll?
+;; nil means  use symmetric encryption unconditionally.
+;; "" means use symmetric encryption unless heading sets CRYPTKEY property.
 #+end_src
 
 **** Startseite
