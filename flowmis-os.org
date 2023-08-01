@@ -64,12 +64,60 @@ echo done
 
 ** Data
 
-*** Ordnerstruktur
+*** Dateistruktur und Dateiorganisation
+- Es gibt unterschiedliche Systeme, die hier kurz zusammengefasst dargestellt sind:
+
+    [[~/Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2023-08-01-dateiorga-überblick.png]]
+
+  - PARA
+
+    [[~/Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2023-08-01-dateiorga-para.png]]
+
+  - ACCESS bzw. EACCESS
+
+    [[~/Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2023-08-01-dateiorga-access.png]]
+
+  - Johnny Decimal
+
+    [[~/Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2023-08-01-dateiorga-johnny.png]]
+
+  - GTD und [[id:a738d2f8-7f0c-4845-9157-d24f44a8a52d][Zettelkasten]]
+
+    [[~/Dropbox/2nd-brain/org-roam-notes/bilder/org-download/2023-08-01-dateiorga-flat.png]]
+
+- Ich nutze eine Mischung aus unterschiedlichem
+  - Ich habe einen Ordner der alles beinhaltet und den ich Life nenne.
+    Darin enthalten ist:
+    - Zeit/Membran/Void Ordner (hier wird hauptsächlich mit Ordnern und Zeitangaben gearbeitet - alles was an Information in mein System kommt und alles was es wieder verlässt befindet sich hier)
+      - Inbox und Outbox - Zwischenablage die entscheidet was rein und was raus geht und was in der Schwebe bleibt (alles was noch ein oder aussortiert werden muss)
+      - Papierkorb
+      - Archiv
+      - Agenda (Tasks and ToDos) - hier werden alle zeitlich relevanten Aspekte gesammelt
+      - Kalender
+      - Journal
+      - Memories (nach Zeit sortierte Erinnerung und Erlebnisse die ich speichern will - Bilder, Videos etc.)
+      - Extras - externes Wissen (Vorlagen, Anhänge, Literatur und sonstige Sources/Quellen wie Bücher, Videos, Podcasts und sonstige Dateien)
+    - Raum/Atlas Ordner (hier wird hauptsächlich mit Links gearbeitet - Obsidian, Roam) - FLAT-Methode, wo Ordnung über Indexfiles, Tags und Namensgebungder Dateien erfolgt
+      - Wissen- & Energie-Ordner
+      - Verlinkungen holen sich entsprechende Ressourcen außerhalb des Raums und fügen Ordnung hinzu bzw. die hier erstellten Indexfiles helfen bei der Orga der restlichen Ordner (Index file für Membran hilft mit Skripten aufzuräumen, umzubenennen etc.; Indexfile für Projekte gibt Übersicht über die Projekte und deren Organisation)
+      - MOC, Atomare-Ideen, Konzepte, Second Brain und PKM -> Wissen wird hier gelagert
+    - Energie/Projekte/Action Ordner (hier wird mit einem Mix aus Links, Ordnern und Timestamps/Zeitangaben gearbeitet in diese Spaces fließt meine Energie in Form von Arbeit ein) - beendete Dinge gehen in das Archiv, aber das meiste sind fortlaufende Projekte die in ständigem Wandel und Weiterentwicklung sind
+      - Projekte können eigene Ordner haben in denen den Projekten spezifische Dateien zugeordnet sind, aber alles was auch andernorts verwendet werden kann hat hier nichts zu suchen und sollte "befreit" werden indme man vom Projekt aus nur darauf verlinkt!
+      - Work
+      - Familie
+
+  - _Regeln:_
+    - Ein Backup ist kein Backup - min 2 Backups um bei Wiederherstellung bzw. bei der Arbeit mit dem Backupspeicher keine Gefahr einzugehen (durch Fehler im Skript zur Wiederherstellung oder ähnlichen tut man schonmal etwas unbeabsichtigt löschen! - bei 3 Backups muss man weniger vorsichtig sein und kann beim Backupprozess auch mal ein Fehler machen - dann jedoch muss alles an Alramglocken losgehen und es darf bei Backup 3 kein Fehler gemacht werden!)
+    - Im Zweifel sollte ein Link einem Ordner vorgezogen werden - sei sehr vorsichtig und sparsam beim Einsatz von Ordnern (starre und unfreie Gebilde, die Information verstecken indem diese in Schubladen gelegt werden)
+    - Links verbinden Ideen, helfen bei der Navigation
+    - Tags sind hilfreich wenn man keine Indexnote für einen Bereich erstellen möchte, einen bestimmten Status an eine Notiz anheften will (completed, work in progress, atomic note,...), oder um Notizen einen speziellen Character zu verleihen (Buchnotiz, Zitat, Konzept,...)
+
+
 - _Tool to see Ordner & Dateistruktur:_ =tree=
-    #+begin_src shell :dir /sudo:: :results none
-    sudo pacman -S tree
-    sudo tree -dCL 3 /
-    #+end_src
+   #+begin_src shell :dir /sudo:: :results none
+   sudo pacman -S tree
+   sudo tree -dCL 3 /
+   #+end_src
   - _Flags_:
     (siehe auch ~sudo man tree~)
     -d = nur Ordner ohne Dateien
