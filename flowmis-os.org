@@ -45,7 +45,8 @@ echo done
 :LOGBOOK:
 :END:
 
-  - [ ] genauere Ordnerstruktur jeweils in die entsprechenden .org Datei ganz oben einfügen -> Haupt org files Standardsieren und prinzipiell gleich aufbauen
+  - [ ] Wechsel auf Nix OS!
+  - [ ] Vorlage für alle index files und für neue atomare Ideen sowie Konzepte etc. machen
   - [ ] Kann ich diese Repo privat stellen und trotzdem leicht clonen/verwenden um das Installationsskript etc. auszuführen oder ist entsprechend vorbereitete/angepasste Iso nötig
   - [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
   - [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab

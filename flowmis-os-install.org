@@ -1405,8 +1405,8 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
       :desc "org-roam-buffer-toggle" "x S" #'org-download-clipboard
       :desc "org-roam-buffer-toggle" "x r" #'org-download-rename-at-point
       :desc "org-roam-buffer-toggle" "x u" #'org-roam-ui-open
-      :desc "find node/new node" "x f" #'org-roam-node-find
-      :desc "insert node" "x i" #'org-roam-node-insert
+      :desc "find node/new node" "f f" #'org-roam-node-find
+      :desc "insert node" "f i" #'org-roam-node-insert
       :desc "make ditaa work" "x d" #'activate-ditaa-path
       :desc "expand table" "x e" #'org-table-shrink
       :desc "expand table" "x E" #'org-table-expand
