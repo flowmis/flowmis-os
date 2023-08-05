@@ -1,5 +1,5 @@
 ##Speicher formmatieren (Annahme die Festplatte wird als sda erkannt - ansonsten die Namen entsprechend abändern)
-fdisk -l                                                                    # Alternativ: <lsblk> 
+fdisk -l                                                                    # Alternativ: <lsblk>
 fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
 <g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
 <n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
@@ -7,11 +7,11 @@ fdisk /dev/sda                                                              # mi
 <t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
 <t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
 <w>                                                                         # write changes und fdisk verlassen
-mkfs.fat -F32 /dev/sda1                                                     
+mkfs.fat -F32 /dev/sda1
 mkswap /dev/sda2
 swapon /dev/sda2
-mkfs.ext4 /dev/sda3                                       
-mount /dev/sda3 /mnt                                      
+mkfs.ext4 /dev/sda3
+mount /dev/sda3 /mnt
 pacstrap /mnt base linux linux-firmware                                     # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
 genfstab -U /mnt >> /mnt/etc/fstab                                          # generiert FileSystemTable
 arch-chroot /mnt                                                            # Mit root in /mnt gehen

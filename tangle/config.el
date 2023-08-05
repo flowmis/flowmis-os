@@ -145,6 +145,9 @@
 (setq org-latex-hyperref-template nil)
 
 (doom-modeline-mode 1)
+(setq display-time-day-and-date t
+      display-time-24hr-format t)
+(display-time-mode 1)
 
 ;;;org-download;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'org-download)

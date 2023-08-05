@@ -28,7 +28,7 @@ echo done
 - [[~/flowmis-os/flowmis-os.org][flowmis-os]]
 -------------------------------------------------------------------------------------------------------------------
 
-* Installation Windows mit wsl
+* Installation flowmis-os on Windows mit wsl
 https://www.youtube.com/watch?v=h0Wg_aknGdc
 * Installation
 
@@ -172,7 +172,7 @@ pacman -S xf86-video-fbdev                                                # Graf
         ~loadkeys de-latin1~                                         # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
 #+begin_src shell :tangle tangle/install-hardware.sh
 ##Speicher formmatieren (Annahme die Festplatte wird als sda erkannt - ansonsten die Namen entsprechend abändern)
-fdisk -l                                                                    # Alternativ: <lsblk> 
+fdisk -l                                                                    # Alternativ: <lsblk>
 fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
 <g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
 <n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
@@ -180,11 +180,11 @@ fdisk /dev/sda                                                              # mi
 <t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
 <t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
 <w>                                                                         # write changes und fdisk verlassen
-mkfs.fat -F32 /dev/sda1                                                     
+mkfs.fat -F32 /dev/sda1
 mkswap /dev/sda2
 swapon /dev/sda2
-mkfs.ext4 /dev/sda3                                       
-mount /dev/sda3 /mnt                                      
+mkfs.ext4 /dev/sda3
+mount /dev/sda3 /mnt
 pacstrap /mnt base linux linux-firmware                                     # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
 genfstab -U /mnt >> /mnt/etc/fstab                                          # generiert FileSystemTable
 arch-chroot /mnt                                                            # Mit root in /mnt gehen
@@ -614,7 +614,16 @@ wmname = "LG3D"
 #+end_src
 
 ** Emacs
-Zuerts Yay und Yay Packages installieren! Dann folgendes:
+_Mobiler Zugriff auf meine .org Dateien über:_
+- Organice: https://organice.200ok.ch/
+- Orgzly: https://orgzly.com/
+- Orgro: https://orgro.org/
+- official Emacs build for Android - still a little bit rough: https://f-droid.org/packages/org.gnu.emacs/
+
+_Emacs im Terminal über:_
+- Termux: run Emacs in terminal mode to have full Org Mode functionality.
+
+Für die Installation: Erst yay und yay Packages installieren! Dann folgendes:
 
 #+begin_src sh  :dir /sudo::
 sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync && pip install jupyter notebook && echo 'Doom dependencies installiert' &&
@@ -1147,6 +1156,9 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-fonts> ausführen und neu starten - siehe auch: https://github.com/seagle0128/doom-modeline
 #+begin_src elisp :tangle tangle/config.el
 (doom-modeline-mode 1)
+(setq display-time-day-and-date t
+      display-time-24hr-format t)
+(display-time-mode 1)
 #+end_src
 
 **** Screenshots/org-download
