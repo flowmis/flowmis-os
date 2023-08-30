@@ -240,18 +240,12 @@ alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
 alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
 alias pc='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
 
-# Backup
-alias backuphw='rsync -aurnv ~/speicher-haupt/* /run/media/flowmis/home-and-work/work/ && rsync -aurnv ~/speicher-big/* /run/media/flowmis/home-and-work/home/'
-alias backuphwdo='rsync -aurv ~/speicher-haupt/* /run/media/flowmis/home-and-work/work/ && rsync -aurv ~/speicher-big/* /run/media/flowmis/home-and-work/home/'
-alias backuphwdel='rsync -aurnv --delete ~/speicher-haupt/ /run/media/flowmis/home-and-work/work/ && rsync -aurnv --delete ~/speicher-big/ /run/media/flowmis/home-and-work/home/'
-alias backuphwdeldo='rsync -aurv --delete ~/speicher-haupt/ /run/media/flowmis/home-and-work/work/ && rsync -aurv --delete ~/speicher-big/ /run/media/flowmis/home-and-work/home/'
-alias backuphome='rsync -aurv --delete ~/speicher-big/ /run/media/flowmis/home/'
-# alias backupclouds=''
-# alias backuprepos=''
-
-# bluetooth
-alias blon='bluetoothctl power on && bluetoothctl connect CC:98:8B:64:28:0D'
-alias bloff='bluetoothctl power off && bluetoothctl disconnect CC:98:8B:64:28:0D'
+# Backup dry run
+alias bun='rsync -aurvn --delete --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
+# Backup ohne löschen nur mit updaten und kopieren
+alias bus='rsync -aurv --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
+# Backup mit löschen wenn etwas gelöscht wurde - gefährlichstes aber sinnvollstes backup
+alias bud='rsync -aurv --delete --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
 
 # get fastest mirrors
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"

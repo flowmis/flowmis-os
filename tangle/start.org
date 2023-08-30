@@ -2,10 +2,10 @@
 
 ⦿ *Shortcuts/Jumps* (Press =1-9= um direkt zu einer Datei zu springen)
 |---+--------------------+--------------------------------------|
-| =1= | [[~/Dropbox/2nd-brain/org-roam-notes/home.org][home.org]]           | Freizeit und Hobby                   |
-| =2= | [[~/Dropbox/2nd-brain/org-roam-notes/work.org][work.org]]           | Arbeit allgemein                     |
-| =3= | [[~/Dropbox/2nd-brain/org-roam-notes/work/2022-12-15-schule.org][schule.org]]         | Schule                               |
-| =4= | [[~/Dropbox/2nd-brain/org-roam-notes/bildung-wissen/2022-12-15-bildung-wissen.org][bildung-wissen.org]] | Bücher, Zitate,...                   |
+| =1= | [[~/cloud/life/raum/.org/home.org][home.org]]           | Freizeit und Hobby                   |
+| =2= | [[~/cloud/life/raum/.org/work.org][work.org]]           | Arbeit allgemein                     |
+| =3= | [[~/cloud/life/raum/.org/work/2022-12-15-schule.org][schule.org]]         | Schule                               |
+| =4= | [[~/cloud/life/raum/.org/bildung-wissen/2022-12-15-bildung-wissen.org][bildung-wissen.org]] | Bücher, Zitate,...                   |
 | =5= | [[~/.config/doom/init.el][init.el]]            | Doom initiale Paketinstallation etc. |
 | =6= | [[~/.config/doom/packages.el][packages.el]]        | Doom Pakete                          |
 | =7= | [[~/.config/doom/config.el][config.el]]          | Doom config                          |

@@ -4,7 +4,7 @@
   :init
   (setq user-full-name "Markus Hoffmann"
         undo-tree-auto-save-history t
-        undo-tree-history-directory-alist '(("." . "~/Dropbox/2nd-brain/undo-tree-history/"))
+        undo-tree-history-directory-alist '(("." . "~/cloud/life/zeit/papierkorb/undo-tree-history/"))
         save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
         org-log-into-drawer 1                                                                                   ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
         doom-scratch-initial-major-mode 'lisp-interaction-mode                                                  ;scratch buffer automatisch im elisp mode um Dinge zu testen
@@ -18,7 +18,7 @@
         eshell-aliases-file "~/.config/doom/eshell/aliases"
         eshell-buffer-maximum-lines 5000
         eshell-scroll-to-bottom-on-input t
-        org-directory "~/Dropbox/2nd-brain/org-roam-notes/"
+        org-directory "~/cloud/life/raum/.org/"
         ))
 ;;;CONFIG AFTER ORG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
@@ -28,17 +28,17 @@
         org-log-done 'time
         delete-by-moving-to-trash t     ;oder 'move-file-to-trash t'??
         trash-directory "~/.papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
-        ;; org-journal-dir "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/journal/"
+        ;; org-journal-dir "~/cloud/life/raum/.org/roam-orga/journal/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
-        org-capture-templates '(("1" "TODO" entry (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
-                                ("2" "Einkaufsliste" checkitem (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Einkaufsliste"))
-                                ("3" "Wunschliste" checkitem (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Wunschliste"))
-                                ("4" "Neue Abrechnung" table-line (file+headline "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org" "Abrechnungen Jo"))
-                                ("a" "Appointment" entry (file  "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                ("j" "Daily Journal" entry (file+olp+datetree "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
+        org-capture-templates '(("1" "TODO" entry (file+headline "~/cloud/life/raum/.org/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
+                                ("2" "Einkaufsliste" checkitem (file+headline "~/cloud/life/raum/.org/roam-orga/home.org" "Einkaufsliste"))
+                                ("3" "Wunschliste" checkitem (file+headline "~/cloud/life/raum/.org/roam-orga/home.org" "Wunschliste"))
+                                ("4" "Neue Abrechnung" table-line (file+headline "~/cloud/life/raum/.org/roam-orga/work.org" "Abrechnungen Jo"))
+                                ("a" "Appointment" entry (file  "~/cloud/life/raum/.org/roam-orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/cloud/life/raum/.org/roam-orga/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
 ;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 
@@ -93,10 +93,10 @@
   :keymap (let ((map (make-sparse-keymap)))
           ;;(define-key map (kbd "M-z") 'eshell)
             (evil-define-key 'normal start-mode-map
-              (kbd "1") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/home.org"))
-              (kbd "2") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/work.org"))
-              (kbd "3") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/work/2022-12-15-schule.org"))
-              (kbd "4") '(lambda () (interactive) (find-file "~/Dropbox/2nd-brain/org-roam-notes/bildung-wissen/2022-12-15-bildung-wissen.org"))
+              (kbd "1") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
+              (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
+              (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work/2022-12-15-schule.org"))
+              (kbd "4") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung-wissen/2022-12-15-bildung-wissen.org"))
               (kbd "5") '(lambda () (interactive) (find-file "~/.config/doom/init.el"))
               (kbd "6") '(lambda () (interactive) (find-file "~/.config/doom/packages.el"))
               (kbd "7") '(lambda () (interactive) (find-file "~/.config/doom/config.el"))
@@ -151,20 +151,21 @@
 
 ;;;org-download;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'org-download)
-(setq-default org-download-image-dir "~/Dropbox/2nd-brain/org-roam-notes/bilder/org-download")
+(setq-default org-download-image-dir "~/cloud/life/zeit/extras/org-download")
 (add-hook 'dired-mode-hook 'org-download-enable)
 (setq-default org-download-screenshot-method "flameshot gui --raw > %s")
 (setq-default org-download-heading-lvl nil) ;falls ich das nicht habe wird ein Ordner erstellt mmit dem Namen des Headers unter den das Bild eingefügt wird - so kommt kein zusätzlicher Ordner
-(setq-default org-download-timestamp "%Y-%m-%d-%H-%M-%S-")
+(setq-default org-download-timestamp "%Y-%m-%d-")
+;; (setq-default org-download-timestamp "%Y-%m-%d-%H-%M-%S-")
 
 ;;;Agenda;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-agenda-files '("~/flowmis-os/flowmis-os.org"
-                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/gcal.org"
-                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/home.org"
-                           "~/Dropbox/2nd-brain/org-roam-notes/roam-orga/work.org"
+                           "~/cloud/life/raum/.org/roam-orga/gcal.org"
+                           "~/cloud/life/raum/.org/roam-orga/home.org"
+                           "~/cloud/life/raum/.org/roam-orga/work.org"
                            )
         org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
@@ -239,19 +240,19 @@
 ;;;ROAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
   :config
-  (setq org-roam-directory "~/Dropbox/2nd-brain/org-roam-notes"
+  (setq org-roam-directory "~/cloud/life/raum/.org"
         org-roam-db-autosync-mode t   ;Falls Probleme manuell <M-x org-roam-db-sync> um neu angelegte files in roam zu finden
         org-roam-ui-sync-theme t      ;Falls Probleme manuell <M-x org-roam-ui-sync-theme> und dann neustart des ui-mode um Brain im Browser zu navigieren (nun im gleichen Theme wie Emacs)
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t
-        org-roam-capture-templates '(("b" "book notes" plain (file "~/Dropbox/2nd-brain/templates/BookTemplate.org")
+        org-roam-capture-templates '(("b" "book notes" plain (file "~/cloud/life/raum/.org/templates/BookTemplate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)
-                                     ("n" "normal/einfach nur mit Datum" plain (file "~/Dropbox/2nd-brain/templates/normal.org")
+                                     ("n" "normal/einfach nur mit Datum" plain (file "~/cloud/life/raum/.org/templates/normal.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)
-                                     ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/Dropbox/2nd-brain/templates/Zitate.org")
+                                     ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/cloud/life/raum/.org/templates/Zitate.org")
                                       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
 (org-roam-db-sync)
@@ -259,76 +260,86 @@
 ;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'yasnippet)
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(setq yas-snippet-dirs '("~/Dropbox/2nd-brain/yasnippets/"))
+(setq yas-snippet-dirs '("~/cloud/life/raum/.org/yasnippets/"))
 (yas-global-mode 1)
 
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
 (global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
+
 ;;leader ist in Doom <SPC> -> prefix der andernorts vergeben ist und hier nicht verwendet werden sollte "d" - dired
 (setq doom-localleader-key "<delete>")
 ;(map! :localleader
 ;       :desc "toggle imenu-list" "SPC" #'imenu-list-smart-toggle)              ;geht auch mit <Fn rechts> bei aktuellem Laptop
-
+;; Standard leader key in doom
 (map! :leader
       :desc "Comment or uncomment lines" "SPC" #'comment-line)
-
-
-
+;; neu festgelegter leader key
 (map! :localleader
-      :desc "Export the folded :svp: tagged Stundenverlaufsplan at point" "1" #'mane-export-svp
-      :desc "Export the folded :pres: tagged Presentation at point" "2" #'mane-export-presentation
-      :desc "Export the folded :ab: tagged Arbeitsblatt at point" "3" #'mane-export-ab
-      :desc "Export the folded :ib: tagged Infomaterial at point" "4" #'mane-export-info
-      :desc "Export the folded :zusatz: tagged Infomaterial at point" "5" #'mane-export-zusatz
-      :desc "Export the folded :ka: tagged Infomaterial at point" "6" #'mane-export-ka
-      :desc "toggle imenu-list" "i" #'imenu-list-smart-toggle              ;geht auch mit <Fn rechts> bei aktuellem Laptop
+      :desc "see and set kb" "1" #'(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org") (goto-char (point-min)) (re-search-forward "^**** Keybindings$" nil t)(org-cycle)(org-cycle)(recenter-top-bottom))
+      :desc "Gehe zum Dashboard" "<delete>" #'(lambda () (interactive) (find-file "~/.config/doom/start.org"))
+      :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
+
       :desc "end of line" "<right>" #'end-of-line              ;geht auch mit <Fn rechts> bei aktuellem Laptop
       :desc "start of line" "<left>" #'beginning-of-line       ;geht auch mit <Fn links> bei aktuellem Laptop
       :desc "page down" "<down>" #'evil-scroll-page-down       ;geht auch mit <Fn hoch> bei aktuellem Laptop - auch <Strg hoch> oft sinnvoller Sprung
       :desc "page up" "<up>" #'evil-scroll-page-up            ;geht auch mit <Fn runter> bei aktuellem Laptop - auch <Strg runter> oft sinnvoller Sprung
-      :desc "Org babel tangle" "b" #'org-babel-tangle
+
       :desc "Eshell" "e s" #'eshell
       :desc "Counsel eshell history" "e h" #'counsel-esh-history
-      :desc "Gehe zum Dashboard" "<delete>" #'(lambda () (interactive) (find-file "~/.config/doom/start.org"))
-      :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
+
       :desc "Evaluate elisp in buffer" "e b" #'eval-buffer
       :desc "Evaluate defun" "e d" #'eval-defun
       :desc "Evaluate elisp expression" "e e" #'eval-expression
       :desc "Evaluate last sexpression" "e l" #'eval-last-sexp
       :desc "Evaluate elisp in region" "e r" #'eval-region
-      :desc "Kalenderansicht öffnen" "k o" #'cfw:open-org-calendar
-      :desc "Kalender sync" "k s" #'org-gcal-sync
-      :desc "Kalendereintrag an GoogleKalender schicken" "k p" #'org-gcal-post-at-point
-      :desc "Kalendereintrag bei GoogleKalender löschen" "k d" #'org-gcal-delete-at-point
-      :desc "Winner undo" "w <left>" #'winner-undo ;schaut was die letzte Window configuration war und geht dahin zurück
-      :desc "Winner redo" "w <right>" #'winner-redo ;geht in andere Richtung wie winner-undo
+
       :desc "Toggle line numbers" "t l" #'doom/toggle-line-numbers
       :desc "Toggle line highlight in frame" "t h" #'hl-line-mode
       :desc "Toggle line highlight globally" "t H" #'global-hl-line-mode
       :desc "Toggle truncate lines" "t t" #'toggle-truncate-lines
-      :desc "Window configuration to register" "r w" #'window-configuration-to-register
-      :desc "Frameset to register" "r f" #'frameset-to-register
-      :desc "Jump to register" "r j" #'jump-to-register
-      :desc "List registers" "r l" #'list-registers
-      :desc "View a register" "r v" #'view-register
-      :desc "Point to register" "r SPC" #'point-to-register
-      :desc "org-roam-buffer-toggle" "x s" #'org-download-screenshot
-      :desc "org-roam-buffer-toggle" "x S" #'org-download-clipboard
-      :desc "org-roam-buffer-toggle" "x r" #'org-download-rename-at-point
-      :desc "org-roam-buffer-toggle" "x u" #'org-roam-ui-open
-      :desc "find node/new node" "f f" #'org-roam-node-find
-      :desc "insert node" "f i" #'org-roam-node-insert
+
+      :desc "Kalenderansicht öffnen" "k o" #'cfw:open-org-calendar
+      :desc "Kalender sync" "k s" #'org-gcal-sync
+      :desc "Kalendereintrag an GoogleKalender schicken" "k p" #'org-gcal-post-at-point
+      :desc "Kalendereintrag bei GoogleKalender löschen" "k d" #'org-gcal-delete-at-point
+
+      :desc "org-download-screenshot" "d s" #'org-download-screenshot
+      :desc "org-download-toggle" "d c" #'org-download-clipboard
+      :desc "org-download-rename-at-point" "d R" #'org-download-rename-at-point
+      :desc "org-download-rename-at-point" "d r" #'org-download-rename-last-file
+
+      :desc "org-roam-ui" "r u" #'org-roam-ui-open
+      :desc "org-roam-db-sync" "r u" #'org-roam-db-sync
+      :desc "find node/new node" "r r" #'org-roam-node-find
+      :desc "insert node" "r i" #'org-roam-node-insert
+
+      :desc "Window configuration to register" "R w" #'window-configuration-to-register
+      :desc "Frameset to register" "R f" #'frameset-to-register
+      :desc "Jump to register" "R j" #'jump-to-register
+      :desc "List registers" "R l" #'list-registers
+      :desc "View a register" "R v" #'view-register
+      :desc "Point to register" "R SPC" #'point-to-register
+
+      :desc "toggle imenu-list" "i" #'imenu-list-smart-toggle              ;geht auch mit <Fn rechts> bei aktuellem Laptop
+
+      :desc "Org babel tangle" "b" #'org-babel-tangle
+
       :desc "make ditaa work" "x d" #'activate-ditaa-path
-      :desc "expand table" "x e" #'org-table-shrink
-      :desc "expand table" "x E" #'org-table-expand
+
+      :desc "shrink table" "x t" #'org-table-shrink
+      :desc "expand table" "x T" #'org-table-expand
+
+      :desc "Winner undo" "w <left>" #'winner-undo ;schaut was die letzte Window configuration war und geht dahin zurück
+      :desc "Winner redo" "w <right>" #'winner-redo ;geht in andere Richtung wie winner-undo
+
       :desc "Starte Präsentationsmodus" "x p" #'pres-start
       :desc "Beende Präsentationsmodus" "x P" #'pres-end)
 
 (defun mane-rezepte-export-org-to-html ()
   "Rezeptdateien als html an entsprechenden Ort exportieren."
   (interactive)
-  (let* ((source-dir "~/Dropbox/2nd-brain/org-roam-notes/rezepte/")
+  (let* ((source-dir "~/cloud/life/raum/.org/rezepte/")
          (org-files (directory-files-recursively source-dir "\\.org$")))
     (dolist (file org-files)
       (with-current-buffer (find-file-noselect file)

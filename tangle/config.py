@@ -58,8 +58,8 @@ keys = [ Key([mod], "Return", lazy.spawn("alacritty"), desc='Launches My Termina
          # Key([], "F7", lazy.spawn('deepin-screen-recorder'), desc='Screenrecord2'),
          # Key([], "Print", lazy.spawn('gnome-screenshot -i'), desc='Screenshot1'),
          Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
-         Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),    #'emacs ~/Dropbox/2nd-brain/org-roam-notes/home.org' wenn man bestimmte Datei beim Start öffnen will
-         Key([mod], "p", lazy.spawn('keepassxc ~/HotPassw.kdbx'), desc='Passwortmanager'),    #'emacs ~/Dropbox/2nd-brain/org-roam-notes/home.org' wenn man bestimmte Datei beim Start öffnen will
+         Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
+         Key([mod], "p", lazy.spawn('keepassxc /home/flowmis/cloud/life/energie/self-sovereignity/privacy-security/passwörter/hotpassw.kdbx'), desc='Passwortmanager'),    #'emacs ~/cloud/life/raum/home.org' wenn man bestimmte Datei beim Start öffnen will
          Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'), desc="Wallpaperwechsel"),
          Key([mod], "s", lazy.spawn('spotify-launcher'), desc="Spotify"),
          Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
