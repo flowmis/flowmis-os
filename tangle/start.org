@@ -1,19 +1,29 @@
 [[file:./banner/banner5.png]]
 
-⦿ *Shortcuts/Jumps* (Press =1-9= um direkt zu einer Datei zu springen)
-|---+--------------------+--------------------------------------|
-| =1= | [[~/cloud/life/raum/.org/home.org][home.org]]           | Freizeit und Hobby                   |
-| =2= | [[~/cloud/life/raum/.org/work.org][work.org]]           | Arbeit allgemein                     |
-| =3= | [[~/cloud/life/raum/.org/work/2022-12-15-schule.org][schule.org]]         | Schule                               |
-| =4= | [[~/cloud/life/raum/.org/bildung-wissen/2022-12-15-bildung-wissen.org][bildung-wissen.org]] | Bücher, Zitate,...                   |
-| =5= | [[~/.config/doom/init.el][init.el]]            | Doom initiale Paketinstallation etc. |
-| =6= | [[~/.config/doom/packages.el][packages.el]]        | Doom Pakete                          |
-| =7= | [[~/.config/doom/config.el][config.el]]          | Doom config                          |
-| =8= | [[~/flowmis-os/flowmis-os-install.org][flowmis.org]]        | flowmis-os                           |
-| =9= | [[~/.config/qtile/config.py][config.py]]          | Qtile config                         |
-|---+--------------------+--------------------------------------|
+⦿ *Zahl 1-9 um direkt zur Datei zu springen*
+|---+-------------------+-------------------------------|
+|   | [[elisp:(org-agenda)][agenda]]            | Überblick TODOS etc.          |
+|   |                   | Kalender                      |
+|   |                   | Mail                          |
+|---+-------------------+-------------------------------|
+| =0= | [[~/cloud/life/][cloud]]             | Einstieg Speicher             |
+| =1= | [[~/flowmis-os/flowmis-os-install.org][os]]                | Betriebssystem                |
+| =2= | [[id:b15cd936-90e9-4959-af85-2f4831b61c1e][Projekte]]          | Übersicht Projekte            |
+| =3= | [[~/cloud/life/raum/.org/home.org][home]]              | Übersicht Zuhause             |
+| =4= | [[~/cloud/life/raum/.org/work.org][work]]              | Übersicht Arbeit              |
+| =5= | [[~/cloud/life/raum/.org/work/2022-12-15-schule.org][schule]]            | Schule                        |
+| =6= | [[id:638ba803-3b5e-4756-9fe5-ef3868ad37ab][chemie]]            | Chemieunterricht              |
+| =7= | [[id:f475c27f-86fa-4c59-a6f6-5401d21793f0][sport]]             | Sportunterricht               |
+| =8= | [[id:cf400bfb-f204-46ec-869e-2e61c6bf0ffe][nachhilfe]]         | Nachhilfe                     |
+| =9= | [[~/cloud/life/raum/.org/bildung-wissen/2022-12-15-bildung-wissen.org][bildung]]           | Bücher, Zitate,...            |
+|---+-------------------+-------------------------------|
+|   | [[id:78972b65-421d-4ac7-8825-b18c75fd06bf][self-sovereignity]] | Skills, Selbstständigkeit,... |
+|   | [[~/.config/][config]]            | Konfigurationsdateien         |
+|   | [[id:389f96c7-c8e4-4435-8c48-a90e1e3e50b3][bücher]]            | Übersicht über meine Bücher   |
+|   |                   |                               |
+|---+-------------------+-------------------------------|
 
-⦿ *IMPORTANT KEYBINDINGS*
+⦿ *Übersicht Keybindings*
 |-----------+------------------------------------|
 | SPC f r   | Find a recent file                 |
 | SPC d d   | Dired file manager                 |
