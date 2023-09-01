@@ -3,7 +3,7 @@
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
 cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
-# cp -u ~/flowmis-os/tangle/.Xressources ~/.Xressources
+cp -u ~/flowmis-os/tangle/.Xresources ~/.Xresources
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
 echo done
 #+end_src
@@ -896,14 +896,21 @@ EndSection
   -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
 
 #+begin_src sh :tangle tangle/.xprofile
-#setxkbmap -layout de &
+## uncomment in VM
+# setxkbmap -layout de &
 # xrandr -s 1920x1200 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
-# xrdb ~/.Xressources &
+## uncomment auf Tower-PC
 nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
-#g810-led -s color all ff0000 #startup effect
+nextcloud &
+blueman-applet &
+cerebro &
+/usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
+## sonstiges
+# gtk-launch lxappearance.desktop &
+# g810-led -s color all ff0000 #startup effect
 # g810-led -fx color all 880000 #ganzes Keyboard Farbe ändern
 # g810-led -g keys 723535
 # g810-led -k logo 987bfe
@@ -918,24 +925,24 @@ picom -f &                                          # setzt Einstellungen des Co
 # chmod +x dropbox.desktop nm-applet.desktop volumeicon.desktop
 # gtk-launch dropbox.desktop &
 # gtk-launch thunderbird.desktop &
-nextcloud &
-gtk-launch lxappearance.desktop &
-gtk-launch cerebro.desktop &
 # gtk-launch nm-applet.desktop &
 #bluetoothctl connect DC:2C:26:12:71:EA &
 #bluetoothctl connect FC:E8:06:2C:98:5B
 # gtk-launch volumeicon.desktop &
-# /usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
+# xrdb ~/.Xressources &
 #+end_src
 
-** .Xressources
+** .Xresources
 
 Vorher das Packet Material Cursors herunterladen ([[https://www.gnome-look.org/][HIER]]) und in lxappearance installieren
 
-#+begin_src sh :tangle tangle/.Xressources
+#+begin_src sh :tangle tangle/.Xresources
 Xcursor.theme: Material Cursors
 Xcursor.size: 30
 #+end_src
+
+Nun noch aktivieren mit:
+~xrdb -merge ~/.Xresources~
 
 ** Picom
 
