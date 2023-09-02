@@ -95,14 +95,14 @@
             (evil-define-key 'normal start-mode-map
               (kbd "0") '(lambda () (interactive) (find-file "~/cloud/life/"))
               (kbd "1") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
-              (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte/2022-12-15-projekte.org"))
+              (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte.org"))
               (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
               (kbd "4") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
-              (kbd "5") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work/2022-12-15-schule.org"))
-              (kbd "6") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte/technologie/emacs/2022-08-15-org-chemie.org"))
-              (kbd "7") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work/2022-11-05-s-sportunterricht.org"))
-              (kbd "8") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work/2022-10-17-s-nachhilfe.org"))
-              (kbd "9") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung-wissen/2022-12-15-bildung-wissen.org")))
+              (kbd "5") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/schule.org"))
+              (kbd "6") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/chemie.org"))
+              (kbd "7") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/sport.org"))
+              (kbd "8") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/nachhilfe.org"))
+              (kbd "9") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung.org")))
           map))
 (add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
 (provide 'start-mode)
@@ -164,9 +164,11 @@
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-agenda-files '("~/flowmis-os/flowmis-os.org"
-                           "~/cloud/life/raum/.org/roam-orga/gcal.org"
-                           "~/cloud/life/raum/.org/roam-orga/home.org"
-                           "~/cloud/life/raum/.org/roam-orga/work.org"
+                           "~/cloud/life/raum/.org/gcal.org"
+                           "~/cloud/life/raum/.org/home.org"
+                           "~/cloud/life/raum/.org/schule.org"
+                           "~/cloud/life/raum/.org/sportunterricht.org"
+                           "~/cloud/life/raum/.org/chemieunterricht.org"
                            )
         org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
@@ -174,7 +176,7 @@
                   ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                    (org-agenda-overriding-header "Es eilt:")))
             (agenda "" ((org-agenda-start-day "-1d")
-                        (org-agenda-span 4)
+                        (org-agenda-span 14)
                         (org-agenda-overriding-header "Agenda:")
                         ))
             (alltodo ""
