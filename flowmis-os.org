@@ -2,9 +2,9 @@
 #+TITLE: flowmis-os
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
-cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
-cp -u ~/flowmis-os/tangle/.Xresources ~/.Xresources
-# cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
+# cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
+# cp -u ~/flowmis-os/tangle/.Xresources ~/.Xresources
+cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
 echo done
 #+end_src
 
