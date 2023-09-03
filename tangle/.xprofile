@@ -1,6 +1,6 @@
 ## uncomment in VM
 # setxkbmap -layout de &
-# xrandr -s 1920x1200 &                               # In VM aktivieren
+# xrandr -s 1920x1080 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 ## uncomment auf Tower-PC
 nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &

@@ -697,6 +697,10 @@ Downloaden kann man vieles [[https://www.gnome-look.org/][HIER]]
 
 *** Login Manager
 
+- für auto-login: ~sudo nvim sddm.conf~ und folgenden Inhalt rein kopieren:
+[Autologin]
+User=flowmis
+Session=qtile.desktop
 - Ich verwende aktuell sddm mit sugar-candy als theme
 - Nach der Installation ist der Standard Login Screen aktiviert und (hier: sudo nvim /etc/sddm.conf.d/kde_settings.conf) noch keine config vorhanden
 - Um die config zu schreiben einfach das arch-tweak-tool installieren und in den su Modus wechseln und vom Terminal aus im su Modus mit ~archlinux-tweak-tool~ das Tool starten -> in Login wechseln und das zuvor installierte Theme (mit yay installiert) auswählen -> auto-login aktivieren und Desktop Session auf qtile stellen -> Apply Settings -> im Terminal oder in der Gui sollte nun erscheinen dass Theme aktiviert wurde!
@@ -898,7 +902,7 @@ EndSection
 #+begin_src sh :tangle tangle/.xprofile
 ## uncomment in VM
 # setxkbmap -layout de &
-# xrandr -s 1920x1200 &                               # In VM aktivieren
+# xrandr -s 1920x1080 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 ## uncomment auf Tower-PC
 nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &
@@ -1065,5 +1069,5 @@ wintypes:
 - *arandr* als Programm um Auflösung, Anordnung etc. von einem Beamer oder einem weiteren Display einzustellen -> ist eine grafische Oberfläche von xrandr
 
 #+begin_src sh  :dir /sudo::
-sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans stacer neofetch dunst bind bmon jq gvfs arandr
+sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans neofetch dunst bind bmon jq gvfs arandr
 #+end_src

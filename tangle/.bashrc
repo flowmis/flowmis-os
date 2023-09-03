@@ -178,6 +178,12 @@ alias cp="cp -i"
 alias mv='mv -i'
 alias rm='rm -i'
 
+#emacs
+alias doomsync="~/.emacs.d/bin/doom sync"
+alias doomdoctor="~/.emacs.d/bin/doom doctor"
+alias doomupgrade="~/.emacs.d/bin/doom upgrade"
+alias doompurge="~/.emacs.d/bin/doom purge"
+alias doombuild="~/.emacs.d/bin/doom build"
 ### BASH INSULTER ###
 if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found

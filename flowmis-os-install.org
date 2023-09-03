@@ -2,7 +2,7 @@
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
 # mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
+# cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
 # cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -u ~/flowmis-os/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
@@ -16,10 +16,6 @@ cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-
 # cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
-
-#+RESULTS:
-| ###########################Doom | ready########################### |
-| done                            |                                  |
 
 :END:
 #+TITLE: Install flowmis-os
@@ -250,7 +246,8 @@ src-blocks mit sudo Befehlen auszuführen:
 In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs zwischendrin sudo legitmation braucht und auf Fragen geantwortet werden was Probleme verursacht wenn man mit org-src block nicht interaktiv agieren kann
 
 #+begin_src sh
-cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S dropbox archlinux-tweak-tool-git termite otf-alegreya-sans mu && echo '###########################installed yay###########################'
+sudo pacman -S base-devel
+cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S archlinux-tweak-tool-git termite otf-alegreya-sans mu && echo '###########################installed yay###########################'
 #+end_src
 
 ** Brave
@@ -262,9 +259,8 @@ cd ~ && git clone https://aur.archlinux.org/brave-bin.git && cd ~/brave-bin/ && 
 #+end_src
 
 ** Qtile
-Das ist sehr nett von Ihnen! Ich habe bereits Kontakt mit Herrn Karsten gehabt und wende mich bezüglich datenschutzrechtlicher Belange, wie von ihm empfohlen, an den Datenschutzbeauftragten meiner Schule. Herr Karsten sieht keine Probleme, wenn ich keine personenbezogenen Daten speichere bzw. verarbeite. Vom Datenschutzbeauftragten meiner Schule habe ich noch keine Rückmeldung. Ich denke, wie geplant, passt es. Falls Sie dennoch auf etwas stoßen, geben Sie mir gerne Bescheid. Der Link vom ahs-institut erklärt es tatsächlich gut (auch wenn der Einsatz im eigentlichen Unterricht für Schülerinnen und Schüler und der Chemiebezug nicht wirklich angesprochen werden), und er war mir bisher unbekannt. Hätte ich ihn früher entdeckt, hätte mir das Erstellen meines Exposés erleichtert. Aber auch so denke ich, dass er noch hilfreich sein kann, weshalb ich mich kurz für die Weitergabe bedanken wollte!
 #+begin_src sh  :dir /sudo::
-sudo pacman -S python-iwlib python-dbus-next qt5ct && echo 'Pyhton Zeug installiert'
+sudo pacman -S python-iwlib python-dbus-next qt5ct mypy && echo 'Pyhton Zeug installiert'
 sudo pacman -S python-utils && qtile check && echo 'Qtile dependencies installiert'
 #+end_src
 
@@ -625,7 +621,7 @@ _Emacs im Terminal über:_
 Für die Installation: Erst yay und yay Packages installieren! Dann folgendes:
 
 #+begin_src sh  :dir /sudo::
-sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync && pip install jupyter notebook && echo 'Doom dependencies installiert' &&
+sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync jupyter-notebook && echo 'Doom dependencies installiert'
 mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
 cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
 rm -rf ~/.doom.d && doomsync && doomdoctor
@@ -2492,6 +2488,12 @@ alias cp="cp -i"
 alias mv='mv -i'
 alias rm='rm -i'
 
+#emacs
+alias doomsync="~/.emacs.d/bin/doom sync"
+alias doomdoctor="~/.emacs.d/bin/doom doctor"
+alias doomupgrade="~/.emacs.d/bin/doom upgrade"
+alias doompurge="~/.emacs.d/bin/doom purge"
+alias doombuild="~/.emacs.d/bin/doom build"
 ### BASH INSULTER ###
 if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found
@@ -3097,6 +3099,11 @@ alias yta-vorbis="youtube-dl --extract-audio --audio-format vorbis "
 alias yta-wav="youtube-dl --extract-audio --audio-format wav "
 alias ytv-best="youtube-dl -f bestvideo+bestaudio "
 
+alias doomsync="~/.emacs.d/bin/doom sync"
+alias doomdoctor="~/.emacs.d/bin/doom doctor"
+alias doomupgrade="~/.emacs.d/bin/doom upgrade"
+alias doompurge="~/.emacs.d/bin/doom purge"
+alias doombuild="~/.emacs.d/bin/doom build"
 ### SETTING THE STARSHIP PROMPT ###
 starship init fish | source
 #+end_src
