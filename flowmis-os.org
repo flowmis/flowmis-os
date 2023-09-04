@@ -181,6 +181,14 @@ eval "$(ssh-agent -s)"
 ssh-add /home/flowmis/.ssh/id_rsa1
 ssh-add /home/flowmis/.ssh/id_rsa2
   #+end_src
+  #+begin_src sh :tangle ~/.ssh/config
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa1
+  IdentityFile ~/.ssh/id_rsa2
+  #+end_src
+  
 Neuen Key erstellen:
 - Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
   - openssh braucht man um ssh keys zu erstellen
