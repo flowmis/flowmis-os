@@ -172,8 +172,8 @@ Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu h
 *** Ver-/Entschlüsselung
 **** SSH & GPG/PGP
 Vorhandene Keys hinzufügen:
-- id_rsa (privater ssh key) in ~/.ssh kopieren bzw. erstellen und aus passwortmanager den inhalt hineinkopieren und dann die wichtigen Rechte geben mit ~chmod 600 ~~/.ssh/id_rsa~
-- id_rsa.pub ebenfalls in ~/.ssh einfügen und schauen dass er mit dem auf github oder wo auch immer übereinstimmt - nun sollte ssh-agent eine id ausgeben und damit zeigen dass es funktioniert -> nun sollte ich eigentlich nichts weiter brauchen um mit dem git repo zu kommunizieren!
+- id_rsa (privater ssh key) in =~/.ssh= kopieren (bzw. erstellen und aus passwortmanager den inhalt hineinkopieren) + der Datei die wichtigen Rechte geben mit ~chmod 600 ~~/.ssh/id_rsa~
+- id_rsa.pub ebenfalls in =~/.ssh= einfügen und schauen dass er mit dem auf github oder wo auch immer übereinstimmt - mit der .gitconfig wo user und mail angegeben ist sollte nun alles gehen und der Befehl ~ssh-agent~ eine id ausgeben und damit zeigen dass es funktioniert
 Neuen Key erstellen:
 - Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
   - openssh braucht man um ssh keys zu erstellen
