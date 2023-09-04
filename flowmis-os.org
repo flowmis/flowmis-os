@@ -171,7 +171,15 @@ Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu h
 
 *** Ver-/Entschlüsselung
 **** SSH & GPG/PGP
-
+Vorhandenen Key hinzufügen:
+- Mein id_rsa (privater ssh key) und id_rsa.pub in den Ordner ~/.ssh einfügen
+- schauen ob er mit dem auf github überinstimmt und ihn hinzufügen über autostartbashskript:
+  #+begin_src sh :tangle ~/.config/autostart/ssh-agent-startup.sh
+#!/bin/bash
+eval "$(ssh-agent -s)"
+ssh-add
+  #+end_src
+Neuen Key erstellen:
 - Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
   - openssh braucht man um ssh keys zu erstellen
   - gnupg ist die library des OpenPGP Standards
