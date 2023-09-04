@@ -171,13 +171,14 @@ Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu h
 
 *** Ver-/Entschlüsselung
 **** SSH & GPG/PGP
-Vorhandenen Key hinzufügen:
-- Mein id_rsa (privater ssh key) und id_rsa.pub in den Ordner ~/.ssh einfügen
-- schauen ob er mit dem auf github überinstimmt und ihn hinzufügen über autostartbashskript:
+Vorhandene Keys hinzufügen:
+- Mein id_rsa1 und id_rsa2 (privater ssh keys) und id_rsa1.pub id_rsa1.pub in den Ordner ~/.ssh einfügen (Inhalt aus Passwortmanager)
+- folgende Datei erstellen, dass die keys hinzugefügt werden beim start - danach neusstarten und checken mit ~ssh-add -l~ anzeigen lassen ob die keys erflogreich hinzugefügt wurden (.gitconfig brauche ich dann eigentlich nicht mehr wirklich?)
   #+begin_src sh :tangle ~/.config/autostart/ssh-agent-startup.sh
 #!/bin/bash
 eval "$(ssh-agent -s)"
-ssh-add
+ssh-add ~/.ssh/id_rsa1
+ssh-add ~/.ssh/id_rsa2
   #+end_src
 Neuen Key erstellen:
 - Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
