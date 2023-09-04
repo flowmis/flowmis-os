@@ -55,100 +55,118 @@ LC_CTYPE=de_DE.UTF-8
 ** Installation
 1. Arch iso downloaden:
    - Check ob Datei original und unverändert ist:
-   #+begin_src shell
-gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
-pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
-   #+end_src
+      #+begin_src shell
+   gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
+   pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
+      #+end_src
 2. _Falls VM:_ ISO in die VM laden + Speicher, CPU, RAM, GPU etc. der virtuellen Maschine zuweisen und mit funktionsfähigem Internet (auf dem Hostsystem) die VM booten
    - Standardmäßig Skript install-vm verwenden. Falls ich Installation in VM lieber step by step (wie bei Hardware machen will) um alles selbst zu konfigurieren, muss ich das untere Skript install-hardware-modified verwenden.
-   #+begin_src shell :tangle tangle/install-vm.sh
-# 1. ~python -m archinstall~
-#    Einstellungen:
-#    - Sprache auf de & locale-lang auf de.DE
-#    - Grub als Bootloader wählen
-#    - Root Passwort vergeben + Account/User mit Passwort erstellen
-#    - Profil auf xorg ändern
-#    - Dem Gerät entsprechende Grafiktreiber wählen
-#    - pulseaudio wählen
-#    - NetworkManager wählen
-#    - Timezone auf Europe-Berlin
-#    - Zusatzpakete angeben: git sudo networkmanager
-#    - Festplatte wählen, alles wipen + ext4 filesystem konfigurieren
-#    - Installation starten
-# 2. shutdown, iso/installationsmedium entfernen, boot & login -> Internet sollte gehen und arch-minimal ist fertig installiert!
-# 3. Falls kein Internet - mit nmcli im Wlan anmelden
-# 4. VM konfigurieren:
-    # - sudo pacman -S virtualbox-guest-utils openssh
-    # - sudo VBoxClient-all
-    # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Erweitert -> Gemeinsame Zwischenablage & Drag'n'Drop auf bidirektional stellen
-    # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
-    # - Ordner einhängen und checken ob es geht: sudo mount -t vboxsf share /home/flowmis/share
-    # - fstab um folgende Linie ergänzen dass geteilter Ordner automatisch eingehängt wird:
-    # - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/flowmis-os.git mein Repo geklont werden kann
-# 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
-mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
-sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
-cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
-# cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
-cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
-sudo pacman -Syu && sudo pacman -S qtile picom fish exa starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
-# exa: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht exa schreiben muss
-# starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
-# base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
-# ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
-sudo systemctl enable sddm
-cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install && ~/.emacs.d/bin/doom sync && ~/.emacs.d/bin/doom doctor && echo 'Installation beendet'
-#+end_src
-   #+begin_src shell :tangle tangle/install-hardware-modified.sh
-###Achtung: Das ist nur ein geändertes Skript zusätzliche Informationen finden sich dort wo das Skript install-hardware ist
-##Speicher formatieren und Dateisystem einrichten
-# fdisk /dev/sda + <n> + <p> + <Enter> + <Enter> + <Enter> <w>
-# fdisk -l                                                                  # check Partionen -> Alternativ: lsblk
-# mkfs.fat -F32 /dev/sda1                                                   # Falls Namen nicht mehr bewusst sind mit "lsblk" alle möglichen Partitionen anzeigen lassen
-# mkswap /dev/sda2
-# swapon /dev/sda2
-# mkfs.ext4 /dev/sda1
-##System einrichten
-# mount /dev/sda1 /mnt
-# pacstrap /mnt base linux linux-firmware                                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
-# genfstab -U /mnt >> /mnt/etc/fstab                                        # generiert FileSystemTable
-# arch-chroot /mnt                                                          # Mit root in /mnt gehen
-# pacman -S neovim sudo git
-# passwd
-# useradd -m flowmis
-# passwd flowmis
-# usermod -aG wheel,audio,video,optical,storage flowmis                     # Erteilen der Rechte bzw. in welcher Gruppe der User ist
-# pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
-# cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
-# . /home/flowmis/flowmis-os/tangle/install-hardware-modified.sh
-cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
-ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
-hwclock --systohc                                                           # setzt Zeit
-mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
-sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
-locale-gen                                                                  # generiert die locales
-echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
-##Grafiktreiber wählen - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren
-pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
-##Tastaturlayout auf Deutsch
-# localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
-# setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
-##Sonstiges
-# mkdir /boot/EFI                                                           # Erstellung des Bootdirectories
-# mount /dev/sda boot/EFI                                                   # was ist die EFI ppartition in der VM - habe ich ja nicht angelegt???
-# grub-install                                                              # Eventuell muss Pfad mit angegeben werden: grub-install /dev/sda
-# grub-mkconfig -o /boot/grub/grub.cfg                                      # Ohne diese wird es zu Problemen beim booten kommen
-# timedatectl set-ntp true && timedatectl status                            # Zeit und Datum über das network transfer protocol einholen
-# EDITOR=nvim visudo                                                        # uncomment #%wheel ALL=(ALL) ALL
-# systemctl enable NetworkManager
-# systemctl enable sddm
-# exit
-# umount -l /mnt
-# reboot & login
-# sudo NetworkManager                                                       # keine Fehlermeldung = past alles
-# sudo nmcli device wifi list                                               # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
-# sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"       # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+   - Zusätzliche Infos für Copy-Paste und geteilten Ordner hier: [[~/flowmis-os/flowmis-os.org::VirtualBox][VirtualBox]]
+    #+begin_src shell :tangle tangle/install-vm-mit-skript.sh
+   # 1. ~python -m archinstall~
+   #    Einstellungen:
+   #    - Sprache auf de & locale-lang auf de.DE
+   #    - Grub als Bootloader wählen
+   #    - Root Passwort vergeben + Account/User mit Passwort erstellen
+   #    - Profil auf xorg ändern
+   #    - Dem Gerät entsprechende Grafiktreiber wählen
+   #    - pulseaudio wählen
+   #    - NetworkManager wählen
+   #    - Timezone auf Europe-Berlin
+   #    - Zusatzpakete angeben: git sudo networkmanager
+   #    - Festplatte wählen, alles wipen + ext4 filesystem konfigurieren
+   #    - Installation starten
+   # 2. shutdown, iso/installationsmedium entfernen, boot & login -> Internet sollte gehen und arch-minimal ist fertig installiert!
+   # 3. Falls kein Internet - mit nmcli im Wlan anmelden
+   # 4. VM konfigurieren:
+   # - sudo pacman -S virtualbox-guest-utils openssh
+   # - sudo VBoxClient-all
+   # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Erweitert -> Gemeinsame Zwischenablage & Drag'n'Drop auf bidirektional stellen
+   # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
+   # - Ordner einhängen und checken ob es geht: sudo mount -t vboxsf share /home/flowmis/share
+   # - fstab um folgende Linie ergänzen dass geteilter Ordner automatisch eingehängt wird:
+       # cloud						/home/flowmis/cloud	vboxsf		defaults 	0 0
+   # - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/flowmis-os.git mein Repo geklont werden kann
+   # 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
+   mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
+   sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
+   cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
+   # cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
+   cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
+   sudo pacman -Syu && sudo pacman -S qtile picom fish exa starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
+   # exa: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht exa schreiben muss
+   # starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
+   # base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
+   # ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
+   sudo systemctl enable sddm
+   cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install && ~/.emacs.d/bin/doom sync && ~/.emacs.d/bin/doom doctor && echo 'Installation beendet'
+   #+end_src
+    #+begin_src shell :tangle tangle/install-hardware.sh
+   ###Achtung: Auf Hardware machen mehrere Partitionen Sinn
+   # fdisk -l                                                                    # Alternativ: <lsblk>
+   # fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
+   # <g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
+   # <n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
+   # <n><3><Enter><Enter>                                                        # Linux Filesystem Partition mit restlichem Speicher erstellen
+   # <t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
+   # <t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
+   # <w>                                                                         # write changes und fdisk verlassen
+   # mkfs.fat -F32 /dev/sda1
+   # mkswap /dev/sda2
+   # swapon /dev/sda2
+   # mkfs.ext4 /dev/sda3
+   # mount /dev/sda3 /mnt
+   ###Einfache Variante ohne mehrere Partitionen
+   # fdisk /dev/sda + <n> + <p> + <Enter> + <Enter> + <Enter> <w>
+   # fdisk -l                                                                  # check Partionen -> Alternativ: lsblk
+   # mkfs.ext4 /dev/sda1
+   ##System einrichten
+   # mount /dev/sda1 /mnt
+   # pacstrap /mnt base linux linux-firmware                                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
+   # genfstab -U /mnt >> /mnt/etc/fstab                                        # generiert FileSystemTable
+   # arch-chroot /mnt                                                          # Mit root in /mnt gehen
+   # pacman -S neovim sudo git
+   # passwd
+   # useradd -m flowmis
+   # passwd flowmis
+   # usermod -aG wheel,audio,video,optical,storage flowmis                     # Erteilen der Rechte bzw. in welcher Gruppe der User ist
+   # pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
+   # cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
+   # . /home/flowmis/flowmis-os/tangle/install-hardware-modified.sh
+   cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
+   ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+   hwclock --systohc                                                           # setzt Zeit
+   mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+   sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+   locale-gen                                                                  # generiert die locales
+   echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+   mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+   ##Grafiktreiber wählen - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren
+   pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
+   ##Sonstiges
+   # mkdir /boot/EFI                                                           # Erstellung des Bootdirectories
+   # mount /dev/sda boot/EFI                                                   # was ist die EFI ppartition in der VM - habe ich ja nicht angelegt???
+   # grub-install                                                              # Eventuell muss Pfad mit angegeben werden: grub-install /dev/sda
+   # grub-mkconfig -o /boot/grub/grub.cfg                                      # Ohne diese wird es zu Problemen beim booten kommen
+   # EDITOR=nvim visudo                                                        # uncomment #%wheel ALL=(ALL) ALL
+   # systemctl enable NetworkManager
+   # systemctl enable sddm
+   # exit
+   # umount -l /mnt
+   # reboot & login
+   # sudo NetworkManager                                                       # keine Fehlermeldung = past alles
+   # sudo nmcli device wifi list                                               # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
+   # sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"       # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+   ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+   hwclock --systohc                                                           # setzt Zeit
+   mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+   sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+   locale-gen                                                                  # generiert die locales
+   echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+   mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+   # localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
+   # setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
+   # timedatectl set-ntp true && timedatectl status                            # Zeit und Datum über das network transfer protocol einholen
    #+end_src
 3. _Falls Hardware:_ Bootstick erstellen (Achtung Bootstick der mir balena etcher erstellt wurde macht Probleme -> Mit rufus erstellen und bei Partitionsschema GPT statt MBR wählen um mit grub-install bei manueller Installation keine Probleme zu bekommen weil falsches Partitionsschema vorliegt). BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen -> Booten
    - checken ob Installationsmedium richtig funktioniert
@@ -165,67 +183,8 @@ pacman -S xf86-video-fbdev                                                # Graf
    - Keyboardlayout wählen
         ~ls /usr/share/kbd/keymaps/**/*.map.gz~                      # Läd alle vorhandenen Tastaturlayouts
         ~loadkeys de-latin1~                                         # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
-#+begin_src shell :tangle tangle/install-hardware.sh
-##Speicher formmatieren (Annahme die Festplatte wird als sda erkannt - ansonsten die Namen entsprechend abändern)
-fdisk -l                                                                    # Alternativ: <lsblk>
-fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
-<g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
-<n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
-<n><3><Enter><Enter>                                                        # Linux Filesystem Partition mit restlichem Speicher erstellen
-<t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
-<t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
-<w>                                                                         # write changes und fdisk verlassen
-mkfs.fat -F32 /dev/sda1
-mkswap /dev/sda2
-swapon /dev/sda2
-mkfs.ext4 /dev/sda3
-mount /dev/sda3 /mnt
-pacstrap /mnt base linux linux-firmware                                     # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
-genfstab -U /mnt >> /mnt/etc/fstab                                          # generiert FileSystemTable
-arch-chroot /mnt                                                            # Mit root in /mnt gehen
-pacman -S neovim sudo git
-passwd
-useradd -m flowmis
-passwd flowmis
-usermod -aG wheel,audio,video,optical,storage flowmis                       # Erteilen der Rechte bzw. in welcher Gruppe der User ist
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
-cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
-cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
-. /home/flowmis/flowmis-os/tangle/install-hardware.sh
-ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
-hwclock --systohc                                                           # setzt Zeit
-mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
-sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
-locale-gen                                                                  # generiert die locales
-echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
-## choose Grafiktreiber - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren################################################################################
-# pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
-# sudo pacman -S xf86-video-intel                                           # Intel (Open Source)
-# sudo pacman -S xf86-video-nouveau                                         # Nvidia (Open Source)
-# sudo pacman -S nvidia nvidia-utils                                        # Nvidia (proprietäre - meist besser als open source)
-# sudo pacman -S xf86-video-ati                                             # ATI-Grafiktreiber
-# sudo pacman -S xf86-video-amdgpu                                          # AMD-Grafiktreiber
-# sudo pacman -S xf86-video-vesa                                            # Generische VESA-Treiber
-### Tastaturlayout auf Deutsch #############################################################################################################################################
-# localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
-# setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
-mkdir /boot/EFI                                                             # Erstellung des Bootdirectories
-mount /dev/sda1 boot/EFI                                                    # Achtung2!!! Pfad abhängig von zuvor ausgeführten fdsik Befehlen <mount /dev/"EFI_Partitionsname/Partition1" boot/EFI>
-grub-install                                                                # Achtung3!!! Geht grub install ohne Pfad nicht dann folgendes adden> /dev/sda  (siehe auch Achtung3 oben
-grub-mkconfig -o /boot/grub/grub.cfg                                        # Ohne diese wird es zu Problemen beim booten kommen
-timedatectl set-ntp true && timedatectl status                              # Zeit und Datum über das network transfer protocol einholen
-EDITOR=nvim visudo                                                          # uncomment #%wheel ALL=(ALL) ALL
-systemctl enable NetworkManager
-systemctl enable sddm
-exit
-umount -l /mnt
-reboot & login
-reboot                                                                      # und genießen - eventuell neu in Wlan anmelden (NetworkManager statt iwctl)
-sudo NetworkManager                                                         # keine Fehlermeldung = past alles
-sudo nmcli device wifi list                                                 # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
-sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"         # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
-#+end_src
+
+
 
 * Module installieren & konfigurieren
 
@@ -618,7 +577,7 @@ _Mobiler Zugriff auf meine .org Dateien über:_
 _Emacs im Terminal über:_
 - Termux: run Emacs in terminal mode to have full Org Mode functionality.
 
-Für die Installation: Erst yay und yay Packages installieren! Dann folgendes:
+Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht richtig angezeigt werden in der doom-modeline und dired kann ich die Funktionen nach der Installation ausführen um die Icons zu installieren <M-x all-the-icons-install-fonts> <M-x nerd-icons-install-fonts> ->Dann folgendes:
 
 #+begin_src sh  :dir /sudo::
 sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync jupyter-notebook && echo 'Doom dependencies installiert'

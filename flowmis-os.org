@@ -660,10 +660,10 @@ sudo snap install pycharm-community --classic
 ***** Sonstige Programme
 
 #+begin_src sh  :dir /sudo::
-sudo pacman -S simplescreenrecorder viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive thunderbird libreoffice virtualbox gpa rofi ditaa
+sudo pacman -S viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive thunderbird libreoffice virtualbox gpa rofi ditaa
 #+end_src
 
-***** Virtual Box
+***** VirtualBox
 - Mit Arch als Host System: https://www.youtube.com/watch?v=vQUOf2E6XZw&list=WL&index=21 (Achtung nachdem ich meine Backups hinzugefügt habe muss ich unter Einstellungen bei Display die 3D Accelaration unchecken, da es sonst nicht richtig hochfährt)
 - Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
 - =Neu= -> je nach Name den man der Maschine gibt sucht es automatisch richtige Version und Typ - ansonsten manuell wählen -> Einstellungen folgen bis Maschine erstellt wurde -> Maschine auswählen und =Ändern= drücken -> =System= -> uncheck =Diskettenlaufwerk= -> check =EFI aktivieren= -> =Prozessor= -> Einstellen wie viele Prozessoren ich geben will -> =Massenspeicher= -> Unter =Controller:IDE= die .iso Datei reinladen -> =Starten= der Maschine -> Maschine nach der Installation herunterfahren ->  =Massenspeicher=  und .iso entfernen -> Maschine nun fertig und kann gestartet werden
