@@ -173,6 +173,7 @@ Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu h
 **** SSH & GPG/PGP
 Vorhandene Keys hinzufügen:
 - Mein id_rsa1 und id_rsa2 (privater ssh keys) und id_rsa1.pub id_rsa1.pub in den Ordner ~/.ssh einfügen (Inhalt aus Passwortmanager)
+- chmod der id_rsa Dateien auf 600 bevor man sie hinzufügt ~chmod 600 ~~/.ssh/id_rsa~
 - folgende Datei erstellen, dass die keys hinzugefügt werden beim start - danach neusstarten und checken mit ~ssh-add -l~ anzeigen lassen ob die keys erflogreich hinzugefügt wurden (.gitconfig brauche ich dann eigentlich nicht mehr wirklich?)
   #+begin_src sh :tangle ~/.config/autostart/ssh-agent-startup.sh
 #!/bin/bash
