@@ -172,23 +172,8 @@ Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu h
 *** Ver-/Entschlüsselung
 **** SSH & GPG/PGP
 Vorhandene Keys hinzufügen:
-- Mein id_rsa1 und id_rsa2 (privater ssh keys) und id_rsa1.pub id_rsa1.pub in den Ordner ~/.ssh einfügen (Inhalt aus Passwortmanager)
-- chmod der id_rsa Dateien auf 600 bevor man sie hinzufügt ~chmod 600 ~~/.ssh/id_rsa~
-- folgende Datei erstellen, dass die keys hinzugefügt werden beim start - danach neusstarten und checken mit ~ssh-add -l~ anzeigen lassen ob die keys erflogreich hinzugefügt wurden (.gitconfig brauche ich dann eigentlich nicht mehr wirklich?)
-  #+begin_src sh :tangle ~/.config/autostart/ssh-agent-startup.sh
-#!/bin/bash
-eval "$(ssh-agent -s)"
-ssh-add /home/flowmis/.ssh/id_rsa1
-ssh-add /home/flowmis/.ssh/id_rsa2
-  #+end_src
-  #+begin_src sh :tangle ~/.ssh/config
-Host *
-  AddKeysToAgent yes
-  UseKeychain yes
-  IdentityFile ~/.ssh/id_rsa1
-  IdentityFile ~/.ssh/id_rsa2
-  #+end_src
-  
+- id_rsa (privater ssh key) in ~/.ssh kopieren bzw. erstellen und aus passwortmanager den inhalt hineinkopieren und dann die wichtigen Rechte geben mit ~chmod 600 ~~/.ssh/id_rsa~
+- id_rsa.pub ebenfalls in ~/.ssh einfügen und schauen dass er mit dem auf github oder wo auch immer übereinstimmt - nun sollte ssh-agent eine id ausgeben und damit zeigen dass es funktioniert -> nun sollte ich eigentlich nichts weiter brauchen um mit dem git repo zu kommunizieren!
 Neuen Key erstellen:
 - Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
   - openssh braucht man um ssh keys zu erstellen
