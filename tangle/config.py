@@ -97,8 +97,9 @@ keys = [
     Key([mod], "s", lazy.spawn('spotify-launcher'), desc="Spotify"),
     Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
     Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
-    Key([mod], "g", lazy.spawn("brave --app=https://chat.openai.com/"), desc='BraveApp-GPT'),
-    Key([mod], "m", lazy.spawn("brave --app=https://mbox1.belwue.de/"), desc='MailSeminarStuttgart'),
+    Key([mod, "control"], "g", lazy.spawn("brave --app=https://chat.openai.com/"), desc='BraveApp-GPT'),
+    Key([mod, "control"], "1", lazy.spawn("brave --app=https://mbox1.belwue.de/"), desc='MailSeminarStuttgart'),
+    Key([mod, "control"], "2", lazy.spawn("brave --app=https://bap.navigator.web.de/"), desc='MailWeb'),
     Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
 ]
 
@@ -220,7 +221,7 @@ reconfigure_screens = True
 floating_layout = layout.Floating(
     border_focus=colors[2],  # Hier die gewünschte Rahm(en)farbe angeben
     border_width = 4,  # Hier die gewünschte Rahm(en)farbe angeben
-    float_rules=[*layout.Floating.default_float_rules, Match(title='Confirmation'), Match(title='Alacritty'),
+    float_rules=[*layout.Floating.default_float_rules, Match(title='Confirmation'), Match(title='Alacritty'), Match(title='Keepassxc'),
                  ]
 )
 
