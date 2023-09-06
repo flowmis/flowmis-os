@@ -33,7 +33,6 @@ colors = [["#FBF1C7", "#FBF1C7"],   #0
           ["#B16286", "#B16286"]]   #22
 
 ##################################################################################### Keybindings
-
 floating_window_index = 0
 
 def float_cycle(qtile, forward: bool):
@@ -130,16 +129,16 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.Max(),
+    layout.Columns(border_focus=colors[2], border_width = 3, margin = 8),
+    layout.Max(border_focus=colors[2], border_width = 3, margin = 8),
     # layout.Stack(num_stacks=2),
-    layout.Bsp(),
+    layout.Bsp(border_focus=colors[2], border_width = 3, margin = 8),
     # layout.Matrix(),
     # layout.MonadTall(),
     # layout.MonadWide(),
     # layout.RatioTile(),
     # layout.Tile(),
-    layout.TreeTab(),
+    layout.TreeTab(border_focus=colors[2], border_width = 3),
     # layout.VerticalTile(),
     # layout.Zoomy(),
     # layout.Floating()
@@ -147,9 +146,9 @@ layouts = [
 
 widget_defaults = dict(
     font="Ubuntu Bold",
-    fontsize=16,
+    fontsize=13,
     padding=6,
-    background=colors[2],
+    background=colors[20],
     foreground = colors[1],
 )
 extension_defaults = widget_defaults.copy()
@@ -177,12 +176,6 @@ screens = [
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Net(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.Systray(),
@@ -222,6 +215,14 @@ floating_layout = layout.Floating(
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
+
+floating_layout = layout.Floating(
+    border_focus=colors[2],  # Hier die gewünschte Rahm(en)farbe angeben
+    border_width = 4,  # Hier die gewünschte Rahm(en)farbe angeben
+    float_rules=[*layout.Floating.default_float_rules, Match(title='Confirmation'), Match(title='Alacritty'),
+                 ]
+)
+
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?

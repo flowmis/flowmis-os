@@ -2,7 +2,7 @@
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
 # mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-# cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
+cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
 cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -u ~/flowmis-os/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
@@ -13,11 +13,12 @@ cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis
 # cp -u ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 # cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
-# cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
+cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
 
 #+RESULTS:
+| ###########################Doom  | ready########################### |
 | ###########################Qtile | ready########################### |
 | done                             |                                  |
 
@@ -275,7 +276,6 @@ colors = [["#FBF1C7", "#FBF1C7"],   #0
           ["#B16286", "#B16286"]]   #22
 
 ##################################################################################### Keybindings
-
 floating_window_index = 0
 
 def float_cycle(qtile, forward: bool):
@@ -372,16 +372,16 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.Max(),
+    layout.Columns(border_focus=colors[2], border_width = 3, margin = 8),
+    layout.Max(border_focus=colors[2], border_width = 3, margin = 8),
     # layout.Stack(num_stacks=2),
-    layout.Bsp(),
+    layout.Bsp(border_focus=colors[2], border_width = 3, margin = 8),
     # layout.Matrix(),
     # layout.MonadTall(),
     # layout.MonadWide(),
     # layout.RatioTile(),
     # layout.Tile(),
-    layout.TreeTab(),
+    layout.TreeTab(border_focus=colors[2], border_width = 3),
     # layout.VerticalTile(),
     # layout.Zoomy(),
     # layout.Floating()
@@ -389,9 +389,9 @@ layouts = [
 
 widget_defaults = dict(
     font="Ubuntu Bold",
-    fontsize=16,
+    fontsize=13,
     padding=6,
-    background=colors[2],
+    background=colors[20],
     foreground = colors[1],
 )
 extension_defaults = widget_defaults.copy()
@@ -419,12 +419,6 @@ screens = [
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Net(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.Systray(),
@@ -465,6 +459,14 @@ auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 
+floating_layout = layout.Floating(
+    border_focus=colors[2],  # Hier die gewünschte Rahm(en)farbe angeben
+    border_width = 4,  # Hier die gewünschte Rahm(en)farbe angeben
+    float_rules=[*layout.Floating.default_float_rules, Match(title='Confirmation'), Match(title='Alacritty'),
+                 ]
+)
+
+
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
 auto_minimize = True
@@ -483,6 +485,7 @@ wl_input_rules = None
 wmname = "LG3D"
 #+end_src
 
+_OLD-Version - vll ist hiervon mal noch was zu gebrauchen:_
 #+begin_src python Alte Version
 # -*- coding: utf-8 -*-
 import os
@@ -2199,7 +2202,7 @@ background contrast. All other values default to \"medium\"."
 
 
 ;;;Some Mane-Theme specials!!!;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(set-frame-parameter (selected-frame) 'alpha '(97 . 70))                                                        ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
+;; (set-frame-parameter (selected-frame) 'alpha '(97 . 70))                                                        ;Zahl 1 nach alpha gibt Transparenz des aktiven Bildschirms und Zahl 2 gibt Transparenz wenn anderes Window im Focus ist
 (setq visual-fill-column-width 280     ;Größe des seitlichen Rahmen
       visual-fill-column-center-text t) ;rückt Text in Mitte
 (global-visual-fill-column-mode t)
