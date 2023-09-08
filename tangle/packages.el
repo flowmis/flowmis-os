@@ -23,6 +23,7 @@
 (package! org-fancy-priorities :disable t)
 (package! org-download)
 (package! imenu-list)
+(package! org-caldav)
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
