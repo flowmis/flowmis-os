@@ -28,17 +28,17 @@
         org-log-done 'time
         delete-by-moving-to-trash t     ;oder 'move-file-to-trash t'??
         trash-directory "~/.papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
-        ;; org-journal-dir "~/cloud/life/raum/.org/roam-orga/journal/"
+        ;; org-journal-dir "~/cloud/life/raum/.org/"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
                               (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
-        org-capture-templates '(("1" "TODO" entry (file+headline "~/cloud/life/raum/.org/roam-orga/home.org" "Aufgaben")"** %? [/] \n %a")
-                                ("2" "Einkaufsliste" checkitem (file+headline "~/cloud/life/raum/.org/roam-orga/home.org" "Einkaufsliste"))
-                                ("3" "Wunschliste" checkitem (file+headline "~/cloud/life/raum/.org/roam-orga/home.org" "Wunschliste"))
-                                ("4" "Neue Abrechnung" table-line (file+headline "~/cloud/life/raum/.org/roam-orga/work.org" "Abrechnungen Jo"))
-                                ("a" "Appointment" entry (file  "~/cloud/life/raum/.org/roam-orga/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                ("j" "Daily Journal" entry (file+olp+datetree "~/cloud/life/raum/.org/roam-orga/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
+        org-capture-templates '(("1" "TODO" entry (file+headline "~/cloud/life/raum/.org/home.org" "Aufgaben")"** %? [/] \n %a")
+                                ("2" "Einkaufsliste" checkitem (file+headline "~/cloud/life/raum/.org/home.org" "Einkaufsliste"))
+                                ("3" "Wunschliste" checkitem (file+headline "~/cloud/life/raum/.org/home.org" "Wunschliste"))
+                                ("4" "Neue Abrechnung" table-line (file+headline "~/cloud/life/raum/.org/work.org" "Abrechnungen Jo"))
+                                ("a" "Appointment" entry (file  "~/cloud/life/raum/.org/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                ("j" "Daily Journal" entry (file+olp+datetree "~/cloud/life/raum/.org/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
 ;;;Sonstiges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ox-reveal)                                                                                            ;Macht das ox-reveal funktioniert - geht glaub auch über init.el - langfristig anpassen auf meine Lieblingseinstellungen oder hier raus werfen
 
@@ -114,7 +114,10 @@
 (fset 'export-ch-zus (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?p ?e ?x ?a ?4 tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
 (fset 'export-ch-ib (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?p ?e ?x ?i ?b tab ?1 ?0 ?\C-x ?q tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
 (fset 'export-ch-svp (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?p ?e ?x ?s ?v ?p ?c tab ?1 ?0 ?\C-x ?q tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'export-ch-ab (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?p ?e ?x ?a ?b tab ?1 ?0 ?\C-x ?q tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d")))
+(fset 'export-ch-ab (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?p ?e ?x ?a ?b tab ?1 ?0 ?\C-x ?q tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
+(fset 'nameing (kmacro "M-! . SPC / h o m e / f l o w m i s / c l o u d / l i f e / e n e r g i e / s e l f - s o v e r e i g n i t y / t e c h / s k r i p t e - p r o g r a m m e - c o n f i g s / s k r i p t e / n a m e i n g . s h <return>"))
+(fset 'ordner-struktur-auflösen (kmacro "M-! . SPC / h o m e / f l o w m i s / c l o u d / l i f e / e n e r g i e / s e l f - s o v e r e i g n i t y / t e c h / s k r i p t e - p r o g r a m m e - c o n f i g s / s k r i p t e / o r d n e r - a u f l . s h <return> d x y"))
+)
 
 (after! org
   (add-to-list 'org-latex-classes
@@ -249,14 +252,11 @@
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t
-        org-roam-capture-templates '(("b" "book notes" plain (file "~/cloud/life/raum/.org/templates/BookTemplate.org")
-                                      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        org-roam-capture-templates '(("b" "book notes" plain (file "~/cloud/life/raum/.org/material/template-roam-capture-book.org")
+                                      :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t)
-                                     ("n" "normal/einfach nur mit Datum" plain (file "~/cloud/life/raum/.org/templates/normal.org")
-                                      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-                                      :unnarrowed t)
-                                     ("z" "Zitate/Prinzipien/Weisheiten/Definitionen" plain (file "~/cloud/life/raum/.org/templates/Zitate.org")
-                                      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+                                     ("n" "normal/einfach nur mit Datum" plain (file "~/cloud/life/raum/.org/material/template-roam-capture-normal.org")
+                                      :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
 (org-roam-db-sync)
 
@@ -265,6 +265,17 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (setq yas-snippet-dirs '("~/cloud/life/raum/.org/yasnippets/"))
 (yas-global-mode 1)
+
+;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq org-gcal-client-id "795575166080-k7kfqlbb328fltfkq002omkso0khg652.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-file-alist '(("manemarkushoffmann@gmail.com" .  "~/cloud/life/raum/.org/gcal.org")))
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+(require 'calfw)
+(require 'calfw-org)
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
 
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
