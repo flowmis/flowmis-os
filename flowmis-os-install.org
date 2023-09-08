@@ -1242,7 +1242,10 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 (set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
 #+end_src
-
+**** Git
+Git Timemachine ist ein cooles Tool -> siehe hier: https://www.youtube.com/watch?v=Be041087PVI
+**** Backup und Autosafe
+so konfigurieren, dass die Dateien im Papierkob meiner Cloud landen und nicht im home Ordner!
 **** Source Blocks Markup
 
 #+begin_src elisp :tangle tangle/config.el
