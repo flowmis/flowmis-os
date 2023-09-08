@@ -1570,7 +1570,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
       org-caldav-calendars '((:calendar-id "test"
                                         :files ("~/cloud/life/raum/.org/home.org")))
-      org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender.org"
+      org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
       org-icalendar-timezone "Europe/Berlin"
       org-caldav-files '("~/cloud/life/raum/.org/home.org")) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 #+end_src
