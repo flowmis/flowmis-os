@@ -1242,6 +1242,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 
 (set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
 #+end_src
+
 **** Git
 Git Timemachine ist ein cooles Tool -> siehe hier: https://www.youtube.com/watch?v=Be041087PVI
 **** Backup und Autosafe
@@ -1563,12 +1564,11 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 **** Kalender
 
 #+begin_src elisp :tangle tangle/config.el
-
 ;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (require 'calfw)
 ;; (require 'calfw-org)
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
-      org-caldav-calendars '((:calendar-id "test"
+      org-caldav-calendars '((:calendar-id "manes-kalender"
                                         :files ("~/cloud/life/raum/.org/home.org")))
       org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
       org-icalendar-timezone "Europe/Berlin"
