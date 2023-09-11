@@ -98,8 +98,8 @@ LC_CTYPE=de_DE.UTF-8
    cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
    # cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
    cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
-   sudo pacman -Syu && sudo pacman -S qtile picom fish exa starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
-   # exa: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht exa schreiben muss
+   sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
+   # eza: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht eza schreiben muss
    # starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
    # base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
    # ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
@@ -2665,12 +2665,12 @@ alias vim="nvim"
 # Change Wallpaper
 alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
 
-# Changing "ls" to "exa"
-alias ls='exa -al --color=always --group-directories-first' # my preferred listing
-alias la='exa -a --color=always --group-directories-first'  # all files and dirs
-alias ll='exa -l --color=always --group-directories-first'  # long format
-alias lt='exa -aT --color=always --group-directories-first' # tree listing
-alias l.='exa -a | egrep "^\."'
+# Changing "ls" to "eza"
+alias ls='eza -al --color=always --group-directories-first' # my preferred listing
+alias la='eza -a --color=always --group-directories-first'  # all files and dirs
+alias ll='eza -l --color=always --group-directories-first'  # long format
+alias lt='eza -aT --color=always --group-directories-first' # tree listing
+alias l.='eza -a | egrep "^\."'
 
 # pacman and yay
 alias pu='sudo pacman -Syu'                  # update only standard pkgs
@@ -3094,7 +3094,7 @@ function spark -d "sparkline generator"
                 echo "spark version $spark_version"
             case {,-}-h{elp,}
                 echo "usage: spark [--min=<n> --max=<n>] <numbers...>  Draw sparklines"
-                echo "examples:"
+                echo "ezamples:"
                 echo "       spark 1 2 3 4"
                 echo "       seq 100 | sort -R | spark"
                 echo "       awk \\\$0=length spark.fish | spark"
@@ -3264,12 +3264,12 @@ alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgro
 # vim and emacs
 alias vim='nvim'
 
-# Changing "ls" to "exa"
-alias ls='exa -al --color=always --group-directories-first' # my preferred listing
-alias la='exa -a --color=always --group-directories-first'  # all files and dirs
-alias ll='exa -l --color=always --group-directories-first'  # long format
-alias lt='exa -aT --color=always --group-directories-first' # tree listing
-alias l.='exa -a | egrep "^\."'
+# Changing "ls" to "eza"
+alias ls='eza -al --color=always --group-directories-first' # my preferred listing
+alias la='eza -a --color=always --group-directories-first'  # all files and dirs
+alias ll='eza -l --color=always --group-directories-first'  # long format
+alias lt='eza -aT --color=always --group-directories-first' # tree listing
+alias l.='eza -a | egrep "^\."'
 
 # activate/mount VM shared Folder
 alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
@@ -3337,12 +3337,12 @@ starship init fish | source
 # Aliases for emacs commands
 alias ff find-file $1
 
-# Changing "ls" to "exa"
-alias ls exa -al --color=always --group-directories-first $*  # my preferred listing
-alias la exa -a --color=always --group-directories-first $*   # all files and dirs
-alias ll exa -l --color=always --group-directories-first $*   # long format
-alias lt exa -aT --color=always --group-directories-first $*  # tree listing
-alias l. exa -a1 $* | grep "^\."                              # list hidden files
+# Changing "ls" to "eza"
+alias ls eza -al --color=always --group-directories-first $*  # my preferred listing
+alias la eza -a --color=always --group-directories-first $*   # all files and dirs
+alias ll eza -l --color=always --group-directories-first $*   # long format
+alias lt eza -aT --color=always --group-directories-first $*  # tree listing
+alias l. eza -a1 $* | grep "^\."                              # list hidden files
 
 # Merge Xresources
 alias merge xrdb -merge ~/.Xresources
