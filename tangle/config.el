@@ -121,6 +121,7 @@
 (fset 'export-ch-ib (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?i ?b tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
 (fset 'export-ch-svp (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?s ?v ?p ?c tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
 (fset 'export-ch-ab (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?a ?b tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
+(fset 'export-aas (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?a ?a ?s tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
 (fset 'nameing (kmacro "M-! . SPC / h o m e / f l o w m i s / c l o u d / l i f e / e n e r g i e / s e l f - s o v e r e i g n i t y / t e c h / s k r i p t e - p r o g r a m m e - c o n f i g s / s k r i p t e / n a m e i n g . s h <return>"))
 (fset 'ordner-struktur-auflösen (kmacro "M-! . SPC / h o m e / f l o w m i s / c l o u d / l i f e / e n e r g i e / s e l f - s o v e r e i g n i t y / t e c h / s k r i p t e - p r o g r a m m e - c o n f i g s / s k r i p t e / o r d n e r - a u f l . s h <return> d x y"))
 )
