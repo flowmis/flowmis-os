@@ -162,7 +162,7 @@
 ;;;org-download;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'org-download)
 (add-hook 'dired-mode-hook 'org-download-enable)
-(setq-default org-download-image-dir "~/cloud/life/zeit/extras/org-download")
+(setq-default org-download-image-dir "~/cloud/life/zeit/void/org-download")
 (setq-default org-download-screenshot-method "flameshot gui --raw > %s")
 (setq-default org-download-heading-lvl nil) ;falls ich das nicht habe wird ein Ordner erstellt mit dem Namen des Headers unter den das Bild eingefügt wird - so kommt kein zusätzlicher Ordner
 (setq-default org-download-timestamp "%Y-%m-%d-%H%M%S-")
