@@ -51,7 +51,7 @@ function spark -d "sparkline generator"
                 echo "spark version $spark_version"
             case {,-}-h{elp,}
                 echo "usage: spark [--min=<n> --max=<n>] <numbers...>  Draw sparklines"
-                echo "examples:"
+                echo "ezamples:"
                 echo "       spark 1 2 3 4"
                 echo "       seq 100 | sort -R | spark"
                 echo "       awk \\\$0=length spark.fish | spark"
@@ -221,12 +221,12 @@ alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgro
 # vim and emacs
 alias vim='nvim'
 
-# Changing "ls" to "exa"
-alias ls='exa -al --color=always --group-directories-first' # my preferred listing
-alias la='exa -a --color=always --group-directories-first'  # all files and dirs
-alias ll='exa -l --color=always --group-directories-first'  # long format
-alias lt='exa -aT --color=always --group-directories-first' # tree listing
-alias l.='exa -a | egrep "^\."'
+# Changing "ls" to "eza"
+alias ls='eza -al --color=always --group-directories-first' # my preferred listing
+alias la='eza -a --color=always --group-directories-first'  # all files and dirs
+alias ll='eza -l --color=always --group-directories-first'  # long format
+alias lt='eza -aT --color=always --group-directories-first' # tree listing
+alias l.='eza -a | egrep "^\."'
 
 # activate/mount VM shared Folder
 alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
