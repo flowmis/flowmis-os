@@ -72,6 +72,13 @@
 
 (setq mane-toggle-block-markup nil)
 
+;; Rechtschreibung und Grammatikprüfung
+(setq languagetool-java-arguments '("-Dfile.encoding=UTF-8"
+                                    "-cp" "/usr/share/languagetool:/usr/share/java/languagetool/*")
+      languagetool-console-command "org.languagetool.commandline.Main"
+      languagetool-server-command "org.languagetool.server.HTTPServer")
+;; mit <languagetool-check> den Buffer auswerten und dann den Buffer checken mit <languagetool-correct-buffer> oder at point checken (kann auch einfach nur mit dem cursor hingehen) <languagetool-correct-at-point> -> für alles weitere siehe github: https://github.com/PillFall/languagetool.el
+
 (use-package! gptel
  :config
  (setq! gptel-api-key ""))

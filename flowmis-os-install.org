@@ -173,7 +173,7 @@ LC_CTYPE=de_DE.UTF-8
    # setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
    # timedatectl set-ntp true && timedatectl status                            # Zeit und Datum über das network transfer protocol einholen
    #+end_src
-3. _Falls Hardware:_ Bootstick erstellen (Achtung Bootstick der mir balena etcher erstellt wurde macht Probleme -> Mit rufus erstellen und bei Partitionsschema GPT statt MBR wählen um mit grub-install bei manueller Installation keine Probleme zu bekommen weil falsches Partitionsschema vorliegt). BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen -> Booten
+3. _Falls Hardware:_ Bootstick erstellen (Achtung Bootstick der mir balena etcher erstellt wurde macht Probleme -> Mit Rufus erstellen und bei Partitionsschema GPT statt MBR wählen um mit grub-install bei manueller Installation keine Probleme zu bekommen weil falsches Partitionsschema vorliegt). BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen -> Booten
    - checken ob Installationsmedium richtig funktioniert
         ~ls /sys/firmware/efi/efivars~                               # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
    - Internet über Lankabel oder iwctl aktivieren und checken ob es geht
@@ -188,7 +188,6 @@ LC_CTYPE=de_DE.UTF-8
    - Keyboardlayout wählen
         ~ls /usr/share/kbd/keymaps/**/*.map.gz~                      # Läd alle vorhandenen Tastaturlayouts
         ~loadkeys de-latin1~                                         # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
-
 
 * Module installieren & konfigurieren
 
@@ -1099,6 +1098,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 (package! org-download)
 (package! imenu-list)
 (package! org-caldav)
+(package! languagetool)
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
@@ -1273,6 +1273,30 @@ so konfigurieren, dass die Dateien im Papierkob meiner Cloud landen und nicht im
 "t 1" #'mane-toggle-block-markup)
 
 (setq mane-toggle-block-markup nil)
+#+end_src
+
+**** Rechtschreibunng
+
+https://github.com/PillFall/languagetool.el
+~sudo pacman -S languagetool~
+folgendes in packages.el: (package! languagetool)
+
+#+begin_src elisp :tangle tangle/config.el
+;; Rechtschreibung und Grammatikprüfung
+(setq languagetool-java-arguments '("-Dfile.encoding=UTF-8"
+                                    "-cp" "/usr/share/languagetool:/usr/share/java/languagetool/*")
+      languagetool-console-command "org.languagetool.commandline.Main"
+      languagetool-server-command "org.languagetool.server.HTTPServer")
+;; mit <languagetool-check> den Buffer auswerten und dann den Buffer checken mit <languagetool-correct-buffer> oder at point checken (kann auch einfach nur mit dem cursor hingehen) <languagetool-correct-at-point> -> für alles weitere siehe github: https://github.com/PillFall/languagetool.el
+#+end_src
+
+_Alternativ:_
+~sudo pacman -S hunspell-de~
+
+#+begin_src elisp
+(setq ispell-program-name "hunspell")
+(setq ispell-dictionary "de_DE")
+(add-hook 'text-mode-hook 'flyspell-mode)
 #+end_src
 
 **** GPT
