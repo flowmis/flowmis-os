@@ -24,6 +24,7 @@
 (package! org-download)
 (package! imenu-list)
 (package! org-caldav)
+(package! languagetool)
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
