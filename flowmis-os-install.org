@@ -1602,6 +1602,8 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
                                         :files ("~/cloud/life/raum/.org/home.org")))
       org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
       org-icalendar-timezone "Europe/Berlin"
+      org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
+      org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo)
       org-caldav-files '("~/cloud/life/raum/.org/home.org")) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 #+end_src
 
