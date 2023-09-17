@@ -1436,11 +1436,9 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-agenda-files '("~/flowmis-os/flowmis-os.org"
-                           "~/cloud/life/raum/.org/gcal.org"
                            "~/cloud/life/raum/.org/home.org"
+                           "~/cloud/life/raum/.org/work.org"
                            "~/cloud/life/raum/.org/schule.org"
-                           "~/cloud/life/raum/.org/sportunterricht.org"
-                           "~/cloud/life/raum/.org/chemieunterricht.org"
                            )
         org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
@@ -1593,19 +1591,48 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 #+end_src
 
 **** Kalender
+in packages.el folgende Linie hinzufügen:
+(package! org-caldav)
+
+In der Nextcloud einen neuen Kalender erstellen und den cal dav link kopieren -> Achtung: Passt leider nicht und die Adresse muss etwas abgeändert werden:
+- so wird es unter =Interner Link= angezeigt und in den Zwischenspeicher kopiert: https://cloud.pyroma.net/remote.php/dav/calendars/mane/test/
+- in der Form muss es in die config.el:
+(setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
+      org-caldav-calendars '((:calendar-id "test"
+      ...
+- ACHTUNG: out of the box funktionieren bzw. synchroniseren nur timestamps und schedules bzw. deadlines nicht. Zudem werden für den sync an alle timestamps Properties Drawer mit unique id vergeben - macht es hässlicher, aber dadurch kann anständig gesynced werden!
+-> weitere Anleitung: https://github.com/dengste/org-caldav
+
+Die caldav-inbox speichert bzw. zieht alle Termine aus der Nextcloud und die unter caldav-files angegebenen Ordner werden in die Nextcloud hochgeladen, also nach oben gesynced. Es ist auch möglich nur in eine Richtung zu syncen, aber hier finde ich das nicht sinnvoll und will es in beide Richtungen
+-> wenn es nicht synced vll auch schauen dass die inbox datei ausreichend Berechtigungen hat etc.
+
+Schedules und Deadlines werden nur wenn man es angibt auch synchronisiert und ansonsten nur timestamps!
+
+(setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo))
+(setq org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo))
 
 #+begin_src elisp :tangle tangle/config.el
 ;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (require 'calfw)
 ;; (require 'calfw-org)
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
-      org-caldav-calendars '((:calendar-id "manes-kalender"
-                                        :files ("~/cloud/life/raum/.org/home.org")))
+      org-caldav-calendars '((:calendar-id "manes-kalender"))
+                                        ;; :files ("~/cloud/life/raum/.org/home.org"
+                                                ;; "~/cloud/life/raum/.org/schule.org")))
       org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
       org-icalendar-timezone "Europe/Berlin"
       org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
       org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo)
-      org-caldav-files '("~/cloud/life/raum/.org/home.org")) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
+      org-caldav-files '("~/cloud/life/raum/.org/home.org"
+                         "~/cloud/life/raum/.org/bildung.org"
+                         "~/cloud/life/raum/.org/bücher.org"
+                         "~/cloud/life/raum/.org/büro.org"
+                         "~/cloud/life/raum/.org/chemie.org"
+                         "~/cloud/life/raum/.org/nachhilfe.org"
+                         "~/cloud/life/raum/.org/projekte.org"
+                         "~/cloud/life/raum/.org/sport.org"
+                         "~/cloud/life/raum/.org/work.org"
+                         "~/cloud/life/raum/.org/schule.org")) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 #+end_src
 
 **** Keybindings
