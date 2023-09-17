@@ -3,9 +3,9 @@
 (after! org
   :init
   (setq user-full-name "Markus Hoffmann"
-        undo-tree-auto-save-history t
-        undo-tree-history-directory-alist '(("." . "~/cloud/life/zeit/papierkorb/undo-tree-history/"))
-        save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
+        ;; undo-tree-auto-save-history t
+        ;; undo-tree-history-directory-alist '(("." . "~/cloud/life/zeit/papierkorb/undo-tree-history/"))
+        ;; save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
         org-log-into-drawer 1                                                                                   ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
         doom-scratch-initial-major-mode 'lisp-interaction-mode                                                  ;scratch buffer automatisch im elisp mode um Dinge zu testen
         org-startup-folded 'show3levels                                                                         ;beim Start werden Header bis zum 3 Level angezeigt
@@ -291,13 +291,6 @@
       org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
       org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo)
       org-caldav-files '("~/cloud/life/raum/.org/home.org"
-                         "~/cloud/life/raum/.org/bildung.org"
-                         "~/cloud/life/raum/.org/bücher.org"
-                         "~/cloud/life/raum/.org/büro.org"
-                         "~/cloud/life/raum/.org/chemie.org"
-                         "~/cloud/life/raum/.org/nachhilfe.org"
-                         "~/cloud/life/raum/.org/projekte.org"
-                         "~/cloud/life/raum/.org/sport.org"
                          "~/cloud/life/raum/.org/work.org"
                          "~/cloud/life/raum/.org/schule.org")) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 
