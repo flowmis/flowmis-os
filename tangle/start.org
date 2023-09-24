@@ -1,27 +1,14 @@
 [[file:./banner/banner5.png]]
 
-⦿ *Zahl 1-9 um direkt zur Datei zu springen*
-|---+-------------------+-------------------------------|
-|   | [[elisp:(org-agenda)][agenda]]            | Überblick TODOS etc.          |
-|   |                   | Kalender                      |
-|   |                   | Mail                          |
-|---+-------------------+-------------------------------|
-| =0= | [[~/cloud/life/][cloud]]             | Einstieg Speicher             |
-| =1= | [[~/flowmis-os/flowmis-os-install.org][os]]                | Betriebssystem                |
-| =2= | [[id:b15cd936-90e9-4959-af85-2f4831b61c1e][Projekte]]          | Übersicht Projekte            |
-| =3= | [[~/cloud/life/raum/.org/home.org][home]]              | Übersicht Zuhause             |
-| =4= | [[~/cloud/life/raum/.org/work.org][work]]              | Übersicht Arbeit              |
-| =5= | [[~/cloud/life/raum/.org/schule.org][schule]]            | Schule                        |
-| =6= | [[id:c2da6d13-d0e2-4ad1-bdcf-a18b338907cc][chemie]]            | Chemieunterricht              |
-| =7= | [[id:f475c27f-86fa-4c59-a6f6-5401d21793f0][sport]]             | Sportunterricht               |
-| =8= | [[id:cf400bfb-f204-46ec-869e-2e61c6bf0ffe][nachhilfe]]         | Nachhilfe                     |
-| =9= | [[~/cloud/life/raum/.org/bildung.org][bildung]]           | Bücher, Zitate,...            |
-|---+-------------------+-------------------------------|
-|   | [[id:78972b65-421d-4ac7-8825-b18c75fd06bf][self-sovereignity]] | Skills, Selbstständigkeit,... |
-|   | [[~/.config/][config]]            | Konfigurationsdateien         |
-|   | [[id:389f96c7-c8e4-4435-8c48-a90e1e3e50b3][bücher]]            | Übersicht über meine Bücher   |
-|   |                   |                               |
-|---+-------------------+-------------------------------|
+⦿ *Zahl 0-9 um direkt zur Datei zu springen*
+=0=    =1=    =2=   =3=    =4=   =5=    =6=    =7=   =8=    =9=
+[[elisp:(org-agenda)][]]   [[~/cloud/life/][]]   [[~/flowmis-os/flowmis-os-install.org][󰣇]]   [[id:b15cd936-90e9-4959-af85-2f4831b61c1e][]]   [[~/cloud/life/raum/.org/home.org][]]   [[~/cloud/life/raum/.org/work.org][]]   [[id:c2da6d13-d0e2-4ad1-bdcf-a18b338907cc][]]   [[id:f475c27f-86fa-4c59-a6f6-5401d21793f0][󰥬]]   [[id:cf400bfb-f204-46ec-869e-2e61c6bf0ffe][󱛉]]   [[~/cloud/life/raum/.org/bildung.org][]]
+
+|---+-------------------|
+|   | [[id:78972b65-421d-4ac7-8825-b18c75fd06bf][self-sovereignity]] |
+|   | [[~/.config/][config]]            |
+|   | [[id:389f96c7-c8e4-4435-8c48-a90e1e3e50b3][bücher]]            |
+|---+-------------------|
 
 ⦿ *Übersicht Keybindings*
 |-----------+------------------------------------|
