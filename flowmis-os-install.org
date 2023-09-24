@@ -104,7 +104,6 @@ LC_CTYPE=de_DE.UTF-8
    # base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
    # ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
    sudo systemctl enable sddm
-   cd ~ && git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install && ~/.emacs.d/bin/doom sync && ~/.emacs.d/bin/doom doctor && echo 'Installation beendet'
    #+end_src
     #+begin_src shell :tangle tangle/install-hardware.sh
    ###Achtung: Auf Hardware machen mehrere Partitionen Sinn
@@ -830,13 +829,6 @@ _Emacs im Terminal über:_
 
 Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht richtig angezeigt werden in der doom-modeline und dired kann ich die Funktionen nach der Installation ausführen um die Icons zu installieren <M-x all-the-icons-install-fonts> <M-x nerd-icons-install-fonts> ->Dann folgendes:
 
-#+begin_src sh  :dir /sudo::
-sudo pacman -S shellcheck scrot imagemagick discount python-nose-exclude xclip gnuplot python-pip python-pipenv tidy python-pytest-isort python-jsbeautifier cmake stylelint isync jupyter-notebook && echo 'Doom dependencies installiert'
-mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
-cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
-rm -rf ~/.doom.d && doomsync && doomdoctor
-#+end_src
-
 *** DoomEmacs init
 
 - Module $ flags für Doom Emacs finde ich [[https://github.com/doomemacs/doomemacs/tree/develop/modules][hier]]
@@ -887,15 +879,15 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        ;; modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
        ;; neotree           ; a project drawer, like NERDTree for vim
-       ophints           ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       ;; ophints           ; highlight the region an operation acts on
+       ;; (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;;tabs              ; a tab bar for Emacs
-       treemacs          ; a project drawer, like neotree but cooler
+       ;; treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;;window-select     ; visually switch windows
-       workspaces        ; tab emulation, persistence & separate workspaces
+       ;; workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
 
        :editor
@@ -987,9 +979,9 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        ;;(haskell +lsp)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
-       json              ; At least it ain't XML
+       ;; json              ; At least it ain't XML
        ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-       javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;; javascript        ; all(hope(abandon(ye(who(enter(here))))))
 ;       julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        latex             ; writing papers in Emacs has never been so fun
@@ -1007,7 +999,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
 ;        +ipython
          +pandoc
          +gnuplot)               ; organize your plain life in plain text
-       php               ; perl's insecure younger brother
+       ;; php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        python            ; beautiful is better than ugly
@@ -1025,7 +1017,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       web               ; the tubes
+       ;; web               ; the tubes
        yaml              ; JSON, but readable
        ;;zig               ; C, but simpler
 
@@ -1201,6 +1193,7 @@ rm -rf ~/.doom.d && doomsync && doomdoctor
         org-startup-folded 'show3levels                                                                         ;beim Start werden Header bis zum 3 Level angezeigt
         confirm-kill-emacs nil                                                                                  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
         org-publish-use-timestamps-flag nil                                                                     ;exportiert alles - macht Export leichter nachzuvollziehen
+        auth-sources '((:source "~/.authinfo.gpg"))
         org-export-with-broken-links t                                                                          ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
         org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmis/pages/reveal" -> ist lokaler Pfad?
         org-reveal-mathjax t                                                                                    ;brauch ich es oder geht es auch ohne?
@@ -1608,6 +1601,14 @@ Schedules und Deadlines werden nur wenn man es angibt auch synchronisiert und an
 
 (setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo))
 (setq org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo))
+
+*Um das Passwort nicht immer eingeben zu müssen kann ich wie folgt vorgehen:*
+1. _.authinfo Datei erstellen:_ touch ~/.authinfo
+2. _.authinfo öffnen:_ nvim ~/.authinfo
+3. _folgende Zeile einfügen (***** durch richtiges Passwort ergänzen):_ machine cloud.pyroma.net:443 port https login mane password *****
+4. _.authinfo verschlüsseln:_ gpg -e -r <Ihr GnuPG-Schlüssel> ~/.authinfo
+5. _config anpassen (habe ich bei den Grundeinstellungen bereits hinzugefügt):_ (setq auth-sources '((:source "~/.authinfo.gpg")))
+-> nun muss ich nur mein Passwort für den gpg key eingeben und kennen!
 
 #+begin_src elisp :tangle tangle/config.el
 ;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

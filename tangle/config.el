@@ -11,6 +11,7 @@
         org-startup-folded 'show3levels                                                                         ;beim Start werden Header bis zum 3 Level angezeigt
         confirm-kill-emacs nil                                                                                  ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
         org-publish-use-timestamps-flag nil                                                                     ;exportiert alles - macht Export leichter nachzuvollziehen
+        auth-sources '((:source "~/.authinfo.gpg"))
         org-export-with-broken-links t                                                                          ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
         org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"                                                ;"file:///home/flowmis/pages/reveal" -> ist lokaler Pfad?
         org-reveal-mathjax t                                                                                    ;brauch ich es oder geht es auch ohne?
