@@ -181,10 +181,8 @@
 (after! org
   :config
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
-        org-agenda-files '("~/flowmis-os/flowmis-os.org"
-                           "~/cloud/life/raum/.org/home.org"
+        org-agenda-files '("~/cloud/life/raum/.org/home.org"
                            "~/cloud/life/raum/.org/work.org"
-                           "~/cloud/life/raum/.org/schule.org"
                            )
         org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
@@ -284,15 +282,14 @@
 ;; (require 'calfw-org)
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
       org-caldav-calendars '((:calendar-id "manes-kalender"))
-                                        ;; :files ("~/cloud/life/raum/.org/home.org"
-                                                ;; "~/cloud/life/raum/.org/schule.org")))
       org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
       org-icalendar-timezone "Europe/Berlin"
       org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
       org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo)
       org-caldav-files '("~/cloud/life/raum/.org/home.org"
                          "~/cloud/life/raum/.org/work.org"
-                         "~/cloud/life/raum/.org/schule.org")) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
+                         "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"
+                         )) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
