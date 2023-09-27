@@ -3,7 +3,7 @@
 #+begin_src shell
 # mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
 cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
-cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
+# cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
 # cp -u ~/flowmis-os/tangle/mane.rasi ~/.config/rofi/launchers/misc/mane.rasi
 # cp -u ~/flowmis-os/tangle/config.rasi ~/.config/rofi/config.rasi
@@ -13,14 +13,13 @@ cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis
 # cp -u ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
 # cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
-cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
+# cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
 echo done
 #+end_src
 
 #+RESULTS:
-| ###########################Doom  | ready########################### |
-| ###########################Qtile | ready########################### |
-| done                             |                                  |
+| ###########################Doom | ready########################### |
+| done                            |                                  |
 
 :END:
 #+TITLE: Install flowmis-os
