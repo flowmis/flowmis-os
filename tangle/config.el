@@ -282,7 +282,7 @@
 ;; (require 'calfw)
 ;; (require 'calfw-org)
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
-      org-caldav-calendars '((:calendar-id "manes-kalender"))
+      org-caldav-calendars '((:calendar-id "kalender-mane"))
       org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
       org-icalendar-timezone "Europe/Berlin"
       org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
