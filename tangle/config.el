@@ -102,15 +102,20 @@
           ;;(define-key map (kbd "M-z") 'eshell)
             (evil-define-key 'normal start-mode-map
               (kbd "0") '(lambda () (interactive) (org-agenda))
-              (kbd "1") '(lambda () (interactive) (find-file "~/cloud/life/"))
-              (kbd "2") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
-              (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte.org"))
-              (kbd "4") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
-              (kbd "5") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
-              (kbd "6") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/chemie.org"))
-              (kbd "7") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/sport.org"))
+              (kbd "1") '(lambda () (interactive) (cfw:open-org-calendar))
+              (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
+              (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
+              (kbd "4") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/chemie.org"))
+              (kbd "5") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"))
+              (kbd "6") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/sport.org"))
+              (kbd "7") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/20231003-unterrichtsplanung_sport.org"))
               (kbd "8") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/nachhilfe.org"))
-              (kbd "9") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung.org")))
+              (kbd "9") '(lambda () (interactive) (find-file "~/cloud/life/"))
+              (kbd "f") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
+              (kbd "p") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte.org"))
+              (kbd "b") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bücher.org"))
+              (kbd "w") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung.org"))
+              )
           map))
 (add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
 (provide 'start-mode)
@@ -184,6 +189,7 @@
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
         org-agenda-files '("~/cloud/life/raum/.org/home.org"
                            "~/cloud/life/raum/.org/work.org"
+                           "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"
                            )
         org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
@@ -218,8 +224,8 @@
 
 ;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! dired
-  :hook
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  ;; :hook
+  ;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   :config
   (setq dired-open-extensions '(("gif" . "vlc")                                                                 ;Enter(oder l) in Dired auf Datei mit dieser angegebenen Endung öffnet externes angegebenes Programm
                                 ("jpg" . "pinta")
@@ -279,8 +285,8 @@
   (yas-global-mode 1))
 
 ;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (require 'calfw)
-;; (require 'calfw-org)
+(require 'calfw)
+(require 'calfw-org)
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
       org-caldav-calendars '((:calendar-id "kalender-mane"))
       org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
@@ -289,8 +295,9 @@
       org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo)
       org-caldav-files '("~/cloud/life/raum/.org/home.org"
                          "~/cloud/life/raum/.org/work.org"
-                         "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"
-                         )) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
+                         "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org")
+      org-caldav-save-directory "~/cloud/life/zeit/archiv/kalender/"     ; um sync von mehreren Geräten zu ermöglichen brauchen sie die gleiche historie (mit org-caldav-delete-everything kann ich die vorhergehende historie löschen)
+) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren

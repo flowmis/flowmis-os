@@ -1,24 +1,20 @@
 [[file:./banner/banner5.png]]
 
-⦿ *Zahl 0-9 um direkt zur Datei zu springen*
-=0=    =1=    =2=   =3=    =4=   =5=    =6=    =7=   =8=    =9=
-[[elisp:(org-agenda)][]]   [[~/cloud/life/][]]   [[~/flowmis-os/flowmis-os-install.org][󰣇]]   [[id:b15cd936-90e9-4959-af85-2f4831b61c1e][]]   [[~/cloud/life/raum/.org/home.org][]]   [[~/cloud/life/raum/.org/work.org][]]   [[id:c2da6d13-d0e2-4ad1-bdcf-a18b338907cc][]]   [[id:f475c27f-86fa-4c59-a6f6-5401d21793f0][󰥬]]   [[id:cf400bfb-f204-46ec-869e-2e61c6bf0ffe][󱛉]]   [[~/cloud/life/raum/.org/bildung.org][]]
+[[elisp:(org-agenda)][0: ]]     |-----------+----------------------------|
+[[elisp:(cfw:open-org-calendar)][1: ]]     |Keybinding | Funktion                   |
+[[~/cloud/life/raum/.org/home.org][2: ]]     |-----------+----------------------------|
+[[~/cloud/life/raum/.org/work.org][3: ]]     | SPC f r   | Find a recent file         |
+[[id:c2da6d13-d0e2-4ad1-bdcf-a18b338907cc][4: ]]     | SPC d d   | Dired file manager         |
+[[id:a744ec09-73d1-41da-8277-da3f9fddaeae][5: 󰴰]]     | SPC h r r | Reload Doom Emacs          |
+[[id:f475c27f-86fa-4c59-a6f6-5401d21793f0][6: ]]     | SPC f u   | Find file and open as root |
+[[id:2095832e-f5fb-4f17-975a-0fabaae827c1][7: 󰦴]]     | SPC f U   | Open current file as root  |
+[[id:cf400bfb-f204-46ec-869e-2e61c6bf0ffe][8: 󱛉]]     | SPC o e   | Toggle the eshell          |
+[[~/cloud/life/][9: ]]     |-----------+----------------------------|
+[[~/flowmis-os/flowmis-os-install.org][f: ]]
+[[id:b15cd936-90e9-4959-af85-2f4831b61c1e][p: ]]
+[[~/cloud/life/raum/.org/bildung.org][w: ]]
+[[id:389f96c7-c8e4-4435-8c48-a90e1e3e50b3][b: ]]
 
-|---+-------------------|
-|   | [[id:78972b65-421d-4ac7-8825-b18c75fd06bf][self-sovereignity]] |
-|   | [[~/.config/][config]]            |
-|   | [[id:389f96c7-c8e4-4435-8c48-a90e1e3e50b3][bücher]]            |
-|---+-------------------|
-
-⦿ *Übersicht Keybindings*
-|-----------+------------------------------------|
-| SPC f r   | Find a recent file                 |
-| SPC d d   | Dired file manager                 |
-| SPC h r r | Reload Doom Emacs                  |
-| SPC f u   | Find file and open as root         |
-| SPC f U   | Open current file as root          |
-| SPC o e   | Toggle the eshell                  |
-|-----------+------------------------------------|
 
 ⦿ *BUFFERS AND SPLITS*
 |------------------------------+------------------------------+-----------------------------|
