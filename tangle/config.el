@@ -295,7 +295,9 @@
       org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo)
       org-caldav-files '("~/cloud/life/raum/.org/home.org"
                          "~/cloud/life/raum/.org/work.org"
-                         "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org")
+                         "~/cloud/life/raum/.org/unterrichtsplanung-sport.org"
+                         "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"
+                         )
       org-caldav-save-directory "~/cloud/life/zeit/archiv/kalender/"     ; um sync von mehreren Geräten zu ermöglichen brauchen sie die gleiche historie (mit org-caldav-delete-everything kann ich die vorhergehende historie löschen)
 ) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 
