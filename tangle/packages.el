@@ -25,7 +25,7 @@
 (package! imenu-list)
 (package! org-caldav)
 (package! languagetool)
-(package! orgtbl-aggregate)
+(package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
