@@ -25,6 +25,7 @@
 (package! imenu-list)
 (package! org-caldav)
 (package! languagetool)
+(package! orgtbl-aggregate)
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
