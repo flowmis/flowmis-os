@@ -85,11 +85,16 @@
  (setq! gptel-api-key ""))
 
 ;;;Verschlüsselung;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (require 'crypt++)
+;; (setq auto-mode-alist
+    ;; (append '(("\\.gpg\\'" . crypt-mode)) auto-mode-alist))
+
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance '("crypt"))
-
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
 (setq org-crypt-key "5AAD62293D61A89D")
+
+;; (setq org-crypt-key t
 ;; GPG key to use for encryption. - kann ich statt t auch den Fingerabdruck angeben der standardmäßig verwendet werden soll?
 ;; nil means  use symmetric encryption unconditionally.
 ;; "" means use symmetric encryption unless heading sets CRYPTKEY property.

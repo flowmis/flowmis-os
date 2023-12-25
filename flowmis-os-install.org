@@ -1091,6 +1091,7 @@ Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht 
 (package! org-caldav)
 (package! languagetool)
 (package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
+(package! crypt++)
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
@@ -1304,11 +1305,16 @@ _Alternativ:_
 
 #+begin_src elisp :tangle tangle/config.el
 ;;;Verschlüsselung;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (require 'crypt++)
+;; (setq auto-mode-alist
+    ;; (append '(("\\.gpg\\'" . crypt-mode)) auto-mode-alist))
+
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance '("crypt"))
-
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
 (setq org-crypt-key "5AAD62293D61A89D")
+
+;; (setq org-crypt-key t
 ;; GPG key to use for encryption. - kann ich statt t auch den Fingerabdruck angeben der standardmäßig verwendet werden soll?
 ;; nil means  use symmetric encryption unconditionally.
 ;; "" means use symmetric encryption unless heading sets CRYPTKEY property.
