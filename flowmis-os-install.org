@@ -17,10 +17,6 @@ cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-
 echo done
 #+end_src
 
-#+RESULTS:
-| ###########################Doom | ready########################### |
-| done                            |                                  |
-
 :END:
 #+TITLE: Install flowmis-os
 -------------------------------------------------------------------------------------------------------------------
@@ -1091,7 +1087,8 @@ Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht 
 (package! org-caldav)
 (package! languagetool)
 (package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
-(package! crypt++)
+(package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
+;; (package! crypt++) ; brauche ich aktuell nicht aber ist eine gut alternative zu org-crypt
 ;; (package! olivetti)
 ;; (package! org-bullets)
 ;; (package! flycheck-aspell)
