@@ -49,29 +49,29 @@
 (set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
 
 ;;;Src-Blck-Markup;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar mane-block-markup-hidden nil
-  "Variable to track the state of block markup visibility.")
-(defun mane-toggle-block-markup ()
-  "Toggle visibility of Org mode block markup."
-  (interactive)
-  (setq mane-block-markup-hidden (not mane-block-markup-hidden))
-  (if mane-block-markup-hidden
-      (mane-hide-block-markup)
-    (remove-overlays)))
-(defun mane-hide-block-markup ()
-  "Hide Org mode block markup."
+(defvar mane-org-blocks-hidden nil "Status of org block delimiters visibility.")
+(defun mane-toggle-org-block-delimiters ()
+  "Toggle visibility of org block delimiters."
   (interactive)
   (save-excursion
-    (beginning-of-buffer)
-    (while (re-search-forward "^\\(#\\+begin\\|#\\+end\\)_src" nil t)
-      (let ((overlay (make-overlay (line-beginning-position) (line-end-position))))
-        (overlay-put overlay 'invisible t)))))
-(add-hook 'org-mode-hook #'mane-hide-block-markup)
-(map! :leader
-:desc "begin und end block Kennzeichnung wird ausgeblendet"
-"t 1" #'mane-toggle-block-markup)
+    (goto-char (point-min))
+    ;; Entferne alle vorherigen Overlays
+    (remove-overlays (point-min) (point-max) 'mane-org-overlay t)
+    ;; Füge Overlays basierend auf dem aktuellen Status hinzu oder entferne sie
+    (if mane-org-blocks-hidden
+        (progn
+          (setq mane-org-blocks-hidden nil))
+      (progn
+        (while (re-search-forward "^#\\+\\(BEGIN\\|END\\)_\\([A-Za-z]+\\)" nil t)
+          (let ((ov (make-overlay (match-beginning 0) (line-end-position))))
+            (overlay-put ov 'invisible t)
+            (overlay-put ov 'mane-org-overlay t)))
+        (setq mane-org-blocks-hidden t)))))
+(add-hook 'org-mode-hook #'mane-toggle-org-block-delimiters)
 
-(setq mane-toggle-block-markup nil)
+(map! :leader
+      :desc "Toggle Org block delimiters"
+      "t 1" #'mane-toggle-org-block-delimiters)
 
 ;; Rechtschreibung und Grammatikprüfung
 (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8"
