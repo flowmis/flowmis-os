@@ -17,6 +17,10 @@ cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-
 echo done
 #+end_src
 
+#+RESULTS:
+| ###########################Doom | ready########################### |
+| done                            |                                  |
+
 :END:
 #+TITLE: Install flowmis-os
 -------------------------------------------------------------------------------------------------------------------
@@ -1088,6 +1092,7 @@ Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht 
 (package! languagetool)
 (package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
 (package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
+(package! org-transclusion)
 ;; (package! crypt++) ; brauche ich aktuell nicht aber ist eine gut alternative zu org-crypt
 ;; (package! olivetti)
 ;; (package! org-bullets)
@@ -1293,9 +1298,22 @@ _Alternativ:_
 **** GPT
 - Ich will llama oder etwas das lokal als server bei mir zuhause läuft und gut in emacs integriert ist und mit dem text in meinen dateien (meinem 2nd brain) zusammenarbeiten kann!
 #+begin_src elisp :tangle tangle/config.el
-(use-package! gptel
+(use-package! gptel   ;id-tranclusion-gpt
  :config
  (setq! gptel-api-key ""))
+#+end_src
+**** Transclusion
+https://github.com/nobiot/org-transclusion
+Beispiel: Mit <Entf t T> Transclusion sichtbar machen
+
+#+transclude: [[~/.config/doom/config.el::tranclusion-gpt]] :lines 1-5
+
+#+transclude: [[~/cloud/life/raum/.org/home.org]] :lines 590-593
+
+#+begin_src elisp :tangle tangle/config.el
+(use-package! org-transclusion
+  :after org
+  :init)
 #+end_src
 
 **** Verschlüsselung
@@ -1652,6 +1670,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 ;(map! :localleader
 ;       :desc "toggle imenu-list" "SPC" #'imenu-list-smart-toggle)              ;geht auch mit <Fn rechts> bei aktuellem Laptop
 ;; Standard leader key in doom
+
 (map! :leader
       :desc "Comment or uncomment lines" "SPC" #'comment-line)
 ;; neu festgelegter leader key
@@ -1678,6 +1697,9 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
       :desc "Toggle line highlight in frame" "t h" #'hl-line-mode
       :desc "Toggle line highlight globally" "t H" #'global-hl-line-mode
       :desc "Toggle truncate lines" "t t" #'toggle-truncate-lines
+      :desc "Org Transclusion Mode" "t T" #'org-transclusion-mode
+
+      :desc "Add Transclusion Block" "t b" #'org-transclusion-add
 
       :desc "Kalenderansicht öffnen" "k o" #'cfw:open-org-calendar
       :desc "Kalender sync" "k s" #'org-gcal-sync

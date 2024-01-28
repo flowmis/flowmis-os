@@ -80,9 +80,13 @@
       languagetool-server-command "org.languagetool.server.HTTPServer")
 ;; mit <languagetool-check> den Buffer auswerten und dann den Buffer checken mit <languagetool-correct-buffer> oder at point checken (kann auch einfach nur mit dem cursor hingehen) <languagetool-correct-at-point> -> für alles weitere siehe github: https://github.com/PillFall/languagetool.el
 
-(use-package! gptel
+(use-package! gptel   ;id-tranclusion-gpt
  :config
  (setq! gptel-api-key ""))
+
+(use-package! org-transclusion
+  :after org
+  :init)
 
 ;;;Verschlüsselung;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (require 'crypt++)
@@ -315,6 +319,7 @@
 ;(map! :localleader
 ;       :desc "toggle imenu-list" "SPC" #'imenu-list-smart-toggle)              ;geht auch mit <Fn rechts> bei aktuellem Laptop
 ;; Standard leader key in doom
+
 (map! :leader
       :desc "Comment or uncomment lines" "SPC" #'comment-line)
 ;; neu festgelegter leader key
@@ -341,6 +346,9 @@
       :desc "Toggle line highlight in frame" "t h" #'hl-line-mode
       :desc "Toggle line highlight globally" "t H" #'global-hl-line-mode
       :desc "Toggle truncate lines" "t t" #'toggle-truncate-lines
+      :desc "Org Transclusion Mode" "t T" #'org-transclusion-mode
+
+      :desc "Add Transclusion Block" "t b" #'org-transclusion-add
 
       :desc "Kalenderansicht öffnen" "k o" #'cfw:open-org-calendar
       :desc "Kalender sync" "k s" #'org-gcal-sync
