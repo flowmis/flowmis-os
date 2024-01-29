@@ -1094,6 +1094,7 @@ Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht 
 (package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
 (package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
 (package! org-transclusion)
+(package! openwith)
 ;; (package! crypt++) ; brauche ich aktuell nicht aber ist eine gut alternative zu org-crypt
 ;; (package! olivetti)
 ;; (package! org-bullets)
@@ -1316,6 +1317,18 @@ Beispiel: Mit <Entf t T> Transclusion sichtbar machen
 (use-package! org-transclusion
   :after org
   :init)
+#+end_src
+
+**** openwith
+
+#+begin_src elisp :tangle tangle/config.el
+(use-package! openwith
+  :after-call pre-command-hook
+  :config
+  (setq openwith-associations
+        '(("\\.pdf\\'" "zathura" (file))
+          ("\\.\\(jpg\\|png\\|gif\\|jpeg\\)\\'" "viewnior" (file))))
+  (openwith-mode +1))
 #+end_src
 
 **** Verschlüsselung

@@ -28,6 +28,7 @@
 (package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
 (package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
 (package! org-transclusion)
+(package! openwith)
 ;; (package! crypt++) ; brauche ich aktuell nicht aber ist eine gut alternative zu org-crypt
 ;; (package! olivetti)
 ;; (package! org-bullets)

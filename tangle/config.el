@@ -88,6 +88,14 @@
   :after org
   :init)
 
+(use-package! openwith
+  :after-call pre-command-hook
+  :config
+  (setq openwith-associations
+        '(("\\.pdf\\'" "zathura" (file))
+          ("\\.\\(jpg\\|png\\|gif\\|jpeg\\)\\'" "viewnior" (file))))
+  (openwith-mode +1))
+
 ;;;Verschlüsselung;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (require 'crypt++)
 ;; (setq auto-mode-alist
