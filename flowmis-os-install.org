@@ -14,6 +14,7 @@ cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-
 # cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
 # cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
+cp -u ~/flowmis-os/tangle/zathurarc ~/.config/zathura/zathurarc
 echo done
 #+end_src
 
