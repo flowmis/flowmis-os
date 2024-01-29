@@ -10,7 +10,7 @@ cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-
 # cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
 # cp -u ~/flowmis-os/tangle/.Xressources ~/.Xressources
 # cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
-# cp -u ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml
+cp -u ~/flowmis-os/tangle/alacritty.toml ~/.config/alacritty/alacritty.toml
 # cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
 # cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
@@ -2808,311 +2808,140 @@ fi
 
 + Alacritty ist auf allen wichtigen Plattformen vorhanden. Nutzt GPU für rendern -> sehr schneller Terminal Emulator (je nach Befehl kann man sich hier echt einige Minuten sparen!)!
 + Achtung config File ist sehr anfällig für falsch gesetzte Leerzeichen, Spacing etc.! -> gibt es ein in Python programmierten Terminal Emulator?
+- Mit shell: und dann program: /bin/fish mach ich dass alacritty gleich mit fish startet -> fish hilft mir bessere Vorschläge zu bekommen etc.
 
-**** Grundlegende Einstellungen
 
-#+begin_src sh :tangle tangle/alacritty.yml
-env:
-  TERM: xterm-256color
-window:
-  padding:
-    x: 6
-    y: 6
-  dynamic_padding: false
-  title: Alacritty
-  class:
-    instance: Alacritty
-    general: Alacritty
-scrolling:
-  history: 5000
-font:
-  normal:
-    family: Source Code Pro
-    style: Regular
-  bold:
-    family: Source Code Pro
-    style: Bold
-  italic:
-    family: Source Code Pro
-    style: Italic
-  bold_italic:
-    family: Source Code Pro
-    style: Bold Italic
-  size: 12.0
-  offset:
-    x: 0
-    y: 1
-draw_bold_text_with_bright_colors: true
-shell:
-  program: /bin/fish
-#+end_src
-Mit shell: und dann program: /bin/fish mach ich dass alacritty gleich mit fish startet -> fish hilft mir bessere Vorschläge zu bekommen etc.
+#+begin_src sh :tangle tangle/alacritty.toml
+[colors]
+draw_bold_text_with_bright_colors = true
 
-**** Farbschema
+[env]
+TERM = "xterm-256color"
 
-#+begin_src sh :tangle tangle/alacritty.yml
-##      START OF COLOR SCHEMES       ##
-schemes:
-### Doom One ###
-  DoomOne: &DoomOne
-    primary:
-      background: '#282c34'
-      foreground: '#bbc2cf'
-    cursor:
-      text: CellBackground
-      cursor: '#528bff'
-    selection:
-      text: CellForeground
-      background: '#3e4451'
-    normal:
-      black:   '#1c1f24'
-      red:     '#ff6c6b'
-      green:   '#98be65'
-      yellow:  '#da8548'
-      blue:    '#51afef'
-      magenta: '#c678dd'
-      cyan:    '#5699af'
-      white:   '#202328'
-    bright:
-      black:   '#5b6268'
-      red:     '#da8548'
-      green:   '#4db5bd'
-      yellow:  '#ecbe7b'
-      blue:    '#3071db'   # This is 2257a0 in Doom Emacs but I lightened it.
-      magenta: '#a9a1e1'
-      cyan:    '#46d9ff'
-      white:   '#dfdfdf'
-### Dracula ###
-  Dracula: &Dracula
-    primary:
-      background: '#282a36'
-      foreground: '#f8f8f2'
-    cursor:
-      text: CellBackground
-      cursor: CellForeground
-    vi_mode_cursor:
-      text: CellBackground
-      cursor: CellForeground
-    search:
-      matches:
-        foreground: '#44475a'
-        background: '#50fa7b'
-      focused_match:
-        foreground: '#44475a'
-        background: '#ffb86c'
-      bar:
-        background: '#282a36'
-        foreground: '#f8f8f2'
-    line_indicator:
-      foreground: None
-      background: None
-    selection:
-      text: CellForeground
-      background: '#44475a'
-    normal:
-      black:   '#000000'
-      red:     '#ff5555'
-      green:   '#50fa7b'
-      yellow:  '#f1fa8c'
-      blue:    '#bd93f9'
-      magenta: '#ff79c6'
-      cyan:    '#8be9fd'
-      white:   '#bfbfbf'
-    bright:
-      black:   '#4d4d4d'
-      red:     '#ff6e67'
-      green:   '#5af78e'
-      yellow:  '#f4f99d'
-      blue:    '#caa9fa'
-      magenta: '#ff92d0'
-      cyan:    '#9aedfe'
-      white:   '#e6e6e6'
-    dim:
-      black:   '#14151b'
-      red:     '#ff2222'
-      green:   '#1ef956'
-      yellow:  '#ebf85b'
-      blue:    '#4d5b86'
-      magenta: '#ff46b0'
-      cyan:    '#59dffc'
-      white:   '#e6e6d1'
-### Nord ###
-  Nord: &Nord
-    # Default colors
-    primary:
-      background: '#2E3440'
-      foreground: '#D8DEE9'
-    # Normal colors
-    normal:
-      black:   '#3B4252'
-      red:     '#BF616A'
-      green:   '#A3BE8C'
-      yellow:  '#EBCB8B'
-      blue:    '#81A1C1'
-      magenta: '#B48EAD'
-      cyan:    '#88C0D0'
-      white:   '#E5E9F0'
-    # Bright colors
-    bright:
-      black:   '#4C566A'
-      red:     '#BF616A'
-      green:   '#A3BE8C'
-      yellow:  '#EBCB8B'
-      blue:    '#81A1C1'
-      magenta: '#B48EAD'
-      cyan:    '#8FBCBB'
-      white:   '#ECEFF4'
-### Oceanic Next ###
-  OceanicNext: &OceanicNext
-    # Default colors
-    primary:
-      background: '#1b2b34'
-      foreground: '#d8dee9'
-    # Colors the cursor will use if `custom_cursor_colors` is true
-    cursor:
-      text: '#1b2b34'
-      cursor: '#ffffff'
-    # Normal colors
-    normal:
-      black:   '#343d46'
-      red:     '#EC5f67'
-      green:   '#99C794'
-      yellow:  '#FAC863'
-      blue:    '#6699cc'
-      magenta: '#c594c5'
-      cyan:    '#5fb3b3'
-      white:   '#d8dee9'
-    # Bright colors
-    bright:
-      black:   '#343d46'
-      red:     '#EC5f67'
-      green:   '#99C794'
-      yellow:  '#FAC863'
-      blue:    '#6699cc'
-      magenta: '#c594c5'
-      cyan:    '#5fb3b3'
-      white:   '#d8dee9'
-### Palenight ###
-  Palenight: &Palenight
-    # Default colors
-    primary:
-      background: '#292d3e'
-      foreground: '#d0d0d0'
-    # Normal colors
-    normal:
-      black:   '#292d3e'
-      red:     '#f07178'
-      green:   '#c3e88d'
-      yellow:  '#ffcb6b'
-      blue:    '#82aaff'
-      magenta: '#c792ea'
-      cyan:    '#89ddff'
-      white:   '#d0d0d0'
-    # Bright colors
-    bright:
-      black:   '#434758'
-      red:     '#ff8b92'
-      green:   '#ddffa7'
-      yellow:  '#ffe585'
-      blue:    '#9cc4ff'
-      magenta: '#e1acff'
-      cyan:    '#a3f7ff'
-      white:   '#ffffff'
-### Solarized Dark ###
-  SolarizedDark: &SolarizedDark
-    # Default colors
-    primary:
-      background: '#002b36' # base03
-      foreground: '#839496' # base0
-    # Cursor colors
-    cursor:
-      text:   '#002b36' # base03
-      cursor: '#839496' # base0
-    # Normal colors
-    normal:
-      black:   '#073642' # base02
-      red:     '#dc322f' # red
-      green:   '#859900' # green
-      yellow:  '#b58900' # yellow
-      blue:    '#268bd2' # blue
-      magenta: '#d33682' # magenta
-      cyan:    '#2aa198' # cyan
-      white:   '#eee8d5' # base2
-    # Bright colors
-    bright:
-      black:   '#002b36' # base03
-      red:     '#cb4b16' # orange
-      green:   '#586e75' # base01
-      yellow:  '#657b83' # base00
-      blue:    '#839496' # base0
-      magenta: '#6c71c4' # violet
-      cyan:    '#93a1a1' # base1
-      white:   '#fdf6e3' # base3
-### Solarized Light ###
-  SolarizedLight: &SolarizedLight
-    # Default colors
-    primary:
-      background: '#fdf6e3' # base3
-      foreground: '#657b83' # base00
-    # Cursor colors
-    cursor:
-      text:   '#fdf6e3' # base3
-      cursor: '#657b83' # base00
-    # Normal colors
-    normal:
-      black:   '#073642' # base02
-      red:     '#dc322f' # red
-      green:   '#859900' # green
-      yellow:  '#b58900' # yellow
-      blue:    '#268bd2' # blue
-      magenta: '#d33682' # magenta
-      cyan:    '#2aa198' # cyan
-      white:   '#eee8d5' # base2
-    # Bright colors
-    bright:
-      black:   '#002b36' # base03
-      red:     '#cb4b16' # orange
-      green:   '#586e75' # base01
-      yellow:  '#657b83' # base00
-      blue:    '#839496' # base0
-      magenta: '#6c71c4' # violet
-      cyan:    '#93a1a1' # base1
-      white:   '#fdf6e3' # base3
+[font]
+size = 12.0
 
-## SET THEME: Choose ONE color scheme from those in the above list. ##
-colors: *DoomOne
-#colors: *Dracula
-#colors: *Nord
-#colors: *OceanicNext
-#colors: *Palenight
-#colors: *SolarizedLight
-#colors: *SolarizedDark
+[font.bold]
+family = "Source Code Pro"
+style = "Bold"
 
-window.opacity: 1.0 #picom sollte es machen, sodass ich hier nichts ändern muss
-# window.opacity: 0.80
-#+end_src
+[font.bold_italic]
+family = "Source Code Pro"
+style = "Bold Italic"
 
-**** Key-Bindings
+[font.italic]
+family = "Source Code Pro"
+style = "Italic"
 
-#+begin_src sh :tangle tangle/alacritty.yml
-key_bindings:
-    # (Windows, Linux, and BSD only)
-  - { key: V,         mods: Control|Shift, action: Paste                       }
-  - { key: C,         mods: Control|Shift, action: Copy                        }
-  - { key: Insert,    mods: Shift,         action: PasteSelection              }
-  - { key: Key0,      mods: Control,       action: ResetFontSize               }
-  - { key: Equals,    mods: Control,       action: IncreaseFontSize            }
-  - { key: Plus,      mods: Control,       action: IncreaseFontSize            }
-  - { key: Minus,     mods: Control,       action: DecreaseFontSize            }
-  - { key: F11,       mods: None,          action: ToggleFullscreen            }
-  - { key: Paste,     mods: None,          action: Paste                       }
-  - { key: Copy,      mods: None,          action: Copy                        }
-  - { key: L,         mods: Control,       action: ClearLogNotice              }
-  - { key: L,         mods: Control,       chars: "\x0c"                       }
-  - { key: PageUp,    mods: None,          action: ScrollPageUp,   mode: ~Alt  }
-  - { key: PageDown,  mods: None,          action: ScrollPageDown, mode: ~Alt  }
-  - { key: Home,      mods: Shift,         action: ScrollToTop,    mode: ~Alt  }
-  - { key: End,       mods: Shift,         action: ScrollToBottom, mode: ~Alt  }
+[font.normal]
+family = "Source Code Pro"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 1
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "PasteSelection"
+key = "Insert"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Paste"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "Copy"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ClearLogNotice"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\f"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "PageUp"
+mode = "~Alt"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "PageDown"
+mode = "~Alt"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key = "Home"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key = "End"
+mode = "~Alt"
+mods = "Shift"
+
+[scrolling]
+history = 5000
+
+[shell]
+program = "/bin/fish"
+
+[window]
+dynamic_padding = false
+title = "Alacritty"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.padding]
+x = 6
+y = 6
 #+end_src
 
 *** Fish
