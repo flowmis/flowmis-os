@@ -1304,6 +1304,7 @@ _Alternativ:_
  :config
  (setq! gptel-api-key ""))
 #+end_src
+
 **** Transclusion
 https://github.com/nobiot/org-transclusion
 https://www.youtube.com/watch?v=ueaPiA622wA&t=327s
@@ -1629,7 +1630,7 @@ in packages.el folgende Linie hinzufügen:
 
 In der Nextcloud einen neuen Kalender erstellen und den cal dav link kopieren -> Achtung: Passt leider nicht und die Adresse muss etwas abgeändert werden:
 - so wird es unter =Interner Link= angezeigt und in den Zwischenspeicher kopiert: https://cloud.pyroma.net/remote.php/dav/calendars/mane/test/
-- in der Form muss es in die config.el:
+- in der Form muss es in die config.el (sollte ich im Namen des Kalenders Großbuchstaben haben muss ich diese hier klein angeben - URL im ganzen einfach testen und dann sollte wenn Adress passt folgendes im Browser angezeigt werden: This is the WebDAV interface. It can only be accessed by WebDAV clients such as the Nextcloud desktop sync client.):
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
       org-caldav-calendars '((:calendar-id "test"
       ...
@@ -1659,7 +1660,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 (require 'calfw)
 (require 'calfw-org)
 (setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
-      org-caldav-calendars '((:calendar-id "kalender-mane"))
+      org-caldav-calendars '((:calendar-id "kalender"))
       org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
       org-icalendar-timezone "Europe/Berlin"
       org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
