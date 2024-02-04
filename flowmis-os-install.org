@@ -1,7 +1,7 @@
 :Einstellungen:
 #+STARTUP: folded hideblocks shrink
 #+begin_src shell
-# mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/
+# mkdir ~/.config/doom/ ~/.config/doom/ ~/.config/doom/banner/ ~/.config/doom/themes/ ~/.config/doom/eshell/ ~/.config/zathura/
 cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/doom/init.el && cp -u ~/flowmis-os/tangle/packages.el ~/.config/doom/packages.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/doom/start.org && cp -R ~/flowmis-os/tangle/banner/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/doom/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/doom/ && echo '###########################Doom ready###########################'
 # cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && cp -u ~/flowmis-os/tangle/python-white.png ~/.config/qtile/pyhton-white.png && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/launcher.sh ~/.config/rofi/launchers/misc/launcher.sh
@@ -14,7 +14,7 @@ cp -u ~/flowmis-os/tangle/config.el ~/.config/doom/config.el && cp -u ~/flowmis-
 # cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
 # cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
-cp -u ~/flowmis-os/tangle/zathurarc ~/.config/zathura/zathurarc
+# cp -u ~/flowmis-os/tangle/zathurarc ~/.config/zathura/zathurarc
 echo done
 #+end_src
 
@@ -2618,6 +2618,10 @@ Für den Fall dass ich an meiner komplett eigenen config arbeiten will, aber Doo
   :ensure t
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
+#+end_src
+** Programme
+#+begin_src sh
+sudo pacman -S zathur zathura-pdf-mupdf
 #+end_src
 
 ** Terminal/Shell/CLI
