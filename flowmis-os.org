@@ -402,7 +402,7 @@ https://wiki.archlinux.de/title/Pacman
 - Task-Manger: stacer oder simpler htop -> Alternative: interactive process viewer
 - Programme öffnen: rofi -> Alternative: dmenu
 - Backup: Timeshift, Git, rsync, VM-Snapshot bzw. Art Image
-- Office: [[https://www.libreoffice.org/][LibreOffice]]
+- Office: onlyoffice oder [[https://www.libreoffice.org/][LibreOffice]]
 - Videoplayer: VLC https://www.videolan.org/vlc/index.html
 - Zeichenprogramm: Pinta Paint ersatz
 - Musikplayer: Clementine (+ Spotify Plugin) braucht Premium Account
@@ -660,7 +660,7 @@ sudo snap install pycharm-community --classic
 ***** Sonstige Programme
 
 #+begin_src sh  :dir /sudo::
-sudo pacman -S viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive thunderbird libreoffice virtualbox gpa rofi ditaa
+sudo pacman -S viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive thunderbird virtualbox gpa rofi ditaa
 #+end_src
 
 ***** VirtualBox

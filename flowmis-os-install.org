@@ -208,7 +208,7 @@ In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs 
 
 #+begin_src sh
 sudo pacman -S base-devel
-cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S archlinux-tweak-tool-git termite otf-alegreya-sans mu && echo '###########################installed yay###########################'
+cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S archlinux-tweak-tool-git termite otf-alegreya-sans onlyoffice mu && echo '###########################installed yay###########################'
 #+end_src
 
 ** Brave
