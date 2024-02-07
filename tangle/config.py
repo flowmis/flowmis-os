@@ -66,6 +66,7 @@ keys = [
     ### Fenster bewegen und layout wählen
     Key([mod], "period", float_cycle_forward, desc='FloatingWindow vor/hinter ein anderes bringen'),
     Key([mod], "comma", float_cycle_backward, desc='FloatingWindow vor/hinter ein anderes bringen'),
+    Key([mod], "o", lazy.spawn('emacsclient -cF "((visibility . nil))" -e "(emacs-run-launcher)"'), desc="Emacs as run launcher"),
     Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod], "q", lazy.shutdown(), desc="Shutdown Qtile"),
@@ -91,7 +92,7 @@ keys = [
     Key([mod], "space", lazy.spawn(terminal), desc="Launch terminal"),
     Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
     Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'), desc="Wallpaperwechsel"),
-    Key([mod], "e", lazy.spawn('emacs'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
+    Key([mod], "e", lazy.spawn('emacsclient -c'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
     Key([mod], "p", lazy.spawn('keepassxc /home/flowmis/cloud/life/energie/self-sovereignity/privacy-security/passwörter/hotpassw.kdbx'), desc='Passwortmanager'),    #'emacs ~/cloud/life/raum/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod], "s", lazy.spawn('spotify-launcher'), desc="Spotify"),
@@ -221,7 +222,7 @@ reconfigure_screens = True
 floating_layout = layout.Floating(
     border_focus=colors[2],  # Hier die gewünschte Rahm(en)farbe angeben
     border_width = 4,  # Hier die gewünschte Rahm(en)farbe angeben
-    float_rules=[*layout.Floating.default_float_rules, Match(title='Confirmation'), Match(title='Alacritty'), Match(title='Keepassxc'),
+    float_rules=[*layout.Floating.default_float_rules, Match(title='emacs-run-launcher'), Match(title='Confirmation'), Match(title='Alacritty'), Match(title='Keepassxc'),
                  ]
 )
 

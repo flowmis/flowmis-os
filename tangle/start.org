@@ -1,4 +1,3 @@
-[[file:./banner/banner5.png]]
 
 [[elisp:(org-agenda)][0: ]]     |-----------+----------------------------|
 [[elisp:(cfw:open-org-calendar)][1: ]]     |Keybinding | Funktion                   |

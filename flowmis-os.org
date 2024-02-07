@@ -681,9 +681,7 @@ sudo pacman -S viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive
     - Einstellungen -> Zusatzpakete -> Paket das gedownloaded wurde installieren
 
 
-
 * Systemkonfigurationen
-
 ** Aussehen
 
 Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende 2 Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
@@ -893,7 +891,6 @@ EndSection
 - http://localhost:631 öffnen und in der cups Oberfläche ganz oben auf Verwaltung gehen. Dort mit Benutzerdaten anmelden und den Drucker hinzufügen. Im Anschluss kann ich system-config-printer öffnen und dort sollte nun der Drucker sein und konfiguriert werden können. Zudem findet nun auch libre office etc. den Drucker.
 
 
-
 ** .xprofile
 
 + Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
@@ -922,7 +919,7 @@ cerebro &
 # g810-led -g functions ff00ff
 # g810-led -g multimedia ff00ff
 # loadkeys de-latin1 &
-# /usr/bin/emacs --daemon &
+emacs --daemon &
 # cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
 # cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
 # cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
