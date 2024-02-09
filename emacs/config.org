@@ -16,7 +16,7 @@
 - [[#eshell--vterm][Eshell & vterm]]
 - [[#flycheck][Flycheck]]
 - [[#git][Git]]
-- [[#ivy-counsel-company][Ivy, counsel, company]]
+- [[#ivy-counsel-company-helm-ivy-orderless][Ivy, counsel, company, helm, ivy, orderless]]
 - [[#neotree][Neotree]]
 - [[#org][Org]]
   - [[#table-of-contents][Table of Contents]]
@@ -30,6 +30,7 @@
 Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in Form einer .el Datei im Skriptordner ausgelagert habe kann ich hier rein laden mit dem folgenden Befehl -> so wird die Konfigurationsdatei hier nicht unnötig groß und bleibt übersichtlicher -> um etwas als script auszulagern einfach im Skript Ordner eine .el dazu erstellen und am Ende der .el ~(provide 'name-des-elisp-files)~ einfügen und hier dann auf den Ordner verweisen!
 #+begin_src emacs-lisp
 (add-to-list 'load-path "~/.config/emacs/scripts/")
+(add-to-list 'load-path "~/.config/emacs/scripts/denote")
 (require 'setup-settings-basics)  ;; The Elpaca Package Manager
 ;;(require 'buffer-move)   ;; Buffer-move for better window management
 ;;(require 'app-launcher) ;; Use emacs as a run launcher like rofi (experimental)
@@ -297,11 +298,12 @@ Install python-pylint for flycheck to work with python files. For more informati
 (use-package magit)
 #+end_src
 
-* Ivy, counsel, company
+* Ivy, counsel, company, helm, ivy, orderless
 - Ivy, a generic completion mechanism for Emacs.
 - Counsel, a collection of Ivy-enhanced versions of common Emacs commands.
 - Ivy-rich allows us to add descriptions alongside the commands in M-x.
 - [[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything".  Completion will start automatically after you type a few letters. Use M-n and M-p to select, <return> to complete or <tab> to complete the common part.
+- Helm und mein App-Launcher vertragen sich nicht sodass ich wenn ich hier helm aktiv hab die zusätzlichen beiden Funktionen + Änderungen zum deaktivieren und aktivieren über hooks während der Nutzung des App-Launchers benötige um alles funktionieren zu lassen -> siehe hierfür 
 
 #+begin_src emacs-lisp
 (use-package company

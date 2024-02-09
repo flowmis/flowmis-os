@@ -213,7 +213,7 @@ alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
 # Sleeptimer
-alias sleep='python /home/flowmis/speicher-haupt/skripte-programme-configs/skripte/sleeptimer.py '
+alias sleep='systemctl suspend'
 
 # Change Wallpaper
 alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'

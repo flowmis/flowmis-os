@@ -99,8 +99,9 @@
   (mane-leader-keys
     "." '(find-file :which-key "Find file")
     "=" '(perspective-map :wk "Perspective") ;; Lists all the perspective keybindings
-    "f c" '((lambda () (interactive) (find-file "~/flowmis-os/config.org")) :wk "Edit emacs config")
+    "f c" '((lambda () (interactive) (find-file "~/flowmis-os/emacs/config.org")) :wk "Edit emacs config")
     "f C" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Edit emacs config")
+    "f f" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Edit emacs config")
     "f r" '(counsel-recentf :wk "Find recent files")
     "SPC" '(lambda () (interactive) (find-file "~/.config/emacs/start.org") :wk "Zum Dashboard")
     "TAB TAB" '(comment-line :wk "Comment lines")
@@ -213,6 +214,14 @@
                     (counsel-linux-app)
                     (delete-frame))))
 
+(defun disable-helm-temporarily ()
+  "Temporarily disable helm mode."
+  (helm-mode -1))
+
+(defun reenable-helm ()
+  "Re-enable helm mode."
+  (helm-mode 1))
+
 (use-package app-launcher
   :elpaca '(app-launcher :host github :repo "SebastienWae/app-launcher"))
 ;; create a global keyboard shortcut with the following code
@@ -221,20 +230,19 @@
 (defun emacs-run-launcher ()
   "Create and select a frame called emacs-run-launcher which consists only of a minibuffer and has specific dimensions. Runs app-launcher-run-app on that frame, which is an emacs command that prompts you to select an app and open it in a dmenu like behaviour. Delete the frame after that command has exited"
   (interactive)
+  (disable-helm-temporarily) ; Deaktiviere helm vor dem Ausführen
   (with-selected-frame 
     (make-frame '((name . "emacs-run-launcher")
                   (minibuffer . only)
                   (fullscreen . 0) ; no fullscreen
                   (undecorated . t) ; remove title bar
-                  ;;(auto-raise . t) ; focus on this frame
-                  ;;(tool-bar-lines . 0)
-                  ;;(menu-bar-lines . 0)
                   (internal-border-width . 10)
                   (width . 80)
                   (height . 11)))
-                  (unwind-protect
-                    (app-launcher-run-app)
-                    (delete-frame))))
+    (unwind-protect
+        (app-launcher-run-app)
+      (delete-frame)
+      (reenable-helm)))) ; Reaktiviere helm nach dem Ausführen
 
 (use-package all-the-icons  ;This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
   :ensure t

@@ -1,5 +1,6 @@
 # Aliases for emacs commands
 alias ff find-file $1
+alias sleep systemctl suspend
 
 # Changing "ls" to "eza"
 alias ls eza -al --color=always --group-directories-first $*  # my preferred listing

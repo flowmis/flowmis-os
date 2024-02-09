@@ -2,8 +2,7 @@
 #+TITLE: flowmis-os
 #+begin_src shell
 # mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/ ~/.config/picom/
-cp -u ~/flowmis-os/config.org ~/.config/emacs/config.org && cp -u ~/flowmis-os/tangle/early-init.el ~/.config/emacs/early-init.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/emacs/init.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/emacs/start.org && cp -R ~/flowmis-os/tangle/themes/ ~/.config/emacs/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/emacs/ && echo '###########################Emacs ready###########################'
-# cp -R ~/flowmis-os/tangle/scripts/ ~/.config/emacs/ 
+rsync -ah --progress ~/flowmis-os/emacs/ ~/.config/emacs/
 # cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
 # cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
@@ -14,10 +13,6 @@ cp -u ~/flowmis-os/config.org ~/.config/emacs/config.org && cp -u ~/flowmis-os/t
 # cp -u ~/flowmis-os/tangle/zathurarc ~/.config/zathura/zathurarc
 echo done
 #+end_src
-
-#+RESULTS:
-| ###########################Emacs | ready########################### |
-| done                             |                                  |
 
 #+STARTUP: folded hideblocks shrink
 :END:
@@ -1886,7 +1881,7 @@ alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkg
 alias pc='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
 
 # Sleeptimer
-alias sleep='python /home/flowmis/cloud/life/energie/tech/skripte-programme-configs/skripte/sleeptimer.py '
+alias sleep='systemctl suspend'
 
 # activate/mount VM shared Folder
 alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
@@ -2275,7 +2270,7 @@ alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
 # Sleeptimer
-alias sleep='python /home/flowmis/speicher-haupt/skripte-programme-configs/skripte/sleeptimer.py '
+alias sleep='systemctl suspend'
 
 # Change Wallpaper
 alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
@@ -2329,9 +2324,10 @@ starship init fish | source
 
 *** Eshell
 
-#+begin_src sh :tangle tangle/eshell/aliases
+#+begin_src sh :tangle /home/flowmis/flowmis-os/emacs/eshell/aliases
 # Aliases for emacs commands
 alias ff find-file $1
+alias sleep systemctl suspend
 
 # Changing "ls" to "eza"
 alias ls eza -al --color=always --group-directories-first $*  # my preferred listing
@@ -2361,25 +2357,20 @@ alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs 
 * TODO [#B] flowmis-os [0%]
 :LOGBOOK:
 :END:
-
   - [ ] Wechsel auf Nix OS!
   - [ ] Vorlage für alle index files und für neue atomare Ideen sowie Konzepte etc. machen
   - [ ] Kann ich diese Repo privat stellen und trotzdem leicht clonen/verwenden um das Installationsskript etc. auszuführen oder ist entsprechend vorbereitete/angepasste Iso nötig
   - [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
   - [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
-  - [ ] mein .xprofile durch .xressources ersetzen so wie bei DT
   - [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
   - [ ] Qtile Widgets überarbeiten
-    - [ ] Widgets überarbeiten
+    - [ ] Widgets überarbeiten sodass ich volumeicon für Lautstärkeregulation im Systray habe (geht vll auch über einen Befehl in .xprofile) 
     - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
   - [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem erstellen - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
 
 * Linux & Arch
-
-
  1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem flowmis-os aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
  2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
-
 ** Data
 
 *** Dateistruktur und Dateiorganisation
@@ -2781,7 +2772,6 @@ Aktuell:
 - yay -S papirus-icon-theme
 - yay -S bibata-cursor-theme (restart sollte es dann regeln)
 
- 
 ** Login Manager
 
 - für auto-login: ~sudo nvim sddm.conf~ und folgenden Inhalt rein kopieren:

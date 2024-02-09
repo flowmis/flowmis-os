@@ -139,7 +139,7 @@ alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkg
 alias pc='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
 
 # Sleeptimer
-alias sleep='python /home/flowmis/cloud/life/energie/tech/skripte-programme-configs/skripte/sleeptimer.py '
+alias sleep='systemctl suspend'
 
 # activate/mount VM shared Folder
 alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
