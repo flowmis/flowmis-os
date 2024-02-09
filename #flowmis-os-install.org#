@@ -1,6 +1,7 @@
 :Einstellungen:
+#+STARTUP: folded hideblocks shrink
 #+begin_src shell
-# mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/
+mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/
 cp -u ~/flowmis-os/config.org ~/.config/emacs/config.org && cp -u ~/flowmis-os/tangle/early-init.el ~/.config/emacs/early-init.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/emacs/init.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/emacs/start.org && cp -R ~/flowmis-os/tangle/scripts/ ~/.config/emacs/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/emacs/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/emacs/ && echo '###########################Doom ready###########################'
 cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
@@ -13,10 +14,17 @@ cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '#########
 # cp -u ~/flowmis-os/tangle/zathurarc ~/.config/zathura/zathurarc
 echo done
 #+end_src
-#+STARTUP: folded hideblocks shrink
-#+TITLE: Install flowmis-os
-- [[~/flowmis-os/flowmis-os.org][flowmis-os]]
+
+#+RESULTS:
+| ###########################Doom  | ready########################### |
+| ###########################Qtile | ready########################### |
+| done                             |                                  |
+
 :END:
+#+TITLE: Install flowmis-os
+-------------------------------------------------------------------------------------------------------------------
+- [[~/flowmis-os/flowmis-os.org][flowmis-os]]
+-------------------------------------------------------------------------------------------------------------------
 
 * Installation flowmis-os on Windows mit wsl
 https://www.youtube.com/watch?v=h0Wg_aknGdc

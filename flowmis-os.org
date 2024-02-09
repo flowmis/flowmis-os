@@ -1,21 +1,17 @@
 :Einstellungen:
-#+TITLE: flowmis-os
-#+STARTUP: folded hideblocks shrink
 #+begin_src shell
 # cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
 # cp -u ~/flowmis-os/tangle/.Xresources ~/.Xresources
 cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
 echo done
 #+end_src
-
-:END:
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#+TITLE: flowmis-os
+#+STARTUP: folded hideblocks shrink
 [[~/flowmis-os/flowmis-os-install.org][Installation]]
 [[org:~/flowmis-os/flowmis-os.org::.xprofile][.xprofile]]
 [[org:~/flowmis-os/flowmis-os.org::.Xressources][.Xressources]]
 [[org:~/flowmis-os/flowmis-os.org::Virtual Box][VirtualBox]]
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+:END:
 -----------------------------------------------------------------------------------------------------------------------------------------
 [[id:32810af0-a736-4af1-a2b0-2fc582440298][Home]]
   |__[[id:413e46b3-0448-40b6-8ffc-9cf5bcbfd35d][büro-finanzen]]
@@ -680,7 +676,6 @@ sudo pacman -S viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive
     - download Extension pack and check if version is the same than virtual box
     - Einstellungen -> Zusatzpakete -> Paket das gedownloaded wurde installieren
 
-
 * Systemkonfigurationen
 ** Aussehen
 
@@ -889,7 +884,6 @@ EndSection
 - ~yay -Ss brother~ bzw. anderer Namen und dann schauen ob man den Treiber für sein Gerät findet und diesen dann installieren
 - ~sudo systemctl start cups.service~
 - http://localhost:631 öffnen und in der cups Oberfläche ganz oben auf Verwaltung gehen. Dort mit Benutzerdaten anmelden und den Drucker hinzufügen. Im Anschluss kann ich system-config-printer öffnen und dort sollte nun der Drucker sein und konfiguriert werden können. Zudem findet nun auch libre office etc. den Drucker.
-
 
 ** .xprofile
 

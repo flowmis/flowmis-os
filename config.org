@@ -1,182 +1,38 @@
 #+TITLE: Emacs à la Mane
 #+AUTHOR: Mane
 #+DESCRIPTION: Konfigurationsdatei für Emacs.
-#+STARTUP: showeverything
-#+OPTIONS: toc:2
-
-* Übersicht :toc:
-- [[#skripte-ausgelagerte-module][Skripte (ausgelagerte "Module")]]
-- [[#sinnvolle-einstellungen][Sinnvolle Einstellungen]]
-- [[#allgemeine-keybindings-und-sudo-edit-in-emacs][Allgemeine Keybindings und sudo edit in emacs]]
+* TABLE OF CONTENTS :toc:
+- [[#ausgelagerte-skripte-module][Ausgelagerte Skripte "Module"]]
 - [[#dashboard][Dashboard]]
 - [[#dired][Dired]]
-- [[#git][Git]]
-- [[#neotree][Neotree]]
-- [[#perspective][Perspective]]
-- [[#aussehen-von-emacs][Aussehen von Emacs]]
-  - [[#all-the-icons][ALL THE ICONS]]
+- [[#erscheinungsbild][Erscheinungsbild]]
+  - [[#highlight-todo][Highlight TODO]]
+  - [[#modeline][Modeline]]
   - [[#schrift][Schrift]]
-  - [[#highlight-todo][HIGHLIGHT TODO]]
-  - [[#zooming-inout][Zooming In/Out]]
   - [[#theme][Theme]]
   - [[#transparenz][Transparenz]]
-  - [[#modeline][Modeline]]
-  - [[#diminish][Diminish]]
-- [[#company-complete-anything][Company (Complete Anything)]]
+  - [[#zooming-inout][Zooming In/Out]]
+- [[#eshell--vterm][Eshell & vterm]]
 - [[#flycheck][Flycheck]]
-- [[#vervollständigungsvorschläge-ivy-counsel][Vervollständigungsvorschläge IVY (Counsel)]]
-- [[#org-mode][ORG MODE]]
-  - [[#enabling-table-of-contents][Enabling Table of Contents]]
-  - [[#enabling-org-bullets][Enabling Org Bullets]]
+- [[#git][Git]]
+- [[#ivy-counsel-company][Ivy, counsel, company]]
+- [[#neotree][Neotree]]
+- [[#org][Org]]
+  - [[#table-of-contents][Table of Contents]]
+  - [[#org-bullets][Org Bullets]]
   - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
   - [[#transclusion][Transclusion]]
-- [[#rainbow-mode][RAINBOW MODE]]
-- [[#shells-and-terminals][SHELLS AND TERMINALS]]
-  - [[#eshell][Eshell]]
-  - [[#vterm][Vterm]]
-  - [[#vterm-toggle][Vterm-Toggle]]
-- [[#which-key-keybindings-beschreibung][WHICH-KEY (Keybindings-Beschreibung)]]
+- [[#which-key][Which-Key]]
+- [[#workspaces][Workspaces]]
 
-* Skripte (ausgelagerte "Module")
+* Ausgelagerte Skripte "Module"
 Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in Form einer .el Datei im Skriptordner ausgelagert habe kann ich hier rein laden mit dem folgenden Befehl -> so wird die Konfigurationsdatei hier nicht unnötig groß und bleibt übersichtlicher -> um etwas als script auszulagern einfach im Skript Ordner eine .el dazu erstellen und am Ende der .el ~(provide 'name-des-elisp-files)~ einfügen und hier dann auf den Ordner verweisen!
 #+begin_src emacs-lisp
 (add-to-list 'load-path "~/.config/emacs/scripts/")
-(require 'elpaca-setup)  ;; The Elpaca Package Manager
-(require 'buffer-move)   ;; Buffer-move for better window management
-(require 'app-launcher) ;; Use emacs as a run launcher like rofi (experimental)
+(require 'setup-settings-basics)  ;; The Elpaca Package Manager
+;;(require 'buffer-move)   ;; Buffer-move for better window management
+;;(require 'app-launcher) ;; Use emacs as a run launcher like rofi (experimental)
 ;; (require 'org-roam) ;; Use emacs as second brain
-#+end_src
-* Sinnvolle Einstellungen
-#+begin_src emacs-lisp
-(setq backup-directory-alist '((".*" . "~/.local/share/Trash/files")))  ;;Standardmäßig werden beim bearbeiten von .org Dateien temporäre Dateien erzeugt um im Notfall ein Backup zu haben, aber da es nervt diese Dateien immer in den Verzeichnissen angezeigt bekommen stelle ich hier ein, dass dies im Papierkorb gespeichert werden, sodass ich zur Not dort für ein Backup schauen kann.
-(global-set-key [escape] 'keyboard-escape-quit)  ;;By default, Emacs requires you to hit ESC three times to escape quit the minibuffer.  
-(delete-selection-mode 1)    ;; You can select text and delete it by typing.
-(electric-indent-mode -1)    ;; Turn off the weird indenting that Emacs does by default.
-(electric-pair-mode 1)       ;; Turns on automatic parens pairing
-;; The following prevents <> from auto-pairing when electric-pair-mode is on.
-;; Otherwise, org-tempo is broken when you try to <s TAB...
-(add-hook 'org-mode-hook (lambda ()
-           (setq-local electric-pair-inhibit-predicate
-                   `(lambda (c)
-                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
-(global-auto-revert-mode t)  ;; Automatically show changes if the file has changed
-(global-display-line-numbers-mode 1) ;; Display line numbers
-(global-visual-line-mode t)  ;; Enable truncated lines
-(menu-bar-mode -1)           ;; Disable the menu bar 
-(scroll-bar-mode -1)         ;; Disable the scroll bar
-(tool-bar-mode -1)           ;; Disable the tool bar
-(setq org-edit-src-content-indentation 0) ;; Set src block automatic indent to 0 instead of 2.
-(use-package tldr)           ;; Hier kann ich gekürzte Infos über Terminalbefehle bekommen
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((shell . t))) ;; Make sure shell is enabled brauch ich um einen src-block mit sh ausführen zu können innerhalb emacs
-#+end_src
-* Allgemeine Keybindings und sudo edit in emacs
-#+begin_src emacs-lisp
-(use-package general
-  :config
-  (general-evil-setup)  ;; 'SPC' als globaler leader key
-  (general-create-definer mane-leader-keys
-    :states '(normal insert visual emacs)
-    :keymaps 'override
-    :prefix "SPC"
-    :global-prefix "M-SPC") ;; access leader in insert mode
-  (mane-leader-keys
-    "." '(find-file :which-key "Find file")
-    "=" '(perspective-map :wk "Perspective") ;; Lists all the perspective keybindings
-    "f c" '((lambda () (interactive) (find-file "~/flowmis-os/config.org")) :wk "Edit emacs config")
-    "f r" '(counsel-recentf :wk "Find recent files")
-    "SPC" '(lambda () (interactive) (find-file "~/.config/emacs/start.org") :wk "Zum Dashboard")
-    "TAB TAB" '(comment-line :wk "Comment lines")
-    "b" '(:ignore t :wk "Buffer-Keybindings")
-    "b b" '(switch-to-buffer :wk "Switch Buffer")
-    "b k" '(kill-this-buffer :wk "Kill Buffer")
-    "b n" '(next-buffer :wk "Nächster Buffer")
-    "b v" '(previous-buffer :wk "Vorheriger Buffer")
-    "b r" '(revert-buffer :wk "Reload Buffer")
-    "b i" '(ibuffer :wk "Liste offener Buffer")
-    "d" '(:ignore t :wk "Dired")
-    "d d" '(dired :wk "Open dired")
-    "d j" '(dired-jump :wk "Dired jump to current")
-    "d n" '(neotree-dir :wk "Open directory in neotree")
-    "d p" '(peep-dired :wk "Peep-dired")
-    "e" '(:ignore t :wk "Eshell & Evaluate")
-    "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
-    "e d" '(eval-defun :wk "Evaluate defun containing or after point")
-    "e e" '(eval-expression :wk "Evaluate and elisp expression")
-    "e h" '(counsel-esh-history :wk "Eshell history")
-    "e r" '(eval-region :wk "Evaluate elisp in region") 
-    "e s" '(eshell :which-key "Eshell")
-    "g" '(:ignore t :wk "Git")    
-    "g /" '(magit-displatch :wk "Magit dispatch")
-    "g ." '(magit-file-displatch :wk "Magit file dispatch")
-    "g b" '(magit-branch-checkout :wk "Switch branch")
-    "g c" '(:ignore t :wk "Create") 
-    "g c b" '(magit-branch-and-checkout :wk "Create branch and checkout")
-    "g c c" '(magit-commit-create :wk "Create commit")
-    "g c f" '(magit-commit-fixup :wk "Create fixup commit")
-    "g C" '(magit-clone :wk "Clone repo")
-    "g f" '(:ignore t :wk "Find") 
-    "g f c" '(magit-show-commit :wk "Show commit")
-    "g f f" '(magit-find-file :wk "Magit find file")
-    "g f g" '(magit-find-git-config-file :wk "Find gitconfig file")
-    "g F" '(magit-fetch :wk "Git fetch")
-    "g g" '(magit-status :wk "Magit status")
-    "g i" '(magit-init :wk "Initialize git repo")
-    "g l" '(magit-log-buffer-file :wk "Magit buffer log")
-    "g r" '(vc-revert :wk "Git revert file")
-    "g s" '(magit-stage-file :wk "Git stage file")
-    "g t" '(git-timemachine :wk "Git time machine")
-    "g u" '(magit-stage-file :wk "Git unstage file")
-    "h" '(:ignore t :wk "Help")
-    "h f" '(describe-function :wk "Describe function")
-    "h v" '(describe-variable :wk "Describe variable")
-    "h t" '(tldr :wk "Lookup TLDR docs for a command")
-    "t" '(:ignore t :wk "Toggle")
-    "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
-    "t t" '(org-transclusion-mode :wk "org-transclusion-aktivieren")
-    "t T" '(org-transclusion-add :wk "org-transclusion-aktivieren")
-    "t L" '(visual-line-mode :wk "Toggle truncated lines")
-    "t v" '(vterm-toggle :wk "Toggle vterm")
-    "t h" '(load-theme-mane-1 :wk "Load light Theme")
-    "t n" '(neotree-toggle :wk "Toggle neotree file viewer")
-    "t d" '(load-theme-mane-2 :wk "Load dark Theme")
-    "T" '(load-theme :wk "Load a Theme")
-    "w" '(:ignore t :wk "Windows")
-    ;; Window splits
-    "w c" '(evil-window-delete :wk "Close window")
-    "w n" '(evil-window-new :wk "New window")
-    "w s" '(evil-window-split :wk "Horizontal split window")
-    "w v" '(evil-window-vsplit :wk "Vertical split window")
-    ;; Window motions
-    "w h" '(evil-window-left :wk "Window left")
-    "w j" '(evil-window-down :wk "Window down")
-    "w k" '(evil-window-up :wk "Window up")
-    "w l" '(evil-window-right :wk "Window right")
-    "w w" '(evil-window-next :wk "Goto next window")
-    ;; Move Windows
-    "w H" '(buf-move-left :wk "Buffer move left")
-    "w J" '(buf-move-down :wk "Buffer move down")
-    "w K" '(buf-move-up :wk "Buffer move up")
-    "w L" '(buf-move-right :wk "Buffer move right")
-    ;; org-mode
-    "o" '(:ignore t :wk "Org")
-    "o a" '(org-agenda :wk "Org agenda")
-    "o e" '(org-export-dispatch :wk "Org export dispatch")
-    "o i" '(org-toggle-item :wk "Org toggle item")
-    "o t" '(org-todo :wk "Org todo")
-    "o B" '(org-babel-tangle :wk "Org babel tangle")
-    "o T" '(org-todo-list :wk "Org todo list")
-    "o b" '(:ignore t :wk "Tables")
-    "o b -" '(org-table-insert-hline :wk "Insert hline in table")
-    "o d" '(:ignore t :wk "Date/deadline")
-    "o d t" '(org-time-stamp :wk "Org time stamp"))
-)
-(use-package sudo-edit   ;;https://github.com/nflath/sudo-edit
-  :config
-    (mane-leader-keys
-      "fu" '(sudo-edit-find-file :wk "Sudo find file")
-      "fU" '(sudo-edit :wk "Sudo edit file")))
 #+end_src
 * Dashboard
 #+begin_src emacs-lisp
@@ -207,6 +63,7 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
     (add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
     (provide 'start-mode)
 #+end_src
+
 * Dired
 
 #+begin_src emacs-lisp
@@ -228,109 +85,8 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
     (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
 )
 #+end_src
-* Git
-[[https://github.com/emacsmirror/git-timemachine][git-timemachine]] is a program that allows you to move backwards and forwards through a file's commits.  'SPC g t' will open the time machine on a file if it is in a git repo.  Then, while in normal mode, you can use 'CTRL-j' and 'CTRL-k' to move backwards and forwards through the commits.
-[[https://magit.vc/manual/][Magit]] is a full-featured git client for Emacs.
-#+begin_src emacs-lisp
-(use-package git-timemachine
-  :after git-timemachine
-  :hook (evil-normalize-keymaps . git-timemachine-hook)
-  :config
-    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
-    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
-)
-(use-package magit)
-#+end_src
-* Neotree
-#+begin_src emacs-lisp
-(use-package neotree
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 30
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t
-        projectile-switch-project-action 'neotree-projectile-action) 
-        ;; truncate long file names in neotree
-        (add-hook 'neo-after-create-hook
-           #'(lambda (_)
-               (with-current-buffer (get-buffer neo-buffer-name)
-                 (setq truncate-lines t)
-                 (setq word-wrap nil)
-                 (make-local-variable 'auto-hscroll-mode)
-                 (setq auto-hscroll-mode nil)))))
-;; show hidden files
-#+end_src
-* Perspective 
--> Zwischen unterschiedlich konfigurierten Bufferansichten wechseln - quasi wie in Windows den Workspace bzw. Desktop wechsel
--> Jede [[https://github.com/nex3/perspective-el][Perspective]] hat ihre eigene Bufferliste und das eigene Layout zusammen mit weiteren isolierten Dingen wie [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Xref.html][xref]] ring.
-#+begin_src emacs-lisp
-(use-package perspective
-  :custom
-  ;; NOTE! I have also set 'SCP =' to open the perspective menu.
-  ;; I'm only setting the additional binding because setting it
-  ;; helps suppress an annoying warning message.
-  (persp-mode-prefix-key (kbd "C-c M-p"))
-  :init 
-  (persp-mode)
-  :config
-  ;; Sets a file to write to when we save states
-  (setq persp-state-default-file "~/.config/emacs/sessions"))
-
-;; This will group buffers by persp-name in ibuffer.
-(add-hook 'ibuffer-hook
-          (lambda ()
-            (persp-ibuffer-set-filter-groups)
-            (unless (eq ibuffer-sorting-mode 'alphabetic)
-              (ibuffer-do-sort-by-alphabetic))))
-
-;; Automatically save perspective states to file when Emacs exits.
-(add-hook 'kill-emacs-hook #'persp-state-save)
-
-#+end_src
-* Aussehen von Emacs
-** ALL THE ICONS
-This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
-  
-#+begin_src emacs-lisp
-(use-package all-the-icons
-  :ensure t
-  :if (display-graphic-p))
-
-(use-package all-the-icons-dired
-  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
-#+end_src
-
-** Schrift
-#+begin_src emacs-lisp
-  (set-face-attribute 'default nil
-    :font "JetBrains Mono"
-    :height 110
-    :weight 'medium)
-  (set-face-attribute 'variable-pitch nil
-    :font "Ubuntu"
-    :height 120
-    :weight 'medium)
-  (set-face-attribute 'fixed-pitch nil
-    :font "JetBrains Mono"
-    :height 110
-    :weight 'medium)
-  ;; Makes commented text and keywords italics.
-  ;; This is working in emacsclient but not emacs.
-  ;; Your font must have an italic face available.
-  (set-face-attribute 'font-lock-comment-face nil
-    :slant 'italic)
-  (set-face-attribute 'font-lock-keyword-face nil
-    :slant 'italic)
-
-  ;; This sets the default font on all graphical frames created after restarting Emacs.
-  ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
-  ;; are not right unless I also add this method of setting the default font.
-  (add-to-list 'default-frame-alist '(font . "JetBrains Mono-11"))
-  ;; Uncomment the following line if line spacing needs adjusting.
-  (setq-default line-spacing 0.12)
-#+end_src
-** HIGHLIGHT TODO
+* Erscheinungsbild
+** Highlight TODO
 Adding highlights to TODO and related words.
 #+begin_src emacs-lisp
 (use-package hl-todo
@@ -347,12 +103,46 @@ Adding highlights to TODO and related words.
           ("DEPRECATED" font-lock-doc-face bold))))
 
 #+end_src
-** Zooming In/Out
+** Modeline
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
-(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-height 25      ;; sets modeline height
+        doom-modeline-bar-width 10    ;; sets right bar width
+        doom-modeline-persp-name t   ;; adds perspective name to modeline
+        doom-modeline-persp-icon t)) ;; adds folder icon next to persp name
+#+end_src
+** Schrift
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil
+  :font "JetBrains Mono"
+  :height 110
+  :weight 'medium)
+(set-face-attribute 'variable-pitch nil
+  :font "Ubuntu"
+  :height 120
+  :weight 'medium)
+(set-face-attribute 'fixed-pitch nil
+  :font "JetBrains Mono"
+  :height 110
+  :weight 'medium)
+;; Makes commented text and keywords italics.
+;; This is working in emacsclient but not emacs.
+;; Your font must have an italic face available.
+(set-face-attribute 'font-lock-comment-face nil
+  :slant 'italic)
+(set-face-attribute 'font-lock-keyword-face nil
+  :slant 'italic)
+
+;; This sets the default font on all graphical frames created after restarting Emacs.
+;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
+;; are not right unless I also add this method of setting the default font.
+(add-to-list 'default-frame-alist '(font . "JetBrains Mono-11"))
+
+;; Uncomment the following line if line spacing needs adjusting.
+(setq-default line-spacing 0.12)
 #+end_src
 ** Theme
 Theme im [[https://emacsfodder.github.io/emacs-theme-editor/#theme-generated][Theme-Editor]] erstellen und die .el Datei dann als Theme in den ~/.config/emacs/theme Ordner speichern: https://github.com/emacsfodder/emacs-theme-editor
@@ -386,28 +176,103 @@ With Emacs version 29, true transparency has been added.
 #+begin_src emacs-lisp
 (add-to-list 'default-frame-alist '(alpha-background . 90)) ; For all new frames henceforth
 #+end_src
-** Modeline
+** Zooming In/Out
 #+begin_src emacs-lisp
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+#+end_src
+* Eshell & vterm
+- Eine Emacs 'shell' die in Elisp geschrieben ist.
+- Vterm is a terminal emulator within Emacs.  The 'shell-file-name' setting sets the shell to be used in M-x shell, M-x term, M-x ansi-term and M-x vterm.  By default, the shell is set to 'fish' but could change it to 'bash' or 'zsh' if you prefer.
+- [[https://github.com/jixiuf/vterm-toggle][vterm-toggle]] toggles between the vterm buffer and whatever buffer you are editing.
+
+#+begin_src emacs-lisp
+(use-package eshell-toggle
+  :custom
+  (eshell-toggle-size-fraction 3)
+  (eshell-toggle-use-projectile-root t)
+  (eshell-toggle-run-command nil)
+  (eshell-toggle-init-function #'eshell-toggle-init-ansi-term))
+
+  (use-package eshell-syntax-highlighting
+    :after esh-mode
+    :config
+    (eshell-syntax-highlighting-global-mode +1))
+
+  ;; eshell-syntax-highlighting -- adds fish/zsh-like syntax highlighting.
+  ;; eshell-rc-script -- your profile for eshell; like a bashrc for eshell.
+  ;; eshell-aliases-file -- sets an aliases file for the eshell.
+
+  (setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
+        eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+        eshell-history-size 5000
+        eshell-buffer-maximum-lines 5000
+        eshell-hist-ignoredups t
+        eshell-scroll-to-bottom-on-input t
+        eshell-destroy-buffer-when-process-dies t
+        eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+
+(use-package vterm
+:config
+(setq shell-file-name "/bin/sh"
+      vterm-max-scrollback 5000))
+
+(use-package vterm-toggle
+  :after vterm
   :config
-  (setq doom-modeline-height 25      ;; sets modeline height
-        doom-modeline-bar-width 10    ;; sets right bar width
-        doom-modeline-persp-name t   ;; adds perspective name to modeline
-        doom-modeline-persp-icon t)) ;; adds folder icon next to persp name
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project)
+  (add-to-list 'display-buffer-alist
+               '((lambda (buffer-or-name _)
+                     (let ((buffer (get-buffer buffer-or-name)))
+                       (with-current-buffer buffer
+                         (or (equal major-mode 'vterm-mode)
+                             (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+                  (display-buffer-reuse-window display-buffer-at-bottom)
+                  ;;(display-buffer-reuse-window display-buffer-in-direction)
+                  ;;display-buffer-in-direction/direction/dedicated is added in emacs27
+                  ;;(direction . bottom)
+                  ;;(dedicated . t) ;dedicated is supported in emacs27
+                  (reusable-frames . visible)
+                  (window-height . 0.3))))
 #+end_src
-** Diminish
-This package implements hiding or abbreviation of the modeline displays (lighters) of minor-modes.  With this package installed, you can add ‘:diminish’ to any use-package block to hide that particular mode in the modeline.
+
+* Flycheck
+Install python-pylint for flycheck to work with python files. For more information on language support for flycheck, [[https://www.flycheck.org/en/latest/languages.html][read this]].
+
 #+begin_src emacs-lisp
-(use-package diminish)
+(use-package flycheck
+  :ensure t
+  :defer t
+  :init (global-flycheck-mode))
 #+end_src
-* Company (Complete Anything)
-Company is a text completion framework for Emacs. The name stands for “complete anything”.  Completion will start automatically after you type a few letters. Use M-n and M-p to select, <return> to complete or <tab> to complete the common part.
+
+* Git
+- [[https://github.com/emacsmirror/git-timemachine][git-timemachine]] ein Programm um einfach in der git Historie hin und her zu wechseln. 'SPC g t' open the time machine on a file if it is in a git repo. 'CTRL-j' and 'CTRL-k' to move backwards and forwards through the commits.
+- [[https://magit.vc/manual/][Magit]] git client for Emacs.
+
+#+begin_src emacs-lisp
+(use-package git-timemachine
+  :after git-timemachine
+  :hook (evil-normalize-keymaps . git-timemachine-hook)
+  :config
+    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
+    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
+)
+(use-package magit)
+#+end_src
+
+* Ivy, counsel, company
+- Ivy, a generic completion mechanism for Emacs.
+- Counsel, a collection of Ivy-enhanced versions of common Emacs commands.
+- Ivy-rich allows us to add descriptions alongside the commands in M-x.
+- [[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything".  Completion will start automatically after you type a few letters. Use M-n and M-p to select, <return> to complete or <tab> to complete the common part.
+
 #+begin_src emacs-lisp
 (use-package company
   :defer 2
-  :diminish
   :custom
   (company-begin-commands '(self-insert-command))
   (company-idle-delay .1)
@@ -418,27 +283,11 @@ Company is a text completion framework for Emacs. The name stands for “complet
 
 (use-package company-box
   :after company
-  :diminish
   :hook (company-mode . company-box-mode))
 #+end_src
-* Flycheck
-Install python-pylint for flycheck to work with python files.
-#+begin_src emacs-lisp
-(use-package flycheck
-  :ensure t
-  :defer t
-  :diminish
-  :init (global-flycheck-mode))
-#+end_src
-* Vervollständigungsvorschläge IVY (Counsel)
-+ Ivy, a generic completion mechanism for Emacs.
-+ Counsel, a collection of Ivy-enhanced versions of common Emacs commands.
-+ Ivy-rich allows us to add descriptions alongside the commands in M-x.
-
 #+begin_src emacs-lisp
 (use-package counsel
   :after ivy
-  :diminish
   :config (counsel-mode))
 
 (use-package ivy
@@ -451,7 +300,6 @@ Install python-pylint for flycheck to work with python files.
   (setq ivy-count-format "(%d/%d) ")
   (setq enable-recursive-minibuffers t)
   :config
-  :diminish
   (ivy-mode))
 
 (use-package all-the-icons-ivy-rich
@@ -469,22 +317,46 @@ Install python-pylint for flycheck to work with python files.
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer
                                'ivy-rich-switch-buffer-transformer))
+
 #+end_src
-* ORG MODE
-** Enabling Table of Contents
+
+* Neotree
 #+begin_src emacs-lisp
-  (use-package toc-org
-      :commands toc-org-enable
-      :init (add-hook 'org-mode-hook 'toc-org-enable))
+(use-package neotree
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 30
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t
+        projectile-switch-project-action 'neotree-projectile-action) 
+        ;; truncate long file names in neotree
+        (add-hook 'neo-after-create-hook
+           #'(lambda (_)
+               (with-current-buffer (get-buffer neo-buffer-name)
+                 (setq truncate-lines t)
+                 (setq word-wrap nil)
+                 (make-local-variable 'auto-hscroll-mode)
+                 (setq auto-hscroll-mode nil)))))
+;; show hidden files
 #+end_src
-** Enabling Org Bullets
+* Org
+** Table of Contents
+#+begin_src emacs-lisp
+(use-package toc-org
+    :commands toc-org-enable
+    :init (add-hook 'org-mode-hook 'toc-org-enable))
+#+end_src
+
+** Org Bullets
 Org-bullets gives us attractive bullets rather than asterisks.
 
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook 'org-indent-mode)
-  (use-package org-bullets)
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(add-hook 'org-mode-hook 'org-indent-mode)
+(use-package org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
+
 ** Source Code Block Tag Expansion
 Org-tempo ist kein eigenes Paket sondern ein Modul in org das man aktivieren kann um '<s' mit TAB zu einem source-block umzuwandeln. Weitere Möglichkeiten: Änderungen dann lieber mit yasnippets und dann kann ich den Teil hier eigentlich auch löschen!
 
@@ -506,100 +378,34 @@ Org-tempo ist kein eigenes Paket sondern ein Modul in org das man aktivieren kan
 #+end_src
 ** Transclusion
 #+begin_src emacs-lisp 
-;; ~/.doom.d/config.el
 (use-package org-transclusion
   :after org)
 #+end_src
-* RAINBOW MODE
-Display the actual color as a background for any hex color value (ex. #ffffff).  The code block below enables rainbow-mode in all programming modes (prog-mode) as well as org-mode, which is why rainbow works in this document.  
 
-#+begin_src emacs-lisp
-(use-package rainbow-mode
-  :diminish
-  :hook 
-  ((org-mode prog-mode) . rainbow-mode))
-
-(use-package rainbow-delimiters ;;Adding rainbow coloring to parentheses.
-  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
-         (clojure-mode . rainbow-delimiters-mode)))
-#+end_src
-* SHELLS AND TERMINALS
-In my configs, all of my shells (bash, fish, zsh and the ESHELL) require my shell-color-scripts-git package to be installed.  On Arch Linux, you can install it from the AUR.  Otherwise, go to my shell-color-scripts repository on GitLab to get it.
-
-** Eshell
-Eshell is an Emacs 'shell' that is written in Elisp.
-
-#+begin_src emacs-lisp
-(use-package eshell-syntax-highlighting
-  :after esh-mode
-  :config
-  (eshell-syntax-highlighting-global-mode +1))
-
-;; eshell-syntax-highlighting -- adds fish/zsh-like syntax highlighting.
-;; eshell-rc-script -- your profile for eshell; like a bashrc for eshell.
-;; eshell-aliases-file -- sets an aliases file for the eshell.
-  
-(setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
-      eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
-      eshell-history-size 5000
-      eshell-buffer-maximum-lines 5000
-      eshell-hist-ignoredups t
-      eshell-scroll-to-bottom-on-input t
-      eshell-destroy-buffer-when-process-dies t
-      eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
-#+end_src
-
-** Vterm
-Vterm is a terminal emulator within Emacs.  The 'shell-file-name' setting sets the shell to be used in M-x shell, M-x term, M-x ansi-term and M-x vterm.  By default, the shell is set to 'fish' but could change it to 'bash' or 'zsh' if you prefer.
-
-#+begin_src emacs-lisp
-(use-package vterm
-:config
-(setq shell-file-name "/bin/sh"
-      vterm-max-scrollback 5000))
-#+end_src
-
-** Vterm-Toggle 
-[[https://github.com/jixiuf/vterm-toggle][vterm-toggle]] toggles between the vterm buffer and whatever buffer you are editing.
-
-#+begin_src emacs-lisp
-(use-package vterm-toggle
-  :after vterm
-  :config
-  (setq vterm-toggle-fullscreen-p nil)
-  (setq vterm-toggle-scope 'project)
-  (add-to-list 'display-buffer-alist
-               '((lambda (buffer-or-name _)
-                     (let ((buffer (get-buffer buffer-or-name)))
-                       (with-current-buffer buffer
-                         (or (equal major-mode 'vterm-mode)
-                             (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
-                  (display-buffer-reuse-window display-buffer-at-bottom)
-                  ;;(display-buffer-reuse-window display-buffer-in-direction)
-                  ;;display-buffer-in-direction/direction/dedicated is added in emacs27
-                  ;;(direction . bottom)
-                  ;;(dedicated . t) ;dedicated is supported in emacs27
-                  (reusable-frames . visible)
-                  (window-height . 0.3))))
-#+end_src
-* WHICH-KEY (Keybindings-Beschreibung)
+* Which-Key
 Hilfe welche Keys ich als nächstes drücken kann bzw. welche Keybidings vergeben wurden.
 #+begin_src emacs-lisp
 (use-package which-key
   :init
     (which-key-mode 1)
-  :diminish
   :config
   (setq which-key-side-window-location 'bottom
-	which-key-sort-order #'which-key-key-order-alpha
-	which-key-sort-uppercase-first nil
-	which-key-add-column-padding 1
-	which-key-max-display-columns nil
-	which-key-min-display-lines 6
-	which-key-side-window-slot -10
-	which-key-side-window-max-height 0.25
-	which-key-idle-delay 0.8
-	which-key-max-description-length 25
-	which-key-allow-imprecise-window-fit nil
-	which-key-separator " → " ))
+	  which-key-sort-order #'which-key-key-order
+	  which-key-allow-imprecise-window-fit nil
+	  which-key-sort-uppercase-first nil
+	  which-key-add-column-padding 1
+	  which-key-max-display-columns nil
+	  which-key-min-display-lines 6
+	  which-key-side-window-slot -10
+	  which-key-side-window-max-height 0.25
+	  which-key-idle-delay 0.8
+	  which-key-max-description-length 25
+	  which-key-allow-imprecise-window-fit nil
+	  which-key-separator " → " ))
+#+end_src
+
+* Workspaces
+Ich verwende [[https://github.com/alphapapa/burly.el][burly]], da es minimalisitsch, einfach und icht in Konflikt mit meinem App-Launcher ist. Alternative die leider meinen App-Launcher unnutzbar macht sodass ich (rofi oder cerebro nutzen müsste) ist [[https://github.com/nex3/perspective-el][perspective]]. Auch ein ähnliches Paket ist [[https://depp.brause.cc/eyebrowse/][eyebrowse]].
+#+begin_src emacs-lisp
+(use-package burly)
 #+end_src
