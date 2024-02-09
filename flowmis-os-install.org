@@ -1,21 +1,20 @@
 :Einstellungen:
+#+TITLE: flowmis-os-install -> Link: [[~/flowmis-os/flowmis-os.org][flowmis-os]]
 #+begin_src shell
-# mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/
+# mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/ ~/.config/picom/
 cp -u ~/flowmis-os/config.org ~/.config/emacs/config.org && cp -u ~/flowmis-os/tangle/early-init.el ~/.config/emacs/early-init.el && cp -u ~/flowmis-os/tangle/init.el ~/.config/emacs/init.el && cp -u ~/flowmis-os/tangle/start.org ~/.config/emacs/start.org && cp -R ~/flowmis-os/tangle/scripts/ ~/.config/emacs/ && cp -R ~/flowmis-os/tangle/themes/ ~/.config/emacs/ && cp -R ~/flowmis-os/tangle/eshell/ ~/.config/emacs/ && echo '###########################Doom ready###########################'
-cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '###########################Qtile ready###########################'
+# cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
 # cp -u ~/flowmis-os/tangle/.Xressources ~/.Xressources
 # cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
 # cp -u ~/flowmis-os/tangle/alacritty.toml ~/.config/alacritty/alacritty.toml
 # cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
 # cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
-# cp -u ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf
+# sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf
 # cp -u ~/flowmis-os/tangle/zathurarc ~/.config/zathura/zathurarc
 echo done
 #+end_src
 #+STARTUP: folded hideblocks shrink
-#+TITLE: Install flowmis-os
-- [[~/flowmis-os/flowmis-os.org][flowmis-os]]
 :END:
 
 * Installation flowmis-os on Windows mit wsl

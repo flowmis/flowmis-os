@@ -1,38 +1,30 @@
 :Einstellungen:
-#+begin_src shell
-# cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
-# cp -u ~/flowmis-os/tangle/.Xresources ~/.Xresources
-cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
-echo done
-#+end_src
-#+TITLE: flowmis-os
+#+TITLE: flowmis-os -> Link: flowmis-os-[[~/flowmis-os/flowmis-os-install.org][flowmis-os-install.org]]
 #+STARTUP: folded hideblocks shrink
-[[~/flowmis-os/flowmis-os-install.org][Installation]]
 [[org:~/flowmis-os/flowmis-os.org::.xprofile][.xprofile]]
 [[org:~/flowmis-os/flowmis-os.org::.Xressources][.Xressources]]
 [[org:~/flowmis-os/flowmis-os.org::Virtual Box][VirtualBox]]
-:END:
------------------------------------------------------------------------------------------------------------------------------------------
+-----------------
 [[id:32810af0-a736-4af1-a2b0-2fc582440298][Home]]
   |__[[id:413e46b3-0448-40b6-8ffc-9cf5bcbfd35d][büro-finanzen]]
   |__[[id:5733c22e-e943-4c5f-8317-0ee1aafbeb82][bildung-wissen]]
   |__[[id:fb5224f1-e780-4d42-8161-ab7d07e2d1a4][fff]]
------------------------------------------------------------------------------------------------------------------------------------------
+-----------------
 [[id:b7260bc6-ade9-4b8c-82bd-7a74a7bc8ec5][Work]]
   |__[[id:a3575415-b395-4768-8af0-403f733582c4][Schule]]
      |__[[id:cf400bfb-f204-46ec-869e-2e61c6bf0ffe][Nachhilfe]]
      |__[[id:f475c27f-86fa-4c59-a6f6-5401d21793f0][Sportunterricht]]
      |__[[id:c2da6d13-d0e2-4ad1-bdcf-a18b338907cc][Chemieunterricht]]
      |__[[id:5cffb0aa-6521-4e5c-96fc-5f2bd5f9ad57][Referendariat]]
------------------------------------------------------------------------------------------------------------------------------------------
-2nd Brain
+-----------------
+PKM
   |__[[id:a17e22d2-1593-4fe7-a777-329b8b9498a4][Rezepte]]
------------------------------------------------------------------------------------------------------------------------------------------
+-----------------
 [[id:b15cd936-90e9-4959-af85-2f4831b61c1e][Projekte]]
------------------------------------------------------------------------------------------------------------------------------------------
+-----------------
 [[id:b2503af1-ed37-4ded-81f7-a0aed8bd416c][Skripte, Programme, etc.]]
------------------------------------------------------------------------------------------------------------------------------------------
-
+-----------------
+:END:
 
 * TODO [#B] flowmis-os [0%]
 :LOGBOOK:
@@ -687,7 +679,6 @@ Downloaden kann man vieles [[https://www.gnome-look.org/][HIER]]
 *** Themes
 *** Icons
 *** Cursor
-
 *** Login Manager
 
 - für auto-login: ~sudo nvim sddm.conf~ und folgenden Inhalt rein kopieren:
@@ -940,120 +931,9 @@ Nun noch aktivieren mit:
 ~xrdb -merge ~/.Xresources~
 
 ** Picom
-
-+ picom = fork von compton
-+ Die picom.conf muss in //home/flowmis//.config/picom/ kopiert werden. Falls directory nicht vorhanden muss es erstellt werden (mkdir //home/flowmis//.config/picom). Falls man neue config Datei erstellen will ist es sinnvoll die Beispiel config die mit installiert wird zu kopieren und zu modifizieren: sudo cp //etc/xdg/picom.conf //home/flowmis//.config/picom/picom.conf
-+ Weitere Infos unter: https://wiki.archlinux.org/title/picom
-+ Meine config:
-
-#+begin_src sh :tangle tangle/picom.conf
-shadow = true;
-
-# The blur radius for shadows, in pixels. (defaults to 12)
-shadow-radius = 8;
-
-# The opacity of shadows. (0.0 - 1.0, defaults to 0.75)
-shadow-opacity = .6
-
-# The left offset for shadows, in pixels. (defaults to -15)
-shadow-offset-x = -3;
-
-# The top offset for shadows, in pixels. (defaults to -15)
-shadow-offset-y = -3;
-
-# Specify a list of conditions of windows that should have no shadow.
-#
-# examples:
-#   shadow-exclude = "n:e:Notification";
-#
-# shadow-exclude = []
-shadow-exclude = [
-  "name = 'Notification'",
-  "class_g = 'Conky'",
-  "class_g ?= 'Notify-osd'",
-  "class_g = 'Cairo-clock'",
-  "class_g = 'slop'",
-  "class_g = 'Polybar'",
-  "_GTK_FRAME_EXTENTS@:c"
-];
-
-
-# Fade windows in/out when opening/closing and when opacity changes,
-#  unless no-fading-openclose is used.
-# fading = false
-fading = true;
-
-# Opacity change between steps while fading in. (0.01 - 1.0, defaults to 0.028)
-# fade-in-step = 0.028
-fade-in-step = 0.03;
-
-# Opacity change between steps while fading out. (0.01 - 1.0, defaults to 0.03)
-# fade-out-step = 0.03
-fade-out-step = 0.03;
-
-# The time between steps in fade step, in milliseconds. (> 0, defaults to 10)
-# fade-delta = 10
-
-# Specify a list of conditions of windows that should not be faded.
-# don't need this, we disable fading for all normal windows with wintypes: {}
-fade-exclude = [
-  "class_g = 'slop'"   # maim
-]
-
-# Opacity of inactive windows. (0.1 - 1.0, defaults to 1.0)
-# inactive-opacity = 0.8
-inactive-opacity = 0.60
-
-# Opacity of window titlebars and borders. (0.1 - 1.0, disabled by default)
-# frame-opacity = 1.0
-frame-opacity = 1.00
-
-# Default opacity for dropdown menus and popup menus. (0.0 - 1.0, defaults to 1.0)
-# menu-opacity = 1.0
-# menu-opacity is depreciated use dropdown-menu and popup-menu instead.
-
-#If using these 2 below change their values in line 510 & 511 aswell
-popup_menu = { opacity = 0.8; }
-dropdown_menu = { opacity = 0.8; }
-
-
-# Let inactive opacity set by -i override the '_NET_WM_OPACITY' values of windows.
-# inactive-opacity-override = true
-inactive-opacity-override = false;
-
-# Default opacity for active windows. (0.0 - 1.0, defaults to 1.0)
-active-opacity = 1.00
-
-# Dim inactive windows. (0.0 - 1.0, defaults to 0.0)
-# inactive-dim = 0.0
-
-# Specify a list of conditions of windows that should always be considered focused.
-# focus-exclude = []
-focus-exclude = [
-  "class_g = 'Cairo-clock'",
-  "class_g = 'Bar'",                    # lemonbar
-  "class_g = 'slop'"                    # maim
-];
-
-opacity-rule = [
-  "100:class_g    = 'XTerm'",
-  "100:class_g    = 'URxvt'",
-  "100:class_g    = 'firefox'",
-  "100:class_g    = 'Thunderbird'"
-];
-
-wintypes:
-{
-  normal = { fade = false; shadow = true; }
-  tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
-  dock = { shadow = false; }
-  dnd = { shadow = true; }
-  popup_menu = { opacity = 0.8; }
-  dropdown_menu = { opacity = 0.8; }
-};
-#+end_src
-+ picom in Terminal eingeben um zu aktivieren (oder picom -f)
-
+- picom ist ein Fork von compton (Compositor)
+- Beispielconfig die mit installiert wird kann durch mich modifiziert werden um Fenster transparent zu machen etc.: ~sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf~
+- picom in Terminal eingeben um zu aktivieren (oder picom -f)
 ** Audio, Wlan, Helligkeit, mehrere Anzeigen, HDMI etc.
 
 - Sound: ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
