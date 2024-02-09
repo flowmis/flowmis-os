@@ -4,6 +4,7 @@
 * TABLE OF CONTENTS :toc:
 - [[#ausgelagerte-skripte-module][Ausgelagerte Skripte "Module"]]
 - [[#dashboard][Dashboard]]
+- [[#denote][Denote]]
 - [[#dired][Dired]]
 - [[#erscheinungsbild][Erscheinungsbild]]
   - [[#highlight-todo][Highlight TODO]]
@@ -62,6 +63,38 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
     )
     (add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
     (provide 'start-mode)
+#+end_src
+* Denote
+Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a2589790
+-> Installation: ~cd ~/.config/emacs/scripts/~ + ~git clone https://git.sr.ht/~protesilaos/denote denote~ + 
+~(add-to-list 'load-path "~/.config/emacs/scripts/denote")~ bei ausgelagerter Skripte angeben und dann die folgenden Konfigurationen vornehmen (Update mit git pull):
+
+#+begin_src emacs-lisp
+(require 'denote)
+;; Remember to check the doc strings of those variables.
+(setq denote-directory (expand-file-name "~/cloud/life/raum/pkm/"))
+(setq denote-known-keywords '("klasse8" "klasse9" "klasse10" "chemie" "sport" "nwt"))
+(setq denote-infer-keywords t)
+(setq denote-sort-keywords t)
+(setq denote-file-type nil) ; Org is the default, set others here
+(setq denote-prompts '(title keywords))
+(setq denote-excluded-directories-regexp nil)
+(setq denote-excluded-keywords-regexp nil)
+
+;; Pick dates, where relevant, with Org's advanced interface:
+(setq denote-date-prompt-use-org-read-date t)
+
+
+;; Read this manual for how to specify `denote-templates'.  We do not
+;; include an example here to avoid potential confusion.
+
+
+(setq denote-date-format nil) ; read doc string
+
+;; By default, we do not show the context of links.  We just display
+;; file names.  This provides a more informative view.
+(setq denote-backlinks-show-context t)
+
 #+end_src
 
 * Dired
@@ -306,6 +339,20 @@ Install python-pylint for flycheck to work with python files. For more informati
   :ensure t
   :init (all-the-icons-ivy-rich-mode 1))
 
+(use-package orderless ;um mit M-x auch ohne die richtige Reihenfolge treffer für Funktionen zu erhalten hilft das Paket [[https://github.com/oantolin/orderless][orderless]].
+  :elpaca t
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))
+	  orderless-component-separator "[ &]"))
+
+(use-package helm ;orderless brauch helm dass es richtig funktioniert
+  :ensure t
+  :config
+  (helm-mode 1))
+(global-set-key (kbd "M-x") 'helm-M-x)
+
 (use-package ivy-rich
   :after ivy
   :ensure t
@@ -340,6 +387,8 @@ Install python-pylint for flycheck to work with python files. For more informati
                  (setq auto-hscroll-mode nil)))))
 ;; show hidden files
 #+end_src
+
+
 * Org
 ** Table of Contents
 #+begin_src emacs-lisp
