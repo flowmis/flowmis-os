@@ -1,6 +1,7 @@
 ### EXPORT
 export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
 export ALTERNATE_EDITOR=""                        # setting for emacsclient
+export QT_QPA_PLATFORMTHEME=qt5ct
 export EDITOR="emacsclient -t -a ''"              # $EDITOR use Emacs in terminal
 export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
 export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini #brauche ich für die nextcloud
@@ -9,18 +10,6 @@ export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini #brauche ich für die
 # export WORKON_HOME=$HOME/.virtualenvs
 # export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 # source ~/.local/bin/virtualenvwrapper.sh
-
-### SET MANPAGER
-### Uncomment only one of these!
-
-### "bat" as manpager
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
-### "vim" as manpager
-# export MANPAGER='/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
-
-### "nvim" as manpager
-# export MANPAGER="nvim -c 'set ft=man' -"
 
 ### SET VI MODE ###
 # Comment this line out to enable default emacs-like bindings
@@ -149,13 +138,6 @@ alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
 alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
 alias pc='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
 
-# Backup dry run
-alias bun='rsync -aurvn --delete --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
-# Backup ohne löschen nur mit updaten und kopieren
-alias bus='rsync -aurv --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
-# Backup mit löschen wenn etwas gelöscht wurde - gefährlichstes aber sinnvollstes backup
-alias bud='rsync -aurv --delete --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
-
 # Sleeptimer
 alias sleep='python /home/flowmis/cloud/life/energie/tech/skripte-programme-configs/skripte/sleeptimer.py '
 
@@ -178,12 +160,6 @@ alias cp="cp -i"
 alias mv='mv -i'
 alias rm='rm -i'
 
-#emacs
-alias doomsync="~/.emacs.d/bin/doom sync"
-alias doomdoctor="~/.emacs.d/bin/doom doctor"
-alias doomupgrade="~/.emacs.d/bin/doom upgrade"
-alias doompurge="~/.emacs.d/bin/doom purge"
-alias doombuild="~/.emacs.d/bin/doom build"
 ### BASH INSULTER ###
 if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found

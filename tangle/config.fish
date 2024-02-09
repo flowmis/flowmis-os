@@ -240,13 +240,6 @@ alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
 alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
 alias pc='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
 
-# Backup dry run
-alias bun='rsync -aurvn --delete --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
-# Backup ohne löschen nur mit updaten und kopieren
-alias bus='rsync -aurv --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
-# Backup mit löschen wenn etwas gelöscht wurde - gefährlichstes aber sinnvollstes backup
-alias bud='rsync -aurv --delete --progress /home/flowmis/cloud/life/ /run/media/flowmis/home-and-work/backup/life/'
-
 # get fastest mirrors
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
 alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
@@ -268,21 +261,5 @@ alias playavi='vlc *.avi'
 alias playmov='vlc *.mov'
 alias playmp4='vlc *.mp4'
 
-# youtube-dl
-alias yta-aac="youtube-dl --extract-audio --audio-format aac "
-alias yta-best="youtube-dl --extract-audio --audio-format best "
-alias yta-flac="youtube-dl --extract-audio --audio-format flac "
-alias yta-m4a="youtube-dl --extract-audio --audio-format m4a "
-alias yta-mp3="youtube-dl --extract-audio --audio-format mp3 "
-alias yta-opus="youtube-dl --extract-audio --audio-format opus "
-alias yta-vorbis="youtube-dl --extract-audio --audio-format vorbis "
-alias yta-wav="youtube-dl --extract-audio --audio-format wav "
-alias ytv-best="youtube-dl -f bestvideo+bestaudio "
-
-alias doomsync="~/.emacs.d/bin/doom sync"
-alias doomdoctor="~/.emacs.d/bin/doom doctor"
-alias doomupgrade="~/.emacs.d/bin/doom upgrade"
-alias doompurge="~/.emacs.d/bin/doom purge"
-alias doombuild="~/.emacs.d/bin/doom build"
 ### SETTING THE STARSHIP PROMPT ###
 starship init fish | source

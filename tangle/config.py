@@ -89,11 +89,12 @@ keys = [
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod, "shift"], "space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     ### Programme starten
-    Key([mod], "space", lazy.spawn(terminal), desc="Launch terminal"),
     Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
     Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'), desc="Wallpaperwechsel"),
     Key([mod], "e", lazy.spawn('emacsclient -c'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
-    Key([mod], "t", lazy.spawn('emacsclient -ce "(shell)"'), desc='eshell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
+    Key([mod], "space", lazy.spawn('emacsclient -c --eval "(eshell)"'), desc="Launch Eshell"),
+    Key([mod, "shift"], "space", lazy.spawn('emacsclient -ce "(shell)"'), desc='shell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
+    Key([mod, "control"], "space", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "p", lazy.spawn('keepassxc /home/flowmis/cloud/life/energie/self-sovereignity/privacy-security/passwörter/hotpassw.kdbx'), desc='Passwortmanager'),    #'emacs ~/cloud/life/raum/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod], "s", lazy.spawn('spotify-launcher'), desc="Spotify"),
     Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),

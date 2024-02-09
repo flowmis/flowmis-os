@@ -1,1 +1,2 @@
-colorscript random
+clear-scrollback
+echo "Mit "fish", "bash",... die shell wechseln -> sh kann ich mit Shift+Win+SPC öffnen und Alacritty mit Strg+Win+SPC"
