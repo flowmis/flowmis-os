@@ -1,5 +1,6 @@
 :Einstellungen:
 #+TITLE: flowmis-os
+
 #+begin_src shell
 # mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/ ~/.config/picom/
 rsync -ah --progress ~/flowmis-os/emacs/ ~/.config/emacs/
