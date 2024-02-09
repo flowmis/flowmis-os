@@ -819,251 +819,15 @@ _Emacs im Terminal über:_
 
 Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht richtig angezeigt werden in der doom-modeline und dired kann ich die Funktionen nach der Installation ausführen um die Icons zu installieren <M-x all-the-icons-install-fonts> <M-x nerd-icons-install-fonts> ->Dann folgendes:
 
-*** Emacs Doom
-**** DoomEmacs init
-
-- Module $ flags für Doom Emacs finde ich [[https://github.com/doomemacs/doomemacs/tree/develop/modules][hier]]
-- Beispiel für :lang mit org als Modul und seinen möglichen flags [[https://github.com/doomemacs/doomemacs/tree/develop/modules/lang/org#plugins][hier]]
-
-#+BEGIN_SRC elisp
-;;; init.el -*- lexical-binding: t; -*-
-
-;; This file controls what Doom modules are enabled and what order they load
-;; in. Remember to run 'doom sync' after modifying it!
-
-;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
-;;      documentation. There you'll find a link to Doom's Module Index where all
-;;      of our modules are listed, including what flags they support.
-
-;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
-;;      'C-c c k' for non-vim users) to view its documentation. This works on
-;;      flags as well (those symbols that start with a plus).
-;;
-;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
-;;      directory (for easy access to its source code).
-
-(doom! :input
-       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
-       ;;chinese
-       ;;japanese
-       ;;layout            ; auie,ctsrnm is the superior home row
-
-       :completion
-       company           ; the ultimate code completion backend
-       ;;helm              ; the *other* search engine for love and life
-       ;;ido               ; the other *other* search engine...
-       ;;ivy               ; a search engine for love and life
-       (vertico +items)           ; the search engine of the future
-       ;;(ivy +fonts +childframe)             ;hab ich lange statt vertico aktiviert gehabt - wieder aktivieren und vertico deaktivieren?
-
-       :ui
-       ;;deft              ; notational velocity for Emacs
-       doom              ; what makes DOOM look the way it does
-       ;; doom-dashboard    ; a nifty splash screen for Emacs
-       ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
+*** Emacs Doom 
+Habe meine damaligen Dateien in einem Ordner in dieser Repo, falls ich mal nochmal zu Doom zurück will.
+Folgendes noch in meine Emacs config integrieren.
        (emoji +unicode)  ; 🙂
-       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       ;;hydra
-       ;;indent-guides     ; highlighted indent columns
-       (ligatures +extras)         ; ligatures and symbols to make your code pretty again
-       ;; minimap           ; show a map of the code on the side
-       ;; modeline          ; snazzy, Atom-inspired modeline, plus API
-       ;;nav-flash         ; blink cursor line after big motions
-       ;; neotree           ; a project drawer, like NERDTree for vim
-       ;; ophints           ; highlight the region an operation acts on
-       ;; (popup +defaults)   ; tame sudden yet inevitable temporary windows
-       ;;tabs              ; a tab bar for Emacs
-       ;; treemacs          ; a project drawer, like neotree but cooler
-       ;;unicode           ; extended unicode support for various languages
-       (vc-gutter +pretty) ; vcs diff in the fringe
-       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       ;;window-select     ; visually switch windows
-       ;; workspaces        ; tab emulation, persistence & separate workspaces
-       zen               ; distraction-free coding or writing
-
-       :editor
-       (evil +everywhere); come to the dark side, we have cookies
-       file-templates    ; auto-snippets for empty files
-       fold              ; (nigh) universal code folding
-       ;;(format +onsave)  ; automated prettiness
-       ;;god               ; run Emacs commands without modifier keys
-       ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors  ; editing in many places at once
-       ;;objed             ; text object editing for the innocent
-       ;;parinfer          ; turn lisp into python, sort of
-       ;;rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
-       ;;word-wrap         ; soft wrapping with language-aware indent
-
-       :emacs
-       (dired +icons)             ; making dired pretty [functional]
-       electric          ; smarter, keyword-based electric-indent
-       (ibuffer +icons)         ; interactive buffer management
-       ;; (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
-       vc                ; version-control and Emacs, sitting in a tree
-
-       :term
-       eshell            ; the elisp shell that works everywhere
-       shell             ; simple shell REPL for Emacs
-       term              ; basic terminal emulator for Emacs
-       ;;vterm             ; the best terminal emulation in Emacs
-
-       :checkers
-       syntax              ; tasing you for every semicolon you forget
-       ;;(spell +flyspell) ; tasing you for misspelling mispelling
-       ;;(spell +aspell) ; hatte ich lange aktiviert
-       ;;grammar           ; tasing grammar mistake every you make
-
-       :tools
-       ;;ansible
-       ;;biblio            ; Writes a PhD for you (citation needed)
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
-       ;;docker
-       ;;editorconfig      ; let someone else argue about tabs vs spaces
-       ;;ein               ; tame Jupyter notebooks with emacs
-       (eval +overlay)     ; run code, run (also, repls)
-       ;;gist              ; interacting with github gists
-       lookup              ; navigate your code and its documentation
-       ;;lsp               ; M-x vscode
-       magit             ; a git porcelain for Emacs
-       ;;make              ; run make tasks from Emacs
-       ;;pass              ; password manager for nerds
+       (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
        pdf               ; pdf enhancements
-       ;;prodigy           ; FIXME managing external services & code builders
-       ;;rgb               ; creating color strings
-       ;;taskrunner        ; taskrunner for all your projects
-       ;;terraform         ; infrastructure as code
-       ;;tmux              ; an API for interacting with tmux
-       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
-       ;;upload            ; map local to remote projects via ssh/ftp
-
-       :os
-       ;;(:if IS-MAC macos)  ; improve compatibility with macOS
-       ;;tty               ; improve the terminal Emacs experience
-
-       :lang
-       ;;agda              ; types of types of types of types...
-       ;;beancount         ; mind the GAAP
-       ;;(cc +lsp)         ; C > C++ == 1
-       ;;clojure           ; java with a lisp
-       ;;common-lisp       ; if you've seen one lisp, you've seen them all
-       ;;coq               ; proofs-as-programs
-       ;;crystal           ; ruby at the speed of c
-       ;;csharp            ; unity, .NET, and mono shenanigans
-       ;;data              ; config/data formats
-       ;;(dart +flutter)   ; paint ui and not much else
-       ;;dhall
-       ;;elixir            ; erlang done right
-       ;;elm               ; care for a cup of TEA?
-       emacs-lisp        ; drown in parentheses
-       ;;erlang            ; an elegant language for a more civilized age
-       ;;ess               ; emacs speaks statistics
-       ;;factor
-       ;;faust             ; dsp, but you get to keep your soul
-       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
-       ;;fsharp            ; ML stands for Microsoft's Language
-       ;;fstar             ; (dependent) types and (monadic) effects and Z3
-       ;;gdscript          ; the language you waited for
-       ;;(go +lsp)         ; the hipster dialect
-       ;;(graphql +lsp)    ; Give queries a REST
-       ;;(haskell +lsp)    ; a language that's lazier than I am
-       ;;hy                ; readability of scheme w/ speed of python
-       ;;idris             ; a language you can depend on
-       ;; json              ; At least it ain't XML
-       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-       ;; javascript        ; all(hope(abandon(ye(who(enter(here))))))
-;       julia             ; a better, faster MATLAB
-       ;;kotlin            ; a better, slicker Java(Script)
-       latex             ; writing papers in Emacs has never been so fun
-       ;;lean              ; for folks with too much to prove
-       ;;ledger            ; be audit you can be
-       ;;lua               ; one-based indices? one-based indices
-       markdown          ; writing docs for people to ignore
-       ;;nim               ; python + lisp at the speed of c
-       ;;nix               ; I hereby declare "nix geht mehr!"
-       ;;ocaml             ; an objective camel
-       (org
-        +pretty            ; installiert org-fancy priorities, org-superstar, org-appear
-        +noter
-;        +jupyter
-;        +ipython
-         +pandoc
-         +gnuplot)               ; organize your plain life in plain text
-       ;; php               ; perl's insecure younger brother
-       ;;plantuml          ; diagrams for confusing people more
-       ;;purescript        ; javascript, but functional
-       python            ; beautiful is better than ugly
-       ;;qt                ; the 'cutest' gui framework ever
-       ;;racket            ; a DSL for DSLs
-       ;;raku              ; the artist formerly known as perl6
-       ;;rest              ; Emacs as a REST client
-       ;;rst               ; ReST in peace
-       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       ;;scala             ; java, but good
-       ;;(scheme +guile)   ; a fully conniving family of lisps
-       sh                ; she sells {ba,z,fi}sh shells on the C xor
-       ;;sml
-       ;;solidity          ; do you need a blockchain? No.
-       ;;swift             ; who asked for emoji variables?
-       ;;terra             ; Earth and Moon in alignment for performance.
-       ;; web               ; the tubes
-       yaml              ; JSON, but readable
-       ;;zig               ; C, but simpler
-
-       :email
-       ;; (mu4e +org +gmail)
-       ;;smtpmail
-       ;;notmuch        ;mu4e aber einfacher?(hier kann ich Mails nicht löschen? - muss ich es vom Server/Anbieter löschen können, oder reichen tags und Archiv?)
-
-       ;;(wanderlust +gmail)
-
-       :app
        calendar
-       ;;emms
-       ;;everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
-       ;;(rss +org)        ; emacs as an RSS reader
-       ;;twitter           ; twitter client https://twitter.com/vnought
-
-       :config
-       ;;literate
-       (default +bindings +smartparens))
-#+end_src
-
-**** DoomEmacs packages
-
-- Bevor ich hier eine zu große Liste an Paketen ansammle macht es Sinn zu schauen ob es mit der init.el nicht ebenfalls installiert werden kann, sodass ich es hier nicht aufführen muss!
-- Neue Packete kann man hier angeben und mit 'doom sync' installieren/entfernen (oder <M-x doom/reload>) - werden von Melpa gezogen - Name muss passen!
-- To install a package directly from a remote git repo, you must specify a `:recipe'. You'll find documentation on what `:recipe' accepts here: https://github.com/radian-software/straight.el#the-recipe-format
-    (package! another-package
-        :recipe (:host github :repo "username/repo"))
-- If the package you are trying to install does not contain a PACKAGENAME.el file, or is located in a subdirectory of the repo, you'll need to specify `:files' in the `:recipe':
-    (package! this-package
-        :recipe (:host github :repo "username/repo"
-               :files ("some-file.el" "src/lisp/*.el")))
-- disable a package included with Doom:
-    (package! builtin-package :disable t)
-- You can override the recipe of a built in package without having to specify all the properties for `:recipe'. These will inherit the rest of its recipe from Doom or MELPA/ELPA/Emacsmirror:
-    (package! builtin-package :recipe (:nonrecursive t))
-    (package! builtin-package-2 :recipe (:repo "myfork/package"))
-- Specify a `:branch' to install a package from a particular branch or tag. This is required for some packages whose default branch isn't 'master' (which our package manager can't deal with; see radian-software/straight.el#279)
-    (package! builtin-package :recipe (:branch "develop"))
-- Use `:pin' to specify a particular commit to install.
-    (package! builtin-package :pin "1a2b3c4d5e")
-- Doom's packages are pinned to a specific commit and updated from release to release. The `unpin!' macro allows you to unpin single packages... (unpin! pinned-package) ...or multiple packages (unpin! pinned-package another-pinned-package) ...Or *all* packages (NOT RECOMMENDED; will likely break things) (unpin! t)
-
-#+begin_src elisp
-;; -*- no-byte-compile: t; -*-
-;;; $DOOMDIR/packages.el;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (package! gitconfig-mode
-;;      :recipe (       :host github :repo "magit/git-modes"
-;;                      :files ("gitconfig-mode.el"             )))
-;; (package! gitignore-mode
-;;      :recipe (       :host github :repo "magit/git-modes"
-;;                      :files ("gitignore-mode.el"             )))
-;; (package! dashboard)
 (package! dired-open)
 (package! org-tree-slide)
 (package! ox-reveal)
@@ -1088,85 +852,22 @@ Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht 
 (package! openwith)
 ;; (package! crypt++) ; brauche ich aktuell nicht aber ist eine gut alternative zu org-crypt
 ;; (package! olivetti)
-;; (package! org-bullets)
 ;; (package! flycheck-aspell)
 ;; (package! async)
 ;; (package! calfw)
 ;; (package! calfw-org)
-;; (package! elpher)
 ;; (package! emojify)
-;; (package! evil-tutor)
-;; (package! ivy-posframe)
-;; (package! ox-man)
-;; (package! ox-gemini)
 ;; (package! ox-publish)
 ;; (package! peep-dired)
 ;; (package! password-store)
-;; (package! rainbow-mode)
-;; (package! resize-window)
-;; (package! tldr)
 ;; (package! wc-mode)
 ;; (package! hide-mode-line)
 ;; (package! org-ref)
 ;; (package! ivy-bibtex)
-;; (package! org-noter)
 ;; (package! org-pdftools)
 ;; (package! org-super-agenda)
-;; (package! eyebrowse)
 ;; (package! powerthesaurus) ;geht bisher nur auf Englisch
 ;; (package! synosaurus) ;geht bisher nicht
-#+end_src
-
-**** DoomEmacs config
-***** Info
-- Doom verwendet 3 files um alles zu konfigurieren (werden unter ~/.doom.d/ installiert): =config.el=, =init.el= und =packages.el=
-- .doom.d Ordner kann ich als Backup speichern, sollte ihn dann aber umbenennen um mit meiner config unter ~/.config/doom/ nicht zu kollidieren (wahrscheinlich kann ich es aber als fallback auch lassen?)
-- In ~/.emacs.d/ finden sich die doom scripte zu doom sync etc. und weiere Dinge wie der cache - hier kann man bei Problemen mal reinschauen sollte aber nicht zu viel ändern ohne Plan!
-- Erst lädt meine config.el und dann stellt Doom alles ein! -> Bei der config.el darauf achten dass Doom mein Sachen überschreibt wenn ich kein `after!' block verwende! Viele config blocks aus dem Internet verwenden use-package -> in Doom kann man use-package verwenden, aber wenn man sicher gehen will dass Doom die Einstellungen nicht überschreibt sollte man es in after! ändern -> manchmal funktionieren Packete dann aber nicht
-  (after! PACKAGE
-    (setq x y))
-  - Ausnahmen:
-    - Setting file/directory variables (like `org-directory')
-    - Setting variables which explicitly tell you to set them before their package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-    - Setting doom variables (which start with 'doom-' or '+').
-- Weitere Doom spezifische Dinge für die config.el
-  - `load!' for loading external *.el files relative to config.el
-  - `use-package!' for configuring packages
-  - `after!' for running code after a package has loaded
-  - `add-load-path!' for adding directories to the `load-path', relative to
-    config.el. Emacs searches the `load-path' when you load packages with
-    `require' or `use-package'.
-  - `map!' for binding new keys
-- Weiter Infos zu den Funktionen bekomme ich in lisp file wenn ich mit Cursor auf sie gehe und <K> oder <C-c c k> drücke
-- Generelle Hilfe Erklärungen zu Emacs, Org zu allen Paketen <C-h i>
-- Hilfe bei Variablen, Funktionen,... <C-h o>
-- Achtung: Wenn ich etwas in init.el aktiviere ist es oft dennoch notwendig das Paket auch in packages.el aufzulisten und mit doom sync zu installieren!
-- prinzipiell muss ich doom-sync nicht ausführen wenn ich nur die config.el bearbeite
-- nach hinzufügen/löschen von Paketen, oder glaub auch nach änderung der init.el sollte ich <M-x doom/reload> ausführen
-- Die Reihenfolge des Codes in der config.el ist unter umständen entscheidend!
-  - if the package is hooked somewhere, use use-package with a :hook label.
-  - if the package isn't hooked, then better use after! which will have the same effect that defer t.
-
-- <K> mit Cursor auf Funktion/Variable öffnet docs dazu
-- Dired
-  - Ob etwas in dired angeklickt, mit h/l oder Enter geöffner wird macht einen Unterschied wie die Datei geöffnet wird (mit externem Programm, oder in einem nebenstehenden Buffer, oder auch direkt im Buffer)
-  - Wenn mehrere Dateien durchschaut werden ist es sinvoll window zu spliten und mit Maus auf Dateien zu klicken sodass sie im anderen Buffer angezeigt werden
-  - Funktion um Datein in einem Programm ausserhalb Emacs aufzumachen -> Videos, Bilder, html, Word, Excel,... mit <C-c o> aus dired auch mit mehreren markierten Dateien gleichzeitig möglich, aber habe schon dired entsprechend konfiguriert dass ich die Funktion nicht wirklich brauche weshalb sie im Moment deaktiviert ist
-- Font:
-  - Doom exposes five (optional) variables for controlling fonts in Doom:
-    - doom-font -> the primary font to use
-    - doom-variable-pitch-font -> a non-monospace font (where applicable)
-    - doom-big-font -> used for doom-big-font-mode; use this for presentations or streaming.
-    - doom-unicode-font -> for unicode glyphs
-    - doom-serif-font -> for the fixed-pitch-serif face
-  - Mögliche font familys sieht man durch evaluieren von (font-family-list) z.B. im scratch buffer -> man kann alle möglichen fonts zusätzlich auf dem System installieren (je nach Paketmanager) und dann auch für Emacs verwenden! -> 'M-x doom/reload-font' refresh your font settings -> If Emacs still can't find your font, it likely wasn't installed correctly. Font issues are rarely Doom issues!
-- Lines:
-  - Es gibt 3 Werte die regeln wie die Zeilennummer angezeigt wird
-    - t = normal
-    - 'relative = relative Zeilennummern
-    - 'visual = visual is like relative but counts screen lines instead of buffer lines -> means that continuation lines count as well when calculating the relative number of a line
-    -> Problem bei relative und visual ist dass es in großen Buffern mit vielen Headern beim scrollen hackt -> Habe deshalb display-line-numbers auf nil und kann es mit <Spc tl> wenn ich es brauche schnell durchwechseln! Achtung wenn ich default visual oder relative haben will darf ich ' vor den beiden nicht vergessen
-    - beacon mode und sonstige Anzeigeeinstellungen sollten selbsterklärend sein oder nachgeschlagen werden
 ***** Grundeinstellungen
 
 #+begin_src elisp
@@ -2024,8 +1725,8 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 #+end_src
 
 *** Emacs config
-[[~/flowmis-os/config.org][config.org]]
-#+transclude: [[file:~/flowmis-os/config.org]]
+Die [[~/flowmis-os/config.org][config.org]] mit den zusätzlichen Ordnern und Dateien mit dem src-block zu Beginn dieser Datei an den richtigen Ort verschieben und den ~emacs --daemon~ starten um Pakete zu installieren etc. Danach sollte alles funktionieren. Kleinere Änderungen kann ich direkt unter /home/flowmis/.config/emacs/config.org vornehmen und wenn ich zufrieden mit den Ergebnissen bin kann ich es dann in die config.org hier integrieren!
+#+transclude: [[file:~/flowmis-os/config.org]] :lines 1-20
 ** Programme
 #+begin_src sh
 sudo pacman -S zathur zathura-pdf-mupdf

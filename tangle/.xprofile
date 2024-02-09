@@ -20,7 +20,7 @@ cerebro &
 # g810-led -g functions ff00ff
 # g810-led -g multimedia ff00ff
 # loadkeys de-latin1 &
-# /usr/bin/emacs --daemon &
+emacs --daemon &
 # cp /usr/share/applications/dropbox.desktop ~/.config/autostart/
 # cp /usr/share/applications/nm-applet.desktop ~/.config/autostart/
 # cp /usr/share/applications/volumeicon.desktop ~/.config/autostart/
