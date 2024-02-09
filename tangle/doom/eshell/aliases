@@ -1,0 +1,36 @@
+# Aliases for emacs commands
+alias ff find-file $1
+
+# Changing "ls" to "eza"
+alias ls eza -al --color=always --group-directories-first $*  # my preferred listing
+alias la eza -a --color=always --group-directories-first $*   # all files and dirs
+alias ll eza -l --color=always --group-directories-first $*   # long format
+alias lt eza -aT --color=always --group-directories-first $*  # tree listing
+alias l. eza -a1 $* | grep "^\."                              # list hidden files
+
+# Merge Xresources
+alias merge xrdb -merge ~/.Xresources
+
+# Aliases for doom emacs utilties
+alias doomsync ~/.emacs.d/bin/doom sync
+alias doomdoctor ~/.emacs.d/bin/doom doctor
+alias doomupgrade ~/.emacs.d/bin/doom upgrade
+alias doompurge ~/.emacs.d/bin/doom purge
+alias doombuild ~/.emacs.d/bin/doom build
+
+# Confirm before overwriting something
+alias cp cp -i $1
+alias mv mv -i $1
+alias rm rm -i $1
+
+# activate/mount VM shared Folder
+alias share sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
+
+# Pacman
+alias pi sudo pacman -S
+alias pu sudo pacman -Syyu
+alias ps sudo pacman -Ss
+alias pd sudo pacman -R
+alias pc sudo pacman -Rns (pacman -Qtdq)    # remove orphaned packages
+alias yu yay -Sua --noconfirm               # update only AUR pkgs (yay)
+alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs (yay)
