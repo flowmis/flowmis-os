@@ -99,12 +99,8 @@
   (mane-leader-keys
     "." '(find-file :which-key "Find file")
     "=" '(perspective-map :wk "Perspective") ;; Lists all the perspective keybindings
-    "f c" '((lambda () (interactive) (find-file "~/flowmis-os/emacs/config.org")) :wk "Edit emacs config")
-    "f C" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Edit emacs config")
-    "f f" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Edit emacs config")
-    "f r" '(counsel-recentf :wk "Find recent files")
-    "SPC" '(lambda () (interactive) (find-file "~/.config/emacs/start.org") :wk "Zum Dashboard")
     "TAB TAB" '(comment-line :wk "Comment lines")
+    "SPC" '(lambda () (interactive) (find-file "~/.config/emacs/start.org") :wk "Zum Dashboard")
     "b" '(:ignore t :wk "Buffer-Keybindings")
     "b b" '(switch-to-buffer :wk "Switch Buffer")
     "b k" '(kill-this-buffer :wk "Kill Buffer")
@@ -124,6 +120,10 @@
     "e h" '(counsel-esh-history :wk "Eshell history")
     "e r" '(eval-region :wk "Evaluate elisp in region") 
     "e s" '(eshell :which-key "Eshell")
+    "f c" '((lambda () (interactive) (find-file "~/flowmis-os/emacs/config.org")) :wk "Gehe zur emacs config")
+    "f C" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Gehe zur aktuellen emacs config")
+    "f f" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Gehe zu flowmis-os")
+    "f r" '(counsel-recentf :wk "Find recent files")
     "g" '(:ignore t :wk "Git")    
     "g /" '(magit-displatch :wk "Magit dispatch")
     "g ." '(magit-file-displatch :wk "Magit file dispatch")
@@ -150,6 +150,24 @@
     "h v" '(describe-variable :wk "Describe variable")
     "h t" '(tldr :wk "Lookup TLDR docs for a command")
     "h r r" '((lambda () (interactive)(load-file "~/.config/emacs/init.el")(ignore (elpaca-process-queues))) :wk "Reload emacs config")
+    ;; org-mode
+    "o" '(:ignore t :wk "Org")
+    "o a" '(org-agenda :wk "Org agenda")
+    "o e" '(org-export-dispatch :wk "Org export dispatch")
+    "o i" '(org-toggle-item :wk "Org toggle item")
+    "o t" '(org-todo :wk "Org todo")
+    "o B" '(org-babel-tangle :wk "Org babel tangle")
+    "o T" '(org-todo-list :wk "Org todo list")
+    "o b" '(:ignore t :wk "Tables")
+    "o b -" '(org-table-insert-hline :wk "Insert hline in table")
+    "o d" '(:ignore t :wk "Date/deadline")
+    "o d t" '(org-time-stamp :wk "Org time stamp")
+    ;; search
+    "s" '(:ignore t :wk "Search")
+    "s s" '(helm-swoop :wk "Toggle")
+    "s i" '(imenu :wk "imenu")
+    "s l" '(imenu-list :wk "imenu-list")
+    ;; Toggle & Theme
     "t" '(:ignore t :wk "Toggle")
     "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
     "t t" '(org-transclusion-mode :wk "org-transclusion-aktivieren")
@@ -160,8 +178,8 @@
     "t n" '(neotree-toggle :wk "Toggle neotree file viewer")
     "t d" '(load-theme-mane-2 :wk "Load dark Theme")
     "T" '(load-theme :wk "Load a Theme")
-    "w" '(:ignore t :wk "Windows")
     ;; Window splits
+    "w" '(:ignore t :wk "Windows")
     "w c" '(evil-window-delete :wk "Close window")
     "w n" '(evil-window-new :wk "New window")
     "w s" '(evil-window-split :wk "Horizontal split window")
@@ -177,19 +195,7 @@
     "w J" '(buf-move-down :wk "Buffer move down")
     "w K" '(buf-move-up :wk "Buffer move up")
     "w L" '(buf-move-right :wk "Buffer move right")
-    ;; org-mode
-    "o" '(:ignore t :wk "Org")
-    "o a" '(org-agenda :wk "Org agenda")
-    "o e" '(org-export-dispatch :wk "Org export dispatch")
-    "o i" '(org-toggle-item :wk "Org toggle item")
-    "o t" '(org-todo :wk "Org todo")
-    "o B" '(org-babel-tangle :wk "Org babel tangle")
-    "o T" '(org-todo-list :wk "Org todo list")
-    "o b" '(:ignore t :wk "Tables")
-    "o b -" '(org-table-insert-hline :wk "Insert hline in table")
-    "o d" '(:ignore t :wk "Date/deadline")
-    "o d t" '(org-time-stamp :wk "Org time stamp"))
-)
+))
 (use-package sudo-edit   ;;https://github.com/nflath/sudo-edit
   :config
     (mane-leader-keys
@@ -223,7 +229,8 @@
   (helm-mode 1))
 
 (use-package app-launcher
-  :elpaca '(app-launcher :host github :repo "SebastienWae/app-launcher"))
+  :ensure t
+'(app-launcher :host github :repo "SebastienWae/app-launcher"))
 ;; create a global keyboard shortcut with the following code
 ;; emacsclient -cF "((visibility . nil))" -e "(emacs-run-launcher)"
 
@@ -320,29 +327,24 @@ one, an error is signaled."
       (set-window-buffer other-win buf-this-buf)
       (select-window other-win))))
 ;;Sinnvolle Einstellungen
-(setq backup-directory-alist '((".*" . "~/.local/share/Trash/files")))  ;;Standardmäßig werden beim bearbeiten von .org Dateien temporäre Dateien erzeugt um im Notfall ein Backup zu haben, aber da es nervt diese Dateien immer in den Verzeichnissen angezeigt bekommen stelle ich hier ein, dass dies im Papierkorb gespeichert werden, sodass ich zur Not dort für ein Backup schauen kann.
+(setq user-full-name "Markus Hoffmann"
+      confirm-kill-emacs nil ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
+      auth-sources '((:source "~/.authinfo.gpg"))
+
+      backup-directory-alist '((".*" . "~/.local/share/Trash/files")))  ;;Standardmäßig werden beim bearbeiten von .org Dateien temporäre Dateien erzeugt um im Notfall ein Backup zu haben, aber da es nervt diese Dateien immer in den Verzeichnissen angezeigt bekommen stelle ich hier ein, dass dies im Papierkorb gespeichert werden, sodass ich zur Not dort für ein Backup schauen kann.
+;; (set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
 (global-set-key [escape] 'keyboard-escape-quit)  ;;By default, Emacs requires you to hit ESC three times to escape quit the minibuffer.  
 (delete-selection-mode 1)    ;; You can select text and delete it by typing.
 (electric-indent-mode -1)    ;; Turn off the weird indenting that Emacs does by default.
 (electric-pair-mode 1)       ;; Turns on automatic parens pairing
-;; The following prevents <> from auto-pairing when electric-pair-mode is on.
-;; Otherwise, org-tempo is broken when you try to <s TAB...
-(add-hook 'org-mode-hook (lambda ()
-           (setq-local electric-pair-inhibit-predicate
-                   `(lambda (c)
-                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
-
 (global-auto-revert-mode t)  ;; Automatically show changes if the file has changed
-(global-display-line-numbers-mode 1) ;; Display line numbers
+(global-display-line-numbers-mode -1) ;; Display line numbers
 (global-visual-line-mode t)  ;; Enable truncated lines
 (menu-bar-mode -1)           ;; Disable the menu bar 
 (scroll-bar-mode -1)         ;; Disable the scroll bar
 (tool-bar-mode -1)           ;; Disable the tool bar
-(setq org-edit-src-content-indentation 0) ;; Set src block automatic indent to 0 instead of 2.
+
 (use-package tldr)           ;; Hier kann ich gekürzte Infos über Terminalbefehle bekommen
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((shell . t))) ;; Make sure shell is enabled brauch ich um einen src-block mit sh ausführen zu können innerhalb emacs
 
 ;;Display the actual color as a background for any hex color value (ex. #ffffff).  The code block below enables rainbow-mode in all programming modes (prog-mode) as well as org-mode, which is why rainbow works in this document.  
 (use-package rainbow-mode
