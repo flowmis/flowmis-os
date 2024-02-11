@@ -131,14 +131,41 @@ Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a25897
 - <% m> mit regex markieren
 - k (mit evil keybindings ist es K) um markiertes nicht mehr anzuzeigen und g (mit evil keybinds ist es revert buffer und das habe ich auf <SPC b r>) um wieder alles anzuzeigen
 - t alles markieren was nicht markiert ist und alles was markiert ist nicht mehr markieren - dreht markiertes quasi um sodass leicht nur noch das gefundenen durch regex angezeigt wird bzw ausgeblendet wird.
+- schönerers Dired mit weniger Details: <M-x dired-hide-details-mode>
+- Mit <M-p> und <M-n> in der Historie hin und her bewegen bei find-file für dired
+- In dired find-file kann man einfach einen vollständigen Pfad eingeben ~/... ohne zuvor dorthin zu gehen, oder bis dahin zu löschen -> man kann dort somit auch einfach einen fertigen Pfad hineinkopieren!
+- Bei find-file muss man auch nicht den ganzen Pfad ausschreiben, sondern man kann ~/cl/lif/ra/p schreiben um zu /home/flowmis/cloud/life/raum/pkb/ zu gelangen.
+- Mit ^ oder - kann man in dired eine Ebene nach oben und mit Enter öffnen oder eine Ebene tiefer -> Mit peep-dired geht es auch mit den evil vim keys!
+- Mit <Shift Enter> kann man eine Datei in einem seperatem Window öffnen und den Fokus in dieses Window setzen (Je nach Schriftgröße wird Emacs horizontal/vertikal das Window spliten)
+- Mit <Alt Enter> kann man eine Datein in einem seperatem Window öffnen ohne den Fokus in dieses Window zu setzen
+- Mit O kann man den owner einer Datei ändern
+- Mit R kann ich rename machen (ist zugleich Ausschneiden und Einfügen um eine Datei zu bewegen)
+- M um den Mode einer Datei zu ändern um sie beispielsweise ausführbar zu machen (chmod)
+- m und C und u unnd U und d und D und x sollten mir bewusst sein 
+- Mit i kann ich in den insert-mode und Dateien umbenennen und das dann mit <C-c C-c> bestätigen/schreiben
+- Mit + kann ich einen neuen Ordner hinzufügen, aber geht auch mit find-file um neue Ordner oder Dateien an einem Pfad zu erstellen
+- Makros sind hier sehr mächtig um gleiche Aktionen mehrfach automatisiert durchführen zu können (Datei öffnen und Inhalt einfügen oder ändern und wieder zurück in dired, oder einfach nur um schnell viele Dateien auf bestimmte Art umzubenennen)
+- Emacs ist clever wenn ich einen Split habe und etwas markiere und move oder copy ausführe es als Vorschlag direkt in den zweiten Buffer verschieben zu wollen
+
+- Wenn ich einen Pfad in Emacs habe mit dem cursor auf dem Pfad bin und in fidn file gehe kann ich mit <M-n> den Pfad unter dem Cursor in find file einfügen
+  
+Anstatt ein weiteres Paket zu verwenden um Programme außerhalb Emacs mit einem bestimmten Programm zu öffnen (Beispielsweise die Pakete: open-with oder dired-open) kann ich mir auch Programme vorschlagen lassen (Öffnen mit !=synchron oder &=asynchron) -> Mit <M-n> und <M-p> kann ich zwischen den Vorschlägen wechseln.
 #+begin_src emacs-lisp
+(setq dired-guess-shell-alist-user
+      '(("\\.\\(png\\|jpe?g\\|tiff\\)" "viewnior" "gimp" "xdg-open")  ;xdg-open heißt Standardprogramm verwenden
+        ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "vlc" "xdg-open")
+		(".*" "xdg-open")))
 (use-package dired-open
   :config
-  (setq dired-open-extensions '(("gif" . "sxiv")
-                                ("jpg" . "sxiv")
-                                ("png" . "sxiv")
-                                ("mkv" . "mpv")
-                                ("mp4" . "mpv"))))
+  (setq dired-open-extensions '(("gif" . "vlc")
+                                ("pdf" . "zathura")
+                                ("docx" . "onlyoffice-desktopeditors")
+                                ("odt" . "onlyoffice-desktopeditors")
+                                ("xlsx" . "onlyoffice-desktopeditors")
+                                ("jpg" . "viewnior")
+                                ("png" . "viewnior")
+                                ("mkv" . "vlc")
+                                ("mp4" . "vlc"))))
 ;; peep-dired aktivieren wenn ich live Vorschau von Bildern oder Textdateien aktivieren will, dann sehe ich wenn ich mit j und k in dired durch die Dateien scrolle im Split-View die entsprechende Vorschau zur Datei! (ist nicht immer aktiviert, da ich das nicht immer will und geht nur im normalen mode, also mehrmals ESC und dann nochmal aktivieren in dired mit meinem Keymap und dann sollte das mit der Vorschau gehen!)
 (use-package peep-dired
   :after dired
@@ -149,6 +176,7 @@ Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a25897
     (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
     (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
 )
+;; (add-hook 'dired-mode-hook 'dired-hide-details-mode) ;wenn ich dired übersichtlicher haben mag kann ich es hier aktivieren
 #+end_src
 * Erscheinungsbild
 ** Highlight TODO
