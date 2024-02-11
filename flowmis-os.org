@@ -20,15 +20,13 @@ echo done
 | sending                          | incremental                      | file | list     |         |    |        |      |          |         |         |               |
 | ./                               |                                  |      |          |         |    |        |      |          |         |         |               |
 | config.org                       |                                  |      |          |         |    |        |      |          |         |         |               |
-|                                | 25,20K                           | 100% | 0,00kB/s | 0:00:00 |  | 25,20K | 100% | 0,00kB/s | 0:00:00 | (xfr#1, | to-chk=28/30) |
-| themes/                          |                                  |      |          |         |    |        |      |          |         |         |               |
-| themes/mane-1-theme.el           |                                  |      |          |         |    |        |      |          |         |         |               |
-|                                | 3,34K                            | 100% | 3,18MB/s | 0:00:00 |  | 3,34K  | 100% | 3,18MB/s | 0:00:00 | (xfr#2, | to-chk=1/30)  |
+|                                | 28,25K                           | 100% | 0,00kB/s | 0:00:00 |  | 28,25K | 100% | 0,00kB/s | 0:00:00 | (xfr#1, | to-chk=28/30) |
 | ###########################Qtile | ready########################### |      |          |         |    |        |      |          |         |         |               |
 | done                             |                                  |      |          |         |    |        |      |          |         |         |               |
 
 
 :END:
+
 * Installation flowmis-os on Windows mit wsl
 https://www.youtube.com/watch?v=h0Wg_aknGdc
 * Installation

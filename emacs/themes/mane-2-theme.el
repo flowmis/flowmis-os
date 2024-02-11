@@ -30,7 +30,7 @@
   `(cursor ((t (:background ,(mane-get-color-d "fg1")))))
   `(fringe ((t (:background ,(mane-get-color-d "bg2"))))) ; Rand Links & rechts vom Buffer
   `(mode-line ((t (:foreground ,(mane-get-color-d "fg2") :background ,(mane-get-color-d "bg2")))))
-  `(region ((t (:background ,(mane-get-color-d "bg2"))))) ;Markierfarbe
+  `(region ((t (:background ,(mane-get-color-d "bg3"))))) ;Markierfarbe
   ;; Spezifisch für Org-Mode
   `(font-lock-function-name-face ((t (:foreground ,(mane-get-color-d "org1"))))) ;org-header level 1
   `(font-lock-variable-name-face ((t (:foreground ,(mane-get-color-d "org2"))))) ;org-header Level 2

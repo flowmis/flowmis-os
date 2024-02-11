@@ -26,7 +26,7 @@
   - [[#transclusion][Transclusion]]
   - [[#presentationen][Presentationen]]
   - [[#roam][roam]]
-- [[#safe-undo-redo][Safe Undo Redo]]
+- [[#safe-undo-redo-yank][Safe Undo Redo Yank]]
 - [[#search][Search]]
 - [[#which-key][Which-Key]]
 - [[#workspaces][Workspaces]]
@@ -97,12 +97,13 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
 Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a2589790
 -> Installation: ~cd ~/.config/emacs/scripts/~ + ~git clone https://git.sr.ht/~protesilaos/denote denote~ + 
 ~(add-to-list 'load-path "~/.config/emacs/scripts/denote")~ bei ausgelagerter Skripte angeben und dann die folgenden Konfigurationen vornehmen (Update mit git pull):
-
+- Wichtige Features:
+  - [[https://www.youtube.com/watch?v=gMq-703ZVZQ][Sorting and org-dynamic-blocks]] für Meta Notes (siehe auch [[https://www.youtube.com/watch?v=zzXcav0yb50][hier]])
 #+begin_src emacs-lisp
 (require 'denote)
 ;; Remember to check the doc strings of those variables.
-(setq denote-directory (expand-file-name "~/cloud/life/raum/pkm/"))
-(setq denote-known-keywords '("klasse8" "klasse9" "klasse10" "chemie" "sport" "nwt"))
+(setq denote-directory (expand-file-name "~/cloud/life/raum/pkb/"))
+(setq denote-known-keywords '("klasse8" "klasse9" "klasse10" "chemie" "sport" "nwt" "crypt" "wissen" "fun" "work" "vb" "hb" "fb" "bb" "trendsport" "bag" "lsw" "tanzen"))
 (setq denote-infer-keywords t)
 (setq denote-sort-keywords t)
 (setq denote-file-type nil) ; Org is the default, set others here
@@ -214,8 +215,11 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
 (setq-default line-spacing 0.12)
 #+end_src
 ** Theme
-Theme im [[https://emacsfodder.github.io/emacs-theme-editor/#theme-generated][Theme-Editor]] erstellen und die .el Datei dann als Theme in den ~/.config/emacs/theme Ordner speichern: https://github.com/emacsfodder/emacs-theme-editor
+- Theme im [[https://emacsfodder.github.io/emacs-theme-editor/#theme-generated][Theme-Editor]] erstellen und die .el Datei dann als Theme in den ~/.config/emacs/theme Ordner speichern: https://github.com/emacsfodder/emacs-theme-editor
 -> meine Themes: [[/home/flowmis/flowmis-os/tangle/themes/][hier]].
+- Ich habe die Themes so angepasst, dass ich es einfach habe neue Farbparletten zu verwenden -> Farbpaletten erstellen [[https://coolors.co/414141-3e3e3e-7e7e7e-777777-828282][hier]]
+
+
 #+begin_src emacs-lisp
   (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 
@@ -224,7 +228,7 @@ Theme im [[https://emacsfodder.github.io/emacs-theme-editor/#theme-generated][Th
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
 	  doom-themes-enable-italic t) ; if nil, italics is universally disabled
     ;; (load-theme 'doom-one t)
-    (load-theme 'mane-1 t)
+    (load-theme 'mane-2 t)
     ;; Enable custom neotree theme (all-the-icons must be installed!)
     (doom-themes-neotree-config)
     ;; Corrects (and improves) org-mode's native fontification.
@@ -506,10 +510,34 @@ Org-tempo ist kein eigenes Paket sondern ein Modul in org das man aktivieren kan
 *** reveal
 https://github.com/yjwen/org-reveal/
 ** roam
-* Safe Undo Redo
-so konfigurieren, dass die Dateien im Papierkob meiner Cloud landen und nicht im home Ordner!
-Undo Tree vll nicht das geilste Werkzeug und Git zusammen mit autosafe und der git timemachine die bessere Version Control!
+* Safe Undo Redo Yank
+- Aktuell so konfiguriert, dass die Dateien im Papierkob meiner Cloud landen! Alternativ sollte ich es so konfigurieren, dass sie in ~/.local/share/files/ landen!
+- Ich werde aktuell nicht mehr gefragt ob ich etwas speichern will, aber alle ungespeicherten Änderungen bleiben solange ich den daemon nicht kille mit ~killall emacs~ erhalten. Ich kann also einen neuen Client öffnen und dann speichern. Wenn ich Emacs mit <C-x C-c> schließe werde ich dank der Funktion hier auch gefragt ob ich etwas ungespeichertes speichern will. Sollte ich vergessen etwas zu speichern und den daemon killen, dann wird eine Backup Datei vom Autosafe erstellt wo die Änderungen noch enthalten sind, aber der ungespeicherte Fortschritt ist im nächsten Client dann nicht mehr sichtbar und kann dort somit später nicht noch gespeichert werden. Da ich es mir ganz gut angewöhnt habe wichtige Änderungen zu speichern ist es auf diese Art sinnvoll, da unbeabsichtigte Speicherprozesse nicht passieren, aber kann schon sein, dass dann mal was nicht gespeichert wird und es mir auch nicht auffällt!!! Eventuell bekomme ich es daher noch hin auch eine Nachfrage im Buffer zu erhalten, ob der Client geschlossen werden soll mit oder ohne zu speichern wenn ich den Client nicht mit <C-x C-c> sondern über Qtile schließe!
+- Undo Tree vll nicht das geilste Werkzeug und Git zusammen mit autosafe und der git timemachine die bessere Version Control!
 #+begin_src elisp
+(defun confirm-save-buffers-then-kill-emacs ()
+  "Fragt nach dem Speichern von Buffern, dann ob Emacs wirklich geschlossen werden soll."
+  (interactive)
+  (if (save-some-buffers nil t) ; Änderungen wurden gespeichert oder keine Änderungen vorhanden.
+      (when (yes-or-no-p "Emacs wirklich schließen? ")
+        (kill-emacs))
+    (when (yes-or-no-p "Ungespeicherte Änderungen vorhanden. Emacs dennoch schließen? ")
+      (kill-emacs))))
+
+(setq confirm-kill-emacs 'confirm-save-buffers-then-kill-emacs)
+
+(defun copy-current-path-to-clipboard ()
+  "Kopiert den Pfad der im aktuellen Buffer geöffneten Datei oder des aktuellen Dired-Verzeichnisses in die Zwischenablage."
+  (interactive)
+  (let ((path (if (equal major-mode 'dired-mode)
+                  (dired-current-directory)
+                (buffer-file-name))))
+    (if path
+        (progn
+          (kill-new path)
+          (message "Kopiert: %s" path))
+      (message "Kein Pfad verfügbar!"))))
+
 ;; (setq 
       ;; undo-tree-auto-save-history t
       ;; undo-tree-history-directory-alist '(("." . "~/cloud/life/zeit/papierkorb/undo-tree-history/"))

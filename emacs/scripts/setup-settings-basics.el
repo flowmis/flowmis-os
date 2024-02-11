@@ -108,6 +108,7 @@
     "b v" '(previous-buffer :wk "Vorheriger Buffer")
     "b r" '(revert-buffer :wk "Reload Buffer")
     "b i" '(ibuffer :wk "Liste offener Buffer")
+    "b y" '(copy-current-path-to-clipboard :wk "Copy Path to this Buffer")
     "d" '(:ignore t :wk "Dired")
     "d d" '(dired :wk "Open dired")
     "d j" '(dired-jump :wk "Dired jump to current")
@@ -116,24 +117,25 @@
     "e" '(:ignore t :wk "Eshell & Evaluate")
     "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
     "e d" '(eval-defun :wk "Evaluate defun containing or after point")
-    "e e" '(eval-expression :wk "Evaluate and elisp expression")
+    "e e" '(eval-last-sexp :wk "Evaluate the last expression")
+    "e E" '(eval-expression :wk "Evaluate an elisp expression")
     "e h" '(counsel-esh-history :wk "Eshell history")
-    "e r" '(eval-region :wk "Evaluate elisp in region") 
+    "e r" '(eval-region :wk "Evaluate elisp in region")
     "e s" '(eshell :which-key "Eshell")
     "f c" '((lambda () (interactive) (find-file "~/flowmis-os/emacs/config.org")) :wk "Gehe zur emacs config")
     "f C" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Gehe zur aktuellen emacs config")
     "f f" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Gehe zu flowmis-os")
     "f r" '(counsel-recentf :wk "Find recent files")
-    "g" '(:ignore t :wk "Git")    
+    "g" '(:ignore t :wk "Git")
     "g /" '(magit-displatch :wk "Magit dispatch")
     "g ." '(magit-file-displatch :wk "Magit file dispatch")
     "g b" '(magit-branch-checkout :wk "Switch branch")
-    "g c" '(:ignore t :wk "Create") 
+    "g c" '(:ignore t :wk "Create")
     "g c b" '(magit-branch-and-checkout :wk "Create branch and checkout")
     "g c c" '(magit-commit-create :wk "Create commit")
     "g c f" '(magit-commit-fixup :wk "Create fixup commit")
     "g C" '(magit-clone :wk "Clone repo")
-    "g f" '(:ignore t :wk "Find") 
+    "g f" '(:ignore t :wk "Find")
     "g f c" '(magit-show-commit :wk "Show commit")
     "g f f" '(magit-find-file :wk "Magit find file")
     "g f g" '(magit-find-git-config-file :wk "Find gitconfig file")
@@ -158,6 +160,8 @@
     "n l" '(denote-link :wk "Link a Note")
     "n b" '(denote-link-backlinks :wk "Minibuffer mit Backlinks")
     "n f" '(denote-link-find-file :wk "Find a Note")
+    "n i" '(denote-link-after-creating-with-command :wk "Insert Link to new file without visiting it - kann dann später ergänzt werden")
+    "n o" '(denote-open-or-create :wk "Note öffnen")
     ;; org-mode
     "o" '(:ignore t :wk "Org")
     "o a" '(org-agenda :wk "Org agenda")
@@ -213,7 +217,7 @@
 (defun emacs-counsel-launcher ()
   "Create and select a frame called emacs-counsel-launcher which consists only of a minibuffer and has specific dimensions. Runs counsel-linux-app on that frame, which is an emacs command that prompts you to select an app and open it in a dmenu like behaviour. Delete the frame after that command has exited"
   (interactive)
-  (with-selected-frame 
+  (with-selected-frame
     (make-frame '((name . "emacs-run-launcher")
                   (minibuffer . only)
                   (fullscreen . 0) ; no fullscreen
@@ -338,8 +342,9 @@ one, an error is signaled."
 (setq user-full-name "Markus Hoffmann"
       confirm-kill-emacs nil ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
       auth-sources '((:source "~/.authinfo.gpg"))
-
-      backup-directory-alist '((".*" . "~/.local/share/Trash/files")))  ;;Standardmäßig werden beim bearbeiten von .org Dateien temporäre Dateien erzeugt um im Notfall ein Backup zu haben, aber da es nervt diese Dateien immer in den Verzeichnissen angezeigt bekommen stelle ich hier ein, dass dies im Papierkorb gespeichert werden, sodass ich zur Not dort für ein Backup schauen kann.
+      org-confirm-babel-evaluate nil
+      auto-save-file-name-transforms `((".*" ,"/home/flowmis/cloud/life/zeit/papierkorb/emacs/" t))
+      backup-directory-alist '((".*" . "/home/flowmis/cloud/life/zeit/papierkorb/emacs/")))  ;;Standardmäßig werden beim bearbeiten von .org Dateien temporäre Dateien erzeugt um im Notfall ein Backup zu haben, aber da es nervt diese Dateien immer in den Verzeichnissen angezeigt bekommen stelle ich hier ein, dass dies im Papierkorb gespeichert werden, sodass ich zur Not dort für ein Backup schauen kann.
 ;; (set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
 (global-set-key [escape] 'keyboard-escape-quit)  ;;By default, Emacs requires you to hit ESC three times to escape quit the minibuffer.  
 (delete-selection-mode 1)    ;; You can select text and delete it by typing.
