@@ -1,48 +1,27 @@
 
-[[elisp:(org-agenda)][0: ]    
-[[elisp:(cfw:open-org-calendar)][1: ]     
-[[~/cloud/life/raum/pkm/home.org][2: ]]  [[~/cloud/life/raum/pkm/work.org][3: ]]  [[/home/flowmis/cloud/life/raum/pkm/chemie.org][4: ]]  [[/home/flowmis/cloud/life/raum/pkm/unterrichtsplanung-chemie.org][5: 󰴰]]    
-[[/home/flowmis/cloud/life/raum/pkm/sport.org][6: ]]
-[[/home/flowmis/cloud/life/raum/pkm/unterrichtsplanung-sport.org][7: 󰦴]
-[[~/cloud/life/][9: ]]
-[[~/flowmis-os/flowmis-os.org][f: ]]
-[[/home/flowmis/cloud/life/raum/pkm/projekte.org][p: ]]
-[[cloud/life/raum/.org/bildung.org][w: ]]
-[[/home/flowmis/cloud/life/raum/pkm/bücher.org][b: ]]
-[[/home/flowmis/cloud/life/raum/pkm/rezepte.org][rezept]]
-[[/home/flowmis/cloud/life/raum/pkm/skripte-programme-configs.org][skripte]]
-[[/home/flowmis/cloud/life/raum/pkm/self-sovereignity.org][self-sovereigne]]
-[[/home/flowmis/cloud/life/raum/pkm/nachhilfe.org][Nachhilfe]]
-[[/home/flowmis/cloud/life/raum/pkm/latex.org][Latex]]
-[[/home/flowmis/cloud/life/raum/pkm/kalender-inbox.org][Kalender-Inbox]]
-[[/home/flowmis/cloud/life/raum/pkm/ffff.org][fff]]
-[[/home/flowmis/cloud/life/raum/pkm/büro.org][büro]]
+*Links*
 
-⦿ *BUFFERS AND SPLITS*
-|------------------------------+------------------------------+-----------------------------|
-| (SPC b i) [[elisp:(ibuffer)][ibuffer]]            | (SPC b p) [[elisp:(previous-buffer)][previous-buffer]]    | (SPC b n) [[elisp:(next-buffer)][next-buffer]]       |
-| (SPC b k) [[elisp:(kill-buffer)][kill-buffer]]        | (SPC b s) [[elisp:(save-buffer)][save-buffer]]        | (SPC b u) /sudo-save-buffer/  |
-| (SPC w s) [[elisp:(evil-window-split)][evil-window-split]]  | (SPC w v) [[elisp:(evil-window-vsplit)][evil-window-vsplit]] | (SPC w w) [[elisp:(evil-window-next)][evil-window-next]]  |
-| (SPC w c) [[elisp:(evil-window-delete)][evil-window-delete]] | (SPC w l) [[elisp:(evil-window-left 1)][evil-window-left]]   | (SPC w h) [[elisp:(evil-window-right 1)][evil-window-right]] |
-|------------------------------+------------------------------+-----------------------------|
+| [[/home/flowmis/cloud/life/raum/pkm/home.org][ Home]]         | [[/home/flowmis/cloud/life/raum/pkm/work.org][ Work]]            | [[~/cloud/life/][ Cloud]]   | [[~/flowmis-os/flowmis-os.org][ Flowmis-OS]] |
+| [[/home/flowmis/cloud/life/raum/pkm/chemie.org][ Chemie]]       | [[/home/flowmis/cloud/life/raum/pkm/unterrichtsplanung-chemie.org][ Chemie - UP]]     | [[/home/flowmis/cloud/life/raum/pkm/sport.org][ Sport]]   | [[/home/flowmis/cloud/life/raum/pkm/unterrichtsplanung-sport.org][ Sport - UP]] |
+| [[cloud/life/raum/.org/bildung.org][ Bildung/PKM]]  | [[/home/flowmis/cloud/life/raum/pkm/bücher.org][ Bücher]]          | [[/home/flowmis/cloud/life/raum/pkm/projekte.org][Projekte]]  | [[/home/flowmis/cloud/life/raum/pkm/rezepte.org][Rezepte]]      |
+| [[/home/flowmis/cloud/life/raum/pkm/skripte-programme-configs.org][skripte]]        | [[/home/flowmis/cloud/life/raum/pkm/self-sovereignity.org][self-sovereignity]] | [[/home/flowmis/cloud/life/raum/pkm/nachhilfe.org][Nachhilfe]] | [[/home/flowmis/cloud/life/raum/pkm/latex.org][Latex]]        |
+| [[/home/flowmis/cloud/life/raum/pkm/kalender-inbox.org][Kalender-Inbox]] | [[/home/flowmis/cloud/life/raum/pkm/ffff.org][fff]]               | [[/home/flowmis/cloud/life/raum/pkm/büro.org][büro]]      |              |
 
-⦿ *HELP INFORMATION*
-|-----------------------------+-----------------------------+-------------------------------|
-| (SPC h d h) [[elisp:(doom/help)][doom/help]]       | (SPC h d f) [[elisp:(doom/help-faq)][doom/help-faq]]   | (SPC h i) [[elisp:(info)][info]]                |
-| (SPC h f) [[elisp:(counsel-describe-function)][describe-function]] | (SPC h v) [[elisp:(counsel-describe-variable)][describe-variable]] | (SPC h b b) [[elisp:(counsel-descbinds)][describe-bindings]] |
-|-----------------------------+-----------------------------+-------------------------------|
+[[elisp:(org-agenda)][0: [[elisp:(cfw:open-org-calendar)]
 
-⦿ *Eigene Funktionen*
+*Keybinds*
+
+*Funktionen*
 |---------------------------------------+----------------------------------------------------------------------------------------------------------------------|
 | <M-x mane-rezepte-export-org-to-html> | exportiert alle Rezepte aus meinem 2nd brain an die github repo die es mir ermöglicht aus dem web darauf zuzugreifen |
 |                                       |                                                                                                                      |
 |---------------------------------------+----------------------------------------------------------------------------------------------------------------------|
 
-=NOTE=: 'SPC f p' [[elisp:(doom/find-file-in-private-config)][doom/find-file-in-private-config]])
-
 :DASHBOARD-EINSTELLUNGEN:
+Für den Fall dass ich ein Bild integrieren will wird dies hierdurch auch angezeigt und zudem wird hierdurch der minor mode den ich für das dashboard erstellt habe aktiviert!
 #+STARTUP: inlineimages
 ;; Local Variables:
-;; eval: (start-mode)
+;; eval: (mane-start-mode)
 ;; End:
 :END:
+

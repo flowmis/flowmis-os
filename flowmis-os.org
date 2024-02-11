@@ -5,7 +5,7 @@
 #+begin_src shell
 # mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/ ~/.config/picom/
 rsync -ah --progress ~/flowmis-os/emacs/ ~/.config/emacs/
-# cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '###########################Qtile ready###########################'
+cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '###########################Qtile ready###########################'
 # cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
 # cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
 # cp -u ~/flowmis-os/tangle/alacritty.toml ~/.config/alacritty/alacritty.toml
@@ -17,14 +17,16 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental | file | list      |         |    |        |      |           |         |         |               |
-| ./                               |             |      |           |         |    |        |      |           |         |         |               |
-| config.org                       |             |      |           |         |    |        |      |           |         |         |               |
-|                                | 24,35K      | 100% | 0,00kB/s  | 0:00:00 |  | 24,35K | 100% | 0,00kB/s  | 0:00:00 | (xfr#1, | to-chk=28/30) |
-| scripts/                         |             |      |           |         |    |        |      |           |         |         |               |
-| scripts/setup-settings-basics.el |             |      |           |         |    |        |      |           |         |         |               |
-|                                | 16,69K      | 100% | 15,92MB/s | 0:00:00 |  | 16,69K | 100% | 15,92MB/s | 0:00:00 | (xfr#2, | to-chk=18/30) |
-| done                             |             |      |           |         |    |        |      |           |         |         |               |
+| sending                          | incremental                      | file | list     |         |    |        |      |          |         |         |               |
+| ./                               |                                  |      |          |         |    |        |      |          |         |         |               |
+| config.org                       |                                  |      |          |         |    |        |      |          |         |         |               |
+|                                | 25,20K                           | 100% | 0,00kB/s | 0:00:00 |  | 25,20K | 100% | 0,00kB/s | 0:00:00 | (xfr#1, | to-chk=28/30) |
+| themes/                          |                                  |      |          |         |    |        |      |          |         |         |               |
+| themes/mane-1-theme.el           |                                  |      |          |         |    |        |      |          |         |         |               |
+|                                | 3,34K                            | 100% | 3,18MB/s | 0:00:00 |  | 3,34K  | 100% | 3,18MB/s | 0:00:00 | (xfr#2, | to-chk=1/30)  |
+| ###########################Qtile | ready########################### |      |          |         |    |        |      |          |         |         |               |
+| done                             |                                  |      |          |         |    |        |      |          |         |         |               |
+
 
 :END:
 * Installation flowmis-os on Windows mit wsl
@@ -233,7 +235,7 @@ sudo pacman -S python-utils && qtile check && echo 'Qtile dependencies installie
   | M Strg e(oder r?)             | refresh qtile (Änderungen an config werden sichtbar) |
   | M r                           | spawn prompt -> öffnen von Programmen                |
   | M Space                       | öffnet Terminal                                      |
-
+  
 *** Qtile config
 
 #+begin_src python :tangle tangle/config.py
@@ -329,7 +331,8 @@ keys = [
     Key([mod, "shift"], "space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     ### Programme starten
     Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
-    Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'), desc="Wallpaperwechsel"),
+    Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel'), desc="Wallpaperwechsel"),
+    Key([mod, "shift"], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/hell'), desc="Wallpaperwechsel"),
     Key([mod], "e", lazy.spawn('emacsclient -c'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod], "space", lazy.spawn('emacsclient -c --eval "(eshell)"'), desc="Launch Eshell"),
     Key([mod, "shift"], "space", lazy.spawn('emacsclient -ce "(shell)"'), desc='shell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
@@ -877,8 +880,7 @@ Folgendes noch in meine Emacs config integrieren.
 ;; (package! powerthesaurus) ;geht bisher nur auf Englisch
 ;; (package! synosaurus) ;geht bisher nicht
 
-
-***** Source Blocks Markup
+**** Source Blocks Markup
 
 #+begin_src elisp
 ;;;Src-Blck-Markup;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -907,7 +909,7 @@ Folgendes noch in meine Emacs config integrieren.
       "t 1" #'mane-toggle-org-block-delimiters)
 #+end_src
 
-***** Rechtschreibunng
+**** Rechtschreibunng
 
 https://github.com/PillFall/languagetool.el
 ~sudo pacman -S languagetool~
@@ -931,7 +933,7 @@ _Alternativ:_
 (add-hook 'text-mode-hook 'flyspell-mode)
 #+end_src
 
-***** GPT
+**** GPT
 - Ich will llama oder etwas das lokal als server bei mir zuhause läuft und gut in emacs integriert ist und mit dem text in meinen dateien (meinem 2nd brain) zusammenarbeiten kann!
 #+begin_src elisp
 (use-package! gptel   ;id-tranclusion-gpt
@@ -939,7 +941,7 @@ _Alternativ:_
  (setq! gptel-api-key ""))
 #+end_src
 
-***** Transclusion
+**** Transclusion
 https://github.com/nobiot/org-transclusion
 https://www.youtube.com/watch?v=ueaPiA622wA&t=327s
 Beispiel: Mit <Entf t T> Transclusion sichtbar machen
@@ -954,7 +956,7 @@ Beispiel: Mit <Entf t T> Transclusion sichtbar machen
   :init)
 #+end_src
 
-***** openwith
+**** openwith
 
 #+begin_src elisp
 (use-package! openwith
@@ -966,7 +968,7 @@ Beispiel: Mit <Entf t T> Transclusion sichtbar machen
   (openwith-mode +1))
 #+end_src
 
-***** Verschlüsselung
+**** Verschlüsselung
 
 #+begin_src elisp
 ;;;Verschlüsselung;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -985,7 +987,7 @@ Beispiel: Mit <Entf t T> Transclusion sichtbar machen
 ;; "" means use symmetric encryption unless heading sets CRYPTKEY property.
 #+end_src
 
-***** Startseite
+**** Startseite
 
 #+begin_src elisp
 (setq initial-buffer-choice "~/.config/doom/start.org")
@@ -1015,7 +1017,7 @@ Beispiel: Mit <Entf t T> Transclusion sichtbar machen
 (provide 'start-mode)
 #+end_src
 
-***** Makros
+**** Makros
 kmacro-lambda-form ist veraltet und sollte durch kmacro ersetzt werden seit emacs 29
 #+begin_src elisp
 ; Funktion um nach export die .tex Dateien zu löschen!
@@ -1039,7 +1041,7 @@ kmacro-lambda-form ist veraltet und sollte durch kmacro ersetzt werden seit emac
 )
 #+end_src
 
-***** Latex
+**** Latex
 
 #+begin_src elisp
 (after! org
@@ -1072,7 +1074,7 @@ kmacro-lambda-form ist veraltet und sollte durch kmacro ersetzt werden seit emac
 (setq org-latex-hyperref-template nil)
 #+end_src
 
-***** org-download
+**** org-download
 siehe [[https://github.com/abo-abo/org-download][hier]]
 
 #+begin_src elisp
@@ -1086,7 +1088,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 ;; (setq org-download-display-inline-images nil) ;hiermit wird das Bild nur eingefügt aber nicht angezeigt
 #+end_src
 
-***** Agenda
+**** Agenda
 
 [[id:cb653e79-fefb-47cc-9f1d-d43430ffb7c8][Agenda]]
 
@@ -1131,7 +1133,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
         nil))))
 #+end_src
 
-***** Dired
+**** Dired
 
 [[id:790532d5-262d-44d0-9ac8-a12660425675][Dired]]
 
@@ -1176,7 +1178,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
   )
 #+end_src
 
-***** roam
+**** roam
 
 #+begin_src elisp
 ;;;ROAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1197,7 +1199,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 (org-roam-db-sync)
 #+end_src
 
-***** Snippets
+**** Snippets
 
 #+begin_src elisp
 ;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1207,7 +1209,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
   (yas-global-mode 1))
 #+end_src
 
-***** Mail
+**** Mail
 
 [[id:48e45b80-c58f-4ed4-9271-fc229b5ef568][Tipps]]
 
@@ -1249,7 +1251,7 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
                                ("/home/flowmis/.mail/Gesendet" .?g)))
 #+end_src
 
-***** Kalender
+**** Kalender
 in packages.el folgende Linie hinzufügen:
 (package! org-caldav)
 
@@ -1299,7 +1301,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 ) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
 #+end_src
 
-***** Keybindings
+**** Keybindings
 
 #+begin_src elisp
 ;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1382,7 +1384,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
       :desc "Beende Präsentationsmodus" "x P" #'pres-end)
 #+end_src
 
-***** Funktionen
+**** Funktionen
 
 #+begin_src elisp
 (defun mane-rezepte-export-org-to-html ()
@@ -1465,8 +1467,8 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 (add-hook 'after-init-hook #'mane-theme-zusatzeinstellungen) ;'after-init-ui-hook auch gute Möglichkeit um Aussehensvariablen zu überschreiben
 #+end_src
 
-***** Inaktiv
-****** Multiple Cursors
+**** Inaktiv
+***** Multiple Cursors
 
 - Momentan komm ich mit den vorkonfigurierten gut zurecht - musste ich in init.el aktivieren!
 
@@ -1483,7 +1485,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
   (define-key mc/keymap (kbd "<return>") nil))
 #+end_src
 
-****** Dashboard
+***** Dashboard
 
 #+begin_src elisp
 ;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1515,7 +1517,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 ;; (provide 'start-mode)
 #+end_src
 
-****** Funktion open dired
+***** Funktion open dired
 
 #+begin_src elisp
 ;; (defun xah-open-in-external-app (&optional @fname)
@@ -1556,7 +1558,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 ;; (global-set-key (kbd "C-c o") 'xah-open-in-external-app)
 #+end_src
 
-****** Spellcheck
+***** Spellcheck
 
 #+begin_src elisp
 (setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
@@ -1567,7 +1569,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 (setq global-spell-fu-mode 0)
 #+end_src
 
-****** NeoTree
+***** NeoTree
 
 - Wenn ich es nutzen will muss ich es in init.el aktivieren und schauen ob dieser config Abschnitt so noch passt
 - Finde für github Projekte treemacs (aktiviere in init.el) noch besser da es mit evil keys geht und ähnlich zu org-mode ist - <Spc-o p> um treemacs aus Projekt zu öffnen
@@ -1583,7 +1585,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
       :desc "Open directory in neotree" "d n" #'neotree-dir)
 #+end_src
 
-****** Centaur Tabs
+***** Centaur Tabs
 
 - Falls ich unzufrieden bin wie Emacs das einrücken mit Tabs macht kann ich folgendes Paket mit entsprechender config versuchen
 
@@ -1604,7 +1606,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
                                                (kbd "g <up>")    'centaur-tabs-backward-group)
 #+end_src
 
-****** Ivy
+***** Ivy
 
 #+begin_src elisp
 (setq ivy-posframe-display-functions-alist
@@ -1629,7 +1631,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
        :desc "Ivy switch view" "v s" #'ivy-switch-view))
 #+end_src
 
-****** Zitieren mit org-ref
+***** Zitieren mit org-ref
 
 #+begin_src elisp
 (setq bibtex-completion-bibliography '("~/cloud/life/raum/.org/bib/references.bib")
@@ -2922,7 +2924,7 @@ EndSection
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 ## uncomment auf Tower-PC
 export QT_QPA_PLATFORMTHEME=qt5ct &
-nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &
+nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 nextcloud &

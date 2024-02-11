@@ -42,33 +42,56 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
 ;; (require 'org-roam) ;; Use emacs as second brain
 #+end_src
 * Dashboard
+- Ich brauche eine .org mit Links, einen minor mode für den ich keybindings vergeben kann und eine Zeile die den minor-mode aktiviert sobald die .org aufgerufen wird. Zudem ist es hilfreich wenn die Startseite im read only Modus ist um nicht ungewollte Veränderungen vorzunehmen.
+
 #+begin_src emacs-lisp
-    (setq initial-buffer-choice "~/.config/emacs/start.org")
-    (define-minor-mode start-mode
-      "Provide functions for custom start page."
-      :lighter " start"
-      ;; :keymap (let ((map (make-sparse-keymap)))
-      ;;         ;;(define-key map (kbd "M-z") 'eshell)
-      ;;           (evil-define-key 'normal start-mode-map
-      ;;             (kbd "0") '(lambda () (interactive) (org-agenda))
-      ;;             (kbd "1") '(lambda () (interactive) (cfw:open-org-calendar))
-      ;;             (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
-      ;;             (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
-      ;;             (kbd "4") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/chemie.org"))
-      ;;             (kbd "5") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"))
-      ;;             (kbd "6") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/sport.org"))
-      ;;             (kbd "7") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/20231003-unterrichtsplanung_sport.org"))
-      ;;             (kbd "8") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/nachhilfe.org"))
-      ;;             (kbd "9") '(lambda () (interactive) (find-file "~/cloud/life/"))
-      ;;             (kbd "f") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
-      ;;             (kbd "p") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte.org"))
-      ;;             (kbd "b") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bücher.org"))
-      ;;             (kbd "w") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung.org"))
-      ;;             )
-      ;;         map)
-    )
-    (add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
-    (provide 'start-mode)
+
+(use-package olivetti
+  :ensure t)
+
+(setq initial-buffer-choice "~/.config/emacs/start.org")
+
+(defun mane-start-mode-enable ()
+  "Funktionen, die beim Aktivieren von mane-start-mode ausgeführt werden."
+  (olivetti-mode 1)
+  (setq olivetti-body-width 180)) ; Beispielwert für die Breite
+
+(defun mane-start-mode-disable ()
+  "Funktionen, die beim Deaktivieren von mane-start-mode ausgeführt werden."
+  (olivetti-mode -1))
+
+(define-minor-mode mane-start-mode
+  "Ein eigener Minor Mode für personalisierte Startseite-Funktionen."
+  :lighter " Mane-Start"
+  :keymap (make-sparse-keymap)
+  :global nil
+  (if mane-start-mode
+      (mane-start-mode-enable)
+    (mane-start-mode-disable)))
+
+;; Hinzufügen von Keybindings zu mane-start-mode unter Verwendung von evil
+(with-eval-after-load 'evil
+  (evil-define-key 'normal mane-start-mode-map ;Keys sind nur um mane-start-mode vergeben
+    (kbd "o z") 'eshell
+;; (kbd "0") '(lambda () (interactive) (org-agenda))
+;; (kbd "1") '(lambda () (interactive) (cfw:open-org-calendar))
+;; (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
+;; (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
+;; (kbd "4") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/chemie.org"))
+;; (kbd "5") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"))
+;; (kbd "6") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/sport.org"))
+;; (kbd "7") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/20231003-unterrichtsplanung_sport.org"))
+;; (kbd "8") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/nachhilfe.org"))
+;; (kbd "9") '(lambda () (interactive) (find-file "~/cloud/life/"))
+;; (kbd "f") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
+;; (kbd "p") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte.org"))
+;; (kbd "b") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bücher.org"))
+;; (kbd "w") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung.org"))
+    (kbd "9") (lambda () (interactive) (find-file "~/cloud/life/")))
+)
+
+   (add-hook 'mane-start-mode-hook 'read-only-mode) ;read-only-mode disablen wenn ich etwas ändern will (C-x C-q).
+   (provide 'mane-start-mode)
 #+end_src
 * Denote
 Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a2589790
@@ -104,7 +127,9 @@ Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a25897
 #+end_src
 
 * Dired
-
+- <% m> mit regex markieren
+- k (mit evil keybindings ist es K) um markiertes nicht mehr anzuzeigen und g (mit evil keybinds ist es revert buffer und das habe ich auf <SPC b r>) um wieder alles anzuzeigen
+- t alles markieren was nicht markiert ist und alles was markiert ist nicht mehr markieren - dreht markiertes quasi um sodass leicht nur noch das gefundenen durch regex angezeigt wird bzw ausgeblendet wird.
 #+begin_src emacs-lisp
 (use-package dired-open
   :config

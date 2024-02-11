@@ -4,25 +4,53 @@
 ;;; A theme called mane-2
 ;;; Code:
 
+(defvar mane-colors-alist-dunkel
+  '(("bg1" .   "#3E3E3E")
+    ("bg2" .   "#414141")
+    ("bg3" .   "#777777")
+    ("fg1" .   "#fffbef")
+    ("fg2" .   "#fffbdf")
+    ("fg3" .   "#E7E1E5")
+    ("org1" .  "#ddbbaa")
+    ("org2" .  "#75B8C8")
+    ("org3" .  "#77CBB9")
+    ("org4" .  "#B89E97")
+    ("org5" .  "#C492B1")
+    ("org6" .  "#C492B1")
+    ("check" . "#FF0000")))
+
+(defun mane-get-color-d (name)  ;brauche ich hier glaub nicht da ich es ja schon in theme 1 habe
+  "Retrieve a color value by name."
+  (cdr (assoc name mane-colors-alist-dunkel)))
+
 (deftheme mane-2 "DOCSTRING for mane-2")
-  (custom-theme-set-faces 'mane-2
-   '(default ((t (:foreground "#fdf4c1" :background "#282828" ))))
-   '(cursor ((t (:background "#fdf4c1" ))))
-   '(fringe ((t (:background "#282828" ))))
-   '(mode-line ((t (:foreground "#282828" :background "#7c6f64" ))))
-   '(region ((t (:background "#504945" ))))
-   '(secondary-selection ((t (:background "#3e3834" ))))
-   '(font-lock-builtin-face ((t (:foreground "#fe8019" ))))
-   '(font-lock-comment-face ((t (:foreground "#7c6f64" ))))
-   '(font-lock-function-name-face ((t (:foreground "#b8bb26" ))))
-   '(font-lock-keyword-face ((t (:foreground "#fb4934" ))))
-   '(font-lock-string-face ((t (:foreground "#b8bb26" ))))
-   '(font-lock-type-face ((t (:foreground "#d3869b" ))))
-   '(font-lock-constant-face ((t (:foreground "#d3869b" ))))
-   '(font-lock-variable-name-face ((t (:foreground "#83a598" ))))
-   '(minibuffer-prompt ((t (:foreground "#b8bb26" :bold t ))))
-   '(font-lock-warning-face ((t (:foreground "red" :bold t ))))
-   )
+
+(custom-theme-set-faces 'mane-2
+  `(default ((t (:foreground ,(mane-get-color-d "fg1") :background ,(mane-get-color-d "bg1")))))
+  `(cursor ((t (:background ,(mane-get-color-d "fg1")))))
+  `(fringe ((t (:background ,(mane-get-color-d "bg2"))))) ; Rand Links & rechts vom Buffer
+  `(mode-line ((t (:foreground ,(mane-get-color-d "fg2") :background ,(mane-get-color-d "bg2")))))
+  `(region ((t (:background ,(mane-get-color-d "bg2"))))) ;Markierfarbe
+  ;; Spezifisch für Org-Mode
+  `(font-lock-function-name-face ((t (:foreground ,(mane-get-color-d "org1"))))) ;org-header level 1
+  `(font-lock-variable-name-face ((t (:foreground ,(mane-get-color-d "org2"))))) ;org-header Level 2
+  `(font-lock-keyword-face ((t (:foreground ,(mane-get-color-d "org3"))))) ;org-header level 3
+  `(font-lock-comment-face ((t (:foreground ,(mane-get-color-d "org4"))))) ;Kommentare und org-header-level 4
+  `(font-lock-type-face ((t (:foreground ,(mane-get-color-d "org5"))))) ;org-header level 5
+  `(font-lock-constant-face ((t (:foreground ,(mane-get-color-d "org6"))))) ;org-header level 6
+  `(org-link ((t (:foreground ,(mane-get-color-d "org2") :underline t)))) ;; Farbe und Stil für Links
+  `(org-table ((t (:foreground ,(mane-get-color-d "org2") :background ,(mane-get-color-d "bg2"))))) ;; Farbe und Hintergrund für Tabellen
+  `(org-drawer ((t (:foreground ,(mane-get-color-d "org2"))))) ;; Farbe für Drawers
+  `(org-block ((t (:background ,(mane-get-color-d "bg3"))))) ;; Hintergrundfarbe für Source Blocks
+  `(org-block-begin-line ((t (:foreground ,(mane-get-color-d "fg1") :background ,(mane-get-color-d "bg1"))))) ;; Farbe und Hintergrund für die Anfangszeile von Source Blocks
+  `(org-block-end-line ((t (:foreground ,(mane-get-color-d "fg1") :background ,(mane-get-color-d "bg1"))))) ;; Farbe und Hintergrund für die Endzeile von Source Blocks
+  `(secondary-selection ((t (:background ,(mane-get-color-d "check"))))) ;?
+  ;;ab hier für org-mode weniger relevant
+  `(font-lock-builtin-face ((t (:foreground ,(mane-get-color-d "org1"))))) ;Schrift wie hier :foreground etc.
+  `(font-lock-string-face ((t (:foreground ,(mane-get-color-d "org2") )))) ;Documentation Strings für Funktionen und Anführungszeichen in Code-Dateien
+  `(minibuffer-prompt ((t (:foreground ,(mane-get-color-d "org3") :bold t ))))
+  `(font-lock-warning-face ((t (:foreground ,(mane-get-color-d "org4") :bold t ))))
+ )
 
 ;;;###autoload
 (and load-file-name

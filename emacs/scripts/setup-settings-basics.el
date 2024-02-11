@@ -71,15 +71,15 @@
     (setq evil-want-keybinding nil)
     (setq evil-vsplit-window-right t)
     (setq evil-split-window-below t)
-    (evil-mode))
+    (evil-mode 1))
   (use-package evil-collection
     :after evil
     :config
     (setq evil-collection-mode-list '(dashboard dired ibuffer))
     (evil-collection-init))
-  (use-package evil-tutor)
 
-;; Using RETURN to follow links in Org/Evil 
+(use-package evil-tutor)
+
 ;; Unmap keys in 'evil-maps if not done, (setq org-return-follows-link t) will not work
 (with-eval-after-load 'evil-maps
   (define-key evil-motion-state-map (kbd "SPC") nil)
@@ -150,6 +150,14 @@
     "h v" '(describe-variable :wk "Describe variable")
     "h t" '(tldr :wk "Lookup TLDR docs for a command")
     "h r r" '((lambda () (interactive)(load-file "~/.config/emacs/init.el")(ignore (elpaca-process-queues))) :wk "Reload emacs config")
+    ;; Note taking
+    "n" '(:ignore t :wk "Denote")
+    "n n" '(denote :wk "Neue Note")
+    "n t" '(denote-type :wk "Neue Note in nicht Standarddateiformat - .md .txt .org ...")
+    "n r" '(denote-dired-rename-files :wk "Rename with file nameing konvention")
+    "n l" '(denote-link :wk "Link a Note")
+    "n b" '(denote-link-backlinks :wk "Minibuffer mit Backlinks")
+    "n f" '(denote-link-find-file :wk "Find a Note")
     ;; org-mode
     "o" '(:ignore t :wk "Org")
     "o a" '(org-agenda :wk "Org agenda")

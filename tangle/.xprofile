@@ -4,7 +4,7 @@
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 ## uncomment auf Tower-PC
 export QT_QPA_PLATFORMTHEME=qt5ct &
-nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds &
+nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel &
 nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
 picom -f &                                          # setzt Einstellungen des Compositors for Windows
 nextcloud &

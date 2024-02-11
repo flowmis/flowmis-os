@@ -90,7 +90,8 @@ keys = [
     Key([mod, "shift"], "space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     ### Programme starten
     Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
-    Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'), desc="Wallpaperwechsel"),
+    Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel'), desc="Wallpaperwechsel"),
+    Key([mod, "shift"], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/hell'), desc="Wallpaperwechsel"),
     Key([mod], "e", lazy.spawn('emacsclient -c'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod], "space", lazy.spawn('emacsclient -c --eval "(eshell)"'), desc="Launch Eshell"),
     Key([mod, "shift"], "space", lazy.spawn('emacsclient -ce "(shell)"'), desc='shell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
