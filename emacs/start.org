@@ -1,13 +1,13 @@
 
 *Links*
 
-| [[/home/flowmis/cloud/life/raum/pkm/home.org][ Home]]         | [[/home/flowmis/cloud/life/raum/pkm/work.org][ Work]]            | [[~/cloud/life/][ Cloud]]   | [[~/flowmis-os/flowmis-os.org][ Flowmis-OS]] |
-| [[/home/flowmis/cloud/life/raum/pkm/chemie.org][ Chemie]]       | [[/home/flowmis/cloud/life/raum/pkm/unterrichtsplanung-chemie.org][ Chemie - UP]]     | [[/home/flowmis/cloud/life/raum/pkm/sport.org][ Sport]]   | [[/home/flowmis/cloud/life/raum/pkm/unterrichtsplanung-sport.org][ Sport - UP]] |
-| [[cloud/life/raum/.org/bildung.org][ Bildung/PKM]]  | [[/home/flowmis/cloud/life/raum/pkm/bücher.org][ Bücher]]          | [[/home/flowmis/cloud/life/raum/pkm/projekte.org][Projekte]]  | [[/home/flowmis/cloud/life/raum/pkm/rezepte.org][Rezepte]]      |
-| [[/home/flowmis/cloud/life/raum/pkm/skripte-programme-configs.org][skripte]]        | [[/home/flowmis/cloud/life/raum/pkm/self-sovereignity.org][self-sovereignity]] | [[/home/flowmis/cloud/life/raum/pkm/nachhilfe.org][Nachhilfe]] | [[/home/flowmis/cloud/life/raum/pkm/latex.org][Latex]]        |
-| [[/home/flowmis/cloud/life/raum/pkm/kalender-inbox.org][Kalender-Inbox]] | [[/home/flowmis/cloud/life/raum/pkm/ffff.org][fff]]               | [[/home/flowmis/cloud/life/raum/pkm/büro.org][büro]]      |              |
+| [[/home/flowmis/cloud/life/raum/pkb/home.org][ Home]]         | [[/home/flowmis/cloud/life/raum/pkb/work.org][ Work]]            | [[/home/flowmis/cloud/life/][ Cloud]]   | [[/home/flowmis/flowmis-os/flowmis-os.org][ Flowmis-OS]] |
+| [[/home/flowmis/cloud/life/raum/pkb/chemie.org][ Chemie]]       | [[/home/flowmis/cloud/life/raum/pkb/unterrichtsplanung-chemie.org][ Chemie - UP]]     | [[/home/flowmis/cloud/life/raum/pkb/sport.org][ Sport]]   | [[/home/flowmis/cloud/life/raum/pkb/unterrichtsplanung-sport.org][ Sport - UP]] |
+| [[/homer/flowmis/cloud/life/raum/pkb/bildung.org][ Bildung/PKM]]  | [[/home/flowmis/cloud/life/raum/pkb/bücher.org][ Bücher]]          | [[/home/flowmis/cloud/life/raum/pkb/projekte.org][Projekte]]  | [[/home/flowmis/cloud/life/raum/pkb/rezepte.org][Rezepte]]      |
+| [[/home/flowmis/cloud/life/raum/pkb/skripte-programme-configs.org][skripte]]        | [[/home/flowmis/cloud/life/raum/pkb/self-sovereignity.org][self-sovereignity]] | [[/home/flowmis/cloud/life/raum/pkb/nachhilfe.org][Nachhilfe]] | [[/home/flowmis/cloud/life/raum/pkb/latex.org][Latex]]        |
+| [[/home/flowmis/cloud/life/raum/pkb/kalender-inbox.org][Kalender-Inbox]] | [[/home/flowmis/cloud/life/raum/pkb/ffff.org][fff]]               | [[/home/flowmis/cloud/life/raum/pkb/büro.org][büro]]      |              |
 
-[[elisp:(org-agenda)][0: [[elisp:(cfw:open-org-calendar)]
+[[elisp:(org-agenda)][Agenda]]
 
 *Keybinds*
 

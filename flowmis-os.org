@@ -17,16 +17,16 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental                      | file | list     |         |    |        |      |          |         |         |               |
-| ./                               |                                  |      |          |         |    |        |      |          |         |         |               |
-| config.org                       |                                  |      |          |         |    |        |      |          |         |         |               |
-|                                | 31,37K                           | 100% | 0,00kB/s | 0:00:00 |  | 31,37K | 100% | 0,00kB/s | 0:00:00 | (xfr#1, | to-chk=28/30) |
-| ###########################Qtile | ready########################### |      |          |         |    |        |      |          |         |         |               |
-| done                             |                                  |      |          |         |    |        |      |          |         |         |               |
-
+| sending                          | incremental                      | file | list      |         |    |        |      |           |         |         |               |
+| ./                               |                                  |      |           |         |    |        |      |           |         |         |               |
+| config.org                       |                                  |      |           |         |    |        |      |           |         |         |               |
+|                                | 32,77K                           |  50% | 0,00kB/s  | 0:00:00 |  | 65,45K | 100% | 31,17MB/s | 0:00:00 | (xfr#1, | to-chk=28/30) |
+| init.el                          |                                  |      |           |         |    |        |      |           |         |         |               |
+|                                | 80                               | 100% | 78,12kB/s | 0:00:00 |  |     80 | 100% | 78,12kB/s | 0:00:00 | (xfr#2, | to-chk=26/30) |
+| ###########################Qtile | ready########################### |      |           |         |    |        |      |           |         |         |               |
+| done                             |                                  |      |           |         |    |        |      |           |         |         |               |
 
 :END:
-
 * Installation flowmis-os on Windows mit wsl
 https://www.youtube.com/watch?v=h0Wg_aknGdc
 * Installation
@@ -34,7 +34,7 @@ https://www.youtube.com/watch?v=h0Wg_aknGdc
 - [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
 - _Problemlösung:_
   - [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]] bei Fragen/Problemen
-  - Wenn ich feststecke kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss eventuell mit Fn zusammen gedrückt werden!
+  - Wenn ich feststecke, kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss eventuell mit Fn zusammen gedrückt werden!
   - Etwas vergessen: kann nach der Installation erneut auf Bootstick booten und von diesem die Linux-Filesystem partition mounten und mit arch-chroot auf diese gehen und Dinge installieren (im root Modus und mit hoffentlich funktionierendem Internet)
 
 ** Installationsdateien
@@ -57,135 +57,135 @@ LC_CTYPE=de_DE.UTF-8
 #+end_src
 
 ** Installation
-1. Arch iso downloaden:
-   - Check ob Datei original und unverändert ist:
-      #+begin_src shell
-   gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
-   pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
-      #+end_src
-2. _Falls VM:_ ISO in die VM laden + Speicher, CPU, RAM, GPU etc. der virtuellen Maschine zuweisen und mit funktionsfähigem Internet (auf dem Hostsystem) die VM booten
-   - Standardmäßig Skript install-vm verwenden. Falls ich Installation in VM lieber step by step (wie bei Hardware machen will) um alles selbst zu konfigurieren, muss ich das untere Skript install-hardware-modified verwenden.
-   - Zusätzliche Infos für Copy-Paste und geteilten Ordner hier: [[~/flowmis-os/flowmis-os.org::VirtualBox][VirtualBox]]
-    #+begin_src shell :tangle tangle/install-vm-mit-skript.sh
-   # 1. ~python -m archinstall~
-   #    Einstellungen:
-   #    - Sprache auf de & locale-lang auf de.DE
-   #    - Grub als Bootloader wählen
-   #    - Root Passwort vergeben + Account/User mit Passwort erstellen
-   #    - Profil auf xorg ändern
-   #    - Dem Gerät entsprechende Grafiktreiber wählen
-   #    - pulseaudio wählen
-   #    - NetworkManager wählen
-   #    - Timezone auf Europe-Berlin
-   #    - Zusatzpakete angeben: git sudo networkmanager
-   #    - Festplatte wählen, alles wipen + ext4 filesystem konfigurieren
-   #    - Installation starten
-   # 2. shutdown, iso/installationsmedium entfernen, boot & login -> Internet sollte gehen und arch-minimal ist fertig installiert!
-   # 3. Falls kein Internet - mit nmcli im Wlan anmelden
-   # 4. VM konfigurieren:
-   # - sudo pacman -S virtualbox-guest-utils openssh
-   # - sudo VBoxClient-all
-   # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Erweitert -> Gemeinsame Zwischenablage & Drag'n'Drop auf bidirektional stellen
-   # - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
-   # - Ordner einhängen und checken ob es geht: sudo mount -t vboxsf share /home/flowmis/share
-   # - fstab um folgende Linie ergänzen dass geteilter Ordner automatisch eingehängt wird:
-       # cloud						/home/flowmis/cloud	vboxsf		defaults 	0 0
-   # - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/flowmis-os.git mein Repo geklont werden kann
-   # 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
-   mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
-   sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
-   cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
-   # cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
-   cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
-   sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
-   # eza: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht eza schreiben muss
-   # starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
-   # base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
-   # ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
-   sudo systemctl enable sddm
-   #+end_src
-    #+begin_src shell :tangle tangle/install-hardware.sh
-   ###Achtung: Auf Hardware machen mehrere Partitionen Sinn
-   # fdisk -l                                                                    # Alternativ: <lsblk>
-   # fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
-   # <g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
-   # <n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
-   # <n><3><Enter><Enter>                                                        # Linux Filesystem Partition mit restlichem Speicher erstellen
-   # <t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
-   # <t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
-   # <w>                                                                         # write changes und fdisk verlassen
-   # mkfs.fat -F32 /dev/sda1
-   # mkswap /dev/sda2
-   # swapon /dev/sda2
-   # mkfs.ext4 /dev/sda3
-   # mount /dev/sda3 /mnt
-   ###Einfache Variante ohne mehrere Partitionen
-   # fdisk /dev/sda + <n> + <p> + <Enter> + <Enter> + <Enter> <w>
-   # fdisk -l                                                                  # check Partionen -> Alternativ: lsblk
-   # mkfs.ext4 /dev/sda1
-   ##System einrichten
-   # mount /dev/sda1 /mnt
-   # pacstrap /mnt base linux linux-firmware                                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
-   # genfstab -U /mnt >> /mnt/etc/fstab                                        # generiert FileSystemTable
-   # arch-chroot /mnt                                                          # Mit root in /mnt gehen
-   # pacman -S neovim sudo git
-   # passwd
-   # useradd -m flowmis
-   # passwd flowmis
-   # usermod -aG wheel,audio,video,optical,storage flowmis                     # Erteilen der Rechte bzw. in welcher Gruppe der User ist
-   # pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
-   # cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
-   # . /home/flowmis/flowmis-os/tangle/install-hardware-modified.sh
-   cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
-   ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
-   hwclock --systohc                                                           # setzt Zeit
-   mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
-   sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
-   locale-gen                                                                  # generiert die locales
-   echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-   mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
-   ##Grafiktreiber wählen - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren
-   pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
-   ##Sonstiges
-   # mkdir /boot/EFI                                                           # Erstellung des Bootdirectories
-   # mount /dev/sda boot/EFI                                                   # was ist die EFI ppartition in der VM - habe ich ja nicht angelegt???
-   # grub-install                                                              # Eventuell muss Pfad mit angegeben werden: grub-install /dev/sda
-   # grub-mkconfig -o /boot/grub/grub.cfg                                      # Ohne diese wird es zu Problemen beim booten kommen
-   # EDITOR=nvim visudo                                                        # uncomment #%wheel ALL=(ALL) ALL
-   # systemctl enable NetworkManager
-   # systemctl enable sddm
-   # exit
-   # umount -l /mnt
-   # reboot & login
-   # sudo NetworkManager                                                       # keine Fehlermeldung = past alles
-   # sudo nmcli device wifi list                                               # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
-   # sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"       # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
-   ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
-   hwclock --systohc                                                           # setzt Zeit
-   mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
-   sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
-   locale-gen                                                                  # generiert die locales
-   echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
-   mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
-   # localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
-   # setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
-   # timedatectl set-ntp true && timedatectl status                            # Zeit und Datum über das network transfer protocol einholen
-   #+end_src
-3. _Falls Hardware:_ Bootstick erstellen (Achtung Bootstick der mir balena etcher erstellt wurde macht Probleme -> Mit Rufus erstellen und bei Partitionsschema GPT statt MBR wählen um mit grub-install bei manueller Installation keine Probleme zu bekommen weil falsches Partitionsschema vorliegt). BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen -> Booten
-   - checken ob Installationsmedium richtig funktioniert
-        ~ls /sys/firmware/efi/efivars~                               # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
-   - Internet über Lankabel oder iwctl aktivieren und checken ob es geht
-        ~ip link~                                                    # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird und mit welchem Namen weitergemacht werden kann - oft wlan0 (Achtung dass rfkill die Karte nicht blockiert)
-        ~iwctl~                                                      # Einloggen Wlan (Ethernet eigentlich zu bevorzugen) -> siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
-        ~device list~                                                # zeigt Netzwerkkarten -> ist hier nichts gelistet dann fucked
-        ~station "" scan~                                            # "" durch Wlan Karte ersetzen (meist wlan0) -> scant nach vorhandenen Wlans die durch Wlan Karte gefunden werden
-        ~station "" get-networks~                                    # Listet gefundene Wlan Netzwerke auf
-        ~station "" connect "Name Wlan"~                             # Verbindung zu Wlan herstellen
-        ~exit~                                                       # Verlassen von iwctl
-        ~ping google.de~                                             # Internet check
+Arch iso downloaden:
+- Check ob Datei original und unverändert ist:
+#+begin_src shell
+gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
+pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
+#+end_src
+Falls VM: ISO in die VM laden + Speicher, CPU, RAM, GPU etc. der virtuellen Maschine zuweisen und mit funktionsfähigem Internet (auf dem Hostsystem) die VM booten
+- Standardmäßig Skript install-vm verwenden. Falls ich Installation in VM lieber step by step (wie bei Hardware machen will) um alles selbst zu konfigurieren, muss ich das untere Skript install-hardware-modified verwenden.
+- Zusätzliche Infos für Copy-and-paste und geteilten Ordner hier: [[~/flowmis-os/flowmis-os.org::VirtualBox][VirtualBox]]
+#+begin_src shell :tangle tangle/install-vm-mit-skript.sh
+# 1. ~python -m archinstall~
+#    Einstellungen:
+#    - Sprache auf de & locale-lang auf de.DE
+#    - Grub als Bootloader wählen
+#    - Root Passwort vergeben + Account/User mit Passwort erstellen
+#    - Profil auf xorg ändern
+#    - Dem Gerät entsprechende Grafiktreiber wählen
+#    - pulseaudio wählen
+#    - NetworkManager wählen
+#    - Timezone auf Europe-Berlin
+#    - Zusatzpakete angeben: git sudo networkmanager
+#    - Festplatte wählen, alles wipen + ext4 filesystem konfigurieren
+#    - Installation starten
+# 2. shutdown, iso/installationsmedium entfernen, boot & login -> Internet sollte gehen und arch-minimal ist fertig installiert!
+# 3. Falls kein Internet - mit nmcli im Wlan anmelden
+# 4. VM konfigurieren:
+# - sudo pacman -S virtualbox-guest-utils openssh
+# - sudo VBoxClient-all
+# - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Erweitert -> Gemeinsame Zwischenablage & Drag'n'Drop auf bidirektional stellen
+# - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
+# - Ordner einhängen und checken ob es geht: sudo mount -t vboxsf share /home/flowmis/share
+# - fstab um folgende Linie ergänzen dass geteilter Ordner automatisch eingehängt wird:
+    # cloud						/home/flowmis/cloud	vboxsf		defaults 	0 0
+# - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/flowmis-os.git mein Repo geklont werden kann
+# 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
+mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
+sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
+cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
+# cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
+cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
+sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
+# eza: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht eza schreiben muss
+# starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
+# base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
+# ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
+sudo systemctl enable sddm
+#+end_src
+#+begin_src shell :tangle tangle/install-hardware.sh
+###Achtung: Auf Hardware machen mehrere Partitionen Sinn
+# fdisk -l                                                                    # Alternativ: <lsblk>
+# fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
+# <g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
+# <n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
+# <n><3><Enter><Enter>                                                        # Linux Filesystem Partition mit restlichem Speicher erstellen
+# <t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
+# <t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
+# <w>                                                                         # write changes und fdisk verlassen
+# mkfs.fat -F32 /dev/sda1
+# mkswap /dev/sda2
+# swapon /dev/sda2
+# mkfs.ext4 /dev/sda3
+# mount /dev/sda3 /mnt
+###Einfache Variante ohne mehrere Partitionen
+# fdisk /dev/sda + <n> + <p> + <Enter> + <Enter> + <Enter> <w>
+# fdisk -l                                                                  # check Partionen -> Alternativ: lsblk
+# mkfs.ext4 /dev/sda1
+##System einrichten
+# mount /dev/sda1 /mnt
+# pacstrap /mnt base linux linux-firmware                                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
+# genfstab -U /mnt >> /mnt/etc/fstab                                        # generiert FileSystemTable
+# arch-chroot /mnt                                                          # Mit root in /mnt gehen
+# pacman -S neovim sudo git
+# passwd
+# useradd -m flowmis
+# passwd flowmis
+# usermod -aG wheel,audio,video,optical,storage flowmis                     # Erteilen der Rechte bzw. in welcher Gruppe der User ist
+# pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
+# cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
+# . /home/flowmis/flowmis-os/tangle/install-hardware-modified.sh
+cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+hwclock --systohc                                                           # setzt Zeit
+mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+locale-gen                                                                  # generiert die locales
+echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+##Grafiktreiber wählen - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren
+pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
+##Sonstiges
+# mkdir /boot/EFI                                                           # Erstellung des Bootdirectories
+# mount /dev/sda boot/EFI                                                   # was ist die EFI ppartition in der VM - habe ich ja nicht angelegt???
+# grub-install                                                              # Eventuell muss Pfad mit angegeben werden: grub-install /dev/sda
+# grub-mkconfig -o /boot/grub/grub.cfg                                      # Ohne diese wird es zu Problemen beim booten kommen
+# EDITOR=nvim visudo                                                        # uncomment #%wheel ALL=(ALL) ALL
+# systemctl enable NetworkManager
+# systemctl enable sddm
+# exit
+# umount -l /mnt
+# reboot & login
+# sudo NetworkManager                                                       # keine Fehlermeldung = past alles
+# sudo nmcli device wifi list                                               # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
+# sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"       # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+hwclock --systohc                                                           # setzt Zeit
+mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+locale-gen                                                                  # generiert die locales
+echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+# localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
+# setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
+# timedatectl set-ntp true && timedatectl status                            # Zeit und Datum über das network transfer protocol einholen
+#+end_src
+3. _Falls Hardware:_ Bootstick erstellen (Achtung Bootstick der mir balena etcher erstellt wurde macht Probleme ⇾ Mit Rufus erstellen und bei Partitionsschema GPT statt MBR wählen um mit grub-install bei manueller Installation keine Probleme zu bekommen, weil falsches Partitionsschema vorliegt). BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen ⇾ Booten
+   - Checken, ob Installationsmedium richtig funktioniert
+        ~ls /sys/firmware/efi/efivars~ # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
+   - Internet über Lankabel oder iwctl aktivieren und checken, ob es geht
+        ~ip link~ # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird und mit welchem Namen weitergemacht werden kann - oft wlan0 (Achtung, dass rfkill die Karte nicht blockiert)
+        ~iwctl~ # Einloggen WLAN (Ethernet eigentlich zu bevorzugen) ⇾ siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
+        ~device list~ # zeigt Netzwerkkarten ⇾ ist hier nichts gelistet dann fucked
+        ~station "" scan~ # "" durch WLAN Karte ersetzen (meist wlan0) ⇾ scant nach vorhandenen WLANs die durch WLAN Karte gefunden werden
+        ~station "" get-networks~ # Listet gefundene WLAN Netzwerke auf
+        ~station "" connect "Name WLAN"~ # Verbindung zu WLAN herstellen
+        ~exit~ # Verlassen von iwctl
+        ~ping google.de~ # Internet check
    - Keyboardlayout wählen
-        ~ls /usr/share/kbd/keymaps/**/*.map.gz~                      # Läd alle vorhandenen Tastaturlayouts
-        ~loadkeys de-latin1~                                         # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
+        ~ls /usr/share/kbd/keymaps/**/*.map.gz~ # Läd alle vorhandenen Tastaturlayouts
+        ~loadkeys de-latin1~ # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
 
 * Module installieren & konfigurieren
 
@@ -832,352 +832,11 @@ _Emacs im Terminal über:_
 Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht richtig angezeigt werden in der doom-modeline und dired kann ich die Funktionen nach der Installation ausführen um die Icons zu installieren <M-x all-the-icons-install-fonts> <M-x nerd-icons-install-fonts> ->Dann folgendes:
 
 *** Emacs Doom 
-Habe meine damaligen Dateien in einem Ordner in dieser Repo, falls ich mal nochmal zu Doom zurück will.
-Folgendes noch in meine Emacs config integrieren.
-       (emoji +unicode)  ; 🙂
-       multiple-cursors  ; editing in many places at once
-       snippets          ; my elves. They type so I don't have to
-       (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
-       pdf               ; pdf enhancements
-       calendar
-(package! dired-open)
-(package! org-tree-slide)
-(package! beacon)
-(package! gptel)
-(package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
-(package! org-drill) ;für zentrales scrollen im Präsi Modus
-(package! rg)
+**** roam
+
 (package! org-roam)
 (unpin! org-roam) ;macht es stabiler da es nicht wirklich geupdated wird - siehe Info zu unpin!
 (package! org-roam-ui)
-(package! graphviz-dot-mode)
-(package! org-fancy-priorities :disable t)
-(package! org-download)
-(package! org-caldav)
-(package! languagetool)
-(package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
-(package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
-(package! org-transclusion)
-(package! openwith)
-;; (package! crypt++) ; brauche ich aktuell nicht aber ist eine gut alternative zu org-crypt
-;; (package! olivetti)
-;; (package! flycheck-aspell)
-;; (package! async)
-;; (package! calfw)
-;; (package! calfw-org)
-;; (package! emojify)
-;; (package! ox-publish)
-;; (package! peep-dired)
-;; (package! password-store)
-;; (package! wc-mode)
-;; (package! hide-mode-line)
-;; (package! org-ref)
-;; (package! ivy-bibtex)
-;; (package! org-pdftools)
-;; (package! org-super-agenda)
-;; (package! powerthesaurus) ;geht bisher nur auf Englisch
-;; (package! synosaurus) ;geht bisher nicht
-
-**** Source Blocks Markup
-
-#+begin_src elisp
-;;;Src-Blck-Markup;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar mane-org-blocks-hidden nil "Status of org block delimiters visibility.")
-(defun mane-toggle-org-block-delimiters ()
-  "Toggle visibility of org block delimiters."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    ;; Entferne alle vorherigen Overlays
-    (remove-overlays (point-min) (point-max) 'mane-org-overlay t)
-    ;; Füge Overlays basierend auf dem aktuellen Status hinzu oder entferne sie
-    (if mane-org-blocks-hidden
-        (progn
-          (setq mane-org-blocks-hidden nil))
-      (progn
-        (while (re-search-forward "^#\\+\\(BEGIN\\|END\\)_\\([A-Za-z]+\\)" nil t)
-          (let ((ov (make-overlay (match-beginning 0) (line-end-position))))
-            (overlay-put ov 'invisible t)
-            (overlay-put ov 'mane-org-overlay t)))
-        (setq mane-org-blocks-hidden t)))))
-(add-hook 'org-mode-hook #'mane-toggle-org-block-delimiters)
-
-(map! :leader
-      :desc "Toggle Org block delimiters"
-      "t 1" #'mane-toggle-org-block-delimiters)
-#+end_src
-
-**** Rechtschreibunng
-
-https://github.com/PillFall/languagetool.el
-~sudo pacman -S languagetool~
-folgendes in packages.el: (package! languagetool)
-
-#+begin_src elisp
-;; Rechtschreibung und Grammatikprüfung
-(setq languagetool-java-arguments '("-Dfile.encoding=UTF-8"
-                                    "-cp" "/usr/share/languagetool:/usr/share/java/languagetool/*")
-      languagetool-console-command "org.languagetool.commandline.Main"
-      languagetool-server-command "org.languagetool.server.HTTPServer")
-;; mit <languagetool-check> den Buffer auswerten und dann den Buffer checken mit <languagetool-correct-buffer> oder at point checken (kann auch einfach nur mit dem cursor hingehen) <languagetool-correct-at-point> -> für alles weitere siehe github: https://github.com/PillFall/languagetool.el
-#+end_src
-
-_Alternativ:_
-~sudo pacman -S hunspell-de~
-
-#+begin_src elisp
-(setq ispell-program-name "hunspell")
-(setq ispell-dictionary "de_DE")
-(add-hook 'text-mode-hook 'flyspell-mode)
-#+end_src
-
-**** GPT
-- Ich will llama oder etwas das lokal als server bei mir zuhause läuft und gut in emacs integriert ist und mit dem text in meinen dateien (meinem 2nd brain) zusammenarbeiten kann!
-#+begin_src elisp
-(use-package! gptel   ;id-tranclusion-gpt
- :config
- (setq! gptel-api-key ""))
-#+end_src
-
-**** Transclusion
-https://github.com/nobiot/org-transclusion
-https://www.youtube.com/watch?v=ueaPiA622wA&t=327s
-Beispiel: Mit <Entf t T> Transclusion sichtbar machen
-
-#+transclude: [[~/.config/doom/config.el::tranclusion-gpt]] :lines 1-5 :src elisp
-
-#+transclude: [[file:~/cloud/life/raum/.org/büro.org]] :lines 10-15
-
-#+begin_src elisp
-(use-package! org-transclusion
-  :after org
-  :init)
-#+end_src
-
-**** openwith
-
-#+begin_src elisp
-(use-package! openwith
-  :after-call pre-command-hook
-  :config
-  (setq openwith-associations
-        '(("\\.pdf\\'" "zathura" (file))
-          ("\\.\\(jpg\\|png\\|gif\\|jpeg\\)\\'" "viewnior" (file))))
-  (openwith-mode +1))
-#+end_src
-
-**** Verschlüsselung
-
-#+begin_src elisp
-;;;Verschlüsselung;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (require 'crypt++)
-;; (setq auto-mode-alist
-    ;; (append '(("\\.gpg\\'" . crypt-mode)) auto-mode-alist))
-
-(require 'org-crypt)
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance (quote ("crypt")))
-(setq org-crypt-key "5AAD62293D61A89D")
-
-;; (setq org-crypt-key t
-;; GPG key to use for encryption. - kann ich statt t auch den Fingerabdruck angeben der standardmäßig verwendet werden soll?
-;; nil means  use symmetric encryption unconditionally.
-;; "" means use symmetric encryption unless heading sets CRYPTKEY property.
-#+end_src
-
-**** Startseite
-
-#+begin_src elisp
-(setq initial-buffer-choice "~/.config/doom/start.org")
-(define-minor-mode start-mode
-  "Provide functions for custom start page."
-  :lighter " start"
-  :keymap (let ((map (make-sparse-keymap)))
-          ;;(define-key map (kbd "M-z") 'eshell)
-            (evil-define-key 'normal start-mode-map
-              (kbd "0") '(lambda () (interactive) (org-agenda))
-              (kbd "1") '(lambda () (interactive) (cfw:open-org-calendar))
-              (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
-              (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
-              (kbd "4") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/chemie.org"))
-              (kbd "5") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"))
-              (kbd "6") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/sport.org"))
-              (kbd "7") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/20231003-unterrichtsplanung_sport.org"))
-              (kbd "8") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/nachhilfe.org"))
-              (kbd "9") '(lambda () (interactive) (find-file "~/cloud/life/"))
-              (kbd "f") '(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org"))
-              (kbd "p") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/projekte.org"))
-              (kbd "b") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bücher.org"))
-              (kbd "w") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/bildung.org"))
-              )
-          map))
-(add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
-(provide 'start-mode)
-#+end_src
-
-**** Makros
-kmacro-lambda-form ist veraltet und sollte durch kmacro ersetzt werden seit emacs 29
-#+begin_src elisp
-; Funktion um nach export die .tex Dateien zu löschen!
-(defun delete-tex-files ()
-  "Löscht alle .tex-Dateien im Verzeichnis /home/flowmis/cloud/life/energie/work/unterricht/export."
-  (interactive)
-  (let ((directory "/home/flowmis/cloud/life/energie/work/unterricht/export/"))
-    (dolist (file (directory-files directory t "\\.tex$"))
-      (delete-file file))
-    (message "Alle .tex-Dateien im Verzeichnis gelöscht.")))
-(after! evil
-(fset 'export-ch-presentation (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?p ?c tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'export-ch-ta (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?t ?a ?c tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'export-ch-zusatz (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?a ?4 tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'export-ch-ib (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?i ?b tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'export-ch-svp (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?s ?v ?p ?c tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'export-ch-ab (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?a ?b tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'export-aas (kmacro-lambda-form [?\C-x ?n ?n escape tab down ?V ?G ?\C-x ?n ?n escape ?g ?g ?O ?< ?e ?a ?a ?s tab escape ?  ?m ?e ?l ?p ?u ?\C-x ?n ?w up tab ?\C-l] 0 "%d"))
-(fset 'nameing (kmacro "M-! . SPC / h o m e / f l o w m i s / c l o u d / l i f e / e n e r g i e / s e l f - s o v e r e i g n i t y / t e c h / s k r i p t e - p r o g r a m m e - c o n f i g s / s k r i p t e / n a m e i n g . s h <return>"))
-(fset 'ordner-struktur-auflösen (kmacro "M-! . SPC / h o m e / f l o w m i s / c l o u d / l i f e / e n e r g i e / s e l f - s o v e r e i g n i t y / t e c h / s k r i p t e - p r o g r a m m e - c o n f i g s / s k r i p t e / o r d n e r - a u f l . s h <return> d x y"))
-)
-#+end_src
-
-**** Latex
-
-#+begin_src elisp
-(after! org
-  (add-to-list 'org-latex-classes
-               '("maneart"
-                 "\\documentclass{article}
-                  [NO-DEFAULT-PACKAGES]
-                  [PACKAGES]
-                  [EXTRA]"
-                  ; [NO-DEFAULT-PACKAGES] verhindert das Laden der Standard-Latex-Pakete, [PACKAGES] ermöglicht das Laden zusätzlicher Pakete und [EXTRA] enthält zusätzlichen LaTeX-Code, der in der Kopfzeile der Dokumentklasse platziert wird.
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  (add-to-list 'org-latex-classes
-               '("manepres"
-                 "\\documentclass{beamer}
-                  [NO-DEFAULT-PACKAGES]
-                  [PACKAGES]
-                  [EXTRA]"
-                  ; [NO-DEFAULT-PACKAGES] verhindert das Laden der Standard-Latex-Pakete, [PACKAGES] ermöglicht das Laden zusätzlicher Pakete und [EXTRA] enthält zusätzlichen LaTeX-Code, der in der Kopfzeile der Dokumentklasse platziert wird.
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  )
-
-(setq org-latex-hyperref-template nil)
-#+end_src
-
-**** org-download
-siehe [[https://github.com/abo-abo/org-download][hier]]
-
-#+begin_src elisp
-;;;org-download;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'org-download)
-(add-hook 'dired-mode-hook 'org-download-enable)
-(setq-default org-download-image-dir "~/cloud/life/zeit/void/org-download")
-(setq-default org-download-screenshot-method "flameshot gui --raw > %s")
-(setq-default org-download-heading-lvl nil) ;falls ich das nicht habe wird ein Ordner erstellt mit dem Namen des Headers unter den das Bild eingefügt wird - so kommt kein zusätzlicher Ordner
-(setq-default org-download-timestamp "%Y-%m-%d-%H%M%S-")
-;; (setq org-download-display-inline-images nil) ;hiermit wird das Bild nur eingefügt aber nicht angezeigt
-#+end_src
-
-**** Agenda
-
-[[id:cb653e79-fefb-47cc-9f1d-d43430ffb7c8][Agenda]]
-
-#+begin_src elisp
-;;;Agenda;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(after! org
-  :config
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))    ;pipe separiert "active" states and "inactive" states -> Emacs checkt es dann
-        org-agenda-files '("~/cloud/life/raum/.org/home.org"
-                           "~/cloud/life/raum/.org/work.org"
-                           "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"
-                           )
-        org-agenda-custom-commands
-        '(("d" "Daily agenda and all TODOs"
-           ((tags "PRIORITY=\"A\""
-                  ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                   (org-agenda-overriding-header "Es eilt:")))
-            (agenda "" ((org-agenda-start-day "-1d")
-                        (org-agenda-span 14)
-                        (org-agenda-overriding-header "Agenda:")
-                        ))
-            (alltodo ""
-                     ((org-agenda-skip-function '(or (mane-skip-subtree-if-habit)
-                                                     (mane-skip-subtree-if-priority ?A)
-                                                     (org-agenda-skip-if nil '(scheduled deadline))))
-                      (org-agenda-overriding-header "Irgendwann erledigen:"))))
-           ;((org-agenda-compact-blocks t))     ;Falls ich keine Trennlinie angezeigt bekommen will
-           )))
-  (defun mane-skip-subtree-if-priority (priority)
-    "Skip agenda subtree."
-    (let ((subtree-end (save-excursion (org-end-of-subtree t)))
-          (pri-value (* 1000 (- org-lowest-priority priority)))
-          (pri-current (org-get-priority (thing-at-point 'line t))))
-      (if (= pri-value pri-current)
-          subtree-end
-        nil)))
-  (defun mane-skip-subtree-if-habit ()
-    "Skip an agenda entry if it has a STYLE property equal to \"habit\"."
-    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-      (if (string= (org-entry-get nil "STYLE") "habit")
-          subtree-end
-        nil))))
-#+end_src
-
-**** Dired
-
-[[id:790532d5-262d-44d0-9ac8-a12660425675][Dired]]
-
-#+begin_src elisp
-;;;DIRED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(after! dired
-  ;; :hook
-  ;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-  :config
-  (setq dired-open-extensions '(("gif" . "vlc")                                                                 ;Enter(oder l) in Dired auf Datei mit dieser angegebenen Endung öffnet externes angegebenes Programm
-                                ("jpg" . "pinta")
-                                ("png" . "pinta")
-                                ("mkv" . "vlc")
-                                ("html" . "brave")
-                                ("mp4" . "vlc"))))
-(map! :leader
-      (:prefix ("d" . "dired")
-       :desc "Open dired" "d" #'dired
-       :desc "Dired jump to current" "j" #'dired-jump))
-(evil-define-key 'normal dired-mode-map
-  (kbd "M-RET") 'dired-display-file     ;benutzen um Bildervorschau in Splitbuffer zu zeigen, aber weiter in dired navigieren
-  (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-open-file
-  (kbd "m") 'dired-mark                 ;Mit %m kann man nach einer regular expression bestimmte Dateien markieren
-  (kbd "u") 'dired-unmark               ;Mit U kann man alles unmarken
-  (kbd "t") 'dired-toggle-marks         ;wenn zuvor 2 Datein markiert waren kann man mit t diese unmarken und alle anderen die unmarked waren marken -> sinnvoll wenn man viele Dateien bis auf ein paar wenige markieren will
-  (kbd "H") 'dired-do-kill-lines        ;markierte Dateien ausblenden (werden nicht gelöscht, aber bei Bearbeitungen hilfreich) -> Mit <g r> - revert Buffer kann man sie sich wieder anzeigen lassen
-  (kbd "C") 'dired-do-copy
-  (kbd "D") 'dired-do-delete
-  (kbd "J") 'dired-goto-file
-  (kbd "M") 'dired-chmod
-  (kbd "O") 'dired-chown
-  (kbd "P") 'dired-do-print
-  (kbd "R") 'dired-rename
-  (kbd "T") 'dired-do-touch
-  (kbd "Y") 'dired-copy-filename-as-kill ; copies filename to kill ring.
-  (kbd "+") 'dired-create-directory
-  ;(kbd "% l") 'dired-downcase
-  ;(kbd "% u") 'dired-upcase
-  ;(kbd "; d") 'epa-dired-do-decrypt
-  ;(kbd "; e") 'epa-dired-do-encrypt
-  )
-#+end_src
-
-**** roam
-
 #+begin_src elisp
 ;;;ROAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! org
@@ -1195,16 +854,6 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
                                       :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
                                       :unnarrowed t))))
 (org-roam-db-sync)
-#+end_src
-
-**** Snippets
-
-#+begin_src elisp
-;;;Snippets;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package! yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/cloud/life/raum/.org/material/yasnippets/"))
-  (yas-global-mode 1))
 #+end_src
 
 **** Mail
@@ -1249,141 +898,28 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
                                ("/home/flowmis/.mail/Gesendet" .?g)))
 #+end_src
 
-**** Kalender
-in packages.el folgende Linie hinzufügen:
-(package! org-caldav)
-
-In der Nextcloud einen neuen Kalender erstellen und den cal dav link kopieren -> Achtung: Passt leider nicht und die Adresse muss etwas abgeändert werden:
-- so wird es unter =Interner Link= angezeigt und in den Zwischenspeicher kopiert: https://cloud.pyroma.net/remote.php/dav/calendars/mane/test/
-- in der Form muss es in die config.el (sollte ich im Namen des Kalenders Großbuchstaben haben muss ich diese hier klein angeben - URL im ganzen einfach testen und dann sollte wenn Adress passt folgendes im Browser angezeigt werden: This is the WebDAV interface. It can only be accessed by WebDAV clients such as the Nextcloud desktop sync client.):
-(setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
-      org-caldav-calendars '((:calendar-id "test"
-      ...
-- ACHTUNG: out of the box funktionieren bzw. synchroniseren nur timestamps und schedules bzw. deadlines nicht. Zudem werden für den sync an alle timestamps Properties Drawer mit unique id vergeben - macht es hässlicher, aber dadurch kann anständig gesynced werden!
--> weitere Anleitung: https://github.com/dengste/org-caldav
-
-Die caldav-inbox speichert bzw. zieht alle Termine aus der Nextcloud und die unter caldav-files angegebenen Ordner werden in die Nextcloud hochgeladen, also nach oben gesynced. Es ist auch möglich nur in eine Richtung zu syncen, aber hier finde ich das nicht sinnvoll und will es in beide Richtungen
--> wenn es nicht synced vll auch schauen dass die inbox datei ausreichend Berechtigungen hat etc.
-
-Schedules und Deadlines werden nur wenn man es angibt auch synchronisiert und ansonsten nur timestamps!
-
-(setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo))
-(setq org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo))
-
-*Um das Passwort nicht immer eingeben zu müssen kann ich wie folgt vorgehen:*
-1. _.authinfo Datei erstellen:_ touch ~/.authinfo
-2. _.authinfo öffnen:_ nvim ~/.authinfo
-3. _folgende Zeile einfügen (***** durch richtiges Passwort ergänzen):_ machine cloud.pyroma.net:443 port https login mane password *****
-4. _.authinfo verschlüsseln:_ gpg -e -r <Ihr GnuPG-Schlüssel> ~/.authinfo
-5. _config anpassen (habe ich bei den Grundeinstellungen bereits hinzugefügt):_ (setq auth-sources '((:source "~/.authinfo.gpg")))
--> nun muss ich nur mein Passwort für den gpg key eingeben und kennen!
-
-Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schönen org-mode-kalender-buffer für die Übersicht: <cfw:open-org-calendar>
-
-#+begin_src elisp
-;;;Kalender;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'calfw)
-(require 'calfw-org)
-(setq org-caldav-url "https://cloud.pyroma.net/remote.php/dav/calendars/mane"
-      org-caldav-calendars '((:calendar-id "kalender"))
-      org-caldav-inbox "/home/flowmis/cloud/life/raum/.org/kalender-inbox.org"
-      org-icalendar-timezone "Europe/Berlin"
-      org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
-      org-icalendar-use-scheduled '(todo event-if-todo event-if-not-todo)
-      org-caldav-files '("~/cloud/life/raum/.org/home.org"
-                         "~/cloud/life/raum/.org/work.org"
-                         "~/cloud/life/raum/.org/unterrichtsplanung-sport.org"
-                         "~/cloud/life/raum/.org/unterrichtsplanung-chemie.org"
-                         )
-      org-caldav-save-directory "~/cloud/life/zeit/archiv/kalender/"     ; um sync von mehreren Geräten zu ermöglichen brauchen sie die gleiche historie (mit org-caldav-delete-everything kann ich die vorhergehende historie löschen)
-) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - vll hat es mit agenda files oder ähnlichem zu tun?
-#+end_src
-
-**** Keybindings
-
-#+begin_src elisp
-;;;Keybindings;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key (kbd "M-v") 'er/expand-region) ;markiert bei jeder Wiederholung immer weiter nach aussen --> Macht es einem leicht bestimmte logische Bereiche schnell zu markieren
-(global-set-key (kbd "M-p") 'yank-from-kill-ring) ;zeigt kill ring - man kann auswählen was man von dem zuvor gekilltem einfügen will
-
-;;leader ist in Doom <SPC> -> prefix der andernorts vergeben ist und hier nicht verwendet werden sollte "d" - dired
-(setq doom-localleader-key "<delete>")
-;(map! :localleader
-;       :desc "toggle imenu-list" "SPC" #'imenu-list-smart-toggle)              ;geht auch mit <Fn rechts> bei aktuellem Laptop
-;; Standard leader key in doom
-
-(map! :leader
-      :desc "Comment or uncomment lines" "SPC" #'comment-line)
-;; neu festgelegter leader key
-(map! :localleader
-      :desc "see and set kb" "1" #'(lambda () (interactive) (find-file "~/flowmis-os/flowmis-os-install.org") (goto-char (point-min)) (re-search-forward "^**** Keybindings$" nil t)(org-cycle)(org-cycle)(recenter-top-bottom))
-      :desc "Gehe zum Dashboard" "<delete>" #'(lambda () (interactive) (find-file "~/.config/doom/start.org"))
-      :desc "Edit local/tangled doom config.el" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.el"))
-
-      :desc "end of line" "<right>" #'end-of-line              ;geht auch mit <Fn rechts> bei aktuellem Laptop
-      :desc "start of line" "<left>" #'beginning-of-line       ;geht auch mit <Fn links> bei aktuellem Laptop
-      :desc "page down" "<down>" #'evil-scroll-page-down       ;geht auch mit <Fn hoch> bei aktuellem Laptop - auch <Strg hoch> oft sinnvoller Sprung
-      :desc "page up" "<up>" #'evil-scroll-page-up            ;geht auch mit <Fn runter> bei aktuellem Laptop - auch <Strg runter> oft sinnvoller Sprung
-
-      :desc "Eshell" "e s" #'eshell
-      :desc "Counsel eshell history" "e h" #'counsel-esh-history
-
-      :desc "Evaluate elisp in buffer" "e b" #'eval-buffer
-      :desc "Evaluate defun" "e d" #'eval-defun
-      :desc "Evaluate elisp expression" "e e" #'eval-expression
-      :desc "Evaluate last sexpression" "e l" #'eval-last-sexp
-      :desc "Evaluate elisp in region" "e r" #'eval-region
-
-      :desc "Toggle line numbers" "t l" #'doom/toggle-line-numbers
-      :desc "Toggle line highlight in frame" "t h" #'hl-line-mode
-      :desc "Toggle line highlight globally" "t H" #'global-hl-line-mode
-      :desc "Toggle truncate lines" "t t" #'toggle-truncate-lines
-      :desc "Org Transclusion Mode" "t T" #'org-transclusion-mode
-
-      :desc "Add Transclusion Block" "t b" #'org-transclusion-add
-
-      :desc "Kalenderansicht öffnen" "k o" #'cfw:open-org-calendar
-      :desc "Kalender sync" "k s" #'org-gcal-sync
-      :desc "Kalendereintrag an GoogleKalender schicken" "k p" #'org-gcal-post-at-point
-      :desc "Kalendereintrag bei GoogleKalender löschen" "k d" #'org-gcal-delete-at-point
-
-      :desc "org-download-screenshot" "d s" #'org-download-screenshot
-      :desc "org-download-toggle" "d c" #'org-download-clipboard
-      :desc "org-download-rename-at-point" "d R" #'org-download-rename-at-point
-      :desc "org-download-rename-last-file" "d r" #'org-download-rename-last-file
-      :desc "org-download-aus-bildadresse" "d w" #'org-download-yank            ; Bildadresse aus Browser kopiert wird in originalqualität und mit quelle in org mode eingefügt!
-      :desc "org-download-delete-at-point" "d d" #'org-download-delete
-
-      :desc "org-roam-ui" "r u" #'org-roam-ui-open
-      :desc "org-roam-db-sync" "r u" #'org-roam-db-sync
-      :desc "find node/new node" "r r" #'org-roam-node-find
-      :desc "insert node" "r i" #'org-roam-node-insert
-
-      :desc "Window configuration to register" "R w" #'window-configuration-to-register
-      :desc "Frameset to register" "R f" #'frameset-to-register
-      :desc "Jump to register" "R j" #'jump-to-register
-      :desc "List registers" "R l" #'list-registers
-      :desc "View a register" "R v" #'view-register
-      :desc "Point to register" "R SPC" #'point-to-register
-
-      :desc "toggle imenu-list" "i" #'imenu-list-smart-toggle              ;geht auch mit <Fn rechts> bei aktuellem Laptop
-
-      :desc "Org babel tangle" "b" #'org-babel-tangle
-
-      :desc "make ditaa work" "x d" #'activate-ditaa-path
-
-      :desc "shrink table" "x t" #'org-table-shrink
-      :desc "expand table" "x T" #'org-table-expand
-
-      :desc "Winner undo" "w <left>" #'winner-undo ;schaut was die letzte Window configuration war und geht dahin zurück
-      :desc "Winner redo" "w <right>" #'winner-redo ;geht in andere Richtung wie winner-undo
-
-      :desc "Starte Präsentationsmodus" "x p" #'pres-start
-      :desc "Beende Präsentationsmodus" "x P" #'pres-end)
-#+end_src
-
 **** Funktionen
 
+Folgendes noch in meine Emacs config integrieren.
+- (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
+(package! org-tree-slide)
+(package! beacon)
+(package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
+(package! org-drill) ;für zentrales scrollen im Präsi Modus
+(package! rg)
+(package! graphviz-dot-mode)
+(package! org-pdftools)
+(package! org-ref)
+(package! ivy-bibtex)
+(package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
+(package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
+(package! async)
+(package! password-store)
+(package! wc-mode)
+(package! hide-mode-line)
+:desc "make ditaa work" "x d" #'activate-ditaa-path
+:desc "Starte Präsentationsmodus" "x p" #'pres-start
+:desc "Beende Präsentationsmodus" "x P" #'pres-end)
 #+begin_src elisp
 (defun mane-rezepte-export-org-to-html ()
   "Rezeptdateien als html an entsprechenden Ort exportieren."
@@ -1396,78 +932,11 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 (defun activate-ditaa-path ()
  (interactive)
  (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar"))
-
-(defun pres-start ()
-  "Starte org-tree-slide presentation"
-  (interactive)
-  (org-tree-slide-mode 1)
-  (load-theme 'doom-henna)
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (hide-mode-line-mode 1)
-  (olivetti-mode 1)
-  (beacon-mode -1)
-  (centered-cursor-mode 1)
-  (org-display-inline-images)           ;<M-x org-toggle-inline-images> sollte vor dem öffnen des Präsentationsmodus <M-x org-tree-slide-mode> ausgeführt um sicher zu sein dass alle Bilder angezeigt werde und dieser code sorgt dafür dass dies der Fall ist  -> alternativ vll auch mal org-startup-with-inline-images anschauen
-  (setq text-scale-mode-amount 3)
-  (text-scale-mode 1)
-  (setq visual-fill-column-width 80     ;Größe des seitlichen Rahmen
-        visual-fill-column-center-text t) ;rückt Text in Mitte
-  (visual-fill-column-mode 1)           ;braucht man um seitlichen Rahmen zu füllen (hier nichts umstellen)
-  (display-line-numbers-mode -1)        ;schaltet line-numbers aus
-  (visual-line-mode t)                  ;sorgt dafür dass alles an Text sichtbar ist (umgebrochen wird)
-  (set-face-attribute 'org-document-title nil :font "Fira Code" :weight 'bold :height 1.4) ;Einstellungen Titel Präsi
-  (set-frame-parameter (selected-frame) 'alpha '(85 . 50)))
-
-(defun pres-end ()
-  "Beende org-tree-slide presentation"
-  (interactive)
-  (org-tree-slide-mode -1)
-  (load-theme 'doom-molokai)
-  (doom-modeline-mode 1)
-  (beacon-mode 1)
-  (centered-cursor-mode -1)
-  (org-display-inline-images -1)
-  (setq visual-fill-column-width 110    ;Größe des seitlichen Rahmen
-        visual-fill-column-center-text nil) ;rückt Text in Mitte
-  (visual-fill-column-mode -1)          ;braucht man um seitlichen Rahmen zu füllen (hier nichts umstellen)
-  (display-line-numbers-mode 1)         ;schaltet line-numbers aus
-  (text-scale-mode -1)
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 70)))
-
-(defun mane-theme-zusatzeinstellungen ()
-  "Paar Anpassungen - interaktiv ein-ausschalten."
-  (interactive)
-  ;; (setq text-scale-mode-amount 1)
-  ;; (text-scale-mode 1)
-  (custom-theme-set-faces               ;<M-x describe-theme> um Einblick in Möglichkeiten zu bekommen
-   'user
-   '(org-level-1 ((t (:inherit outline-1 :font "URW Bookman Light" :height 2.3 ))))
-   '(org-level-2 ((t (:inherit outline-2 :height 2.0 ))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.7 ))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.4 ))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.2 ))))
-   '(org-block ((t (:inherit fixed-pitch))))
-   '(org-code ((t (:inherit (shadow fixed-pitch)))))
-   '(org-document-info ((t (:height 1.2))))
-   '(org-document-title ((t (:height 3.0))))
-   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-   ;; '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-   ;; '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   ;; '(org-property-value ((t (:inherit fixed-pitch))) t)
-   ;; '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   ;; '(org-table ((t (:inherit fixed-pitch))))
-   ;; '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 1.4 :foreground "#00606b"))))
-   ;; '(org-verbatim ((t (:inherit (shadow fixed-pitch) :foreground "#ff0000" :height 1.4 :weight bold))))                         ;Farbe und Größe etc. von markiertem Text durch umgebende =
-   ))
-;;;Hook der Funktionen nach starten von Doom automatisch aktiviert!
-(add-hook 'after-init-hook #'mane-theme-zusatzeinstellungen) ;'after-init-ui-hook auch gute Möglichkeit um Aussehensvariablen zu überschreiben
 #+end_src
 
-**** Inaktiv
-***** Multiple Cursors
+**** Multiple Cursors
 
+- multiple-cursors  ; editing in many places at once
 - Momentan komm ich mit den vorkonfigurierten gut zurecht - musste ich in init.el aktivieren!
 
 #+begin_src elisp
@@ -1483,107 +952,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
   (define-key mc/keymap (kbd "<return>") nil))
 #+end_src
 
-***** Dashboard
-
-#+begin_src elisp
-;;;Dashboard;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(after! org
-  :dashboard
-  (let ((alternatives '("banner1.png" "banner3.png" "banner4.png" "banner5.png" "banner6.png" "banner7.png" "banner8.png")))
-    (setq fancy-splash-image (concat "~/.config/doom/banner/" (nth (random (length alternatives)) alternatives))))
-  (setq +doom-dashboard-name "*Startscreen*"
-        +doom-dashboard-menu-sections (cl-subseq +doom-dashboard-menu-sections 0 3)
-        doom-fallback-buffer-name "*Startscreen*"))
-;;;DT's Dashboard - Instead of using Doom’s Dashboard or the Emacs Dashboard program, I have decided to just set an custom start file as my “dashboard” since it allows me more customization options.  I have added to the ‘start-mode-hook’ the argument ‘read-only-mode’.  This is to prevent accidental editing of the start file, and to prevent clashes with the ‘start-mode’ specific keybindings.  You can toggle on/off read-only-mode with ‘SPC t r’.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (setq initial-buffer-choice "~/.config/doom/start.org")
-
-;; (define-minor-mode start-mode
-;;   "Provide functions for custom start page."
-;;   :lighter " start"
-;;   :keymap (let ((map (make-sparse-keymap)))
-;;           ;;(define-key map (kbd "M-z") 'eshell)
-;;             (evil-define-key 'normal start-mode-map
-;;               (kbd "1") '(lambda () (interactive) (find-file "~/.config/doom/config.org"))
-;;               (kbd "2") '(lambda () (interactive) (find-file "~/.config/doom/init.el"))
-;;               (kbd "3") '(lambda () (interactive) (find-file "~/.config/doom/packages.el"))
-;;               (kbd "4") '(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
-;;               (kbd "5") '(lambda () (interactive) (find-file "~/.config/doom/eshell/profile")))
-;;           map))
-
-;; (add-hook 'start-mode-hook 'read-only-mode) ;; make start.org read-only; use 'SPC t r' to toggle off read-only.
-;; (provide 'start-mode)
-#+end_src
-
-***** Funktion open dired
-
-#+begin_src elisp
-;; (defun xah-open-in-external-app (&optional @fname)
-;; "Open the current file or dired marked files in external app.
-;; The app is chosen from your OS's preference.
-
-;; When called in emacs lisp, if @fname is given, open that.
-
-;; URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
-;; Version 2019-11-04"
-;; (interactive)
-;; (let* (
-;;         ($file-list
-;;         (if @fname
-;;             (progn (list @fname))
-;;             (if (string-equal major-mode "dired-mode")
-;;                 (dired-get-marked-files)
-;;             (list (buffer-file-name)))))
-;;         ($do-it-p (if (<= (length $file-list) 5)
-;;                     t
-;;                     (y-or-n-p "Open more than 5 files? "))))
-;;     (when $do-it-p
-;;     (cond
-;;     ((string-equal system-type "windows-nt")
-;;         (mapc
-;;         (lambda ($fpath)
-;;         (w32-shell-execute "open" $fpath)) $file-list))
-;;     ((string-equal system-type "darwin")
-;;         (mapc
-;;         (lambda ($fpath)
-;;         (shell-command
-;;             (concat "open " (shell-quote-argument $fpath))))  $file-list))
-;;     ((string-equal system-type "gnu/linux")
-;;         (mapc
-;;         (lambda ($fpath) (let ((process-connection-type nil))
-;;                             (start-process "" nil "xdg-open" $fpath))) $file-list))))))
-
-;; (global-set-key (kbd "C-c o") 'xah-open-in-external-app)
-#+end_src
-
-***** Spellcheck
-
-#+begin_src elisp
-(setq ispell-program-name "aspell")   ;<z=> mit Cursor über Wort sagt dir schnell ob es richtig geschrieben ist! Kann aber auch wie folgt ein Keybinding für diese Funktion einrichten (habe in arch aspell(das neue ispell) installiert mit entsprechendem Wörterbuch)
-(global-set-key (kbd "C-c f") 'ispell-word)  ;mit diesem Befehl kann man leicht keybindings setzen für alle Funktionen die man mit <M-x> finden kann -> man muss jedoch
-
-;; Rechtschreibprüfung vorerst aus weil noch nicht auf deutsch
-(remove-hook 'text-mode-hook #'spell-fu-mode)
-(setq global-spell-fu-mode 0)
-#+end_src
-
-***** NeoTree
-
-- Wenn ich es nutzen will muss ich es in init.el aktivieren und schauen ob dieser config Abschnitt so noch passt
-- Finde für github Projekte treemacs (aktiviere in init.el) noch besser da es mit evil keys geht und ähnlich zu org-mode ist - <Spc-o p> um treemacs aus Projekt zu öffnen
-
-#+begin_src elisp
-(after! neotree
-  (setq neo-smart-open t
-        neo-window-fixed-size nil))
-(after! doom-themes
-  (setq doom-neotree-enable-variable-pitch t))
-(map! :leader
-      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
-      :desc "Open directory in neotree" "d n" #'neotree-dir)
-#+end_src
-
-***** Centaur Tabs
+**** Centaur Tabs
 
 - Falls ich unzufrieden bin wie Emacs das einrücken mit Tabs macht kann ich folgendes Paket mit entsprechender config versuchen
 
@@ -1604,32 +973,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
                                                (kbd "g <up>")    'centaur-tabs-backward-group)
 #+end_src
 
-***** Ivy
-
-#+begin_src elisp
-(setq ivy-posframe-display-functions-alist
-      '((swiper                     . ivy-posframe-display-at-point)
-        (complete-symbol            . ivy-posframe-display-at-point)
-        (counsel-M-x                . ivy-display-function-fallback)
-        (counsel-esh-history        . ivy-posframe-display-at-window-center)
-        (counsel-describe-function  . ivy-display-function-fallback)
-        (counsel-describe-variable  . ivy-display-function-fallback)
-        (counsel-find-file          . ivy-display-function-fallback)
-        (counsel-recentf            . ivy-display-function-fallback)
-        (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
-        (nil                        . ivy-posframe-display))
-      ivy-posframe-height-alist
-      '((swiper . 20)
-        (t . 10)))
-(ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
-
-(map! :leader
-      (:prefix ("v" . "Ivy")
-       :desc "Ivy push view" "v p" #'ivy-push-view
-       :desc "Ivy switch view" "v s" #'ivy-switch-view))
-#+end_src
-
-***** Zitieren mit org-ref
+**** Zitieren mit org-ref
 
 #+begin_src elisp
 (setq bibtex-completion-bibliography '("~/cloud/life/raum/.org/bib/references.bib")
@@ -2952,3 +2296,9 @@ emacs --daemon &
 #+begin_src sh  :dir /sudo::
 sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans neofetch dunst bind bmon jq gvfs arandr
 #+end_src
+
+# Local Variables:
+# languagetool-local-disabled-rules: ("LEERZEICHEN_HINTER_DOPPELPUNKT")
+# End:
+
+#  LocalWords:  :dir   

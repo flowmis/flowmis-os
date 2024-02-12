@@ -101,6 +101,11 @@
     "=" '(perspective-map :wk "Perspective") ;; Lists all the perspective keybindings
     "TAB TAB" '(comment-line :wk "Comment lines")
     "SPC" '(lambda () (interactive) (find-file "~/.config/emacs/start.org") :wk "Zum Dashboard")
+    "<right>" '(end-of-line :wk "zum Ende der Zeile springen")
+    "<left>" '(beginning-of-line :wk "zum Start der Zeile springen")
+    "<up>" '(evil-scroll-page-up :wk "Page up")
+    "<down>" '(evil-scroll-page-down :wk "Page down")
+    ;; Buffer
     "b" '(:ignore t :wk "Buffer-Keybindings")
     "b b" '(switch-to-buffer :wk "Switch Buffer")
     "b k" '(kill-this-buffer :wk "Kill Buffer")
@@ -109,11 +114,30 @@
     "b r" '(revert-buffer :wk "Reload Buffer")
     "b i" '(ibuffer :wk "Liste offener Buffer")
     "b y" '(copy-current-path-to-clipboard :wk "Copy Path to this Buffer")
-    "d" '(:ignore t :wk "Dired")
+    ;; Checker
+    "c" '(:ignore t :wk "Check")
+    "c c" '(languagetool-check :wk "Check Buffer - Grammatik und Rechtschreibung")
+    "c b" '(languagetool-correct-buffer :wk "Buffer mit den im check erkannten Fehlern korrigieren")
+    "c p" '(languagetool-correct-at-point :wk "Buffer mit den im check erkannten Fehlern korrigieren")
+    ;; Dired & Decrypt
+    "d" '(:ignore t :wk "Dired & Decrypt/Encrypt - Verschlüsselung")
     "d d" '(dired :wk "Open dired")
+    "d e" '(epa-dired-do-encrypt :wk "Dired markierte Datei verschlüsseln")
+    "d E" '(epa-dired-do-decrypt :wk "Dired markierte Datei entschlüsseln")
+    "d o" '(org-decrypt-entry :wk "Entry entschlüsseln")
+    "d O" '(org-encrypt-entry :wk "Entry verschlüsseln")
     "d j" '(dired-jump :wk "Dired jump to current")
     "d n" '(neotree-dir :wk "Open directory in neotree")
     "d p" '(peep-dired :wk "Peep-dired")
+    ;; Download
+    "D" '(:ignore t :wk "Download")
+    "D s" '(org-download-screenshot :wk "org-download-screenshot")
+    "D c" '(org-download-clipboard :wk "org-download-toggle")
+    "D R" '(org-download-rename-at-point :wk "org-download-rename-at-point")
+    "D r" '(org-download-rename-last-file :wk "org-download-rename-last-file")
+    "D w" '(org-download-yank) ;;Bildadresse aus Browser kopiert wird in originalqualität und mit quelle in org mode eingefügt! :wk "org-download-aus-bildadresse"
+    "D d" '(org-download-delete :wk "org-download-delete-at-point")
+    ;; Eshell & Eval
     "e" '(:ignore t :wk "Eshell & Evaluate")
     "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
     "e d" '(eval-defun :wk "Evaluate defun containing or after point")
@@ -122,10 +146,15 @@
     "e h" '(counsel-esh-history :wk "Eshell history")
     "e r" '(eval-region :wk "Evaluate elisp in region")
     "e s" '(eshell :which-key "Eshell")
+    ;; Files
+    "f" '(:ignore t :wk "find-file bzw. go to file")
     "f c" '((lambda () (interactive) (find-file "~/flowmis-os/emacs/config.org")) :wk "Gehe zur emacs config")
     "f C" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Gehe zur aktuellen emacs config")
     "f f" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Gehe zu flowmis-os")
+    "f h" '((lambda () (interactive) (find-file "~/cloud/life/raum/pkb/home.org")) :wk "Gehe zur emacs config")
+    "f w" '((lambda () (interactive) (find-file "~/cloud/life/raum/pkb/work.org")) :wk "Gehe zur emacs config")
     "f r" '(counsel-recentf :wk "Find recent files")
+    ;; Git
     "g" '(:ignore t :wk "Git")
     "g /" '(magit-displatch :wk "Magit dispatch")
     "g ." '(magit-file-displatch :wk "Magit file dispatch")
@@ -147,12 +176,16 @@
     "g s" '(magit-stage-file :wk "Git stage file")
     "g t" '(git-timemachine :wk "Git time machine")
     "g u" '(magit-stage-file :wk "Git unstage file")
+    ;; Help
     "h" '(:ignore t :wk "Help")
     "h f" '(describe-function :wk "Describe function")
     "h v" '(describe-variable :wk "Describe variable")
     "h t" '(tldr :wk "Lookup TLDR docs for a command")
     "h r r" '((lambda () (interactive)(load-file "~/.config/emacs/init.el")(ignore (elpaca-process-queues))) :wk "Reload emacs config")
-    ;; Note taking
+    ;; Kalender
+    "k" '(:ignore t :wk "Kalender")
+    "k s" '(org-caldav-sync :wk "Sync Kalender mit Cloud")
+    ;; Notes
     "n" '(:ignore t :wk "Denote")
     "n n" '(denote :wk "Neue Note")
     "n t" '(denote-type :wk "Neue Note in nicht Standarddateiformat - .md .txt .org ...")
@@ -165,44 +198,55 @@
     ;; org-mode
     "o" '(:ignore t :wk "Org")
     "o a" '(org-agenda :wk "Org agenda")
+    "o A" '(org-archive-subtree :wk "Archive Org Subtree")
+    "o b" '(org-babel-tangle :wk "Org babel tangle")
     "o e" '(org-export-dispatch :wk "Org export dispatch")
-    "o i" '(org-toggle-item :wk "Org toggle item")
-    "o t" '(org-todo :wk "Org todo")
-    "o B" '(org-babel-tangle :wk "Org babel tangle")
-    "o T" '(org-todo-list :wk "Org todo list")
-    "o b" '(:ignore t :wk "Tables")
-    "o b -" '(org-table-insert-hline :wk "Insert hline in table")
     "o d" '(:ignore t :wk "Date/deadline")
     "o d t" '(org-time-stamp :wk "Org time stamp")
-    ;; search
+    "o i" '(org-toggle-item :wk "Org toggle item")
+    "o s" '(org-table-shrink :wk "Org todo")
+    "o S" '(org-table-expand :wk "Org todo")
+    "o t" '(org-todo :wk "Org todo")
+    "o T" '(org-todo-list :wk "Org todo list")
+    ;; Paste
+    "p" '(yank-from-kill-ring :wk "Einfügen aus kill-ring")
+    ;; Register
+    "r" '(:ignore t :wk "Register")
+    "r w" '(window-configuration-to-register :wk "Window configuration to register")
+    "r f" '(frameset-to-register :wk "Frameset to register")
+    "r j" '(jump-to-register :wk "Jump to register")
+    "r l" '(list-registers :wk "List registers")
+    "r v" '(view-register :wk "View a register")
+    "r p" '(point-to-register :wk "Point to register")
+    ;; Suche
     "s" '(:ignore t :wk "Search")
     "s s" '(helm-swoop :wk "Toggle")
     "s i" '(imenu :wk "imenu")
     "s l" '(imenu-list :wk "imenu-list")
     ;; Toggle & Theme
     "t" '(:ignore t :wk "Toggle")
+    "T" '(load-theme :wk "Load a Theme")
+    "t 1" '(mane-toggle-org-block-delimiters :wk "sourc-block start und Ende anzeigen")
+    "t 2" '(org-toggle-link-display :wk "Toggle show full links")
+    "t d" '(load-theme-mane-2 :wk "Load dark Theme")
+    "t h" '(load-theme-mane-1 :wk "Load light Theme")
     "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
+    "t L" '(visual-line-mode :wk "Toggle truncated lines")
+    "t n" '(neotree-toggle :wk "Toggle neotree file viewer")
     "t t" '(org-transclusion-mode :wk "org-transclusion-aktivieren")
     "t T" '(org-transclusion-add :wk "org-transclusion-aktivieren")
-    "t L" '(visual-line-mode :wk "Toggle truncated lines")
     "t v" '(vterm-toggle :wk "Toggle vterm")
-    "t h" '(load-theme-mane-1 :wk "Load light Theme")
-    "t n" '(neotree-toggle :wk "Toggle neotree file viewer")
-    "t d" '(load-theme-mane-2 :wk "Load dark Theme")
-    "T" '(load-theme :wk "Load a Theme")
-    ;; Window splits
+    ;; Windows
     "w" '(:ignore t :wk "Windows")
     "w c" '(evil-window-delete :wk "Close window")
     "w n" '(evil-window-new :wk "New window")
     "w s" '(evil-window-split :wk "Horizontal split window")
     "w v" '(evil-window-vsplit :wk "Vertical split window")
-    ;; Window motions
     "w h" '(evil-window-left :wk "Window left")
     "w j" '(evil-window-down :wk "Window down")
     "w k" '(evil-window-up :wk "Window up")
     "w l" '(evil-window-right :wk "Window right")
     "w w" '(evil-window-next :wk "Goto next window")
-    ;; Move Windows
     "w H" '(buf-move-left :wk "Buffer move left")
     "w J" '(buf-move-down :wk "Buffer move down")
     "w K" '(buf-move-up :wk "Buffer move up")
@@ -215,7 +259,7 @@
       "fU" '(sudo-edit :wk "Sudo edit file")))
 
 (defun emacs-counsel-launcher ()
-  "Create and select a frame called emacs-counsel-launcher which consists only of a minibuffer and has specific dimensions. Runs counsel-linux-app on that frame, which is an emacs command that prompts you to select an app and open it in a dmenu like behaviour. Delete the frame after that command has exited"
+  "Erstellt einen minibuffer/frame mit dem Name emacs-counsel-launcher welcher über qtile mit dem Namen angesprochen werden kann und zu den floating windows hinzugefügt werden kann.  Ist nicht so gut wie der app-launcher, da die Inhalte direkt aus dem /bin direktory gezogen werden und bezüglich Name nicht so klar sind."
   (interactive)
   (with-selected-frame
     (make-frame '((name . "emacs-run-launcher")
@@ -247,10 +291,10 @@
 ;; emacsclient -cF "((visibility . nil))" -e "(emacs-run-launcher)"
 
 (defun emacs-run-launcher ()
-  "Create and select a frame called emacs-run-launcher which consists only of a minibuffer and has specific dimensions. Runs app-launcher-run-app on that frame, which is an emacs command that prompts you to select an app and open it in a dmenu like behaviour. Delete the frame after that command has exited"
+  "Erstellt einen minibuffer der emacs-run-launcher heißt und die hier angegebene Größe hat.  Mit ihm kann man ähnlich zu rofi und dmenu Apps öffnen."
   (interactive)
   (disable-helm-temporarily) ; Deaktiviere helm vor dem Ausführen
-  (with-selected-frame 
+  (with-selected-frame
     (make-frame '((name . "emacs-run-launcher")
                   (minibuffer . only)
                   (fullscreen . 0) ; no fullscreen

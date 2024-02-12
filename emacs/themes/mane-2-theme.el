@@ -6,8 +6,8 @@
 
 (defvar mane-colors-alist-dunkel
   '(("bg1" .   "#3E3E3E")
-    ("bg2" .   "#414141")
-    ("bg3" .   "#777777")
+    ("bg2" .   "#444444")
+    ("bg3" .   "#666666")
     ("fg1" .   "#fffbef")
     ("fg2" .   "#fffbdf")
     ("fg3" .   "#E7E1E5")
@@ -41,7 +41,7 @@
   `(org-link ((t (:foreground ,(mane-get-color-d "org2") :underline t)))) ;; Farbe und Stil für Links
   `(org-table ((t (:foreground ,(mane-get-color-d "org2") :background ,(mane-get-color-d "bg2"))))) ;; Farbe und Hintergrund für Tabellen
   `(org-drawer ((t (:foreground ,(mane-get-color-d "org2"))))) ;; Farbe für Drawers
-  `(org-block ((t (:background ,(mane-get-color-d "bg3"))))) ;; Hintergrundfarbe für Source Blocks
+  `(org-block ((t (:background ,(mane-get-color-d "bg2"))))) ;; Hintergrundfarbe für Source Blocks
   `(org-block-begin-line ((t (:foreground ,(mane-get-color-d "fg1") :background ,(mane-get-color-d "bg1"))))) ;; Farbe und Hintergrund für die Anfangszeile von Source Blocks
   `(org-block-end-line ((t (:foreground ,(mane-get-color-d "fg1") :background ,(mane-get-color-d "bg1"))))) ;; Farbe und Hintergrund für die Endzeile von Source Blocks
   `(secondary-selection ((t (:background ,(mane-get-color-d "check"))))) ;?
