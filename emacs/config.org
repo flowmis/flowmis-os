@@ -8,7 +8,7 @@
 - [[#denote][Denote]]
 - [[#dired][Dired]]
 - [[#erscheinungsbild][Erscheinungsbild]]
-  - [[#highlight-todo][Highlight TODO]]
+  - [[#highlight-todo][Highlight Todo]]
   - [[#modeline][Modeline]]
   - [[#hide-org-blocks][Hide Org-Blocks]]
   - [[#schrift][Schrift]]
@@ -275,7 +275,7 @@ Anstatt ein weiteres Paket zu verwenden um Programme außerhalb Emacs mit einem 
   ;)
 #+end_src
 * Erscheinungsbild
-** Highlight TODO
+** Highlight Todo
 Adding highlights to TODO and related words.
 #+begin_src elisp
 (use-package hl-todo
@@ -670,43 +670,43 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 	  ) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - verlinkte Dateien?
 )
 #+end_src
-* Mail
+* TODO Mail
 [[denote:20230828T155220][emacs-mu4e-mail]]
 #+begin_src elisp
-(use-package smtpmail
-  :ensure nil ;; smtpmail ist Teil von Emacs, daher kein externes Paket
-  :config
-  (setq send-mail-function 'smtpmail-send-it
-        message-send-mail-function 'smtpmail-send-it
-        starttls-use-gnutls t
-        smtpmail-stream-type 'starttls
-        smtpmail-default-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        smtpmail-debug-info t))
+;; (use-package smtpmail
+;;   :ensure nil ;; smtpmail ist Teil von Emacs, daher kein externes Paket
+;;   :config
+;;   (setq send-mail-function 'smtpmail-send-it
+;;         message-send-mail-function 'smtpmail-send-it
+;;         starttls-use-gnutls t
+;;         smtpmail-stream-type 'starttls
+;;         smtpmail-default-smtp-server "smtp.gmail.com"
+;;         smtpmail-smtp-server "smtp.gmail.com"
+;;         smtpmail-smtp-service 587
+;;         smtpmail-debug-info t))
 
-(use-package mu4e
-  :ensure nil ;; Angenommen, mu4e ist bereits installiert
-  :config
-  (setq mu4e-sent-messages-behavior 'sent
-        mu4e-sent-folder "/home/flowmis/.mail/Gesendet"
-        mu4e-drafts-folder "/home/flowmis/.mail/Entwürfe"
-        mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
-        mu4e-root-maildir "/home/flowmis/.mail"
-        mu4e-get-mail-command "mbsync -a"
-        mu4e-update-interval 300 ;; Sekunden
-        mu4e-compose-signature-auto-include nil
-        mu4e-attachment-dir "~/Downloads"
-        mu4e-use-fancy-chars t
-        mu4e-maildir-shortcuts '(("/home/flowmis/.mail/Papierkorb" . ?p)
-                                 ("/home/flowmis/.mail/Archiv" . ?a)
-                                 ("/home/flowmis/.mail/Entwürfe" . ?e)
-                                 ("/home/flowmis/.mail/Gesendet" . ?g))))
+;; (use-package mu4e
+;;   :ensure nil ;; Angenommen, mu4e ist bereits installiert
+;;   :config
+;;   (setq mu4e-sent-messages-behavior 'sent
+;;         mu4e-sent-folder "/home/flowmis/.mail/Gesendet"
+;;         mu4e-drafts-folder "/home/flowmis/.mail/Entwürfe"
+;;         mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
+;;         mu4e-root-maildir "/home/flowmis/.mail"
+;;         mu4e-get-mail-command "mbsync -a"
+;;         mu4e-update-interval 300 ;; Sekunden
+;;         mu4e-compose-signature-auto-include nil
+;;         mu4e-attachment-dir "~/Downloads"
+;;         mu4e-use-fancy-chars t
+;;         mu4e-maildir-shortcuts '(("/home/flowmis/.mail/Papierkorb" . ?p)
+;;                                  ("/home/flowmis/.mail/Archiv" . ?a)
+;;                                  ("/home/flowmis/.mail/Entwürfe" . ?e)
+;;                                  ("/home/flowmis/.mail/Gesendet" . ?g))))
 
-(use-package org-mu4e
-  :ensure nil ;; org-mu4e ist Teil des mu4e-Pakets
-  :config
-  (setq org-mu4e-convert-to-html t))
+;; (use-package org-mu4e
+;;   :ensure nil ;; org-mu4e ist Teil des mu4e-Pakets
+;;   :config
+;;   (setq org-mu4e-convert-to-html t))
 #+end_src
 * Makros
 kmacro-lambda-form ist veraltet und sollte durch kmacro ersetzt werden seit emacs 29 -> Generell muss ich die Makros hier updaten, da yasnippets anders funktioniert und eine zusätzliche Bestätigung braucht. Zudem müssen die Links die ich klicke für den Export geupdatet werden und die erste Funktion durch (evil-close-fold) ersetzt werden,... -> Bei Gelegenheit mal komplet neu machen und am besten auch einfach ohne Icon und nur mit Link über dem Name, sodass es dann so aussieht:
