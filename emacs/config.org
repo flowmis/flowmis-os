@@ -19,11 +19,14 @@
 - [[#export][Export]]
   - [[#latex][Latex]]
   - [[#zusatzinfo][Zusatzinfo]]
+- [[#funktionen][Funktionen]]
 - [[#git][Git]]
 - [[#gpt--llms][GPT & LLMs]]
 - [[#ivy-counsel-company-helm-ivy-orderless][Ivy, counsel, company, helm, ivy, orderless]]
 - [[#kalender][Kalender]]
+- [[#mail][Mail]]
 - [[#makros][Makros]]
+- [[#multieditmulitple-cursor][Multiedit/Mulitple Cursor]]
 - [[#neotree][Neotree]]
 - [[#org][Org]]
   - [[#settings][Settings]]
@@ -41,6 +44,7 @@
 - [[#snippetsabbrev][Snippets/Abbrev]]
 - [[#which-key][Which-Key]]
 - [[#workspaces][Workspaces]]
+- [[#zitieren-mit-org-ref][Zitieren mit org-ref]]
 - [[#testing][TESTING]]
 
 * Ausgelagerte Skripte "Module"
@@ -507,6 +511,24 @@ Export Ordner in ~/cloud/life/zeit/void/export/
 *** Sonstige Formate
 + Falls wie auf dem Bild bei pandoc z.B. das Powerpointformat pptx nicht angezeigt wird kann man es immer auch exportieren mit <M-x org-pandoc-export-to-...>
   + Bei Powerpoint: <M-x org-pandoc-export-to-pptx>
+* TODO Funktionen
+:desc "make ditaa work" "x d" #'activate-ditaa-path
+:desc "Starte Präsentationsmodus" "x p" #'pres-start
+:desc "Beende Präsentationsmodus" "x P" #'pres-end)
+#+begin_src elisp
+;; (defun mane-rezepte-export-org-to-html ()
+;;   "Rezeptdateien als html an entsprechenden Ort exportieren."
+;;   (interactive)
+;;   (let* ((source-dir "~/cloud/life/raum/.org/rezepte/")
+;;          (org-files (directory-files-recursively source-dir "\\.org$")))
+;;     (dolist (file org-files)
+;;       (with-current-buffer (find-file-noselect file)
+;;         (org-html-export-to-html nil nil nil nil nil)))))
+;; (defun activate-ditaa-path ()
+;;  (interactive)
+;;  (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar"))
+#+end_src
+
 * Git
 - [[https://github.com/emacsmirror/git-timemachine][git-timemachine]] ein Programm um einfach in der git Historie hin und her zu wechseln. 'SPC g t' open the time machine on a file if it is in a git repo. 'CTRL-j' and 'CTRL-k' to move backwards and forwards through the commits.
 - [[https://magit.vc/manual/][Magit]] git client for Emacs.
@@ -648,7 +670,44 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 	  ) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - verlinkte Dateien?
 )
 #+end_src
+* Mail
+[[denote:20230828T155220][emacs-mu4e-mail]]
+#+begin_src elisp
+(use-package smtpmail
+  :ensure nil ;; smtpmail ist Teil von Emacs, daher kein externes Paket
+  :config
+  (setq send-mail-function 'smtpmail-send-it
+        message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        smtpmail-stream-type 'starttls
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        smtpmail-debug-info t))
 
+(use-package mu4e
+  :ensure nil ;; Angenommen, mu4e ist bereits installiert
+  :config
+  (setq mu4e-sent-messages-behavior 'sent
+        mu4e-sent-folder "/home/flowmis/.mail/Gesendet"
+        mu4e-drafts-folder "/home/flowmis/.mail/Entwürfe"
+        mu4e-trash-folder "/home/flowmis/.mail/Papierkorb"
+        mu4e-root-maildir "/home/flowmis/.mail"
+        mu4e-get-mail-command "mbsync -a"
+        mu4e-update-interval 300 ;; Sekunden
+        mu4e-compose-signature-auto-include nil
+        mu4e-attachment-dir "~/Downloads"
+        mu4e-use-fancy-chars t
+        mu4e-maildir-shortcuts '(("/home/flowmis/.mail/Papierkorb" . ?p)
+                                 ("/home/flowmis/.mail/Archiv" . ?a)
+                                 ("/home/flowmis/.mail/Entwürfe" . ?e)
+                                 ("/home/flowmis/.mail/Gesendet" . ?g))))
+
+(use-package org-mu4e
+  :ensure nil ;; org-mu4e ist Teil des mu4e-Pakets
+  :config
+  (setq org-mu4e-convert-to-html t))
+#+end_src
 * Makros
 kmacro-lambda-form ist veraltet und sollte durch kmacro ersetzt werden seit emacs 29 -> Generell muss ich die Makros hier updaten, da yasnippets anders funktioniert und eine zusätzliche Bestätigung braucht. Zudem müssen die Links die ich klicke für den Export geupdatet werden und die erste Funktion durch (evil-close-fold) ersetzt werden,... -> Bei Gelegenheit mal komplet neu machen und am besten auch einfach ohne Icon und nur mit Link über dem Name, sodass es dann so aussieht:
 "* [[elisp:(progn (evil-close-fold) (evil-visual-line) (export-ch-presentation) (delete-tex-files))][Präsentation]] :pres:"
@@ -702,6 +761,26 @@ Makros am besten in einer seperaten macro.el speichern und diese über config.el
 (map! :leader
       :desc "Execute macro"
       "m m 3" #'mane-export-presentation)
+* Multiedit/Mulitple Cursor
+- Es gibt das Paket multiple-cursors und das Paket evil-multiedit (von hlissner). Für meinen Einsatz sind beide eigentlich ausreichend
+#+begin_src elisp
+(use-package evil-multiedit
+  :ensure t
+  :config
+  ;; Ihre Konfigurationen für Evil Multiedit hier
+)
+
+;; (use-package multiple-cursors
+;;   :config
+;;   (setq mc/always-run-for-all 1)
+;;   (global-set-key (kbd "C-c m m") 'mc/mark-next-like-this)
+;;   (global-set-key (kbd "C-c m M") 'mc/mark-all-dwim)
+;;   (global-set-key (kbd "C-c m a") 'mc/edit-lines)
+;;   (global-set-key (kbd "C-c m q") 'mc/keyboard-quit)
+;;   (global-set-key (kbd "C-c m n") 'mc/skip-to-next-like-this)
+;;   (global-set-key (kbd "C-c m p") 'mc/skip-to-previous-like-this)
+;;   (define-key mc/keymap (kbd "<return>") nil))
+#+end_src
 * Neotree
 #+begin_src elisp
 (use-package neotree
@@ -942,6 +1021,36 @@ Beispiel hier: Mit <SPC t t> Transclusion aktivieren/deaktivieren
 *** reveal
 https://github.com/yjwen/org-reveal/
 ** roam
+-#+begin_src elisp- Ist schon ein geiles Paket, aber denote ist simpler und ich glaube etwas besser durchdacht mit weniger Schnickschnack, sodass ich aktuell zumindest mal die Benennung von denote verwende, da die ähnlich zu dem ist wie ich es ohnehin vor hatte.
+#+begin_src elisp
+;; (use-package org-roam
+;;   :ensure t
+;;   :custom
+;;   (org-roam-directory "~/cloud/life/raum/pkb")
+;;   (org-roam-db-autosync-mode t)
+;;   :config
+;;   (setq org-roam-ui-sync-theme t
+;;         org-roam-ui-follow t
+;;         org-roam-ui-update-on-save t
+;;         org-roam-ui-open-on-start t)
+;;   (setq org-roam-capture-templates
+;;         '(("b" "book notes" plain (file "~/cloud/life/raum/pkb/material/template-roam-capture-book.org")
+;;            :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
+;;            :unnarrowed t)
+;;           ("n" "normal/einfach nur mit Datum" plain (file "~/cloud/life/raum/pkb/material/template-roam-capture-normal.org")
+;;            :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
+;;            :unnarrowed t)))
+;;   :hook
+;;   (after-init . org-roam-db-sync))
+
+;; (use-package org-roam-ui
+;;   :after org-roam ;; Stellt sicher, dass org-roam-ui nach org-roam geladen wird
+;;   :config
+;;   (setq org-roam-ui-sync-theme t
+;;         org-roam-ui-follow t
+;;         org-roam-ui-update-on-save t
+;;         org-roam-ui-open-on-start t))
+#+end_src
 * Safe Undo Redo Yank
 - Aktuell so konfiguriert, dass die Dateien im Papierkob meiner Cloud landen! Alternativ sollte ich es so konfigurieren, dass sie in ~/.local/share/files/ landen!
 - Ich werde aktuell nicht mehr gefragt ob ich etwas speichern will, aber alle ungespeicherten Änderungen bleiben solange ich den daemon nicht kille mit ~killall emacs~ erhalten. Ich kann also einen neuen Client öffnen und dann speichern. Wenn ich Emacs mit <C-x C-c> schließe werde ich dank der Funktion hier auch gefragt ob ich etwas ungespeichertes speichern will. Sollte ich vergessen etwas zu speichern und den daemon killen, dann wird eine Backup Datei vom Autosafe erstellt wo die Änderungen noch enthalten sind, aber der ungespeicherte Fortschritt ist im nächsten Client dann nicht mehr sichtbar und kann dort somit später nicht noch gespeichert werden. Da ich es mir ganz gut angewöhnt habe wichtige Änderungen zu speichern ist es auf diese Art sinnvoll, da unbeabsichtigte Speicherprozesse nicht passieren, aber kann schon sein, dass dann mal was nicht gespeichert wird und es mir auch nicht auffällt!!! Eventuell bekomme ich es daher noch hin auch eine Nachfrage im Buffer zu erhalten, ob der Client geschlossen werden soll mit oder ohne zu speichern wenn ich den Client nicht mit <C-x C-c> sondern über Qtile schließe!
@@ -1023,6 +1132,37 @@ Statt yasnippets verwende ich die eingebauten Abbrev (abbreviation = Abkürzung)
   ;; (setq yas-snippet-dirs '("~/cloud/life/raum/pkb/material/yasnippets/"))
   ;; (yas-global-mode 1))
 #+end_src
+- more infos: https://github.com/joaotavora/yasnippet
+- Ermöglicht das automatische erstellen häufig verwendeter Blöcke
+- scheint mir als wären yasnippet ind doom emacs bereits vorinstalliert
+- In meine config folgendes snippet hinzufügen und (package! yasnippet) in packages.el ergänzen
+- weitere Infos: https://www.youtube.com/watch?v=W-bRZlseNm0&t=303s
+- Meine Snippets mit folgenden Keys + Tab einfach automatisch einfügen
+  | Key  | Link | Was es macht                                                               |
+  |------+------+----------------------------------------------------------------------------|
+  | <ss  |      | SourceCodeBlock - Standard                                                 |
+  | <smh |      | SourceCodeBlock - Mermaid html Export                                      |
+  | <smg |      | SourceCodeBlock - Mermaid Github Export                                    |
+  | <sl  |      | SourceCodeBlock - Latex Gleichung                                          |
+  | <sp  |      | SourceCodeBlock - Python (print Befehle werden als Ausgabe angezeigt etc.) |
+  | <pc  |      | Python Class                                                               |
+  | <wo  |      | Header für den HTML Export mit online Stylesheets etc.                     |
+  | <wl  |      | Header für den HTML Export mit lokalen Stylesheets etc.                    |
+  | <l   |      | Link + Linkname                                                            |
+  | <p   |      | Präsentationseinstellungen für org-tree-slide                              |
+  | <a   |      | Header um Archive file einfügen                                            |
+  | <b   |      | Bild mit Bildunterschrift und einstellbarer Größe                          |
+- auto yasnippets sind ebenfalls coole Sache und mittlerweile in Doom bei normalen yasnippets automatisch dabei - sinnvoll für Snippets die man nicht dauerhaft speichern will:
+  - <M-x aya> zeigt die Möglichkeiten an
+  - Wichtigste ist <M-x aya-create> und <M-x aya-expand> -> Eventuell noch ein Keybinding für diese festlegen
+  - Auch gut beim Programmieren!
+  - Beispiel:
+   - Nach ausführen von <M-x aya-create> in Zeile sollten die ~ verschwinden und beim einfügen von <M-x aya-expand> kann man an diese Stelle nun schreiben und alle mit ~ gekennzeichneten Variablen die gleich heißen werden dann mit angepasst -> Cool wenn man Emails schreiben will etc.
+   Hier die beiden Befehle testen
+   In Zeile unter dieser <M-x aya-create> ausführen (muss nicht markiert sein und auch egal wo in der Zeile):
+   Hi ~Name, ~MailText   Mit freundlichen an ~Name Grüßen Markus
+   Unterhalb dieser Zeile <M-x aya-expand> ausführen und Variablen eingeben:
+
 * Which-Key
 Hilfe welche Keys ich als Nächstes drücken kann bzw. welche Keybidings vergeben wurden.
 #+begin_src elisp
@@ -1049,7 +1189,71 @@ Ich verwende [[https://github.com/alphapapa/burly.el][burly]], da es minimalisit
 #+begin_src elisp
 (use-package burly)
 #+end_src
-* TESTING
+* TODO Zitieren mit org-ref
+Bibliographiepfade: Stellen Sie sicher, dass die Pfade zu Ihrer Bibliographie, Ihren PDFs und Notizen korrekt sind und zu Ihrem Setup passen.
+Org-Mode und LaTeX Integration: Die org-latex-pdf-process Variable ist für die Verwendung mit latexmk konfiguriert. Stellen Sie sicher, dass latexmk auf Ihrem System installiert ist.
+Beachten Sie, dass org-ref verschiedene Backends unterstützen kann (z.B. ivy, helm). Die obige Konfiguration nimmt an, dass Sie ivy verwenden möchten, aber Sie können dies an Ihre bevorzugte Schnittstelle anpassen.
+#+begin_src elisp
+;; (use-package bibtex
+;;   :config
+;;   (setq bibtex-autokey-year-length 4
+;;         bibtex-autokey-name-year-separator "-"
+;;         bibtex-autokey-year-title-separator "-"
+;;         bibtex-autokey-titleword-separator "-"
+;;         bibtex-autokey-titlewords 2
+;;         bibtex-autokey-titlewords-stretch 1
+;;         bibtex-autokey-titleword-length 5))
+
+;; (use-package org-ref
+;;   :ensure t
+;;   :after (org bibtex)
+;;   :init
+;;   (setq bibtex-completion-bibliography '("~/cloud/life/raum/pkb/bib/references.bib")
+;;         bibtex-completion-library-path '("~/cloud/life/raum/pkb/bib/bibtex-pdfs/")
+;;         bibtex-completion-notes-path "~/cloud/life/raum/pkb/bib/notes/"
+;;         bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+;;         bibtex-completion-additional-search-fields '(keywords)
+;;         bibtex-completion-display-formats
+;;         '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+;;           (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+;;           (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;;           (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;;           (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}")))
+;;   :config
+;;   (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+;;         org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+;;         org-ref-insert-label-function 'org-ref-insert-label-link
+;;         org-ref-insert-ref-function 'org-ref-insert-ref-link
+;;         org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))))
+
+;; (use-package ivy-bibtex
+;;   :after (org-ref)
+;;   :config
+;;   ;; Optional: Konfigurieren Sie ivy-bibtex nach Bedarf
+;;   )
+
+;; (use-package latex
+;;   :ensure auctex ;; AUCTeX für LaTeX-Unterstützung
+;;   :config
+;;   (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
+#+end_src
+
+* TODO TESTING
+Folgendes noch in meine Emacs config integrieren.
+- (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
+(package! org-tree-slide)
+(package! beacon)
+(package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
+(package! org-drill) ;für zentrales scrollen im Präsi Modus
+(package! rg)
+(package! graphviz-dot-mode)
+(package! org-pdftools)
+(package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
+(package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
+(package! async)
+(package! password-store)
+(package! wc-mode)
+(package! hide-mode-line)
 #+begin_src elisp
 #+end_src
 
