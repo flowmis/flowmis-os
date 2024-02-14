@@ -28,8 +28,135 @@ echo done
 
 
 :END:
-* Installation flowmis-os on Windows mit wsl
-https://www.youtube.com/watch?v=h0Wg_aknGdc
+* TODO [#B] flowmis-os [0%]
+  - [ ] Wechsel auf Nix OS!
+  - [ ] Nameing Konvention auf alle Dateien anwenden und alle vorhandenen Links anpassen.
+  - [ ] Repo privat hosten
+  - [ ] Widgets überarbeiten (volumeicon für Lautstärkeregulation im Systray,...) 
+  - [ ] Docker Container erstellen?
+  - [ ] Windowsinstallation?: https://www.youtube.com/watch?v=h0Wg_aknGdc
+* Linux & Arch
+ 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem flowmis-os aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
+ 2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
+** Data
+
+*** Dateistruktur und Dateiorganisation
+- Es gibt unterschiedliche Systeme, die hier kurz zusammengefasst dargestellt sind:
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-überblick.png]]
+
+  - PARA
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-para.png]]
+
+  - ACCESS bzw. EACCESS
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-access.png]]
+
+  - Johnny Decimal
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-johnny.png]]
+
+  - GTD und [[id:a738d2f8-7f0c-4845-9157-d24f44a8a52d][Zettelkasten]]
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-flat.png]]
+
+- Ich nutze eine Mischung aus unterschiedlichem Methoden mit der richtigen Mischung aus fester und flüssiger Struktur und der richtigen Mischung aus Handlung und Theorie
+ #+DOWNLOADED: screenshot @ 2023-08-22 09:49:17
+ [[file:../cloud/life/raum/.org/bilder/org-download/2023-08-22-09-49-17-screenshot.png]]
+
+- _Regeln:_
+  - Ein Backup ist kein Backup - min 2 Backups um bei Wiederherstellung bzw. bei der Arbeit mit dem Backupspeicher keine Gefahr einzugehen (durch Fehler im Skript zur Wiederherstellung oder ähnlichen tut man schonmal etwas unbeabsichtigt löschen! - bei 3 Backups muss man weniger vorsichtig sein und kann beim Backupprozess auch mal ein Fehler machen - dann jedoch muss alles an Alramglocken losgehen und es darf bei Backup 3 kein Fehler gemacht werden!)
+  - Im Zweifel sollte ein Link einem Ordner vorgezogen werden - sei sehr vorsichtig und sparsam beim Einsatz von Ordnern (starre und unfreie Gebilde, die Information verstecken indem diese in Schubladen gelegt werden)
+  - Links verbinden Ideen, helfen bei der Navigation
+  - Tags sind hilfreich wenn man keine Indexnote für einen Bereich erstellen möchte, einen bestimmten Status an eine Notiz anheften will (completed, work in progress, atomic note,...), oder um Notizen einen speziellen Character zu verleihen (Buchnotiz, Zitat, Konzept,...)
+
+
+- _Tool to see Ordner & Dateistruktur:_ =tree=
+   #+begin_src shell :dir /sudo:: :results none
+   sudo pacman -S tree
+   sudo tree -dCL 3 /
+   #+end_src
+  - _Flags_:
+    (siehe auch ~sudo man tree~)
+    -d = nur Ordner ohne Dateien
+    -L = zeigt Ordner nur bis zu dem Level das man angibt, also bei -L 2 zeigt es die Ordner im aktuellen Verzeichnis + die darunter, aber nicht weiter
+    -C = gibt dem Output Farbe
+- _Linux Standard Dateisystem erklärt:_
+  - mit dem Tool tree kann man sich die unterste Ordnerstruktur von Linux, also die Wurzel des Baums, bzw. den root Ordner anzeigen lassen (/):
+                                                    #+ATTR_HTML: :width 300
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-linux.png]]
+  - _Bedeutung der Ordner:_
+    - /bin - binaries = essentielle asuführbare Dateien (ls, curl, gzip,... ~which curl~ um zu sehen wo die binaries von beispielsweise curl liegen)
+    - /sbin - system binaries = system binaries für root und superuser (mount, mkswap,...)
+    - /usr/bin - nicht essentielle vom Nutzer hinzugefügte binaries
+    - $PATH - umgebungsvariable die alle binaries bzw. ausführbare Dateien enthält (~echo $PATH~ um diese anzuzeigen)
+    - /lib - libaries = enthält code etc. um binaries ausführen zu können (geteilter Code zwischen binaries, system binaries, user binaries)
+    - /etc - et cetera oder auch editable text config genannt = human readable textbasierete Konfigurationsdateien um bestimmt Systemeinstellungen zu setzen
+    - /home - Linux kann mehrere Nutzer enthalten, die man hier finden kann und deren spezifische Nutzerdaten/Konfigurationen dort unter dem Nutzername gespeichert werden -> nicht jeder soll Daten von anderen sehen können und auf Systemkonfigurationen etc. die unterhalb liegen zugreifen können
+    - /boot - enthält Dateien die für den Bootvorgang nötig sind wie z.B. den Linux Kernel
+    - /dev - device files = Ort um mit interner verbauter oder externer angeschlossener Hardware und deren Treiber zu agieren
+    - /var - variablen bzw. variable Dateien = enthält Dateien die sich während der Nutzung ändern (log-files, cache-files etc.)
+    - /tmp - temporary files = nach reboot oder ähnlichem sind diese nicht mehr vorhanden
+    - /proc - eingebildetes Dateisystem = existiert nicht wirklich bzw. wird kurzzeitig im RAM erstellt/genutzt wenn Kernel bestimmte Dinge machen muss, oder bestimmte Prozesse verfolgt
+    - /opt - optionale Software und Dateien = wird man wenig drin machen
+- _Meine Struktur:_ /  root  OS(Windows, Linux,...)  -->  /home/user  -->  "falls vorhanden: Ein mit VM geteilter Ordner oder ein Festplattenordner"  --> folgende Ordnerstruktur (2 Ebenen tief):
+                                                    #+ATTR_HTML: :width 500
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine1.png]]
+                                                    #+ATTR_HTML: :width 350
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine2.png]]
+                                                    #+ATTR_HTML: :width 500
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine3.png]]
+
+- _Mein 2nd-brain:_
+                                                    #+ATTR_HTML: :width 333
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-2nd-brain-2d.png]]
+                                                    #+ATTR_HTML: :width 333
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-2nd-brain-3d.png]]
+
+*** Namensgebung
+
+- Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
+  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/A-Z/a-z/' *~
+- Wörter nicht mit Leerzeichen trennen und nicht mit _ sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
+  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/ //-/' *~
+- Keinerlei Sonderzeichen im Dateiname verwenden und vorallem nicht $&/
+- Name des Projekts oder Kategorie in Name rein
+- Bei Projekten Name des Autors und gegebenenfalls Versionsnummer
+- Datum und eventuell Timestamp der letzten Bearbeitung -> Format nach ISO 8601: YYYY-MM-DD
+- Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
+
+*** Sicherung/Backups
+
+- Backups von was, wie und wo hin?
+- Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
+- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit Versionskontrolle und git machen - siehe [[file:~/flowmis-os/flowmis-os.org::Backup Data on Cold-Storage (Festplatte)][git]]):
+
+**** rsync
+
+Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
+- ~sudo pacman -S rsync~
+- ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")
+- wichtige commands:
+  - Backup erstellen: ~rsync -arv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (a = archive - sollte man machen um alles vollständig mit Attributen zu übertragen; v = verbose - zeigt an was gemacht wird)
+  - Backup auf Server/Remote: ~rsync -arv "/Pfad/Ordner mit Dateien" "flowmis@192.168.10.127:/home/flowmis/Backup-Ordner"~ (IP etc. halt anpassen - geht easy mit ssh)
+  - Sicheres Update des Backups nachdem Änderungen vorgenommen wurden (gelöschte Dateien werden beim Backup nicht gelöscht! - namentlich geänderte Dateien sind dann doppelt vorhanden?):  ~rsync -aurnv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (u = update - nur neue und inhaltlich geänderte Dateien werden übertragen; n = dry run - *ACHTUNG:* macht die Aktion nicht wirklich und zeigt nur an was es machen würde -> wenn ich damit zufrieden bin gleichen Befehl nun einfach ohne n und dann macht updated es das Backup)
+  - Schnelles Update Backup:  ~rsync -aurv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+  - Schnelles Update Backup + Löschen im Backup falls was gelöscht wurde:  ~rsync -aurv --delete "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+
+*** Ver-/Entschlüsselung
+**** SSH & GPG/PGP
+Vorhandene Keys hinzufügen:
+- id_rsa (privater ssh key) in =~/.ssh= kopieren (bzw. erstellen und aus passwortmanager den inhalt hineinkopieren) + der Datei die wichtigen Rechte geben mit ~chmod 600 ~~/.ssh/id_rsa~
+- id_rsa.pub ebenfalls in =~/.ssh= einfügen und schauen dass er mit dem auf github oder wo auch immer übereinstimmt - mit der .gitconfig wo user und mail angegeben ist sollte nun alles gehen und der Befehl ~ssh-agent~ eine id ausgeben und damit zeigen dass es funktioniert
+Neuen Key erstellen:
+- Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
+  - openssh braucht man um ssh keys zu erstellen
+  - gnupg ist die library des OpenPGP Standards
+  - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
+- Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
+- Passphrase ist PIN
+
 * Installation
 
 - [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
@@ -1122,169 +1249,27 @@ alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs 
 #+end_src
 
 ** weitere Programme
-#+begin_src sh
-sudo pacman -S zathur zathura-pdf-mupdf
-#+end_src
-
-* TODO [#B] flowmis-os [0%]
-:LOGBOOK:
-:END:
-  - [ ] Wechsel auf Nix OS!
-  - [ ] Vorlage für alle index files und für neue atomare Ideen sowie Konzepte etc. machen
-  - [ ] Kann ich diese Repo privat stellen und trotzdem leicht clonen/verwenden um das Installationsskript etc. auszuführen oder ist entsprechend vorbereitete/angepasste Iso nötig
-  - [ ] komplettes Skript für arch installations .iso herstellen und dann einfach immer in iso integrieren, sodass es alles von selbst installiert
-  - [ ] Passwortdatei mit installieren lassen sodass ich mit decrypt key alle Passwörter auf Pc hab
-  - [ ] Aussortieren dass nach installation alles unnötige gelöscht wird und minimum an Programmen etc vorhanden ist (während der installation geclonte repos mit sudo Gruppe rechten löschen und gegebenenfalls neu clonen als richtiger user)
-  - [ ] Qtile Widgets überarbeiten
-    - [ ] Widgets überarbeiten sodass ich volumeicon für Lautstärkeregulation im Systray habe (geht vll auch über einen Befehl in .xprofile) 
-    - [ ] Transparenz der Dinge hinter Fullscreen oder zumindest der "Taskbar" auf 100% sodass Fullscreen schöner aussieht
-  - [ ] Dependencys für Qtile und Emacs in Installskript, sodass es von Beginn an top funzt -> Wenn alles clean und fertig dann nochmal Neuinstallation in VirtualBox testen und generell cleane lauffähige VM oder Docker Container von meinem Betriebssystem erstellen - erst wenn es so stabil ist dass ich kaum noch Änderungen vornehme!
-
-* Linux & Arch
- 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem flowmis-os aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
- 2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
-** Data
-
-*** Dateistruktur und Dateiorganisation
-- Es gibt unterschiedliche Systeme, die hier kurz zusammengefasst dargestellt sind:
-
-    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-überblick.png]]
-
-  - PARA
-
-    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-para.png]]
-
-  - ACCESS bzw. EACCESS
-
-    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-access.png]]
-
-  - Johnny Decimal
-
-    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-johnny.png]]
-
-  - GTD und [[id:a738d2f8-7f0c-4845-9157-d24f44a8a52d][Zettelkasten]]
-
-    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-flat.png]]
-
-- Ich nutze eine Mischung aus unterschiedlichem Methoden mit der richtigen Mischung aus fester und flüssiger Struktur und der richtigen Mischung aus Handlung und Theorie
- #+DOWNLOADED: screenshot @ 2023-08-22 09:49:17
- [[file:../cloud/life/raum/.org/bilder/org-download/2023-08-22-09-49-17-screenshot.png]]
-
-- _Regeln:_
-  - Ein Backup ist kein Backup - min 2 Backups um bei Wiederherstellung bzw. bei der Arbeit mit dem Backupspeicher keine Gefahr einzugehen (durch Fehler im Skript zur Wiederherstellung oder ähnlichen tut man schonmal etwas unbeabsichtigt löschen! - bei 3 Backups muss man weniger vorsichtig sein und kann beim Backupprozess auch mal ein Fehler machen - dann jedoch muss alles an Alramglocken losgehen und es darf bei Backup 3 kein Fehler gemacht werden!)
-  - Im Zweifel sollte ein Link einem Ordner vorgezogen werden - sei sehr vorsichtig und sparsam beim Einsatz von Ordnern (starre und unfreie Gebilde, die Information verstecken indem diese in Schubladen gelegt werden)
-  - Links verbinden Ideen, helfen bei der Navigation
-  - Tags sind hilfreich wenn man keine Indexnote für einen Bereich erstellen möchte, einen bestimmten Status an eine Notiz anheften will (completed, work in progress, atomic note,...), oder um Notizen einen speziellen Character zu verleihen (Buchnotiz, Zitat, Konzept,...)
-
-
-- _Tool to see Ordner & Dateistruktur:_ =tree=
-   #+begin_src shell :dir /sudo:: :results none
-   sudo pacman -S tree
-   sudo tree -dCL 3 /
-   #+end_src
-  - _Flags_:
-    (siehe auch ~sudo man tree~)
-    -d = nur Ordner ohne Dateien
-    -L = zeigt Ordner nur bis zu dem Level das man angibt, also bei -L 2 zeigt es die Ordner im aktuellen Verzeichnis + die darunter, aber nicht weiter
-    -C = gibt dem Output Farbe
-- _Linux Standard Dateisystem erklärt:_
-  - mit dem Tool tree kann man sich die unterste Ordnerstruktur von Linux, also die Wurzel des Baums, bzw. den root Ordner anzeigen lassen (/):
-                                                    #+ATTR_HTML: :width 300
-                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-linux.png]]
-  - _Bedeutung der Ordner:_
-    - /bin - binaries = essentielle asuführbare Dateien (ls, curl, gzip,... ~which curl~ um zu sehen wo die binaries von beispielsweise curl liegen)
-    - /sbin - system binaries = system binaries für root und superuser (mount, mkswap,...)
-    - /usr/bin - nicht essentielle vom Nutzer hinzugefügte binaries
-    - $PATH - umgebungsvariable die alle binaries bzw. ausführbare Dateien enthält (~echo $PATH~ um diese anzuzeigen)
-    - /lib - libaries = enthält code etc. um binaries ausführen zu können (geteilter Code zwischen binaries, system binaries, user binaries)
-    - /etc - et cetera oder auch editable text config genannt = human readable textbasierete Konfigurationsdateien um bestimmt Systemeinstellungen zu setzen
-    - /home - Linux kann mehrere Nutzer enthalten, die man hier finden kann und deren spezifische Nutzerdaten/Konfigurationen dort unter dem Nutzername gespeichert werden -> nicht jeder soll Daten von anderen sehen können und auf Systemkonfigurationen etc. die unterhalb liegen zugreifen können
-    - /boot - enthält Dateien die für den Bootvorgang nötig sind wie z.B. den Linux Kernel
-    - /dev - device files = Ort um mit interner verbauter oder externer angeschlossener Hardware und deren Treiber zu agieren
-    - /var - variablen bzw. variable Dateien = enthält Dateien die sich während der Nutzung ändern (log-files, cache-files etc.)
-    - /tmp - temporary files = nach reboot oder ähnlichem sind diese nicht mehr vorhanden
-    - /proc - eingebildetes Dateisystem = existiert nicht wirklich bzw. wird kurzzeitig im RAM erstellt/genutzt wenn Kernel bestimmte Dinge machen muss, oder bestimmte Prozesse verfolgt
-    - /opt - optionale Software und Dateien = wird man wenig drin machen
-- _Meine Struktur:_ /  root  OS(Windows, Linux,...)  -->  /home/user  -->  "falls vorhanden: Ein mit VM geteilter Ordner oder ein Festplattenordner"  --> folgende Ordnerstruktur (2 Ebenen tief):
-                                                    #+ATTR_HTML: :width 500
-                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine1.png]]
-                                                    #+ATTR_HTML: :width 350
-                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine2.png]]
-                                                    #+ATTR_HTML: :width 500
-                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine3.png]]
-
-- _Mein 2nd-brain:_
-                                                    #+ATTR_HTML: :width 333
-                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-2nd-brain-2d.png]]
-                                                    #+ATTR_HTML: :width 333
-                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-2nd-brain-3d.png]]
-
-*** Namensgebung
-
-- Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
-  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/A-Z/a-z/' *~
-- Wörter nicht mit Leerzeichen trennen und nicht mit _ sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
-  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/ //-/' *~
-- Keinerlei Sonderzeichen im Dateiname verwenden und vorallem nicht $&/
-- Name des Projekts oder Kategorie in Name rein
-- Bei Projekten Name des Autors und gegebenenfalls Versionsnummer
-- Datum und eventuell Timestamp der letzten Bearbeitung -> Format nach ISO 8601: YYYY-MM-DD
-- Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
-
-*** Sicherung/Backups
-
-- Backups von was, wie und wo hin?
-- Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
-- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit Versionskontrolle und git machen - siehe [[file:~/flowmis-os/flowmis-os.org::Backup Data on Cold-Storage (Festplatte)][git]]):
-
-**** rsync
-
-Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
-- ~sudo pacman -S rsync~
-- ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")
-- wichtige commands:
-  - Backup erstellen: ~rsync -arv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (a = archive - sollte man machen um alles vollständig mit Attributen zu übertragen; v = verbose - zeigt an was gemacht wird)
-  - Backup auf Server/Remote: ~rsync -arv "/Pfad/Ordner mit Dateien" "flowmis@192.168.10.127:/home/flowmis/Backup-Ordner"~ (IP etc. halt anpassen - geht easy mit ssh)
-  - Sicheres Update des Backups nachdem Änderungen vorgenommen wurden (gelöschte Dateien werden beim Backup nicht gelöscht! - namentlich geänderte Dateien sind dann doppelt vorhanden?):  ~rsync -aurnv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (u = update - nur neue und inhaltlich geänderte Dateien werden übertragen; n = dry run - *ACHTUNG:* macht die Aktion nicht wirklich und zeigt nur an was es machen würde -> wenn ich damit zufrieden bin gleichen Befehl nun einfach ohne n und dann macht updated es das Backup)
-  - Schnelles Update Backup:  ~rsync -aurv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
-  - Schnelles Update Backup + Löschen im Backup falls was gelöscht wurde:  ~rsync -aurv --delete "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
-
-*** Ver-/Entschlüsselung
-**** SSH & GPG/PGP
-Vorhandene Keys hinzufügen:
-- id_rsa (privater ssh key) in =~/.ssh= kopieren (bzw. erstellen und aus passwortmanager den inhalt hineinkopieren) + der Datei die wichtigen Rechte geben mit ~chmod 600 ~~/.ssh/id_rsa~
-- id_rsa.pub ebenfalls in =~/.ssh= einfügen und schauen dass er mit dem auf github oder wo auch immer übereinstimmt - mit der .gitconfig wo user und mail angegeben ist sollte nun alles gehen und der Befehl ~ssh-agent~ eine id ausgeben und damit zeigen dass es funktioniert
-Neuen Key erstellen:
-- Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
-  - openssh braucht man um ssh keys zu erstellen
-  - gnupg ist die library des OpenPGP Standards
-  - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
-- Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
-- Passphrase ist PIN
-
-** Programme
 - Prinzipielle Philosophie: Möglichst wenige aber dafür geile Programme auf dem Gerät installieren und alle kleinen Anwendungsfälle über Browser-/Webanwendungen
-*** Essenzielle Programme
-**** Login Manager
+*** Login Manager
 
 - Aktuell nutze ich sddm (weg von ligthdm, da sddm mehr entiwckelt wird und mehr Möglichkeiten bietet)
 
-**** Window Manager
+*** Window Manager
 
 - qtile
 - Alternative: xmonad
 
-**** Text Editor + IDE
+*** Text Editor + IDE
 
 - Ich nutze Emacs (DoomEmacs)
 - Alternative: Pycharm, Vim & VS Code
 
-**** Mail
+*** Mail
 
 - Wenn möglich über Emacs machen (mu4e etc.)
 - Alternative: Thunderbird, Protonmail
 
-**** Terminal/Konsole/Shell/CLI
+*** Terminal/Konsole/Shell/CLI
 
 | Terminal                                                                                    | Console                                                                                                                                          | Shell                                                                                                     | Command-line                                                                                                                                     |
 | <35>                                                                                        | <35>                                                                                                                                             | <35>                                                                                                      | <35>                                                                                                                                             |
@@ -1299,17 +1284,17 @@ Neuen Key erstellen:
 - longterm will ich auf eshell switchen
 - Alternative: zsh
 
-**** Browser
+*** Browser
 
 - bin mit Brave zufrieden
 - Alternative: Firefox https://www.mozilla.org/
 
-**** Passwortmanager
+*** Passwortmanager
 
 - bin mit KeepassXC zufrieden
 - Alternative: Pass (standard unix tool)
 
-**** Git
+*** Git
 
 - Git kann für dein Eigengebrauch sowie für kollektive Bearbeitung von Dateien genutzt werden, da es Veränderungen über die Zeit zu dokumentieren vermag
     #+CAPTION: Git Overview
@@ -1317,7 +1302,7 @@ Neuen Key erstellen:
     [[file:bilder/2022-12-15-git-5.png]]
 - Git nutzt Kryptographie und die die Integrität der Daten sicherzustellen. Jede Datei und jeder Commit der in ein Repo eingeht und verändert wird, wird mit in einem Hashfunktion gegeben und führt zu einer checksum. Jeder geänderter Bit würde die Checksum verändern und dadurch wird sichergestellt, dass keine Bits verloren gehen. Jede Änderung einer Datei, eines Commits,... führt dazu dass sich die ID und die IDs aller darauf folgenden Sicherungspunkte ändern. Bei einer Commit ID kann man sicher sein dass das Projekt exakt dem Inhalt des zuvor gemachten Commits entspricht und am Commit selbst nichts verändert wurde und zudem, dass nichts in der Geschichte bis zu diesem Commit verändert wurde, da auch das die aktuelle Commit ID ändern würde.
 
-***** Tipps
+**** Tipps
 
 - _Commit:_
   1. Add the _right_ changes
@@ -1387,7 +1372,7 @@ Neuen Key erstellen:
 | git pull                | holt alles runter falls sich etwas verändert hat und man es local noch nicht hat                                  |
 | git branch -d Name      | Köscht Brach der Name heissttxt                                                                                   |
 
-***** config und credentials
+**** config und credentials
 
 #+begin_src shell :tangle tangle/.gitconfig
 [user]
@@ -1410,7 +1395,7 @@ helper = store
         oder: git clone "Link zur Repo"                         -> Files werden heruntergeladen
         oder: git pull und git merge je nachdem was der Stand ist
 
-***** SSH & Github
+**** SSH & Github
 
 - SSH-Key erstellen siehe [[file:~/flowmis-os/flowmis-os.org::SSH & GPG/PGP][hier]]
 - Bei Github anmelden und Public SSH-Key dort hinzufügen
@@ -1420,7 +1405,7 @@ helper = store
 - [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent][Key lokal hinzufügen]]
 - [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account][Key auf Github hinzufügen]]
 
-***** Backup Data on Cold-Storage (Festplatte)
+**** Backup Data on Cold-Storage (Festplatte)
 
   1. in Ordner 1 gehen von dem Backup gemacht werden soll und git repo initiieren ~git init~ (alternativ in leerem Ornder ~git init~ und dann alle Dateien in diesen Ordner kopieren)
   2. ~git status~ um die vorhandenen Dateien und Ordner anzuzeigen
@@ -1453,7 +1438,7 @@ helper = store
       - Verifiable via git fsck.
       - Mirrors can be used as a basis for a full file backup script.
 
-**** Pacman
+*** Pacman
 
 https://wiki.archlinux.de/title/Pacman
 - Spiegelserver richtig einrichten dass hier keine Probleme entstehen
@@ -1475,15 +1460,15 @@ https://wiki.archlinux.de/title/Pacman
 | pacman -Qdt            | zeigt nicht mehr benötigte dependencies                                       |
 | pacman -U emacs.tar.gz | installiert lokale Datei emacs.tar.gz                                         |
 
-**** Weitere Programme
+*** Weitere Programme
 
-- zathura als schöner minimaler pdf reader
-- [[https://www.cerebroapp.com/][cerebro]] als Suche und Appöffnungsprogramm ähnlich zu roofi (~yay -S cerebro-bin~) - mit cerebro oder standardmäßig Strg+SPC als Tastenkombi öffnen https://github.com/cerebroapp/cerebro
+- zathura als schöner minimaler pdf reader: ~sudo pacman -S zathur zathura-pdf-mupdf~
+- Programme öffnen:
+- [[https://www.cerebroapp.com/][cerebro]] Suche ([[https://github.com/cerebroapp/cerebro][github]]), App-Launcher,... (rofi und dmenu mit mehr Funktionen ohne etwas dafür konfigurieren zu müssen) (~yay -S cerebro-bin~)
 - ScreenRecorder: deepin-screen-recorder
 - Screenshots: flameshot (ähnlich zu snipping tool) -> Alternative: spectacle od. maim (Nachfolger von scrot)
 - System optimzer and application monitor: Stacer https://github.com/oguzhaninan/Stacer
 - Task-Manger: stacer oder simpler htop -> Alternative: interactive process viewer
-- Programme öffnen: rofi -> Alternative: dmenu
 - Backup: Timeshift, Git, rsync, VM-Snapshot bzw. Art Image
 - Office: onlyoffice oder [[https://www.libreoffice.org/][LibreOffice]]
 - Videoplayer: VLC https://www.videolan.org/vlc/index.html
@@ -1506,13 +1491,13 @@ https://wiki.archlinux.de/title/Pacman
 - Paketverwaltung: Synaptics (sudo apt install synaptic)
 - Desktopaussehen verändern: Gnome Tweak Tool Alternative: arch-tweak-tool (sinnvoll bei qtile?)
 
-***** Sonstige Programme
+**** Sonstige Programme
 
 #+begin_src sh  :dir /sudo::
 sudo pacman -S viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive thunderbird virtualbox gpa ditaa
 #+end_src
 
-***** VirtualBox
+**** VirtualBox
 - Mit Arch als Host System: https://www.youtube.com/watch?v=vQUOf2E6XZw&list=WL&index=21 (Achtung nachdem ich meine Backups hinzugefügt habe muss ich unter Einstellungen bei Display die 3D Accelaration unchecken, da es sonst nicht richtig hochfährt)
 - Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
 - =Neu= -> je nach Name den man der Maschine gibt sucht es automatisch richtige Version und Typ - ansonsten manuell wählen -> Einstellungen folgen bis Maschine erstellt wurde -> Maschine auswählen und =Ändern= drücken -> =System= -> uncheck =Diskettenlaufwerk= -> check =EFI aktivieren= -> =Prozessor= -> Einstellen wie viele Prozessoren ich geben will -> =Massenspeicher= -> Unter =Controller:IDE= die .iso Datei reinladen -> =Starten= der Maschine -> Maschine nach der Installation herunterfahren ->  =Massenspeicher=  und .iso entfernen -> Maschine nun fertig und kann gestartet werden

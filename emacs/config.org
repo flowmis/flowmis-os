@@ -9,6 +9,7 @@
 - [[#dired][Dired]]
 - [[#erscheinungsbild][Erscheinungsbild]]
   - [[#highlight-todo][Highlight Todo]]
+  - [[#beacon-mode][Beacon Mode]]
   - [[#modeline][Modeline]]
   - [[#hide-org-blocks][Hide Org-Blocks]]
   - [[#schrift][Schrift]]
@@ -17,9 +18,10 @@
   - [[#zooming-inout][Zooming In/Out]]
 - [[#eshell--vterm][Eshell & vterm]]
 - [[#export][Export]]
-  - [[#latex][Latex]]
+  - [[#präsentationen-und-pdfs][Präsentationen und PDFs]]
+  - [[#html][Html]]
+  - [[#diagramme-etc][Diagramme etc.]]
   - [[#zusatzinfo][Zusatzinfo]]
-- [[#funktionen][Funktionen]]
 - [[#git][Git]]
 - [[#gpt--llms][GPT & LLMs]]
 - [[#ivy-counsel-company-helm-ivy-orderless][Ivy, counsel, company, helm, ivy, orderless]]
@@ -292,6 +294,13 @@ Adding highlights to TODO and related words.
           ("DEPRECATED" font-lock-doc-face bold))))
 
 #+end_src
+** Beacon Mode
+#+begin_src elisp
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1))
+#+end_src
 ** Modeline
 Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-fonts> ausführen und neu starten - siehe auch: https://github.com/seagle0128/doom-modeline
 #+begin_src elisp
@@ -458,8 +467,11 @@ With Emacs version 29, true transparency has been added.
 #+end_src
 * Export
 Export Ordner in ~/cloud/life/zeit/void/export/
-** Latex
+** Präsentationen und PDFs
+- Da ich aktuell zathura benutze brauch ich kein pdf Programm in Emacs selbst, aber falls dem mal so ist sollte ich mir [[https://github.com/vedang/pdf-tools?tab=readme-ov-file][pdf-tools]] anschauen.
 - [NO-DEFAULT-PACKAGES] verhindert das Laden der Standard-Latex-Pakete, [PACKAGES] ermöglicht das Laden zusätzlicher Pakete und [EXTRA] enthält zusätzlichen LaTeX-Code, der in der Kopfzeile der Dokumentklasse platziert wird.
+- Wenn ich direkt aus emacs heraus ein Präsentationsmodus starten will sollte ich mir folgendes installieren,anschauen: org-tree-slide, hide-mode-line, centered-cursor-mode,...
+
 #+begin_src elisp
 (with-eval-after-load 'ox-latex
   (add-to-list 'org-latex-classes
@@ -487,6 +499,11 @@ Export Ordner in ~/cloud/life/zeit/void/export/
 )
 (setq org-latex-hyperref-template nil)
 #+end_src
+** Html
+- Wenn ich dann mal so weit bin und mir HTMLs aus meinen .org Dateien generieren will und auf meinem Server deployen sollte ich mir die Fortschritte von 
+[[https://github.com/tonyaldon/one.el][one.el]] anschauen, da ich das Paket bisher am besten fand (mächtig und doch ausreichend übersichtlich, aber da es sich noch verändert habe ich es vorerst nicht installier, da ich es aktuell noch nicht benötige)
+** Diagramme etc.
+- Das Paket für graphviz-dot-mode anschauen und über ditaa und mermaid informieren -> siehe auch: [[denote:20240214T085322][ditaa-dot-mermaid]] 
 ** Zusatzinfo
 *** Allgemein
 - Mit <SPC me> kann man Exportoptionen aufmachen. Man beachte auch die Einstellungen ganz oben, wo man zum Beispiel sagen kann dass nur das aus dem momentan aktiven Subtree exportiert werden soll etc. -> Je nach installierten Paketen kann man hier dann pdf,word,html,md,latex etc. exportieren
@@ -511,24 +528,6 @@ Export Ordner in ~/cloud/life/zeit/void/export/
 *** Sonstige Formate
 + Falls wie auf dem Bild bei pandoc z.B. das Powerpointformat pptx nicht angezeigt wird kann man es immer auch exportieren mit <M-x org-pandoc-export-to-...>
   + Bei Powerpoint: <M-x org-pandoc-export-to-pptx>
-* TODO Funktionen
-:desc "make ditaa work" "x d" #'activate-ditaa-path
-:desc "Starte Präsentationsmodus" "x p" #'pres-start
-:desc "Beende Präsentationsmodus" "x P" #'pres-end)
-#+begin_src elisp
-;; (defun mane-rezepte-export-org-to-html ()
-;;   "Rezeptdateien als html an entsprechenden Ort exportieren."
-;;   (interactive)
-;;   (let* ((source-dir "~/cloud/life/raum/.org/rezepte/")
-;;          (org-files (directory-files-recursively source-dir "\\.org$")))
-;;     (dolist (file org-files)
-;;       (with-current-buffer (find-file-noselect file)
-;;         (org-html-export-to-html nil nil nil nil nil)))))
-;; (defun activate-ditaa-path ()
-;;  (interactive)
-;;  (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar"))
-#+end_src
-
 * Git
 - [[https://github.com/emacsmirror/git-timemachine][git-timemachine]] ein Programm um einfach in der git Historie hin und her zu wechseln. 'SPC g t' open the time machine on a file if it is in a git repo. 'CTRL-j' and 'CTRL-k' to move backwards and forwards through the commits.
 - [[https://magit.vc/manual/][Magit]] git client for Emacs.
@@ -1086,8 +1085,9 @@ https://github.com/yjwen/org-reveal/
 ;; )
 #+end_src
 * Search
-Eine sehr vielfältige starke Suche in Emacs ist mit [[https://github.com/emacsorphanage/helm-swoop][helm-swoop]] möglich. Es kann auch hilfreich sein, die einfache in Emacs integrierte Suche i-search zu verwenden, oder swiper zu installieren und damit zu arbeiten bzw. helm+swiper um ähnliche Funktion zu dieser Suche zu erhalten. Ich lasse i-search (C-s) mal aktiv und überschreibe das Keybinding nicht sondern binde diese umfangreichere Suche auf ein eigenes Keybinding, sodass ich beides nutzen kann (siehe Keybindings).
-Mit Imenu kann ich schnell Headings/Sections finden -> habe ein Keybinding gesetzt, da imenu in emacs bereits vorinstalliert ist, habe ich hier nur imenu-list installiert und auch dafür ein Keybinding unter <SPC s>. 
+- Eine sehr vielfältige starke Suche in Emacs ist mit [[https://github.com/emacsorphanage/helm-swoop][helm-swoop]] möglich. Es kann auch hilfreich sein, die einfache in Emacs integrierte Suche i-search zu verwenden, oder swiper zu installieren und damit zu arbeiten bzw. helm+swiper um ähnliche Funktion zu dieser Suche zu erhalten. Ich lasse i-search (C-s) mal aktiv und überschreibe das Keybinding nicht sondern binde diese umfangreichere Suche auf ein eigenes Keybinding, sodass ich beides nutzen kann (siehe Keybindings).
+- Mit Imenu kann ich schnell Headings/Sections finden -> habe ein Keybinding gesetzt, da imenu in emacs bereits vorinstalliert ist, habe ich hier nur imenu-list installiert und auch dafür ein Keybinding unter <SPC s>. 
+- grep etc. sind bereits vorinstalliert, aber falls es hier Probleme gibt kann ich vll auch mal nach einem Paket mit ripgrep (rg) suchen, da ich in doom mit dem Befehl rg gearbeitet habe.
 #+begin_src elisp
 (use-package helm-swoop
   :ensure t
@@ -1241,19 +1241,10 @@ Beachten Sie, dass org-ref verschiedene Backends unterstützen kann (z.B. ivy, h
 * TODO TESTING
 Folgendes noch in meine Emacs config integrieren.
 - (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
-(package! org-tree-slide)
-(package! beacon)
-(package! centered-cursor-mode) ;für zentrales scrollen im Präsi Modus
-(package! org-drill) ;für zentrales scrollen im Präsi Modus
-(package! rg)
-(package! graphviz-dot-mode)
-(package! org-pdftools)
+(package! org-drill) ;Lernkarten
 (package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
-(package! one)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
-(package! async)
 (package! password-store)
 (package! wc-mode)
-(package! hide-mode-line)
 #+begin_src elisp
 #+end_src
 
