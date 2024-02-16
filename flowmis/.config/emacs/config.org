@@ -873,9 +873,9 @@ Makros am besten in einer seperaten macro.el speichern und diese über config.el
   ;; Setzen von org-todo-keywords und anderen org-bezogenen Konfigurationen
   (setq 
    org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))
-   org-agenda-files '("/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org"
-                      "/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org"
-                      "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__chemie.org"
+   org-agenda-files '("/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org"
+                      "/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org"
+                      "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__ch_pkb.org"
                       "/home/flowmis/cloud/life/raum/pkb/20231225T185132==mh--unterrichtsplanung__pkb_spo.org"
                       "/home/flowmis/cloud/life/raum/pkb/20240204T114444==mh--kalender-inbox__del.org"
                       )

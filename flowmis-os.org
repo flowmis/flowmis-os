@@ -3,23 +3,11 @@
 #+STARTUP: folded hideblocks shrink
 
 #+begin_src shell
-rsync -av /home/flowmis/flowmis-os/flowmis/ /home/flowmis/
+rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/emacs/
+# rsync -av /home/flowmis/flowmis-os/flowmis/ /home/flowmis/
 # sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf #die Standardconfig falls ich lokal was ändern will aber eigentlich eher unnötig!
 echo done
 #+end_src
-
-#+RESULTS:
-| sending                 | incremental | file  | list     |         |       |          |           |
-| .config/emacs/          |             |       |          |         |       |          |           |
-| .config/emacs/init.el   |             |       |          |         |       |          |           |
-| .config/emacs/start.org |             |       |          |         |       |          |           |
-| .config/fish/           |             |       |          |         |       |          |           |
-|                         |             |       |          |         |       |          |           |
-| sent                    | 4.229       | bytes | received |      71 | bytes | 8.600,00 | bytes/sec |
-| total                   | size        | is    | 853.65   | speedup | is    | 198,52   |           |
-| done                    |             |       |          |         |       |          |           |
-
-
 :END:
 * TODO [#B] flowmis-os [0%]
   - [ ] Wechsel auf Nix OS!
