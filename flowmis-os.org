@@ -10,16 +10,15 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental | file  | list     |         |       |            |           |
-| ./                               |             |       |          |         |       |            |           |
-| config.org                       |             |       |          |         |       |            |           |
-| init.el                          |             |       |          |         |       |            |           |
-| scripts/                         |             |       |          |         |       |            |           |
-| scripts/setup-settings-basics.el |             |       |          |         |       |            |           |
-|                                  |             |       |          |         |       |            |           |
-| sent                             | 112.471     | bytes | received |      92 | bytes | 225.126,00 | bytes/sec |
-| total                            | size        | is    | 825.865  | speedup | is    | 7,34       |           |
-| done                             |             |       |          |         |       |            |           |
+| sending                          | incremental | file  | list     |         |       |           |           |
+| ./                               |             |       |          |         |       |           |           |
+| init.el                          |             |       |          |         |       |           |           |
+| scripts/                         |             |       |          |         |       |           |           |
+| scripts/setup-settings-basics.el |             |       |          |         |       |           |           |
+|                                  |             |       |          |         |       |           |           |
+| sent                             | 22.713      | bytes | received |      69 | bytes | 45.564,00 | bytes/sec |
+| total                            | size        | is    | 825.933  | speedup | is    | 36,25     |           |
+| done                             |             |       |          |         |       |           |           |
 
 :END:
 * TODO [#B] flowmis-os [0%]
