@@ -3,23 +3,22 @@
 #+STARTUP: folded hideblocks shrink
 
 #+begin_src shell
-# mkdir ~/.config/emacs/ ~/.config/emacs/themes/ ~/.config/emacs/eshell/ ~/.config/emacs/scripts/ ~/.config/zathura/ ~/.config/picom/
-rsync -ah --progress ~/flowmis-os/emacs/ ~/.config/emacs/
-cp -u ~/flowmis-os/tangle/config.py ~/.config/qtile/config.py && echo '###########################Qtile ready###########################'
-# cp -u ~/flowmis-os/tangle/.xprofile ~/.xprofile
-# cp -u ~/flowmis-os/tangle/.bashrc ~/.bashrc
-# cp -u ~/flowmis-os/tangle/alacritty.toml ~/.config/alacritty/alacritty.toml
-# cp -u ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish
-# cp -u ~/flowmis-os/tangle/.gitconfig ~/.gitconfig
-# sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf
-# cp -u ~/flowmis-os/tangle/zathurarc ~/.config/zathura/zathurarc
+rsync -av /home/flowmis/flowmis-os/flowmis/ /home/flowmis/
+# sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf #die Standardconfig falls ich lokal was ändern will aber eigentlich eher unnötig!
 echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental                      | file | list |
-| ###########################Qtile | ready########################### |      |      |
-| done                             |                                  |      |      |
+| sending                 | incremental | file  | list     |         |       |          |           |
+| .config/emacs/          |             |       |          |         |       |          |           |
+| .config/emacs/init.el   |             |       |          |         |       |          |           |
+| .config/emacs/start.org |             |       |          |         |       |          |           |
+| .config/fish/           |             |       |          |         |       |          |           |
+|                         |             |       |          |         |       |          |           |
+| sent                    | 4.229       | bytes | received |      71 | bytes | 8.600,00 | bytes/sec |
+| total                   | size        | is    | 853.65   | speedup | is    | 198,52   |           |
+| done                    |             |       |          |         |       |          |           |
+
 
 :END:
 * TODO [#B] flowmis-os [0%]
@@ -165,14 +164,14 @@ Neuen Key erstellen:
 
 - Locales:
 
-#+begin_src shell :tangle tangle/locale.conf
+#+begin_src shell :tangle locale.conf
 LANG=de_DE.UTF-8
 LC_CTYPE=de_DE.UTF-8
 #+end_src
 
 - Localhost und die localdomain festlegen:
 
-#+begin_src shell :tangle tangle/hosts
+#+begin_src shell :tangle hosts
 # Static table lookup for hostnames.
 # See hosts(5) for detailsh
 127.0.0.1    localhost
@@ -190,7 +189,7 @@ pacman-key -v archlinux-version-x86_64.iso.sig                                  
 Falls VM: ISO in die VM laden + Speicher, CPU, RAM, GPU etc. der virtuellen Maschine zuweisen und mit funktionsfähigem Internet (auf dem Hostsystem) die VM booten
 - Standardmäßig Skript install-vm verwenden. Falls ich Installation in VM lieber step by step (wie bei Hardware machen will) um alles selbst zu konfigurieren, muss ich das untere Skript install-hardware-modified verwenden.
 - Zusätzliche Infos für Copy-and-paste und geteilten Ordner hier: [[~/flowmis-os/flowmis-os.org::VirtualBox][VirtualBox]]
-#+begin_src shell :tangle tangle/install-vm-mit-skript.sh
+#+begin_src shell :tangle install-vm-mit-skript.sh
 # 1. ~python -m archinstall~
 #    Einstellungen:
 #    - Sprache auf de & locale-lang auf de.DE
@@ -228,7 +227,7 @@ sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcman
 # ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
 sudo systemctl enable sddm
 #+end_src
-#+begin_src shell :tangle tangle/install-hardware.sh
+#+begin_src shell :tangle install-hardware.sh
 ###Achtung: Auf Hardware machen mehrere Partitionen Sinn
 # fdisk -l                                                                    # Alternativ: <lsblk>
 # fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
@@ -358,7 +357,7 @@ sudo pacman -S python-utils && qtile check && echo 'Qtile dependencies installie
   | M r                           | spawn prompt -> öffnen von Programmen                |
   | M Space                       | öffnet Terminal                                      |
   
-#+begin_src python :tangle tangle/config.py
+#+begin_src python :tangle flowmis/.config/qtile/config.py
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
@@ -629,7 +628,7 @@ Mit ESC im Terminal komm ich in den vim Mode und kann dort dann wie in emacs mar
 
 *** Bash
 
-#+begin_src bash :tangle tangle/.bashrc
+#+begin_src bash :tangle flowmis/.bashrc
 ### EXPORT
 export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
 export ALTERNATE_EDITOR=""                        # setting for emacsclient
@@ -805,7 +804,7 @@ fi
 - Mit shell: und dann program: /bin/fish mach ich dass alacritty gleich mit fish startet -> fish hilft mir bessere Vorschläge zu bekommen etc.
 
 
-#+begin_src sh :tangle tangle/alacritty.toml
+#+begin_src sh :tangle flowmis/.config/alacritty/alacritty.toml
 [colors]
 draw_bold_text_with_bright_colors = true
 
@@ -944,7 +943,7 @@ y = 6
 - =count, math, random= sind ebenfalls nützliche eingebaute Funktionen
 - =ALT w= ist auch cooles keybinding das einem sagt was es ist - teste den Befehl ls und dann ohne Enter =Alt w=
 
-#+begin_src sh :tangle tangle/config.fish
+#+begin_src sh :tangle flowmis/.config/fish/config.fish
 ### ADDING TO THE PATH
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
@@ -1214,7 +1213,7 @@ starship init fish | source
 
 *** Eshell
 
-#+begin_src sh :tangle /home/flowmis/flowmis-os/emacs/eshell/aliases
+#+begin_src sh :tangle flowmis/.config/emacs/eshell/aliases
 # Aliases for emacs commands
 alias ff find-file $1
 alias sleep systemctl suspend
@@ -1370,7 +1369,7 @@ alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs 
 
 **** config und credentials
 
-#+begin_src shell :tangle tangle/.gitconfig
+#+begin_src shell :tangle flowmis/.gitconfig
 [user]
 name = flowmis
 email = hedwig.lanter@gmx.de
@@ -1535,7 +1534,7 @@ Session=qtile.desktop
 - Nach der Installation ist der Standard Login Screen aktiviert und (hier: sudo nvim /etc/sddm.conf.d/kde_settings.conf) noch keine config vorhanden
 - Um die config zu schreiben einfach das arch-tweak-tool installieren und in den su Modus wechseln und vom Terminal aus im su Modus mit ~archlinux-tweak-tool~ das Tool starten -> in Login wechseln und das zuvor installierte Theme (mit yay installiert) auswählen -> auto-login aktivieren und Desktop Session auf qtile stellen -> Apply Settings -> im Terminal oder in der Gui sollte nun erscheinen dass Theme aktiviert wurde!
 
-#+begin_src sh :tangle no
+#+begin_src sh
 yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal wegen Bestätigungen und sudo-privileges
 #+end_src
 
@@ -1638,7 +1637,7 @@ sudo cp -r /home/flowmis/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.
 
 #+RESULTS:
 
-#+begin_src shell :tangle tangle/70-synaptics.conf
+#+begin_src shell :tangle 70-synaptics.conf
 # Example xorg.conf.d snippet that assigns the touchpad driver
 # to all touchpads. See xorg.conf.d(5) for more information on
 # InputClass.
@@ -1727,7 +1726,7 @@ EndSection
 - Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
   -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
 
-#+begin_src sh :tangle tangle/.xprofile
+#+begin_src sh :tangle flowmis/.xprofile
 ## uncomment in VM
 # setxkbmap -layout de &
 # xrandr -s 1920x1080 &                               # In VM aktivieren
@@ -1749,7 +1748,7 @@ emacs --daemon &
 # g810-led -g functions ff00ff
 # g810-led -g multimedia ff00ff
 # loadkeys de-latin1 &
-setxkbmap -option 'ctrl:nocaps' &          #Caps ersetzt Control
+setxkbmap -option 'ctrl:nocaps'         #Caps ersetzt Control
 #+end_src
 
 ** Picom

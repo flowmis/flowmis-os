@@ -1,0 +1,74 @@
+
+
+
+|-------------------+-----------------------+------------------+---------------------------|
+| [[elisp:(org-agenda)][a-Agenda]]          | [[denote:20240214T201134][b-Bücher]]              | [[denote:20240214T202744][c-Chemie]]         | [[denote:20240105T114933][C-UP-Chemie]]               |
+| [[denote:20240207T133915][h-Home]]            | [[denote:20240212T121907][w-Work]]                | [[denote:20240214T203427][s-Sport]]          | [[denote:20231225T185132][S-UP-Sport]]                |
+| [[/home/flowmis/flowmis-os/flowmis-os.org][f-Flowmis-OS]]      | [[/home/flowmis/cloud/life/][l-life]]                | [[denote:20240214T163522][L-Latex]]          | [[denote:20240204T114444][k-Kalender inbox]]          |
+| [[denote:20240214T203339][p-projekte]]        | [[denote:20240214T203324][n-Nachhilfe]]           | [[denote:20240214T203354][r-Rezepte]]        | [[denote:20240214T202735][1-Büro]]                    |
+| [[denote:20240214T202722][2-Bildung]]         | [[denote:20240214T203416][3-Skripte]]             | [[denote:20240214T202755][4-ffff]]           | [[denote:20240214T203405][5-SelfSovereign]]           |
+|                   |                       |                  |                           |
+| .              -> | find-file             | e             -> | Eshell & Eval             |
+| =              -> | Perspective           | f             -> | Files                     |
+| TAB TAB        -> | comment-line          | g             -> | Git                       |
+| SPC            -> | Fokus nächstes Window | h             -> | Help                      |
+| left           -> | Anfang der Linie      | k             -> | Kalender                  |
+| right          -> | Ende der Linie        | m             -> | Multiedit                 |
+| down           -> | Page down             | n             -> | Notes                     |
+| up             -> | Page up               | o             -> | Org-Mode                  |
+| b              -> | Buffer & Windows      | p             -> | Paste                     |
+| c              -> | Checker               | r             -> | Register & Referenzierung |
+| d              -> | Dired & Decrypt       | s             -> | Suche, Grep & Ediff       |
+| D              -> | Download              | t             -> | Toggle & Theme            |
+|-------------------+-----------------------+------------------+---------------------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:DASHBOARD-EINSTELLUNGEN:
+Für den Fall dass ich ein Bild integrieren will wird dies hierdurch auch angezeigt und zudem wird hierdurch der minor mode den ich für das dashboard erstellt habe aktiviert!
+#+STARTUP: inlineimages
+;; Local Variables:
+;; eval: (mane-start-mode)
+;; End:
+:END:

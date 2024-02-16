@@ -19,4 +19,4 @@ emacs --daemon &
 # g810-led -g functions ff00ff
 # g810-led -g multimedia ff00ff
 # loadkeys de-latin1 &
-setxkbmap -option 'ctrl:nocaps' &          #Caps ersetzt Control
+setxkbmap -option 'ctrl:nocaps'         #Caps ersetzt Control

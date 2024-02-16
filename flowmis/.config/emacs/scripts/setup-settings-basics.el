@@ -102,19 +102,33 @@
     "." '(find-file :which-key "Find file")
     "=" '(perspective-map :wk "Perspective") ;; Lists all the perspective keybindings
     "TAB TAB" '(comment-line :wk "Comment lines")
+    "SPC" '(evil-window-next :wk "Goto next window")
     "<right>" '(end-of-line :wk "zum Ende der Zeile springen")
     "<left>" '(beginning-of-line :wk "zum Start der Zeile springen")
     "<up>" '(evil-scroll-page-up :wk "Page up")
     "<down>" '(evil-scroll-page-down :wk "Page down")
     
-    ;; Buffer
+    ;; Buffer & Windows
     "b" '(:ignore t :wk "Buffer-Keybindings")
     "b b" '(switch-to-buffer :wk "Switch Buffer")
-    "b k" '(kill-this-buffer :wk "Kill Buffer")
-    "b n" '(next-buffer :wk "Nächster Buffer")
-    "b v" '(previous-buffer :wk "Vorheriger Buffer")
-    "b r" '(revert-buffer :wk "Reload Buffer")
+    "b c" '(delete-window :wk "Close Window") ;Unterschied zu evil-window-delete?
+    "b f" '(delete-other-windows :wk "Fokus auf aktuelles Window")
+    "b h" '(evil-window-left :wk "Window left")
+    "b H" '(buf-move-left :wk "Buffer move left")
     "b i" '(ibuffer :wk "Liste offener Buffer")
+    "b j" '(evil-window-down :wk "Window down")
+    "b J" '(buf-move-down :wk "Buffer move down")
+    "b k" '(evil-window-up :wk "Window up")
+    "b K" '(buf-move-up :wk "Buffer move up")
+    "b l" '(evil-window-right :wk "Window right")
+    "b L" '(buf-move-right :wk "Buffer move right")
+    "b n" '(next-buffer :wk "Nächster Buffer")
+    "b N" '(evil-window-new :wk "New window")
+    "b r" '(revert-buffer :wk "Reload Buffer")
+    "b S" '(evil-window-split :wk "Horizontal split window")
+    "b s" '(evil-window-vsplit :wk "Vertical split window")
+    "b v" '(previous-buffer :wk "Vorheriger Buffer")
+    "b x" '(kill-this-buffer :wk "Kill Buffer")
     "b y" '(copy-current-path-to-clipboard :wk "Copy Path to this Buffer")
 
     ;; Checker
@@ -155,12 +169,13 @@
     
     ;; Files
     "f" '(:ignore t :wk "find-file bzw. go to file")
-    "f c" '((lambda () (interactive) (find-file "~/flowmis-os/emacs/config.org")) :wk "Gehe zur emacs config")
+    "f c" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis/.config/emacs/config.org")) :wk "Gehe zur emacs config")
     "f C" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Gehe zur aktuellen emacs config")
     "f f" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Gehe zu flowmis-os")
-    "f h" '((lambda () (interactive) (find-file "~/cloud/life/raum/pkb/home.org")) :wk "Gehe zur emacs config")
-    "f w" '((lambda () (interactive) (find-file "~/cloud/life/raum/pkb/work.org")) :wk "Gehe zur emacs config")
+    "f h" '((lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org")) :wk "Gehe zur emacs config")
     "f r" '(counsel-recentf :wk "Find recent files")
+    "f s" '((lambda () (interactive) (find-file "~/.config/emacs/start.org")) :wk "Gehe zur Startseite")
+    "f w" '((lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org")) :wk "Gehe zur emacs config")
     
     ;; Git
     "g" '(:ignore t :wk "Git")
@@ -270,22 +285,6 @@
     "t t" '(org-transclusion-mode :wk "org-transclusion-aktivieren")
     "t T" '(org-transclusion-add :wk "org-transclusion-aktivieren")
     "t v" '(vterm-toggle :wk "Toggle vterm")
-    
-    ;; Windows
-    "w" '(:ignore t :wk "Windows")
-    "w c" '(evil-window-delete :wk "Close window")
-    "w n" '(evil-window-new :wk "New window")
-    "w s" '(evil-window-split :wk "Horizontal split window")
-    "w v" '(evil-window-vsplit :wk "Vertical split window")
-    "w h" '(evil-window-left :wk "Window left")
-    "w j" '(evil-window-down :wk "Window down")
-    "w k" '(evil-window-up :wk "Window up")
-    "w l" '(evil-window-right :wk "Window right")
-    "w w" '(evil-window-next :wk "Goto next window")
-    "w H" '(buf-move-left :wk "Buffer move left")
-    "w J" '(buf-move-down :wk "Buffer move down")
-    "w K" '(buf-move-up :wk "Buffer move up")
-    "w L" '(buf-move-right :wk "Buffer move right")
 ))
 (use-package sudo-edit   ;;https://github.com/nflath/sudo-edit
   :config

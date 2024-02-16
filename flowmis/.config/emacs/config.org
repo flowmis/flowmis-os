@@ -38,7 +38,7 @@
   - [[#open-links-with-programm][Open Links with Programm]]
   - [[#download][Download]]
   - [[#drillflashcardslearningcard-in-emacs][Drill/Flashcards/Learningcard in Emacs]]
-  - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
+  - [[#org-blocks][Org-Blocks]]
   - [[#tables][Tables]]
   - [[#transclusion][Transclusion]]
   - [[#presentationen][Presentationen]]
@@ -122,12 +122,27 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
 (with-eval-after-load 'evil
   (evil-define-key 'normal mane-start-mode-map ;Keys sind nur um mane-start-mode vergeben
     (kbd "o z") 'eshell
-;; (kbd "0") '(lambda () (interactive) (org-agenda))
-;; (kbd "1") '(lambda () (interactive) (cfw:open-org-calendar))
-;; (kbd "2") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/home.org"))
-;; (kbd "3") '(lambda () (interactive) (find-file "~/cloud/life/raum/.org/work.org"))
-    (kbd "9") (lambda () (interactive) (find-file "~/cloud/life/")))
-)
+    (kbd "a") '(lambda () (interactive) (org-agenda))
+    (kbd "b") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T201134==mh--bücher__projekt.org"))
+    (kbd "c") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202744==mh--chemie__projekt.org"))
+    (kbd "C") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__ch_pkb.org"))
+    (kbd "h") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org"))
+    (kbd "w") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org"))
+    (kbd "s") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203427==mh--sport__projekt.org"))
+    (kbd "S") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20231225T185132==mh--unterrichtsplanung__pkb_spo.org"))
+    (kbd "f") (lambda () (interactive) (find-file "/home/flowmis/flowmis-os/flowmis-os.org"))
+    (kbd "l") (lambda () (interactive) (find-file "~/cloud/life/"))
+    (kbd "L") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T163522==mh--latex__del.org"))
+    (kbd "k") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240204T114444==mh--kalender-inbox__del.org"))
+    (kbd "r") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203354==mh--rezepte__projekt.org"))
+    (kbd "p") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203339==mh--projekte__projekt.org"))
+    (kbd "n") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203324==mh--nachhilfe__pkb.org"))
+    (kbd "1") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202735==mh--büro__projekt.org"))
+    (kbd "2") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202722==mh--bildung__h_pkb_w.org"))
+    (kbd "3") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203416==mh--skripte-programme-configs__projekt.org"))
+    (kbd "4") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202755==mh--ffff__projekt.org"))
+    (kbd "5") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203405==mh--self-sovereign__h_pkb_projekt_w.org"))
+))
 
    (add-hook 'mane-start-mode-hook 'read-only-mode) ;read-only-mode disablen wenn ich etwas ändern will (C-x C-q).
    (provide 'mane-start-mode)
@@ -1011,25 +1026,43 @@ Was geht ab Mane
 **** Die Antwort
 Nothing special ;)
 
-** Source Code Block Tag Expansion
-Org-tempo ist kein eigenes Paket sondern ein Modul in org das man aktivieren kann um '<s' mit TAB zu einem source-block umzuwandeln. Weitere Möglichkeiten: Änderungen dann lieber mit yasnippets und dann kann ich den Teil hier eigentlich auch löschen!
+** Org-Blocks
+*** tag expansion mit Org-tempo 
+Ist kein eigenes Paket sondern ein Modul in org das man aktivieren kann um '<s' mit TAB zu einem source-block umzuwandeln. Weitere Möglichkeiten: Änderungen dann lieber mit yasnippets und dann kann ich den Teil hier eigentlich auch löschen!
 
-| Typing the below + TAB | Expands to ...                          |
-|------------------------+-----------------------------------------|
-| <a                     | '#+BEGIN_EXPORT ascii' … '#+END_EXPORT  |
-| <c                     | '#+BEGIN_CENTER' … '#+END_CENTER'       |
-| <C                     | '#+BEGIN_COMMENT' … '#+END_COMMENT'     |
-| <e                     | '#+BEGIN_EXAMPLE' … '#+END_EXAMPLE'     |
-| <E                     | '#+BEGIN_EXPORT' … '#+END_EXPORT'       |
-| <h                     | '#+BEGIN_EXPORT html' … '#+END_EXPORT'  |
-| <l                     | '#+BEGIN_EXPORT latex' … '#+END_EXPORT' |
-| <q                     | '#+BEGIN_QUOTE' … '#+END_QUOTE'         |
-| <s                     | '#+BEGIN_SRC' … '#+END_SRC'             |
-| <v                     | '#+BEGIN_VERSE' … '#+END_VERSE'         |
+ | Typing the below + TAB | Expands to ...                          |
+ |------------------------+-----------------------------------------|
+ | <a                     | '#+BEGIN_EXPORT ascii' … '#+END_EXPORT  |
+ | <c                     | '#+BEGIN_CENTER' … '#+END_CENTER'       |
+ | <C                     | '#+BEGIN_COMMENT' … '#+END_COMMENT'     |
+ | <e                     | '#+BEGIN_EXAMPLE' … '#+END_EXAMPLE'     |
+ | <E                     | '#+BEGIN_EXPORT' … '#+END_EXPORT'       |
+ | <h                     | '#+BEGIN_EXPORT html' … '#+END_EXPORT'  |
+ | <l                     | '#+BEGIN_EXPORT latex' … '#+END_EXPORT' |
+ | <q                     | '#+BEGIN_QUOTE' … '#+END_QUOTE'         |
+ | <s                     | '#+BEGIN_SRC' … '#+END_SRC'             |
+ | <v                     | '#+BEGIN_VERSE' … '#+END_VERSE'         |
 
-#+begin_src elisp 
-(require 'org-tempo)
-#+end_src
+ #+begin_src elisp 
+ (require 'org-tempo)
+ #+end_src
+
+*** Chemie in org
+ - ~pip install rdkit~
+ - [[https://de.wikipedia.org/wiki/Simplified_Molecular_Input_Line_Entry_Specification][smiles (Simplified Molecular Input Line Entry System)]]
+ - siehe:
+  - https://www.youtube.com/watch?v=9Z9XM9xamDU
+  - https://www.youtube.com/watch?v=CUX7ZLunoO4
+
+ ##+begin_src jupyter :session yes
+ #from rdkit import Chem
+ ##+end_src
+
+ ##+begin_src jupyter :session yes
+ #m = Chem.MolFromSmiles('C(C(CO[N+](=O)[O-])O[N+](=O)[O-])O[N+](=O)[O-]')
+ #m
+ ##+end_src
+
 ** Tables
 - Video zu [[https://www.youtube.com/watch?v=JesPNdMS4Ik][orgtbl-aggregate]] und [[https://github.com/tbanel/orgaggregate/tree/master][github]]
 - Um Tabellen schöner darzustellen verwende ich aktuell [[https://github.com/Fuco1/org-pretty-table/tree/master][org-pretty-table]]
