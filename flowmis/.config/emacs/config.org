@@ -44,6 +44,7 @@
   - [[#presentationen][Presentationen]]
   - [[#roam][roam]]
 - [[#passwörter][Passwörter]]
+- [[#pdf-tools][PDF-Tools]]
 - [[#safe-undo-redo-yank][Safe Undo Redo Yank]]
 - [[#search-grep-ediff][Search, Grep, Ediff,...]]
 - [[#snippetsabbrev][Snippets/Abbrev]]
@@ -1138,6 +1139,13 @@ Das Paket password-store ist bisher nicht nativ in Emacs. Es kann für die Integ
   ;; Hier können Sie weitere Konfigurationen vornehmen, z.B. Tastenkombinationen festlegen
   )
 #+end_src
+* PDF-Tools
+#+begin_src elisp
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install))
+#+end_src
 * Safe Undo Redo Yank
 - Aktuell so konfiguriert, dass die Dateien im Papierkob meiner Cloud landen! Alternativ sollte ich es so konfigurieren, dass sie in ~/.local/share/files/ landen!
 - Ich werde aktuell nicht mehr gefragt ob ich etwas speichern will, aber alle ungespeicherten Änderungen bleiben solange ich den daemon nicht kille mit ~killall emacs~ erhalten. Ich kann also einen neuen Client öffnen und dann speichern. Wenn ich Emacs mit <C-x C-c> schließe werde ich dank der Funktion hier auch gefragt ob ich etwas ungespeichertes speichern will. Sollte ich vergessen etwas zu speichern und den daemon killen, dann wird eine Backup Datei vom Autosafe erstellt wo die Änderungen noch enthalten sind, aber der ungespeicherte Fortschritt ist im nächsten Client dann nicht mehr sichtbar und kann dort somit später nicht noch gespeichert werden. Da ich es mir ganz gut angewöhnt habe wichtige Änderungen zu speichern ist es auf diese Art sinnvoll, da unbeabsichtigte Speicherprozesse nicht passieren, aber kann schon sein, dass dann mal was nicht gespeichert wird und es mir auch nicht auffällt!!! Eventuell bekomme ich es daher noch hin auch eine Nachfrage im Buffer zu erhalten, ob der Client geschlossen werden soll mit oder ohne zu speichern wenn ich den Client nicht mit <C-x C-c> sondern über Qtile schließe!
@@ -1348,9 +1356,9 @@ ICH SOLLTE NOCH EIN ABBREV HIERFÜR ERSTELLEN UND AM BESTEN SCHAUEN, DASS AUCH D
   :after org
   :init
   (setq reftex-default-bibliography '("/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib") ;Für Export zu Latex wichtig! Diese Einstellung definiert einen oder mehrere Pfade zu deinen BibTeX-Bibliografiedateien. RefTeX ist ein integriertes Paket in Emacs, das zusammen mit org-ref zur Verwaltung von Literaturverweisen verwendet wird. Diese Dateien enthalten deine Literaturdatenbank im BibTeX-Format. Wenn du in einem Dokument auf ein Werk verweisen möchtest, sucht RefTeX in diesen Dateien nach den entsprechenden Einträgen. 
-        org-ref-bibliography-notes "/home/flowmis/cloud/life/raum/pkb/literatur/notes/20240214T132208==mh--notizen__h_pkb_w.org" ;Diese Option gibt den Speicherort deiner Literaturnotizen an. In dieser Datei kannst du persönliche Anmerkungen, Zusammenfassungen oder Kommentare zu den Werken in deiner Bibliografie speichern. org-ref ermöglicht es dir, direkt aus deinem Org-Dokument auf diese Notizen zuzugreifen oder neue Notizen zu erstellen.
+        org-ref-bibliography-notes "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T132208==mh--notizen__h_pkb_w.org" ;Wenn ich in einer .bib bin und dort auf einem Eintrag kann ich die Funktion <M-x org-ref-open-bibtex-notes> ausführen und springe dadurch zu dieser hier angegebenen Datei und dort befinden sich meine Notizen bzw. falls nicht wird ein Header für den entsprechenden bibtex eintrag erstellt!
         org-ref-default-bibliography '("/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib") ;Für die Funktionalität von org-ref wichtig! Ähnlich wie reftex-default-bibliography legt diese Einstellung den oder die Standardpfade zu deinen BibTeX-Bibliografiedateien für org-ref fest. Diese Dateien werden verwendet, um Literaturverweise in deinen Org-Dokumenten zu suchen und einzufügen.
-        org-ref-pdf-directory "/home/flowmis/cloud/life/raum/pkb/literatur/pdf/") ;Diese Einstellung gibt den Speicherort an, an dem die PDF-Dateien deiner Literaturquellen gespeichert sind. org-ref kann diese PDFs direkt aus dem Org-Dokument heraus öffnen, was den Zugriff auf deine Quelldokumente erleichtert.
+        org-ref-pdf-directory "/home/flowmis/cloud/life/raum/pkb/literatur/") ;Diese Einstellung gibt den Speicherort an, an dem die PDF-Dateien deiner Literaturquellen gespeichert sind. org-ref kann diese PDFs direkt aus dem Org-Dokument heraus öffnen, was den Zugriff auf deine Quelldokumente erleichtert.
   :config
   (setq bibtex-autokey-year-length 4
         bibtex-autokey-name-year-separator "-"
@@ -1361,8 +1369,13 @@ ICH SOLLTE NOCH EIN ABBREV HIERFÜR ERSTELLEN UND AM BESTEN SCHAUEN, DASS AUCH D
         bibtex-autokey-titleword-length 5
 	  org-ref-completion-library 'org-ref-ivy-cite))
 
-(use-package ivy-bibtex  ;theoretisch könnte ich auch helm etc. verwenden.
-  :after (org-ref))
+(use-package ivy-bibtex
+  :after (org-ref)
+  :config
+  ;; Pfad zu Ihrem PDF-Verzeichnis für ivy-bibtex
+  (setq bibtex-completion-library-path "/home/flowmis/cloud/life/raum/pkb/literatur/"
+        bibtex-completion-bibliography "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib"
+        bibtex-completion-notes-path "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T132208==mh--notizen__h_pkb_w.org"))
 
 (defun mane-export-to-pdf-and-clean ()
   "Exportiert an Ort und Stelle, dass auch die Biber Dateien genutzt werden können und verschiebt dann in den Exportordner. Mit dieser Funktion muss kein Pfad mehr angegeben werden (#+export_file_name: blabla.pdf <- ohne Pfad reicht nun) und zudem werden unnötige Dateien vor Ort direkt nach dem Export gelöscht."

@@ -252,6 +252,7 @@
     "r" '(:ignore t :wk "Register")
     "R" '(:ignore t :wk "Referenzieren mit org-ref")
     "R l" '(org-ref-insert-link :wk "Quelle einfügen")
+    "R o" '(org-ref-open-bibtex-notes :wk "Notiz zur Quelle öffnen")
     "r w" '(window-configuration-to-register :wk "Window configuration to register")
     "r f" '(frameset-to-register :wk "Frameset to register")
     "r j" '(jump-to-register :wk "Jump to register")
