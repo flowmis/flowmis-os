@@ -37,16 +37,20 @@
   - [[#org-bullets][Org Bullets]]
   - [[#open-links-with-programm][Open Links with Programm]]
   - [[#download][Download]]
+  - [[#drillflashcardslearningcard-in-emacs][Drill/Flashcards/Learningcard in Emacs]]
   - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
+  - [[#tables][Tables]]
   - [[#transclusion][Transclusion]]
   - [[#presentationen][Presentationen]]
   - [[#roam][roam]]
+- [[#passwörter][Passwörter]]
 - [[#safe-undo-redo-yank][Safe Undo Redo Yank]]
-- [[#search][Search]]
+- [[#search-grep-ediff][Search, Grep, Ediff,...]]
 - [[#snippetsabbrev][Snippets/Abbrev]]
 - [[#which-key][Which-Key]]
-- [[#workspaces][Workspaces]]
+- [[#workspaces-register--bookmarks][Workspaces, Register & Bookmarks]]
 - [[#zitieren-mit-org-ref][Zitieren mit org-ref]]
+- [[#tramp][Tramp]]
 - [[#testing][TESTING]]
 
 * Ausgelagerte Skripte "Module"
@@ -78,6 +82,7 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
    languagetool-java-arguments '("-Dfile.encoding=UTF-8" "-cp" "/usr/share/languagetool:/usr/share/java/languagetool/*")
    languagetool-console-command "org.languagetool.commandline.Main"
    languagetool-server-command "org.languagetool.server.HTTPServer"))
+   (setq safe-local-variable-values nil) ;wenn ich keine lokalen Regeln speichern will und mich die nachfrage nervt muss ich es hier nil setzen
 
 ;; Alternativ: ~sudo pacman -S hunspell-de~
 ;; (setq ispell-program-name "hunspell")
@@ -133,6 +138,8 @@ Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a25897
 ~(add-to-list 'load-path "~/.config/emacs/scripts/denote")~ bei ausgelagerter Skripte angeben und dann die folgenden Konfigurationen vornehmen (Update mit git pull):
 - Wichtige Features:
   - [[https://www.youtube.com/watch?v=gMq-703ZVZQ][Sorting and org-dynamic-blocks]] für Meta Notes (siehe auch [[https://www.youtube.com/watch?v=zzXcav0yb50][hier]])
+- Link zu org-header mit <M-x org-stroe-link> unter dem org-header speichert den Link dazu -> in der anderen Datei dann <M-x org-insert-link> um den Link einzufügen -> Beispiel: [[file:~/flowmis-os/flowmis-os.org::*Emacs][Emacs-Header in flowmis-os]]
+- Geht auch über eine Funktion, aber bei mir sind noch nicht alle aktiv, sondern nur die basics! Zudem kann ich ein org-header zu einer neuen denote notiz machen mit einer Funktion!
 #+begin_src elisp
 (require 'denote)
 ;; Remember to check the doc strings of those variables.
@@ -707,7 +714,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 ;;   :config
 ;;   (setq org-mu4e-convert-to-html t))
 #+end_src
-* Makros
+* TODO Makros
 kmacro-lambda-form ist veraltet und sollte durch kmacro ersetzt werden seit emacs 29 -> Generell muss ich die Makros hier updaten, da yasnippets anders funktioniert und eine zusätzliche Bestätigung braucht. Zudem müssen die Links die ich klicke für den Export geupdatet werden und die erste Funktion durch (evil-close-fold) ersetzt werden,... -> Bei Gelegenheit mal komplet neu machen und am besten auch einfach ohne Icon und nur mit Link über dem Name, sodass es dann so aussieht:
 "* [[elisp:(progn (evil-close-fold) (evil-visual-line) (export-ch-presentation) (delete-tex-files))][Präsentation]] :pres:"
 
@@ -761,7 +768,8 @@ Makros am besten in einer seperaten macro.el speichern und diese über config.el
       :desc "Execute macro"
       "m m 3" #'mane-export-presentation)
 * Multiedit/Mulitple Cursor
-- Es gibt das Paket multiple-cursors und das Paket evil-multiedit (von hlissner). Für meinen Einsatz sind beide eigentlich ausreichend
+- Es gibt das Paket [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] und das Paket [[https://github.com/hlissner/evil-multiedit][evil-multiedit]] (von hlissner). Für meinen Einsatz sind beide eigentlich ausreichend
+- Keybindings muss ich noch setzen und lernen es zu nutzen.
 #+begin_src elisp
 (use-package evil-multiedit
   :ensure t
@@ -984,6 +992,25 @@ siehe [[https://github.com/abo-abo/org-download][hier]]
 ;; (setq org-download-display-inline-images nil) ;hiermit wird das Bild nur eingefügt aber nicht angezeigt
 
 #+end_src
+
+** Drill/Flashcards/Learningcard in Emacs
+Anwendungsbeispiele: [[Anwednungs][hier]]
+#+begin_src elisp
+(use-package org-drill
+  :ensure t
+  :after org
+  :config
+  ;; Konfiguration für org-drill, falls erforderlich
+)
+#+end_src
+*** Frage 1 :drill:
+:PROPERTIES:
+:ID:       41471781-b5ea-45bb-a344-6b8f90607bfb
+:END:
+Was geht ab Mane
+**** Die Antwort
+Nothing special ;)
+
 ** Source Code Block Tag Expansion
 Org-tempo ist kein eigenes Paket sondern ein Modul in org das man aktivieren kann um '<s' mit TAB zu einem source-block umzuwandeln. Weitere Möglichkeiten: Änderungen dann lieber mit yasnippets und dann kann ich den Teil hier eigentlich auch löschen!
 
@@ -1002,6 +1029,25 @@ Org-tempo ist kein eigenes Paket sondern ein Modul in org das man aktivieren kan
 
 #+begin_src elisp 
 (require 'org-tempo)
+#+end_src
+** Tables
+- Video zu [[https://www.youtube.com/watch?v=JesPNdMS4Ik][orgtbl-aggregate]] und [[https://github.com/tbanel/orgaggregate/tree/master][github]]
+- Um Tabellen schöner darzustellen verwende ich aktuell [[https://github.com/Fuco1/org-pretty-table/tree/master][org-pretty-table]]
+- Mit <C-c Tab> kann ich eine Spalte manuell ein/ausblenden
+#+begin_src elisp
+(use-package orgtbl-aggregate
+  :ensure t
+  :after org
+  :config
+  ;; Konfiguration für orgtbl-aggregate, falls erforderlich
+)
+
+(use-package org-pretty-table
+  :ensure t
+  '(org-pretty-table :host github :repo "Fuco1/org-pretty-table")
+  :config
+  (global-org-pretty-table-mode t)
+)
 #+end_src
 ** Transclusion
 https://github.com/nobiot/org-transclusion
@@ -1050,10 +1096,21 @@ https://github.com/yjwen/org-reveal/
 ;;         org-roam-ui-update-on-save t
 ;;         org-roam-ui-open-on-start t))
 #+end_src
+* Passwörter
+Das Paket password-store ist bisher nicht nativ in Emacs. Es kann für die Integration von dem Passwortmanager pass (Unix-Tool) verwendet werden. Das password-store Paket in Emacs ermöglicht es Benutzern, auf ihre Passwörter zuzugreifen und sie innerhalb von Emacs zu verwenden, was eine nahtlose Integration in den Workflow bietet.
+#+begin_src elisp
+(use-package password-store
+  :ensure t
+  :config
+  ;; Hier können Sie weitere Konfigurationen vornehmen, z.B. Tastenkombinationen festlegen
+  )
+#+end_src
 * Safe Undo Redo Yank
 - Aktuell so konfiguriert, dass die Dateien im Papierkob meiner Cloud landen! Alternativ sollte ich es so konfigurieren, dass sie in ~/.local/share/files/ landen!
 - Ich werde aktuell nicht mehr gefragt ob ich etwas speichern will, aber alle ungespeicherten Änderungen bleiben solange ich den daemon nicht kille mit ~killall emacs~ erhalten. Ich kann also einen neuen Client öffnen und dann speichern. Wenn ich Emacs mit <C-x C-c> schließe werde ich dank der Funktion hier auch gefragt ob ich etwas ungespeichertes speichern will. Sollte ich vergessen etwas zu speichern und den daemon killen, dann wird eine Backup Datei vom Autosafe erstellt wo die Änderungen noch enthalten sind, aber der ungespeicherte Fortschritt ist im nächsten Client dann nicht mehr sichtbar und kann dort somit später nicht noch gespeichert werden. Da ich es mir ganz gut angewöhnt habe wichtige Änderungen zu speichern ist es auf diese Art sinnvoll, da unbeabsichtigte Speicherprozesse nicht passieren, aber kann schon sein, dass dann mal was nicht gespeichert wird und es mir auch nicht auffällt!!! Eventuell bekomme ich es daher noch hin auch eine Nachfrage im Buffer zu erhalten, ob der Client geschlossen werden soll mit oder ohne zu speichern wenn ich den Client nicht mit <C-x C-c> sondern über Qtile schließe!
 - Undo Tree vll nicht das geilste Werkzeug und Git zusammen mit autosafe und der git timemachine die bessere Version Control!
+
+- (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
 #+begin_src elisp
 (defun confirm-save-buffers-then-kill-emacs ()
   "Fragt nach dem Speichern von Buffern, dann ob Emacs wirklich geschlossen werden soll."
@@ -1077,38 +1134,91 @@ https://github.com/yjwen/org-reveal/
           (kill-new path)
           (message "Kopiert: %s" path))
       (message "Kein Pfad verfügbar!"))))
-
-;; (setq 
-      ;; undo-tree-auto-save-history t
-      ;; undo-tree-history-directory-alist '(("." . "~/cloud/life/zeit/papierkorb/undo-tree-history/"))
-      ;; save-interprogram-paste-before-kill t                                                                   ;Speichert kopierte Inhalte ausserhalb Emacs in den kill ring und macht es leichter bei zwischenzeitlichem löschen innerhalb Emacs das kopierte doch einzufügen
-;; )
-#+end_src
-* Search
-- Eine sehr vielfältige starke Suche in Emacs ist mit [[https://github.com/emacsorphanage/helm-swoop][helm-swoop]] möglich. Es kann auch hilfreich sein, die einfache in Emacs integrierte Suche i-search zu verwenden, oder swiper zu installieren und damit zu arbeiten bzw. helm+swiper um ähnliche Funktion zu dieser Suche zu erhalten. Ich lasse i-search (C-s) mal aktiv und überschreibe das Keybinding nicht sondern binde diese umfangreichere Suche auf ein eigenes Keybinding, sodass ich beides nutzen kann (siehe Keybindings).
-- Mit Imenu kann ich schnell Headings/Sections finden -> habe ein Keybinding gesetzt, da imenu in emacs bereits vorinstalliert ist, habe ich hier nur imenu-list installiert und auch dafür ein Keybinding unter <SPC s>. 
-- grep etc. sind bereits vorinstalliert, aber falls es hier Probleme gibt kann ich vll auch mal nach einem Paket mit ripgrep (rg) suchen, da ich in doom mit dem Befehl rg gearbeitet habe.
-#+begin_src elisp
-(use-package helm-swoop
+;; Installieren und konfigurieren von undo-tree
+(use-package undo-tree
   :ensure t
-  ;; :bind (("C-s" . helm-swoop))
+  :config
+  (global-undo-tree-mode)
+  ;; Konfiguration für undo-tree
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist '(("." . "/home/flowmis/cloud/life/zeit/papierkorb/emacs/undo-tree"))
+        save-interprogram-paste-before-kill t) ;;Wenn auf t gesetzt, speichert Emacs Inhalte, die außerhalb von Emacs kopiert wurden, im Kill Ring. Dies ist nützlich, wenn Sie etwas kopieren, dann innerhalb von Emacs etwas löschen und schließlich das zuvor kopierte Element einfügen möchten, ohne es zu verlieren.
 )
+#+end_src
+* Search, Grep, Ediff,...
+- vielfältige Suche mit [[https://github.com/emacsorphanage/helm-swoop][helm-swoop]] (Alternative: swiper + helm/ivy)
+- Simple Suche mit i-search (in Emacs integriert) -> oft hilfreich für Navigation, da es nicht so viele unnötige treffer anzeigt und nur das findet was wirklich eingegeben wird!
+- Imenu hilft schnell Headings/Sections in großen Dateien zu finden (imenu ist bereits vorhanden, aber habe imenu-list installiert + Keybinding <SPC s>)
+- Ediff: MIt <M-x ediff-files> (Wenn ich die Buffer bereits offen habe kann ich <M-x ediff-files> verwenden was ansonsten gleich ist außer dass ich die Dtaeien nicht auswählen muss) -> Auswahl der Dateien und dann über Keybinds navigieren und Änderungen machen (? drücken um das Controlpanel zu sehen von dem aus die Keybinds gedrückt werden -> n = next diff,...) <- zuerst gewählte Datei ist Datei A und als zweites gewählte Datei ist Datei B und somit kann ich mit a den inhalt von a auf b übertragen und mit b den Inhalt von b nach a übertragen! Bei Fehlern kann ich einfach in die Datei gehen es rückgängig machen und wieder in das Contorlpanel und dort previous und next und ich bin wieder dort wo ich zuvor die falsche Änderung vorgenommen habe.
+  - In Magit sehr hilfreich: Recent Commits mit Maus markieren + e (Ediff dwim) -> in den markierten Committs kann ich mir nun eine Datei auswählen und schauen wie sich diese von unterstem bis oberstem ausgewählten Commit verändert hat! Super nice wenn man mal mehrere Commits zurück muss weil etwas nicht mehr funktioniert!
+- isearch: Mit <M-n> oder <M-p> kann ich zwischen vorherigen Sucheingaben wechseln 2x isearch aufrufen <C-s C-s> wiederholt die letzte Suche und mit <C-r> kann man rückwerts suchen! Mit <C-M s> kann ich isearch mit regex nutzen
+- Mit occur <M-s o> kann ich regexp einer Anfrage in seperatem Buffer öffnen - auch sehr hilfreich wenn ich zwischen den vorkommenden Stellen hin und her springen will kann ich den occur buffer hierfür nutzen (in ihm kann ich mit n und p navigieren um zu den Stellen im anderen Buffer zu springen) <- Mit e kann ich in occur-edit-mode wechseln und Änderungen direkt dort durchführen!
+- Diredsuche: Mit <M-x dired-mark-files-regexp> (dann t um alle anderen zu markieren und k um diese im Buffer auszublenden) -> so findet man zusammen mit nameing scheme schnell alle Dateien!
+- Ripgrep (rg): ~sudo pacman -S ripgrep~ Ist das beste aus grep und silversearcher tool (A search tool that combines the usability of ag with the raw speed of grep) -> Vorgehen ansonsten gleich wie bei Grep. Mit dem Paket wgrep kann ich den grep Buffer editierbar machen und so über mehrere Dateien hinweg gleichzeitig Änderungen vornehmen!
+  1. Mit dired an den Ort gehen 
+  2. <M-x rg> Suche starten 
+  3. In dem Buffer meine Funktion starten und damit zu wgrep und in den inser modus wechseln
+  4. Mit query replace oder manuelle Änderungen vornehmen 
+  5. <C-c C-c> Speichern und anwenden der Änderungen
+
+#+begin_src elisp
+(setq ediff-split-window-function 'split-window-horizontally  ;splits are side by side
+      ediff-window-setup-function 'ediff-setup-windows-plain) ;Control Panel ist direkt unterhalb der Buffer
+
+(setq search-whitespace-regexp ".*?") ;erlaubt isearch der Suche Buchstaben etc. zwischen zwei Wörtern zu überspringen, sodass ich wenige Buchstaben eines Worts Leertaste und den Beginn des zweiten Worts tippen kann um an eine Stelle zu springen 
+
+(defun mane-change-to-wgrep-and-evil-insert ()
+  "Wechselt zu wgrep-Modus und aktiviert dann den evil-insert-Modus."
+  (interactive)
+  (wgrep-change-to-wgrep-mode)
+  ;; wgrep-Modus braucht genug Zeit, bevor wir versuchen, in den evil-insert-Modus zu wechseln.
+  (run-with-idle-timer 0.1 nil (lambda () (evil-insert 1))))
+
+(use-package wgrep
+  :ensure t
+  :config
+  (setq wgrep-auto-save-buffer t))   ; Automatisches Speichern wenn ich die Änderungen mit C-c C-c bestätige
+
+(use-package rg
+  :ensure t)
+
+(use-package helm-swoop
+  :ensure t)
 
 (use-package imenu-list
   :ensure t
   :bind ("C-'" . imenu-list-smart-toggle)
   :config
   (setq imenu-list-focus-after-activation t))
-#+end_src
+#+end_src  
+
 * Snippets/Abbrev
-Statt yasnippets verwende ich die eingebauten Abbrev (abbreviation = Abkürzung), da ich so kein zusätzliches Paket benötige. Es ist möglich für unterschiedliche modes unterschiedliche abbrev Tabellen anzufertigen. Zudem kann man Funktionen dazu erstellen, sodass die Abkürzungen eine richtig geile Sache sind. Infos beispielsweise hier: https://www.youtube.com/watch?v=ruPpRlh2re4
+Statt yasnippets verwende ich die eingebauten Abbrev (abbreviation = Abkürzung) -> Infos [[https://www.youtube.com/watch?v=ruPpRlh2re4][hier]]
 #+begin_src elisp
-(defun mane-add-org-abbrevs ()
-  (define-abbrev global-abbrev-table "expres" "" 'mane-abbrev-expansion-1) ;; < sollte ich nicht als Zeichen wählen denn dann funktioniert es nicht!
-  (define-abbrev global-abbrev-table "exsvp" "" 'mane-abbrev-expansion-2)
-  (define-abbrev global-abbrev-table "exa4" "" 'mane-abbrev-expansion-3)
-  ;; Aktiviert abbrev-mode
-  (abbrev-mode 1))
+;; (use-package yasnippet
+  ;; :config
+  ;; (setq yas-snippet-dirs '("~/cloud/life/raum/pkb/material/yasnippets/"))
+  ;; (yas-global-mode 1))
+
+;;Abbrev Tables kann ich für unterschiedliche mode erstellen (sind mehrere aktiv wie in org mode wo text-mode und org-mode aktiv sind, wird bei einem Konflikt der lokalere genommen, also im Falle von org-mode die org-abbrev-table, da die text-abbrev-table hier weiter entfernt bzw. weiter unten und somit grundlegender liegt, aber bei keinem Konflikt funktioniert auch die text-abbrev-table in .org Dateien). ACHTUNG: SONDERZEICHEN FUNKTIONIEREN NUR MIT SPEZIELLER KONFIGURATION (REGEXP)!
+;;org-mode -> braucht einen hook für den org-mode
+(define-abbrev org-mode-abbrev-table "expres" "" 'mane-abbrev-expansion-1) ;; < sollte ich nicht als Zeichen wählen denn dann funktioniert es nicht!
+(define-abbrev org-mode-abbrev-table "exsvp" "" 'mane-abbrev-expansion-2)
+;;text-mode -> braucht einen hook für den text-mode
+(define-abbrev text-mode-abbrev-table "exa4" "" 'mane-abbrev-expansion-3)
+(define-abbrev text-mode-abbrev-table "exporthead" "#+export_file_name: /home/flowmis/cloud/life/zeit/void/export/")
+;;global-mode -> braucht einen hook für den global-mode
+(define-abbrev global-abbrev-table "timein" "" 'mane-current-time)
+;;text-mode und org-mode machen Sinn und wenn diese nicht aktiv sind ist man in der Regel im prog-mode (Programmiermodus) -> aktuell programmier ich zu wenig um es sinnvoll einzurichten!
+
+;; (add-hook 'org-mode-hook 'mane-add-org-abbrevs)
+(add-hook 'org-mode-hook 'abbrev-mode)
+(add-hook 'text-mode-hook 'abbrev-mode)
+;; (add-hook 'global-mode-hook 'abbrev-mode) ;; Sollte man eher vermeiden, da es zu unspezifisch ist und Probleme verursachen kann
+
+;; Funktionen erlauben abbrev deutlich dynamischer und Funktionaler zu werden!
+(defun mane-current-time ()
+  (insert (format-time-string "%T")))
 
 (defun mane-abbrev-expansion-1 ()
   "Fügt die Exporteinstellungen für eine Präsentation ein."
@@ -1124,13 +1234,6 @@ Statt yasnippets verwende ich die eingebauten Abbrev (abbreviation = Abkürzung)
   "Fügt die Exporteinstellungen für einen A4 ein."
   (interactive)
   (insert "#+SETUPFILE: ~/cloud/life/zeit/void/latex/vorlage-ab.org\n# #+SETUPFILE: ~/cloud/life/zeit/void/latex/vorlage-ib.org\n# #+SETUPFILE: ~/cloud/life/zeit/void/latex/vorlage-a4.org\n#+LATEX_HEADER: \\input{~/cloud/life/zeit/void/latex/zusatz-eigene-farben.tex}\n#+LaTeX_HEADER: \\fancyhead[L]{Arbeitsblatt Klasse }\n#+OPTIONS: author:nil date:nil title:nil num:nil toc:nil tags:nil d:nil\n# #+LaTeX_HEADER: \\usepackage{setspace}\n# #+LaTeX_HEADER: \\fancyfoot[C]{\\tiny \\uline{Strukturformel:} \\hspace{.6cm}\\raisebox{-0.5\\height}{\\includegraphics[height=12ex]{~/cloud/life/zeit/void/latex/material/atom.png}} \\hspace{.6cm} \\uline{Funktionelle Gruppe:} \\hspace{3cm} \\uline{Name der Strukturformel:} \\hspace{3cm}}\n# \\input{~/cloud/life/zeit/void/latex/seite-zum-einfügen-praktikum-chemie.org} # input geht überall auch vor Haupttext und danach, während \\include nur im Haupttext funktioniert -> immer input nutzen statt include -> mit diesem Befehl kann man ein großes Latex Document aus mehreren Dateien (ob latex oder org ist egal) zusammenbauen -> Hilfreich wenn man Disclaimer oder bestimmte Standardfolien hat die man immer wieder irgendwo einbauen möchte (Titelseite, Begrüßung, Sicherheitshinweise, Standardrklärungen, Copyright, Zertifikate...)"))
-
-(add-hook 'org-mode-hook 'mane-add-org-abbrevs)
-
-;; (use-package yasnippet
-  ;; :config
-  ;; (setq yas-snippet-dirs '("~/cloud/life/raum/pkb/material/yasnippets/"))
-  ;; (yas-global-mode 1))
 #+end_src
 - more infos: https://github.com/joaotavora/yasnippet
 - Ermöglicht das automatische erstellen häufig verwendeter Blöcke
@@ -1184,69 +1287,95 @@ Hilfe welche Keys ich als Nächstes drücken kann bzw. welche Keybidings vergebe
 	  which-key-allow-imprecise-window-fit nil
 	  which-key-separator " → "))
 #+end_src
-* Workspaces
-Ich verwende [[https://github.com/alphapapa/burly.el][burly]], da es minimalisitsch, einfach und icht in Konflikt mit meinem App-Launcher ist. Alternative die leider meinen App-Launcher unnutzbar macht, sodass ich (rofi oder cerebro nutzen müsste) ist [[https://github.com/nex3/perspective-el][perspective]]. Auch ein ähnliches Paket ist [[https://depp.brause.cc/eyebrowse/][eyebrowse]].
+* Workspaces, Register & Bookmarks
+- [[https://www.youtube.com/watch?v=7eWAfmABHMs&list=WL&index=22][Bookmarks]] (hilfreich auch für Makros und eine Präsentation um zu stellen zu springen)
+  - Bookmark erstellen: <C-x r m> <M-x bookmark-set>
+  - Bookmark öffnen: <C-x r b> <M-x bookmark-jump>
+- Ich verwende [[https://github.com/alphapapa/burly.el][burly]], da es minimalisitsch, einfach und icht in Konflikt mit meinem App-Launcher ist. Alternative die leider meinen App-Launcher unnutzbar macht, sodass ich (rofi oder cerebro nutzen müsste) ist [[https://github.com/nex3/perspective-el][perspective]]. Auch ein ähnliches Paket ist [[https://depp.brause.cc/eyebrowse/][eyebrowse]].
+  
 #+begin_src elisp
 (use-package burly)
 #+end_src
 * TODO Zitieren mit org-ref
-Bibliographiepfade: Stellen Sie sicher, dass die Pfade zu Ihrer Bibliographie, Ihren PDFs und Notizen korrekt sind und zu Ihrem Setup passen.
-Org-Mode und LaTeX Integration: Die org-latex-pdf-process Variable ist für die Verwendung mit latexmk konfiguriert. Stellen Sie sicher, dass latexmk auf Ihrem System installiert ist.
-Beachten Sie, dass org-ref verschiedene Backends unterstützen kann (z.B. ivy, helm). Die obige Konfiguration nimmt an, dass Sie ivy verwenden möchten, aber Sie können dies an Ihre bevorzugte Schnittstelle anpassen.
+
+ICH SOLLTE NOCH EIN ABBREV HIERFÜR ERSTELLEN UND AM BESTEN SCHAUEN, DASS AUCH DER EXPORT MEINER PRÄSENTATIONS-PDFS AUF DIE GLEICHE WEISE KLAPPT. ZUDEM MUSS ICH MEIN BEISPIEL NOCH VERBESSERN IN BEZUG AUF TABELLEN ETC. SODASS ICH EIN PARADEBEISPIEL HABE FÜR DIE NUTZUNG! -> [[denote:20240214T164450][Bachelorarbeit]] 
+
+- Zu meiner config brauche ich die LatexPakete hier speziell brauche ich biber um die Bibliographiepfade etc. richtig aufzulösen. -> ~sudo pacman -S texlive-core biber texlive-binextra~
+- Da ich mehrmals kompilieren muss um die Referenzen und das Literaturverzeichnis richtig angezeigt zu bekommen, muss ich dies in meiner config unter =org-latex-pdf-process= festlegen. Das geht allerdings dann nur automatisch wenn ich die pdf vor Ort erstelle und keinen Exportpfad festlege in der .org Datei! Manuell kann ich auch kompilieren in dieser Reihenfolge indem ich zu der Datei navigiere und dann folgendes durchführe:
+  1. pdflatex test.tex 
+  2. biber test 
+  3. pdflatex test.tex 
+  4. pdflatex test.tex 
+- Zusätzlich muss ich über latex header einige Änderungen in der Datei vornehmen dass das herauskommt was ich möchte: Beispielsweise die folgenden Header(alles weitere siehe test.org): #+LATEX_HEADER: \usepackage[backend=biber,style=apa]{biblatex}  &  #+LATEX_HEADER: \addbibresource{/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib}
+- Mit [cite:@schlüssel] kann ich dann ein Referenz einfügen (Keybinding: <SPC R l>). Schlüssel ist das was in der .bib als erstes kommt.
+
 #+begin_src elisp
-;; (use-package bibtex
-;;   :config
-;;   (setq bibtex-autokey-year-length 4
-;;         bibtex-autokey-name-year-separator "-"
-;;         bibtex-autokey-year-title-separator "-"
-;;         bibtex-autokey-titleword-separator "-"
-;;         bibtex-autokey-titlewords 2
-;;         bibtex-autokey-titlewords-stretch 1
-;;         bibtex-autokey-titleword-length 5))
+(use-package org-ref
+  :ensure t
+  :after org
+  :init
+  (setq reftex-default-bibliography '("/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib") ;Für Export zu Latex wichtig! Diese Einstellung definiert einen oder mehrere Pfade zu deinen BibTeX-Bibliografiedateien. RefTeX ist ein integriertes Paket in Emacs, das zusammen mit org-ref zur Verwaltung von Literaturverweisen verwendet wird. Diese Dateien enthalten deine Literaturdatenbank im BibTeX-Format. Wenn du in einem Dokument auf ein Werk verweisen möchtest, sucht RefTeX in diesen Dateien nach den entsprechenden Einträgen. 
+        org-ref-bibliography-notes "/home/flowmis/cloud/life/raum/pkb/literatur/notes/20240214T132208==mh--notizen__h_pkb_w.org" ;Diese Option gibt den Speicherort deiner Literaturnotizen an. In dieser Datei kannst du persönliche Anmerkungen, Zusammenfassungen oder Kommentare zu den Werken in deiner Bibliografie speichern. org-ref ermöglicht es dir, direkt aus deinem Org-Dokument auf diese Notizen zuzugreifen oder neue Notizen zu erstellen.
+        org-ref-default-bibliography '("/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib") ;Für die Funktionalität von org-ref wichtig! Ähnlich wie reftex-default-bibliography legt diese Einstellung den oder die Standardpfade zu deinen BibTeX-Bibliografiedateien für org-ref fest. Diese Dateien werden verwendet, um Literaturverweise in deinen Org-Dokumenten zu suchen und einzufügen.
+        org-ref-pdf-directory "/home/flowmis/cloud/life/raum/pkb/literatur/pdf/") ;Diese Einstellung gibt den Speicherort an, an dem die PDF-Dateien deiner Literaturquellen gespeichert sind. org-ref kann diese PDFs direkt aus dem Org-Dokument heraus öffnen, was den Zugriff auf deine Quelldokumente erleichtert.
+  :config
+  (setq bibtex-autokey-year-length 4
+        bibtex-autokey-name-year-separator "-"
+        bibtex-autokey-year-title-separator "-"
+        bibtex-autokey-titleword-separator "-"
+        bibtex-autokey-titlewords 2
+        bibtex-autokey-titlewords-stretch 1
+        bibtex-autokey-titleword-length 5
+	  org-ref-completion-library 'org-ref-ivy-cite))
 
-;; (use-package org-ref
-;;   :ensure t
-;;   :after (org bibtex)
-;;   :init
-;;   (setq bibtex-completion-bibliography '("~/cloud/life/raum/pkb/bib/references.bib")
-;;         bibtex-completion-library-path '("~/cloud/life/raum/pkb/bib/bibtex-pdfs/")
-;;         bibtex-completion-notes-path "~/cloud/life/raum/pkb/bib/notes/"
-;;         bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-;;         bibtex-completion-additional-search-fields '(keywords)
-;;         bibtex-completion-display-formats
-;;         '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-;;           (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-;;           (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-;;           (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-;;           (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}")))
-;;   :config
-;;   (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-;;         org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-;;         org-ref-insert-label-function 'org-ref-insert-label-link
-;;         org-ref-insert-ref-function 'org-ref-insert-ref-link
-;;         org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))))
+(use-package ivy-bibtex  ;theoretisch könnte ich auch helm etc. verwenden.
+  :after (org-ref))
 
-;; (use-package ivy-bibtex
-;;   :after (org-ref)
-;;   :config
-;;   ;; Optional: Konfigurieren Sie ivy-bibtex nach Bedarf
-;;   )
+(defun mane-export-to-pdf-and-clean ()
+  "Exportiert an Ort und Stelle, dass auch die Biber Dateien genutzt werden können und verschiebt dann in den Exportordner. Mit dieser Funktion muss kein Pfad mehr angegeben werden (#+export_file_name: blabla.pdf <- ohne Pfad reicht nun) und zudem werden unnötige Dateien vor Ort direkt nach dem Export gelöscht."
+  (interactive)
+  ;; Lokale Einstellungen für org-latex-pdf-process
+  (let* ((org-latex-pdf-process 
+	  '("pdflatex -interaction nonstopmode -output-directory %o %f" 
+            "biber %b" 
+            "pdflatex -interaction nonstopmode -output-directory %o %f" 
+            "pdflatex -interaction nonstopmode -output-directory %o %f"))
+         (org-file (buffer-file-name))
+         (export-file-name (org-export-output-file-name ".pdf" nil))
+         (pdf-file (if (file-name-directory export-file-name)
+                       export-file-name
+                     (concat (file-name-directory org-file) export-file-name)))
+         ;; Zielverzeichnis für die PDF-Datei
+         (destination-dir "/home/flowmis/cloud/life/zeit/void/export/")
+         (destination-pdf (concat destination-dir (file-name-nondirectory pdf-file))))
+    ;; Exportieren zu PDF mit den lokalen Einstellungen
+    (org-latex-export-to-pdf)
+    ;; PDF-Datei verschieben
+    (when (file-exists-p pdf-file)
+      (rename-file pdf-file destination-pdf t)
+      (message "PDF moved to %s" destination-dir))
+    ;; Bereinigung durchführen
+    (let* ((directory (file-name-directory org-file))
+           (extensions '(".aux" ".log" ".nav" ".out" ".snm" ".toc" ".vrb" ".bbl" ".blg" ".fdb_latexmk" ".fls" ".lof" ".lot" ".tex"))
+           (files-to-delete (mapcan (lambda (ext) (directory-files directory t (concat ".*" (regexp-quote ext) "$"))) extensions)))
+      (when files-to-delete
+        (dolist (file files-to-delete)
+          (delete-file file))
+        (message "Cleaned up LaTeX build files."))
+      (unless files-to-delete
+        (message "No LaTeX build files to clean up.")))
+    ;; Zurück zur Org-Datei wechseln
+    (find-file org-file)))
 
-;; (use-package latex
-;;   :ensure auctex ;; AUCTeX für LaTeX-Unterstützung
-;;   :config
-;;   (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
+#+end_src
+* TODO Tramp
+Komplette Einrichtung noch machen, wobei es eigentlich bereits integriert ist. Muss halt mal schauen ob es klappt!
+* TESTING
+#+begin_src elisp
 #+end_src
 
-* TODO TESTING
-Folgendes noch in meine Emacs config integrieren.
-- (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
-(package! org-drill) ;Lernkarten
-(package! orgtbl-aggregate)     ;https://www.youtube.com/watch?v=JesPNdMS4Ik
-(package! password-store)
-(package! wc-mode)
-#+begin_src elisp
-#+end_src
+
+
 
 
 

@@ -17,15 +17,9 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental                      | file | list      |         |    |        |      |           |         |         |               |
-| ./                               |                                  |      |           |         |    |        |      |           |         |         |               |
-| config.org                       |                                  |      |           |         |    |        |      |           |         |         |               |
-|                                | 32,77K                           |  42% | 0,00kB/s  | 0:00:00 |  | 76,26K | 100% | 41,47MB/s | 0:00:00 | (xfr#1, | to-chk=28/30) |
-| init.el                          |                                  |      |           |         |    |        |      |           |         |         |               |
-|                                | 80                               | 100% | 78,12kB/s | 0:00:00 |  |     80 | 100% | 78,12kB/s | 0:00:00 | (xfr#2, | to-chk=26/30) |
-| ###########################Qtile | ready########################### |      |           |         |    |        |      |           |         |         |               |
-| done                             |                                  |      |           |         |    |        |      |           |         |         |               |
-
+| sending                          | incremental                      | file | list |
+| ###########################Qtile | ready########################### |      |      |
+| done                             |                                  |      |      |
 
 :END:
 * TODO [#B] flowmis-os [0%]
@@ -118,13 +112,15 @@ echo done
 
 - Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
   - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/A-Z/a-z/' *~
-- Wörter nicht mit Leerzeichen trennen und nicht mit _ sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
+- Wörter nicht mit Leerzeichen trennen, sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
   - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/ //-/' *~
 - Keinerlei Sonderzeichen im Dateiname verwenden und vorallem nicht $&/
-- Name des Projekts oder Kategorie in Name rein
-- Bei Projekten Name des Autors und gegebenenfalls Versionsnummer
-- Datum und eventuell Timestamp der letzten Bearbeitung -> Format nach ISO 8601: YYYY-MM-DD
+- unique nameing identifier im Verbund mit Datum und Uhrzeit
 - Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
+Gutes Beispiel: 20220610T043241--initial-thoughts-on-the-zettelkasten-method__notetaking.org -> Genauere Erklärung siehe [[https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d][hier]]
+#+begin_center
+DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION
+#+end_center
 
 *** Sicherung/Backups
 
@@ -1753,6 +1749,7 @@ emacs --daemon &
 # g810-led -g functions ff00ff
 # g810-led -g multimedia ff00ff
 # loadkeys de-latin1 &
+setxkbmap -option 'ctrl:nocaps' &          #Caps ersetzt Control
 #+end_src
 
 ** Picom

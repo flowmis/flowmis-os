@@ -67,15 +67,16 @@
 ;; Expands to: (elpaca evil (use-package evil :demand t))
 (use-package evil
     :init      ;; tweak evil's configuration before loading it
-    (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-    (setq evil-want-keybinding nil)
+    (setq evil-want-integration t) ;;This is optional since it's already set to t by default.
+    (setq evil-want-keybinding nil) ;;Ermöglicht der evil collection die richtigen Keybinds zu setzen ohne das meine Einstellungen zu fehlern führen
     (setq evil-vsplit-window-right t)
     (setq evil-split-window-below t)
     (evil-mode 1))
-  (use-package evil-collection
+
+(use-package evil-collection
     :after evil
     :config
-    (setq evil-collection-mode-list '(dashboard dired ibuffer))
+    (setq evil-collection-mode-list '(dashboard dired ibuffer)) 
     (evil-collection-init))
 
 (use-package evil-tutor)
@@ -97,14 +98,15 @@
     :prefix "SPC"
     :global-prefix "M-SPC") ;; access leader in insert mode
   (mane-leader-keys
+    ;;Allgemeines
     "." '(find-file :which-key "Find file")
     "=" '(perspective-map :wk "Perspective") ;; Lists all the perspective keybindings
     "TAB TAB" '(comment-line :wk "Comment lines")
-    "SPC" '(lambda () (interactive) (find-file "~/.config/emacs/start.org") :wk "Zum Dashboard")
     "<right>" '(end-of-line :wk "zum Ende der Zeile springen")
     "<left>" '(beginning-of-line :wk "zum Start der Zeile springen")
     "<up>" '(evil-scroll-page-up :wk "Page up")
     "<down>" '(evil-scroll-page-down :wk "Page down")
+    
     ;; Buffer
     "b" '(:ignore t :wk "Buffer-Keybindings")
     "b b" '(switch-to-buffer :wk "Switch Buffer")
@@ -114,11 +116,13 @@
     "b r" '(revert-buffer :wk "Reload Buffer")
     "b i" '(ibuffer :wk "Liste offener Buffer")
     "b y" '(copy-current-path-to-clipboard :wk "Copy Path to this Buffer")
+
     ;; Checker
     "c" '(:ignore t :wk "Check")
     "c c" '(languagetool-check :wk "Check Buffer - Grammatik und Rechtschreibung")
     "c b" '(languagetool-correct-buffer :wk "Buffer mit den im check erkannten Fehlern korrigieren")
     "c p" '(languagetool-correct-at-point :wk "Buffer mit den im check erkannten Fehlern korrigieren")
+    
     ;; Dired & Decrypt
     "d" '(:ignore t :wk "Dired & Decrypt/Encrypt - Verschlüsselung")
     "d d" '(dired :wk "Open dired")
@@ -129,6 +133,7 @@
     "d j" '(dired-jump :wk "Dired jump to current")
     "d n" '(neotree-dir :wk "Open directory in neotree")
     "d p" '(peep-dired :wk "Peep-dired")
+    
     ;; Download
     "D" '(:ignore t :wk "Download")
     "D s" '(org-download-screenshot :wk "org-download-screenshot")
@@ -137,6 +142,7 @@
     "D r" '(org-download-rename-last-file :wk "org-download-rename-last-file")
     "D w" '(org-download-yank) ;;Bildadresse aus Browser kopiert wird in originalqualität und mit quelle in org mode eingefügt! :wk "org-download-aus-bildadresse"
     "D d" '(org-download-delete :wk "org-download-delete-at-point")
+    
     ;; Eshell & Eval
     "e" '(:ignore t :wk "Eshell & Evaluate")
     "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
@@ -146,6 +152,7 @@
     "e h" '(counsel-esh-history :wk "Eshell history")
     "e r" '(eval-region :wk "Evaluate elisp in region")
     "e s" '(eshell :which-key "Eshell")
+    
     ;; Files
     "f" '(:ignore t :wk "find-file bzw. go to file")
     "f c" '((lambda () (interactive) (find-file "~/flowmis-os/emacs/config.org")) :wk "Gehe zur emacs config")
@@ -154,6 +161,7 @@
     "f h" '((lambda () (interactive) (find-file "~/cloud/life/raum/pkb/home.org")) :wk "Gehe zur emacs config")
     "f w" '((lambda () (interactive) (find-file "~/cloud/life/raum/pkb/work.org")) :wk "Gehe zur emacs config")
     "f r" '(counsel-recentf :wk "Find recent files")
+    
     ;; Git
     "g" '(:ignore t :wk "Git")
     "g /" '(magit-displatch :wk "Magit dispatch")
@@ -176,15 +184,24 @@
     "g s" '(magit-stage-file :wk "Git stage file")
     "g t" '(git-timemachine :wk "Git time machine")
     "g u" '(magit-stage-file :wk "Git unstage file")
+    
     ;; Help
     "h" '(:ignore t :wk "Help")
     "h f" '(describe-function :wk "Describe function")
     "h v" '(describe-variable :wk "Describe variable")
     "h t" '(tldr :wk "Lookup TLDR docs for a command")
     "h r r" '((lambda () (interactive)(load-file "~/.config/emacs/init.el")(ignore (elpaca-process-queues))) :wk "Reload emacs config")
+    
     ;; Kalender
     "k" '(:ignore t :wk "Kalender")
     "k s" '(org-caldav-sync :wk "Sync Kalender mit Cloud")
+    
+    ;; Multi-Edit
+    "m" '(:ignore t :wk "Edit with multiple cursors etc.")
+    "m m" '(evil-multiedit-match-all :wk "Match All")
+    "m M" '(evil-multiedit--marker :wk "Marker")
+    "m m" '(evil-multiedit-match-and-next :wk "Match Next")
+
     ;; Notes
     "n" '(:ignore t :wk "Denote")
     "n n" '(denote :wk "Neue Note")
@@ -195,34 +212,51 @@
     "n f" '(denote-link-find-file :wk "Find a Note")
     "n i" '(denote-link-after-creating-with-command :wk "Insert Link to new file without visiting it - kann dann später ergänzt werden")
     "n o" '(denote-open-or-create :wk "Note öffnen")
+    
     ;; org-mode
     "o" '(:ignore t :wk "Org")
     "o a" '(org-agenda :wk "Org agenda")
     "o A" '(org-archive-subtree :wk "Archive Org Subtree")
     "o b" '(org-babel-tangle :wk "Org babel tangle")
-    "o e" '(org-export-dispatch :wk "Org export dispatch")
+    "o E" '(org-export-dispatch :wk "Org export dispatch")
+    "o e" '(mane-export-to-pdf-and-clean :wk "Export pdf + clean dir from .tex... files")
     "o d" '(:ignore t :wk "Date/deadline")
     "o d t" '(org-time-stamp :wk "Org time stamp")
     "o i" '(org-toggle-item :wk "Org toggle item")
-    "o s" '(org-table-shrink :wk "Org todo")
-    "o S" '(org-table-expand :wk "Org todo")
+    "o l" '(org-store-link :wk "Speichert Link to this Point")
+    "o L" '(org-insert-link :wk "Fügt gespeicherten Link ein")
+    "o s" '(org-table-shrink :wk "Shrink Table")
+    "o S" '(org-table-expand :wk "Expand Table")
     "o t" '(org-todo :wk "Org todo")
     "o T" '(org-todo-list :wk "Org todo list")
+    
     ;; Paste
     "p" '(yank-from-kill-ring :wk "Einfügen aus kill-ring")
-    ;; Register
+    
+    ;; Register & Referenzierung
     "r" '(:ignore t :wk "Register")
+    "R" '(:ignore t :wk "Referenzieren mit org-ref")
+    "R l" '(org-ref-insert-link :wk "Quelle einfügen")
     "r w" '(window-configuration-to-register :wk "Window configuration to register")
     "r f" '(frameset-to-register :wk "Frameset to register")
     "r j" '(jump-to-register :wk "Jump to register")
     "r l" '(list-registers :wk "List registers")
     "r v" '(view-register :wk "View a register")
     "r p" '(point-to-register :wk "Point to register")
-    ;; Suche
+    
+    ;; Suche & Ediff
     "s" '(:ignore t :wk "Search")
-    "s s" '(helm-swoop :wk "Toggle")
+    "s s" '(swiper :wk "Suche")
+    "s S" '(helm-swoop :wk "Komplexe Suche")
+    "s q" '(query-replace :wk "Finden und ersetzen")
     "s i" '(imenu :wk "imenu")
     "s l" '(imenu-list :wk "imenu-list")
+    "s d" '(ediff-files :wk "Diffs zwischen 2 Dateien")
+    "s D" '(ediff-buffers :wk "Diffs zwischen offenen Buffern")
+    "s m" '(dired-mark-files-regexp :wk "Markiere mit regexp")
+    "s r" '(rg :wk "ripgrep - Inhalt in Dateien suchen")
+    "s R" '(mane-change-to-wgrep-and-evil-insert :wk "Bearbeiten des ripgrep Buffer")
+    
     ;; Toggle & Theme
     "t" '(:ignore t :wk "Toggle")
     "T" '(load-theme :wk "Load a Theme")
@@ -236,6 +270,7 @@
     "t t" '(org-transclusion-mode :wk "org-transclusion-aktivieren")
     "t T" '(org-transclusion-add :wk "org-transclusion-aktivieren")
     "t v" '(vterm-toggle :wk "Toggle vterm")
+    
     ;; Windows
     "w" '(:ignore t :wk "Windows")
     "w c" '(evil-window-delete :wk "Close window")
@@ -387,6 +422,7 @@ one, an error is signaled."
       confirm-kill-emacs nil ;kein nerviges nachfragen ob Emacs wirklich geschlossen werden soll
       auth-sources '((:source "~/.authinfo.gpg"))
       org-confirm-babel-evaluate nil
+      use-short-answers t  ;statt der Eingabe yes und no reicht ein einfaches y und n!
       auto-save-file-name-transforms `((".*" ,"/home/flowmis/cloud/life/zeit/papierkorb/emacs/" t))
       backup-directory-alist '((".*" . "/home/flowmis/cloud/life/zeit/papierkorb/emacs/")))  ;;Standardmäßig werden beim bearbeiten von .org Dateien temporäre Dateien erzeugt um im Notfall ein Backup zu haben, aber da es nervt diese Dateien immer in den Verzeichnissen angezeigt bekommen stelle ich hier ein, dass dies im Papierkorb gespeichert werden, sodass ich zur Not dort für ein Backup schauen kann.
 ;; (set-face-attribute 'default nil :height 100) ; Schriftgröße einstellen ; Schriftgröße einstellen
