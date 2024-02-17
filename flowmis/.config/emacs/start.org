@@ -2,11 +2,10 @@
 
 
 |-------------------+-----------------------+------------------+---------------------------|
-| [[elisp:(org-agenda)][a-Agenda]]          | [[denote:20240214T201134][b-Bücher]]              | [[denote:20240214T202744][c-Chemie]]         | [[denote:20240105T114933][C-UP-Chemie]]               |
-| [[denote:20240207T133915][h-Home]]            | [[denote:20240212T121907][w-Work]]                | [[denote:20240214T203427][s-Sport]]          | [[denote:20231225T185132][S-UP-Sport]]                |
-| [[/home/flowmis/flowmis-os/flowmis-os.org][f-Flowmis-OS]]      | [[/home/flowmis/cloud/life/][l-life]]                | [[denote:20240214T163522][L-Latex]]          | [[denote:20240204T114444][k-Kalender inbox]]          |
-| [[denote:20240214T203339][p-projekte]]        | [[denote:20240214T203324][n-Nachhilfe]]           | [[denote:20240214T203354][r-Rezepte]]        | [[denote:20240214T202735][1-Büro]]                    |
-| [[denote:20240214T202722][2-Bildung]]         | [[denote:20240214T203416][3-Skripte]]             | [[denote:20240214T202755][4-ffff]]           | [[denote:20240214T203405][5-SelfSovereign]]           |
+| [[elisp:(org-agenda)][a-Agenda]]          | [[denote:20240214T202735][b-Büro]]                | [[denote:20240214T202744][c-Chemie]]         | [[denote:20240105T114933][C-UP-Chemie]]               |
+| [[/home/flowmis/flowmis-os/flowmis-os.org][f-Flowmis-OS]]      | [[denote:20240214T201134][B-Bücher]]              | [[denote:20240214T203427][s-Sport]]          | [[denote:20231225T185132][S-UP-Sport]]                |
+| [[/home/flowmis/cloud/life/][l-life]]            | [[denote:20240207T133915][h-Home]]                | [[denote:20240212T121907][w-Work]]           | [[denote:20240214T203339][p-projekte]]                |
+| [[denote:20240214T163522][L-Latex]]           | [[denote:20240204T114444][k-Kalender inbox]]      |                  |                           |
 |                   |                       |                  |                           |
 | .              -> | find-file             | e             -> | Eshell & Eval             |
 | =              -> | Perspective           | f             -> | Files                     |

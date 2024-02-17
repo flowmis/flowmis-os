@@ -437,6 +437,7 @@ one, an error is signaled."
 (menu-bar-mode -1)           ;; Disable the menu bar 
 (scroll-bar-mode -1)         ;; Disable the scroll bar
 (tool-bar-mode -1)           ;; Disable the tool bar
+(blink-cursor-mode -1)           ;; Disable the tool bar
 
 (use-package tldr)           ;; Hier kann ich gekürzte Infos über Terminalbefehle bekommen
 

@@ -124,25 +124,20 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
   (evil-define-key 'normal mane-start-mode-map ;Keys sind nur um mane-start-mode vergeben
     (kbd "o z") 'eshell
     (kbd "a") '(lambda () (interactive) (org-agenda))
-    (kbd "b") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T201134==mh--bücher__projekt.org"))
+    (kbd "b") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202735==mh--büro__projekt.org"))
+    (kbd "B") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T201134==mh--bücher__projekt.org"))
     (kbd "c") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202744==mh--chemie__projekt.org"))
-    (kbd "C") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__ch_pkb.org"))
+    (kbd "C") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__ch_pkb.org")) ;Eventuell Unterrichtsplanung mit Sport zusammenführen!?
     (kbd "h") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org"))
     (kbd "w") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org"))
     (kbd "s") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203427==mh--sport__projekt.org"))
     (kbd "S") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20231225T185132==mh--unterrichtsplanung__pkb_spo.org"))
     (kbd "f") (lambda () (interactive) (find-file "/home/flowmis/flowmis-os/flowmis-os.org"))
     (kbd "l") (lambda () (interactive) (find-file "~/cloud/life/"))
+    (kbd "p") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203339==mh--projekte__projekt.org"))
+    ;delete/integrate later:
     (kbd "L") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T163522==mh--latex__del.org"))
     (kbd "k") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240204T114444==mh--kalender-inbox__del.org"))
-    (kbd "r") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203354==mh--rezepte__projekt.org"))
-    (kbd "p") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203339==mh--projekte__projekt.org"))
-    (kbd "n") (lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203324==mh--nachhilfe__pkb.org"))
-    (kbd "1") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202735==mh--büro__projekt.org"))
-    (kbd "2") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202722==mh--bildung__h_pkb_w.org"))
-    (kbd "3") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203416==mh--skripte-programme-configs__projekt.org"))
-    (kbd "4") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T202755==mh--ffff__projekt.org"))
-    (kbd "5") '(lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240214T203405==mh--self-sovereign__h_pkb_projekt_w.org"))
 ))
 
    (add-hook 'mane-start-mode-hook 'read-only-mode) ;read-only-mode disablen wenn ich etwas ändern will (C-x C-q).
@@ -685,8 +680,10 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 	  org-caldav-files '(
 			     "/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org"
                            "/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org"
-                           "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__chemie.org"
+                           "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__ch_pkb.org"
                            "/home/flowmis/cloud/life/raum/pkb/20231225T185132==mh--unterrichtsplanung__pkb_spo.org"
+			     "/home/flowmis/cloud/life/raum/pkb/20240214T202735==mh--büro__projekt.org"
+			     "/home/flowmis/cloud/life/raum/pkb/20240214T203339==mh--projekte__projekt.org"
                            )
 	  org-caldav-save-directory "~/cloud/life/zeit/archiv/kalender/"     ; um sync von mehreren Geräten zu ermöglichen brauchen sie die gleiche historie (mit org-caldav-delete-everything kann ich die vorhergehende historie löschen)
 	  ) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - verlinkte Dateien?

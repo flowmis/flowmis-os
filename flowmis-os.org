@@ -10,15 +10,18 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental | file  | list     |         |       |           |           |
-| ./                               |             |       |          |         |       |           |           |
-| init.el                          |             |       |          |         |       |           |           |
-| scripts/                         |             |       |          |         |       |           |           |
-| scripts/setup-settings-basics.el |             |       |          |         |       |           |           |
-|                                  |             |       |          |         |       |           |           |
-| sent                             | 22.713      | bytes | received |      69 | bytes | 45.564,00 | bytes/sec |
-| total                            | size        | is    | 825.933  | speedup | is    | 36,25     |           |
-| done                             |             |       |          |         |       |           |           |
+| sending                                        | incremental | file  | list     |         |       |           |           |
+| .config/                                       |             |       |          |         |       |           |           |
+| .config/emacs/                                 |             |       |          |         |       |           |           |
+| .config/emacs/init.el                          |             |       |          |         |       |           |           |
+| .config/emacs/scripts/                         |             |       |          |         |       |           |           |
+| .config/emacs/scripts/setup-settings-basics.el |             |       |          |         |       |           |           |
+| .config/fish/                                  |             |       |          |         |       |           |           |
+|                                                |             |       |          |         |       |           |           |
+| sent                                           | 23.16       | bytes | received |      77 | bytes | 46.474,00 | bytes/sec |
+| total                                          | size        | is    | 853.522  | speedup | is    | 36,73     |           |
+| done                                           |             |       |          |         |       |           |           |
+
 
 :END:
 * TODO [#B] flowmis-os [0%]
@@ -1729,7 +1732,7 @@ EndSection
 #+begin_src sh :tangle flowmis/.xprofile
 ## uncomment in VM
 # setxkbmap -layout de -option 'ctrl:nocaps' &
-setxkbmap -option 'ctrl:nocaps'         #Caps ersetzt Control
+setxkbmap -option 'ctrl:nocaps'              &        # Caps ersetzt Control
 # xrandr -s 1920x1080 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 ## uncomment auf Tower-PC
