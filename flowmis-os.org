@@ -10,17 +10,16 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending                                        | incremental | file  | list     |         |       |           |           |
-| .config/                                       |             |       |          |         |       |           |           |
-| .config/emacs/                                 |             |       |          |         |       |           |           |
-| .config/emacs/init.el                          |             |       |          |         |       |           |           |
-| .config/emacs/scripts/                         |             |       |          |         |       |           |           |
-| .config/emacs/scripts/setup-settings-basics.el |             |       |          |         |       |           |           |
-| .config/fish/                                  |             |       |          |         |       |           |           |
-|                                                |             |       |          |         |       |           |           |
-| sent                                           | 23.16       | bytes | received |      77 | bytes | 46.474,00 | bytes/sec |
-| total                                          | size        | is    | 853.522  | speedup | is    | 36,73     |           |
-| done                                           |             |       |          |         |       |           |           |
+| sending                          | incremental | file  | list     |         |       |            |           |
+| ./                               |             |       |          |         |       |            |           |
+| config.org                       |             |       |          |         |       |            |           |
+| init.el                          |             |       |          |         |       |            |           |
+| scripts/                         |             |       |          |         |       |            |           |
+| scripts/setup-settings-basics.el |             |       |          |         |       |            |           |
+|                                  |             |       |          |         |       |            |           |
+| sent                             | 111.997     | bytes | received |      92 | bytes | 224.178,00 | bytes/sec |
+| total                            | size        | is    | 825.175  | speedup | is    | 7,36       |           |
+| done                             |             |       |          |         |       |            |           |
 
 
 :END:

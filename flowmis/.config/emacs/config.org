@@ -334,6 +334,9 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
         display-time-24hr-format t)
   (display-time-mode 1)
 )
+(require 'feebleline)
+(feebleline-mode 1)
+
 #+end_src
 ** Hide Org-Blocks
 #+begin_src elisp
