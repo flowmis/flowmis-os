@@ -10,16 +10,15 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental | file  | list     |         |       |            |           |
-| ./                               |             |       |          |         |       |            |           |
-| config.org                       |             |       |          |         |       |            |           |
-| init.el                          |             |       |          |         |       |            |           |
-| scripts/                         |             |       |          |         |       |            |           |
-| scripts/setup-settings-basics.el |             |       |          |         |       |            |           |
-|                                  |             |       |          |         |       |            |           |
-| sent                             | 111.997     | bytes | received |      92 | bytes | 224.178,00 | bytes/sec |
-| total                            | size        | is    | 825.175  | speedup | is    | 7,36       |           |
-| done                             |             |       |          |         |       |            |           |
+| sending                          | incremental | file  | list     |         |       |           |           |
+| ./                               |             |       |          |         |       |           |           |
+| init.el                          |             |       |          |         |       |           |           |
+| scripts/                         |             |       |          |         |       |           |           |
+| scripts/setup-settings-basics.el |             |       |          |         |       |           |           |
+|                                  |             |       |          |         |       |           |           |
+| sent                             | 22.799      | bytes | received |      73 | bytes | 45.744,00 | bytes/sec |
+| total                            | size        | is    | 825.429  | speedup | is    | 36,09     |           |
+| done                             |             |       |          |         |       |           |           |
 
 
 :END:

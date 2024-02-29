@@ -283,6 +283,7 @@
     "t h" '(load-theme-mane-1 :wk "Load light Theme")
     "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
     "t L" '(visual-line-mode :wk "Toggle truncated lines")
+    "t m" '(feebleline-mode :wk "Toggle minimal modeline")
     "t n" '(neotree-toggle :wk "Toggle neotree file viewer")
     "t t" '(org-transclusion-mode :wk "org-transclusion-aktivieren")
     "t T" '(org-transclusion-add :wk "org-transclusion-aktivieren")

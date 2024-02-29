@@ -334,8 +334,11 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
         display-time-24hr-format t)
   (display-time-mode 1)
 )
-(require 'feebleline)
-(feebleline-mode 1)
+
+(use-package feebleline
+  :ensure t  ; Stellt sicher, dass feebleline automatisch installiert wird, falls es noch nicht installiert ist
+  :config
+  (feebleline-mode 1))  ; Aktiviert feebleline
 
 #+end_src
 ** Hide Org-Blocks
