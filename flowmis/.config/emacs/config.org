@@ -975,7 +975,33 @@ Org-bullets gives us attractive bullets rather than asterisks.
 #+end_src
 
 ** Clock Time
+:LOGBOOK:
+CLOCK: [2024-03-01 Fr 10:33]--[2024-03-01 Fr 10:42] =>  0:09
+CLOCK: [2024-03-01 Fr 10:32]--[2024-03-01 Fr 10:33] =>  0:01
+:END:
 https://www.youtube.com/watch?v=o6rE18Mxu9U
+- Zeit festhalten in der ich an einem Bulletpoint gearbeitet habe: Keybinding aktuell in org-mode keybindings auf <M-t> und <M-T> festgelegt
+  1. Zu Bulletpoint gehen und org-clock-in ausführen (startet die Zeitmessung)
+  2. Mit org-clock-out die Messung beenden und es automatisch in das Logbuch des Bulletpoints schreiben
+  3. Mit org-clock-report kann ich mir eine Übersicht anzeigen lassen die wie folgt aussieht:
+     #+BEGIN: clocktable :scope subtree :maxlevel 2
+     #+CAPTION: Clock summary at [2024-03-01 Fr 10:34]
+     | Headline       | Time   |      |
+     |----------------+--------+------|
+     | *Total time*   | *0:01* |      |
+     |----------------+--------+------|
+     | \_  Clock Time |        | 0:01 |
+     #+END:
+  4. Will ich es nicht um den Subtree zu tracken sondern eine ganze Datei muss ich den Befehl ganz oben in der Datei ausführen, dann steht bei scope statt "subtree" "file"
+  5. Anpassungen machen: 
+     - :maxlevel erhöhen wenn ich auch tiefere Subtrees in der Übersicht gelistet bekommen will
+     - :tags t zeigt den Tag des bulletpoints mit an um besser zu verstehen woran gearbeitet wurde
+     - :compact t zeigt die Kompaktansicht (Headertiefe wird nicht angezeigt)
+     - :block kann angepasst werden mit (today, yesterday, thisweek, thismonth,...) um eine zeitliche eingegrenzte Übersicht zu erhalten
+     - Mit elisp code in :scope kann man auch dafür sorgen, dass Informationen aus mehreren Dateien gesammelt werden 
+       - Beispiel 1 für spezielle Dateien: :scope ("Pfad zur Datei 1" "Pfad zur Datei 2")
+       - Beispiel 2 für Dateien in einem Ordner - macht bei vorhandenen agenda files Probleme - hier lieber mit agenda als scope arbeiten!: :scope (lambda () (directory-files-recursively "~/cloud/life/zeit/papierkorb/" ".org"))
+       - Beispiel 3 - hierfür in der config die agenda files vorab definieren!: :scope agenda 
 ** Download
 siehe [[https://github.com/abo-abo/org-download][hier]]
 #+begin_src elisp
@@ -1019,6 +1045,9 @@ Nothing special ;)
   (define-key org-mode-map (kbd "M-l") #'org-table-insert-column)
   (define-key org-mode-map (kbd "M-H") #'org-table-delete-column)
   (define-key org-mode-map (kbd "M-J") #'org-table-kill-row)
+  (define-key org-mode-map (kbd "M-t") #'org-clock-in)
+  (define-key org-mode-map (kbd "M-T") #'org-clock-out)
+  (define-key org-mode-map (kbd "M-r") #'org-clock-report)  ;; Fügt einen time tracking block ein für den Fall dass ich mit Clock Time (clock in und clock out die Arbeitszeit an einem Heading arbeite!)
 )
 #+end_src
 ** Open Links with Programm
