@@ -9,6 +9,20 @@ rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/
 echo done
 #+end_src
 
+#+RESULTS:
+| sending               | incremental | file  | list     |         |       |            |           |
+| ./                    |             |       |          |         |       |            |           |
+| config.org            |             |       |          |         |       |            |           |
+| init.el               |             |       |          |         |       |            |           |
+| eshell/               |             |       |          |         |       |            |           |
+| scripts/              |             |       |          |         |       |            |           |
+| scripts/denote/       |             |       |          |         |       |            |           |
+| scripts/denote/tests/ |             |       |          |         |       |            |           |
+| themes/               |             |       |          |         |       |            |           |
+|                       |             |       |          |         |       |            |           |
+| sent                  | 91.108      | bytes | received |      81 | bytes | 182.378,00 | bytes/sec |
+| total                 | size        | is    | 826.071  | speedup | is    | 9,06       |           |
+| done                  |             |       |          |         |       |            |           |
 
 
 :END:
