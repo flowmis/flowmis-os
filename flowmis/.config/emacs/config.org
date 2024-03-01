@@ -31,18 +31,19 @@
 - [[#multieditmulitple-cursor][Multiedit/Mulitple Cursor]]
 - [[#neotree][Neotree]]
 - [[#org][Org]]
-  - [[#settings][Settings]]
   - [[#agenda][Agenda]]
-  - [[#table-of-contents][Table of Contents]]
-  - [[#org-bullets][Org Bullets]]
-  - [[#open-links-with-programm][Open Links with Programm]]
+  - [[#bullets][Bullets]]
+  - [[#blocks][Blocks]]
   - [[#download][Download]]
   - [[#drillflashcardslearningcard-in-emacs][Drill/Flashcards/Learningcard in Emacs]]
-  - [[#org-blocks][Org-Blocks]]
+  - [[#keybinds][Keybinds]]
+  - [[#open-links-with-programm][Open Links with Programm]]
+  - [[#presentationen][Presentationen]]
+  - [[#roam][Roam]]
+  - [[#settings][Settings]]
+  - [[#table-of-contents][Table of Contents]]
   - [[#tables][Tables]]
   - [[#transclusion][Transclusion]]
-  - [[#presentationen][Presentationen]]
-  - [[#roam][roam]]
 - [[#passwörter][Passwörter]]
 - [[#pdf-tools][PDF-Tools]]
 - [[#safe-undo-redo-yank][Safe Undo Redo Yank]]
@@ -828,49 +829,6 @@ Makros am besten in einer seperaten macro.el speichern und diese über config.el
 ;; show hidden files
 #+end_src
 * Org
-** Settings
-- Bei den Einstellungen hier eventuell darauf achten ob es bei init ~:after org~, also nach dem Laden von org-mode initial gesetzt werden, oder ob es Teil der :config ist!
-- Verschlüsselung von kompletten Dateien geht standardmäßig easy mit dired und dem integriertem epa (siehe dired), aber wenn ich einzelne Abschnitte in einer .org verschlüsseln will kann ich dies ebenfalls mit <M-x org-encrypt-entry> und <M-x org-encrypt-entry> und hierfür habe ich hier noch zusätzliche konfigurationen vorgenommen.
-- siehe auch Paket crypt++
-#+begin_src elisp
-(org-crypt-use-before-save-magic) ;; Aktiviert die automatische Verschlüsselung vor dem Speichern
-(setq org-directory "~/cloud/life/raum/pkm/"
-      org-log-into-drawer 1                  ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
-      org-startup-folded 'show3levels        ;beim Start werden Header bis zum 3 Level angezeigt
-      org-publish-use-timestamps-flag nil    ;exportiert alles - macht Export leichter nachzuvollziehen
-      org-export-with-broken-links t         ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
-      org-edit-src-content-indentation 0     ;set src block automatic indent to 0 instead of 2.
-      org-crypt-hide-echo-area nil ;; Blendet die Echo-Area beim Verschlüsseln nicht aus
-      org-tags-exclude-from-inheritance (quote ("crypt")) ;; Verhindert, dass der "crypt"-Tag an untergeordnete Elemente vererbt wird
-      org-crypt-key "5AAD62293D61A89D" ;;GPG key to use for encryption. - kann statt t auch den Fingerabdruck angeben der standardmäßig verwendet werden soll. nil means  use symmetric encryption unconditionally. "" means use symmetric encryption unless heading sets CRYPTKEY property.
-      ;; org-log-done 'time
-      ;; delete-by-moving-to-trash t     ;oder 'move-file-to-trash t'??
-      ;; trash-directory "~/.papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
-        ;; org-journal-dir "~/cloud/life/raum/.org/"
-      ;; org-journal-date-format "%B %d, %Y (%A) "
-      ;; org-journal-file-format "%Y-%m-%d.org"
-      ;; org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
-                            ;; (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
-      ;; org-capture-templates '(("1" "TODO" entry (file+headline "~/cloud/life/raum/.org/home.org" "Aufgaben")"** %? [/] \n %a")
-                              ;; ("2" "Einkaufsliste" checkitem (file+headline "~/cloud/life/raum/.org/home.org" "Einkaufsliste"))
-                              ;; ("3" "Wunschliste" checkitem (file+headline "~/cloud/life/raum/.org/home.org" "Wunschliste"))
-                              ;; ("4" "Neue Abrechnung" table-line (file+headline "~/cloud/life/raum/.org/work.org" "Abrechnungen Jo"))
-                              ;; ("a" "Appointment" entry (file  "~/cloud/life/raum/.org/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                              ;; ("j" "Daily Journal" entry (file+olp+datetree "~/cloud/life/raum/.org/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
-)
-
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((shell . t))) ;; Make sure shell is enabled brauch ich um einen src-block mit sh ausführen zu können innerhalb emacs
-
-;; The following prevents <> from auto-pairing when electric-pair-mode is on.
-;; Otherwise, org-tempo is broken when you try to <s TAB...
-(add-hook 'org-mode-hook (lambda ()
-           (setq-local electric-pair-inhibit-predicate
-                   `(lambda (c)
-                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
-#+end_src
 ** Agenda
 #+begin_src elisp
 (with-eval-after-load 'org
@@ -966,13 +924,7 @@ Meine Agenda ermöglicht das sammeln und bearbeiten von bestimmten Aufgaben aus 
 - Q3 -> Delegate da es mir nicht wichtig/wertvoll genug ist um es zu erledigen, oder als Notiz in einer Kategorie speichern und Ordnen falls es mal wichtig wird -> Mit Prio C in Agenda
 - Q4 -> Avoid -> nicht in TODO oder Agenda aufnehmen!
 
-** Table of Contents
-#+begin_src elisp
-(use-package toc-org
-    :commands toc-org-enable
-    :init (add-hook 'org-mode-hook 'toc-org-enable))
-#+end_src
-** Org Bullets
+** Bullets
 Org-bullets gives us attractive bullets rather than asterisks.
 
 #+begin_src elisp
@@ -981,56 +933,7 @@ Org-bullets gives us attractive bullets rather than asterisks.
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 
-** Open Links with Programm
-#+begin_src elisp
-(use-package openwith
-  ;; :after-call pre-command-hook
-  :config
-  (setq openwith-associations
-        '(("\\.pdf\\'" "zathura" (file))
-	      ("\\.\\(jpg\\|png\\|gif\\|jpeg\\)\\'" "viewnior" (file))
-          ("\\.\\(docx\\|odt\\|xlsx\\|doc\\)\\'" "onlyoffice-desktopeditors" (file))
-          ("\\.\\(mp3\\|mp4\\|mpeg\\|mkv\\)\\'" "vlc" (file))
-          ("\\.\\(md\\)\\'" "obsidian" (file))
-	  ))
-  (openwith-mode +1))
-#+end_src
-
-** Download
-siehe [[https://github.com/abo-abo/org-download][hier]]
-#+begin_src elisp
-(use-package org-download
-  :ensure t
-  ;; Optional: Setze org-download nach dem Laden automatisch für org-mode und dired
-  :hook ((org-mode dired-mode) . org-download-enable))
-
-(setq-default org-download-image-dir "~/cloud/life/zeit/void/org-download")
-(setq-default org-download-screenshot-method "flameshot gui --raw > %s")
-(setq-default org-download-heading-lvl nil) ;falls ich das nicht habe wird ein Ordner erstellt mit dem Namen des Headers unter den das Bild eingefügt wird - so kommt kein zusätzlicher Ordner
-(setq-default org-download-timestamp "%Y-%m-%d-%H%M%S-")
-;; (setq org-download-display-inline-images nil) ;hiermit wird das Bild nur eingefügt aber nicht angezeigt
-
-#+end_src
-
-** Drill/Flashcards/Learningcard in Emacs
-Anwendungsbeispiele: [[Anwednungs][hier]]
-#+begin_src elisp
-(use-package org-drill
-  :ensure t
-  :after org
-  :config
-  ;; Konfiguration für org-drill, falls erforderlich
-)
-#+end_src
-*** Frage 1 :drill:
-:PROPERTIES:
-:ID:       41471781-b5ea-45bb-a344-6b8f90607bfb
-:END:
-Was geht ab Mane
-**** Die Antwort
-Nothing special ;)
-
-** Org-Blocks
+** Blocks
 *** tag expansion mit Org-tempo 
 Ist kein eigenes Paket sondern ein Modul in org das man aktivieren kann um '<s' mit TAB zu einem source-block umzuwandeln. Weitere Möglichkeiten: Änderungen dann lieber mit yasnippets und dann kann ich den Teil hier eigentlich auch löschen!
 
@@ -1067,6 +970,150 @@ Ist kein eigenes Paket sondern ein Modul in org das man aktivieren kann um '<s' 
  #m
  ##+end_src
 
+** Download
+siehe [[https://github.com/abo-abo/org-download][hier]]
+#+begin_src elisp
+(use-package org-download
+  :ensure t
+  ;; Optional: Setze org-download nach dem Laden automatisch für org-mode und dired
+  :hook ((org-mode dired-mode) . org-download-enable))
+
+(setq-default org-download-image-dir "~/cloud/life/zeit/void/org-download")
+(setq-default org-download-screenshot-method "flameshot gui --raw > %s")
+(setq-default org-download-heading-lvl nil) ;falls ich das nicht habe wird ein Ordner erstellt mit dem Namen des Headers unter den das Bild eingefügt wird - so kommt kein zusätzlicher Ordner
+(setq-default org-download-timestamp "%Y-%m-%d-%H%M%S-")
+;; (setq org-download-display-inline-images nil) ;hiermit wird das Bild nur eingefügt aber nicht angezeigt
+
+#+end_src
+
+** Drill/Flashcards/Learningcard in Emacs
+Anwendungsbeispiele: [[Anwednungs][hier]]
+#+begin_src elisp
+(use-package org-drill
+  :ensure t
+  :after org
+  :config
+  ;; Konfiguration für org-drill, falls erforderlich
+)
+#+end_src
+*** Frage 1 :drill:
+:PROPERTIES:
+:ID:       41471781-b5ea-45bb-a344-6b8f90607bfb
+:END:
+Was geht ab Mane
+**** Die Antwort
+Nothing special ;)
+
+** Keybinds
+#+begin_src elisp
+(with-eval-after-load 'org
+  ;; Standardmäßig kann ich mit Alt bzw. Shift + Pfeiltasten Zellen/Zeilen/Spalten einer Tabelle easy verschieben! Hier nun noch ein paar nützliche Keybindings um Trennlinien, neue Zeilen/Spalten einzufügen/löschen
+  (define-key org-mode-map (kbd "M-j") #'org-table-insert-row)
+  (define-key org-mode-map (kbd "M-k") #'org-table-insert-hline)
+  (define-key org-mode-map (kbd "M-l") #'org-table-insert-column)
+  (define-key org-mode-map (kbd "M-H") #'org-table-delete-column)
+  (define-key org-mode-map (kbd "M-J") #'org-table-kill-row)
+)
+#+end_src
+** Open Links with Programm
+#+begin_src elisp
+(use-package openwith
+  ;; :after-call pre-command-hook
+  :config
+  (setq openwith-associations
+        '(("\\.pdf\\'" "zathura" (file))
+	      ("\\.\\(jpg\\|png\\|gif\\|jpeg\\)\\'" "viewnior" (file))
+          ("\\.\\(docx\\|odt\\|xlsx\\|doc\\)\\'" "onlyoffice-desktopeditors" (file))
+          ("\\.\\(mp3\\|mp4\\|mpeg\\|mkv\\)\\'" "vlc" (file))
+          ("\\.\\(md\\)\\'" "obsidian" (file))
+	  ))
+  (openwith-mode +1))
+#+end_src
+
+** Presentationen
+*** Latex
+*** reveal
+https://github.com/yjwen/org-reveal/
+** Roam
+-#+begin_src elisp- Ist schon ein geiles Paket, aber denote ist simpler und ich glaube etwas besser durchdacht mit weniger Schnickschnack, sodass ich aktuell zumindest mal die Benennung von denote verwende, da die ähnlich zu dem ist wie ich es ohnehin vor hatte.
+#+begin_src elisp
+;; (use-package org-roam
+;;   :ensure t
+;;   :custom
+;;   (org-roam-directory "~/cloud/life/raum/pkb")
+;;   (org-roam-db-autosync-mode t)
+;;   :config
+;;   (setq org-roam-ui-sync-theme t
+;;         org-roam-ui-follow t
+;;         org-roam-ui-update-on-save t
+;;         org-roam-ui-open-on-start t)
+;;   (setq org-roam-capture-templates
+;;         '(("b" "book notes" plain (file "~/cloud/life/raum/pkb/material/template-roam-capture-book.org")
+;;            :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
+;;            :unnarrowed t)
+;;           ("n" "normal/einfach nur mit Datum" plain (file "~/cloud/life/raum/pkb/material/template-roam-capture-normal.org")
+;;            :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
+;;            :unnarrowed t)))
+;;   :hook
+;;   (after-init . org-roam-db-sync))
+
+;; (use-package org-roam-ui
+;;   :after org-roam ;; Stellt sicher, dass org-roam-ui nach org-roam geladen wird
+;;   :config
+;;   (setq org-roam-ui-sync-theme t
+;;         org-roam-ui-follow t
+;;         org-roam-ui-update-on-save t
+;;         org-roam-ui-open-on-start t))
+#+end_src
+** Settings
+- Bei den Einstellungen hier eventuell darauf achten ob es bei init ~:after org~, also nach dem Laden von org-mode initial gesetzt werden, oder ob es Teil der :config ist!
+- Verschlüsselung von kompletten Dateien geht standardmäßig easy mit dired und dem integriertem epa (siehe dired), aber wenn ich einzelne Abschnitte in einer .org verschlüsseln will kann ich dies ebenfalls mit <M-x org-encrypt-entry> und <M-x org-encrypt-entry> und hierfür habe ich hier noch zusätzliche konfigurationen vorgenommen.
+- siehe auch Paket crypt++
+#+begin_src elisp
+(org-crypt-use-before-save-magic) ;; Aktiviert die automatische Verschlüsselung vor dem Speichern
+(setq org-directory "~/cloud/life/raum/pkm/"
+      org-log-into-drawer 1                  ;Notes mit <C-c C-z> werden direkt in den Drawer :LOGBOOK: geschrieben wenn dieser vorhanden ist
+      org-startup-folded 'show3levels        ;beim Start werden Header bis zum 3 Level angezeigt
+      org-publish-use-timestamps-flag nil    ;exportiert alles - macht Export leichter nachzuvollziehen
+      org-export-with-broken-links t         ;macht auch einen Export wenn nicht alles passt - sometimes better than nothing
+      org-edit-src-content-indentation 0     ;set src block automatic indent to 0 instead of 2.
+      org-crypt-hide-echo-area nil ;; Blendet die Echo-Area beim Verschlüsseln nicht aus
+      org-tags-exclude-from-inheritance (quote ("crypt")) ;; Verhindert, dass der "crypt"-Tag an untergeordnete Elemente vererbt wird
+      org-crypt-key "5AAD62293D61A89D" ;;GPG key to use for encryption. - kann statt t auch den Fingerabdruck angeben der standardmäßig verwendet werden soll. nil means  use symmetric encryption unconditionally. "" means use symmetric encryption unless heading sets CRYPTKEY property.
+      ;; org-log-done 'time
+      ;; delete-by-moving-to-trash t     ;oder 'move-file-to-trash t'??
+      ;; trash-directory "~/.papierkorb/" ;muss den Ordner manuell erstellen in Windows? Wenn etwas aus diesem Ordner gelöscht wird geht es glaub in den Systemtrash - also dann nicht mehr mein Papierkorb
+        ;; org-journal-dir "~/cloud/life/raum/.org/"
+      ;; org-journal-date-format "%B %d, %Y (%A) "
+      ;; org-journal-file-format "%Y-%m-%d.org"
+      ;; org-tag-alist (quote ((:startgroup) ("@Work" . ?w) ("@Home" . ?h) ("@Projekt" . ?p) ("@Ökonomie" . ?o) ("@Gesundheit" . ?g)       ;@ macht es zu mutual exclusiv tags die weggehen wenn anderer tag eingestellt wird
+                            ;; (:endgroup) ("noexport" . ?n) ("Mane" . ?M) ("Joana" . ?J) ("Schule" . ?S)))
+      ;; org-capture-templates '(("1" "TODO" entry (file+headline "~/cloud/life/raum/.org/home.org" "Aufgaben")"** %? [/] \n %a")
+                              ;; ("2" "Einkaufsliste" checkitem (file+headline "~/cloud/life/raum/.org/home.org" "Einkaufsliste"))
+                              ;; ("3" "Wunschliste" checkitem (file+headline "~/cloud/life/raum/.org/home.org" "Wunschliste"))
+                              ;; ("4" "Neue Abrechnung" table-line (file+headline "~/cloud/life/raum/.org/work.org" "Abrechnungen Jo"))
+                              ;; ("a" "Appointment" entry (file  "~/cloud/life/raum/.org/gcal.org") "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                              ;; ("j" "Daily Journal" entry (file+olp+datetree "~/cloud/life/raum/.org/home.org" "Journal") "* %^{Description}      Hinzugefügt am: %U      %^g\n%?"))))
+)
+
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((shell . t))) ;; Make sure shell is enabled brauch ich um einen src-block mit sh ausführen zu können innerhalb emacs
+
+;; The following prevents <> from auto-pairing when electric-pair-mode is on.
+;; Otherwise, org-tempo is broken when you try to <s TAB...
+(add-hook 'org-mode-hook (lambda ()
+           (setq-local electric-pair-inhibit-predicate
+                   `(lambda (c)
+                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
+#+end_src
+** Table of Contents
+#+begin_src elisp
+(use-package toc-org
+    :commands toc-org-enable
+    :init (add-hook 'org-mode-hook 'toc-org-enable))
+#+end_src
 ** Tables
 - Video zu [[https://www.youtube.com/watch?v=JesPNdMS4Ik][orgtbl-aggregate]] und [[https://github.com/tbanel/orgaggregate/tree/master][github]]
 - Um Tabellen schöner darzustellen verwende ich aktuell [[https://github.com/Fuco1/org-pretty-table/tree/master][org-pretty-table]]
@@ -1097,41 +1144,6 @@ Beispiel hier: Mit <SPC t t> Transclusion aktivieren/deaktivieren
 (use-package org-transclusion
   :after org)
 #+end_src
-#+end_src
-** Presentationen
-*** Latex
-*** reveal
-https://github.com/yjwen/org-reveal/
-** roam
--#+begin_src elisp- Ist schon ein geiles Paket, aber denote ist simpler und ich glaube etwas besser durchdacht mit weniger Schnickschnack, sodass ich aktuell zumindest mal die Benennung von denote verwende, da die ähnlich zu dem ist wie ich es ohnehin vor hatte.
-#+begin_src elisp
-;; (use-package org-roam
-;;   :ensure t
-;;   :custom
-;;   (org-roam-directory "~/cloud/life/raum/pkb")
-;;   (org-roam-db-autosync-mode t)
-;;   :config
-;;   (setq org-roam-ui-sync-theme t
-;;         org-roam-ui-follow t
-;;         org-roam-ui-update-on-save t
-;;         org-roam-ui-open-on-start t)
-;;   (setq org-roam-capture-templates
-;;         '(("b" "book notes" plain (file "~/cloud/life/raum/pkb/material/template-roam-capture-book.org")
-;;            :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
-;;            :unnarrowed t)
-;;           ("n" "normal/einfach nur mit Datum" plain (file "~/cloud/life/raum/pkb/material/template-roam-capture-normal.org")
-;;            :if-new (file+head "%<%Y%m%d>-${slug}.org" "#+title: ${title}\n")
-;;            :unnarrowed t)))
-;;   :hook
-;;   (after-init . org-roam-db-sync))
-
-;; (use-package org-roam-ui
-;;   :after org-roam ;; Stellt sicher, dass org-roam-ui nach org-roam geladen wird
-;;   :config
-;;   (setq org-roam-ui-sync-theme t
-;;         org-roam-ui-follow t
-;;         org-roam-ui-update-on-save t
-;;         org-roam-ui-open-on-start t))
 #+end_src
 * Passwörter
 Das Paket password-store ist bisher nicht nativ in Emacs. Es kann für die Integration von dem Passwortmanager pass (Unix-Tool) verwendet werden. Das password-store Paket in Emacs ermöglicht es Benutzern, auf ihre Passwörter zuzugreifen und sie innerhalb von Emacs zu verwenden, was eine nahtlose Integration in den Workflow bietet.
