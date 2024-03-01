@@ -4,20 +4,24 @@
 
 #+begin_src shell
 rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/emacs/
+# rsync -av /home/flowmis/flowmis-os/flowmis/.config/qtile/ /home/flowmis/.config/qtile/
 # rsync -av /home/flowmis/flowmis-os/flowmis/ /home/flowmis/
 # sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf #die Standardconfig falls ich lokal was ändern will aber eigentlich eher unnötig!
 echo done
 #+end_src
 
 #+RESULTS:
-| sending    | incremental | file  | list     |         |       |            |           |
-| ./         |             |       |          |         |       |            |           |
-| config.org |             |       |          |         |       |            |           |
-| init.el    |             |       |          |         |       |            |           |
-|            |             |       |          |         |       |            |           |
-| sent       | 93.93       | bytes | received |      62 | bytes | 187.984,00 | bytes/sec |
-| total      | size        | is    | 828.878  | speedup | is    | 8,82       |           |
-| done       |             |       |          |         |       |            |           |
+| sending   | incremental | file  | list     |         |       |           |           |
+|           |             |       |          |         |       |           |           |
+| sent      | 888         | bytes | received |      17 | bytes | 1.810,00  | bytes/sec |
+| total     | size        | is    | 828.878  | speedup | is    | 915,89    |           |
+| sending   | incremental | file  | list     |         |       |           |           |
+| ./        |             |       |          |         |       |           |           |
+| config.py |             |       |          |         |       |           |           |
+|           |             |       |          |         |       |           |           |
+| sent      | 11.751      | bytes | received |      38 | bytes | 23.578,00 | bytes/sec |
+| total     | size        | is    | 11.62    | speedup | is    | 0,99      |           |
+| done      |             |       |          |         |       |           |           |
 
 
 :END:
@@ -461,6 +465,7 @@ keys = [
     Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
     Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
     Key([mod, "control"], "g", lazy.spawn("brave --app=https://chat.openai.com/"), desc='BraveApp-GPT'),
+    Key([mod, "control"], "t", lazy.spawn("brave --app=https://de.tradingview.com/"), desc='Tradingview'),
     Key([mod, "control"], "1", lazy.spawn("brave --app=https://mbox1.belwue.de/"), desc='MailSeminarStuttgart'),
     Key([mod, "control"], "2", lazy.spawn("brave --app=https://bap.navigator.web.de/"), desc='MailWeb'),
     Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
