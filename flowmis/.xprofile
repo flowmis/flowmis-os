@@ -1,6 +1,6 @@
 ## uncomment in VM
 # setxkbmap -layout de -option 'ctrl:nocaps' &
-setxkbmap -option 'ctrl:nocaps'              &        # Caps ersetzt Control
+sleep 1 && setxkbmap -option 'ctrl:nocaps' &          # Caps ersetzt Control
 # xrandr -s 1920x1080 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 ## uncomment auf Tower-PC

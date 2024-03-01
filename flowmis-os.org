@@ -9,18 +9,6 @@ rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/
 echo done
 #+end_src
 
-#+RESULTS:
-| sending                                        | incremental | file  | list     |         |       |           |           |
-| .config/                                       |             |       |          |         |       |           |           |
-| .config/emacs/                                 |             |       |          |         |       |           |           |
-| .config/emacs/init.el                          |             |       |          |         |       |           |           |
-| .config/emacs/scripts/                         |             |       |          |         |       |           |           |
-| .config/emacs/scripts/setup-settings-basics.el |             |       |          |         |       |           |           |
-| .config/fish/                                  |             |       |          |         |       |           |           |
-|                                                |             |       |          |         |       |           |           |
-| sent                                           | 23.16       | bytes | received |      77 | bytes | 46.474,00 | bytes/sec |
-| total                                          | size        | is    | 853.522  | speedup | is    | 36,73     |           |
-| done                                           |             |       |          |         |       |           |           |
 
 
 :END:
@@ -1732,7 +1720,7 @@ EndSection
 #+begin_src sh :tangle flowmis/.xprofile
 ## uncomment in VM
 # setxkbmap -layout de -option 'ctrl:nocaps' &
-setxkbmap -option 'ctrl:nocaps'              &        # Caps ersetzt Control
+sleep 1 && setxkbmap -option 'ctrl:nocaps' &          # Caps ersetzt Control
 # xrandr -s 1920x1080 &                               # In VM aktivieren
 # VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
 ## uncomment auf Tower-PC
