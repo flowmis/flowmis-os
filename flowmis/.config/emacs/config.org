@@ -37,6 +37,7 @@
   - [[#clock-time][Clock Time]]
   - [[#download][Download]]
   - [[#drillflashcardslearningcard-in-emacs][Drill/Flashcards/Learningcard in Emacs]]
+  - [[#keybinds][Keybinds]]
   - [[#open-links-with-programm][Open Links with Programm]]
   - [[#presentationen][Presentationen]]
   - [[#roam][Roam]]
@@ -1009,6 +1010,17 @@ Was geht ab Mane
 **** Die Antwort
 Nothing special ;)
 
+** Keybinds
+#+begin_src elisp
+(with-eval-after-load 'org
+  ;; Standardmäßig kann ich mit Alt bzw. Shift + Pfeiltasten Zellen/Zeilen/Spalten einer Tabelle easy verschieben! Hier nun noch ein paar nützliche Keybindings um Trennlinien, neue Zeilen/Spalten einzufügen/löschen
+  (define-key org-mode-map (kbd "M-j") #'org-table-insert-row)
+  (define-key org-mode-map (kbd "M-k") #'org-table-insert-hline)
+  (define-key org-mode-map (kbd "M-l") #'org-table-insert-column)
+  (define-key org-mode-map (kbd "M-H") #'org-table-delete-column)
+  (define-key org-mode-map (kbd "M-J") #'org-table-kill-row)
+)
+#+end_src
 ** Open Links with Programm
 #+begin_src elisp
 (use-package openwith
