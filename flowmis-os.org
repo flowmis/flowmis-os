@@ -10,14 +10,16 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending    | incremental | file  | list     |         |       |            |           |
-| ./         |             |       |          |         |       |            |           |
-| config.org |             |       |          |         |       |            |           |
-| init.el    |             |       |          |         |       |            |           |
-|            |             |       |          |         |       |            |           |
-| sent       | 98.063      | bytes | received |      62 | bytes | 196.250,00 | bytes/sec |
-| total      | size        | is    | 833.045  | speedup | is    | 8,49       |           |
-| done       |             |       |          |         |       |            |           |
+| sending                          | incremental | file  | list     |         |       |            |           |
+| ./                               |             |       |          |         |       |            |           |
+| config.org                       |             |       |          |         |       |            |           |
+| init.el                          |             |       |          |         |       |            |           |
+| scripts/                         |             |       |          |         |       |            |           |
+| scripts/setup-settings-basics.el |             |       |          |         |       |            |           |
+|                                  |             |       |          |         |       |            |           |
+| sent                             | 119.331     | bytes | received |      92 | bytes | 238.846,00 | bytes/sec |
+| total                            | size        | is    | 832.464  | speedup | is    | 6,97       |           |
+| done                             |             |       |          |         |       |            |           |
 :END:
 * TODO [#B] flowmis-os [0%]
   - [ ] Wechsel auf Nix OS!

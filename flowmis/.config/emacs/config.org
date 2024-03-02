@@ -29,7 +29,6 @@
 - [[#mail][Mail]]
 - [[#makros][Makros]]
 - [[#multieditmulitple-cursor][Multiedit/Mulitple Cursor]]
-- [[#neotree][Neotree]]
 - [[#org][Org]]
   - [[#agenda][Agenda]]
   - [[#blocks][Blocks]]
@@ -41,7 +40,7 @@
   - [[#keybinds][Keybinds]]
   - [[#open-links-with-programm][Open Links with Programm]]
   - [[#roam][Roam]]
-  - [[#schreib-präsentationsmodus][Schreib-/Präsentationsmodus]]
+  - [[#minor-modes-schreibmodus--präsentationsmodus][Minor-Modes (Schreibmodus & Präsentationsmodus)]]
   - [[#settings][Settings]]
   - [[#table-of-contents][Table of Contents]]
   - [[#tables][Tables]]
@@ -229,60 +228,71 @@ _Find File:_
 - Wenn ich einen Pfad in Emacs habe mit dem cursor auf dem Pfad bin und in fidn file gehe kann ich mit <M-n> den Pfad unter dem Cursor in find file einfügen
   
 Anstatt ein weiteres Paket zu verwenden um Programme außerhalb Emacs mit einem bestimmten Programm zu öffnen (Beispielsweise die Pakete: open-with oder dired-open) kann ich mir auch Programme vorschlagen lassen (Öffnen mit !=synchron oder &=asynchron) -> Mit <M-n> und <M-p> kann ich zwischen den Vorschlägen wechseln.
+
 #+begin_src elisp
-  (setq dired-guess-shell-alist-user
-	'(("\\.\\(png\\|jpe?g\\|tiff\\)" "viewnior" "gimp" "xdg-open")  ;xdg-open heißt Standardprogramm verwenden
-	  ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "vlc" "xdg-open")
-		  (".*" "xdg-open")))
-  (use-package dired-open
-    :config
+(setq dired-guess-shell-alist-user
+      '(("\\.\\(png\\|jpe?g\\|tiff\\)" "viewnior" "gimp" "xdg-open")  ;xdg-open heißt Standardprogramm verwenden
+	("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "vlc" "xdg-open")
+		(".*" "xdg-open")))
+(use-package dired-open
+  :config
+  (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+  (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+  (setq dired-open-extensions '(("gif" . "vlc") ;Mit Enter (bzw. l) in Dired mit dem Cursor auf einer Datei führt zum öffnen mit dem hier festgelegten Programm
+				("pdf" . "zathura")
+				("docx" . "onlyoffice-desktopeditors")
+				("doc" . "onlyoffice-desktopeditors")
+				("odt" . "onlyoffice-desktopeditors")
+				("xlsx" . "onlyoffice-desktopeditors")
+				("pptx" . "onlyoffice-desktopeditors")
+				("ppt" . "onlyoffice-desktopeditors")
+				("jpg" . "viewnior")
+				("png" . "viewnior")
+				("mkv" . "vlc")
+				("mp4" . "vlc"))))
+;; peep-dired aktivieren wenn ich live Vorschau von Bildern oder Textdateien aktivieren will, dann sehe ich wenn ich mit j und k in dired durch die Dateien scrolle im Split-View die entsprechende Vorschau zur Datei! (ist nicht immer aktiviert, da ich das nicht immer will und geht nur im normalen mode, also mehrmals ESC und dann nochmal aktivieren in dired mit meinem Keymap und dann sollte das mit der Vorschau gehen!)
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :config
     (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
     (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-    (setq dired-open-extensions '(("gif" . "vlc") ;Mit Enter (bzw. l) in Dired mit dem Cursor auf einer Datei führt zum öffnen mit dem hier festgelegten Programm
-				  ("pdf" . "zathura")
-				  ("docx" . "onlyoffice-desktopeditors")
-				  ("doc" . "onlyoffice-desktopeditors")
-				  ("odt" . "onlyoffice-desktopeditors")
-				  ("xlsx" . "onlyoffice-desktopeditors")
-				  ("pptx" . "onlyoffice-desktopeditors")
-				  ("ppt" . "onlyoffice-desktopeditors")
-				  ("jpg" . "viewnior")
-				  ("png" . "viewnior")
-				  ("mkv" . "vlc")
-				  ("mp4" . "vlc"))))
-  ;; peep-dired aktivieren wenn ich live Vorschau von Bildern oder Textdateien aktivieren will, dann sehe ich wenn ich mit j und k in dired durch die Dateien scrolle im Split-View die entsprechende Vorschau zur Datei! (ist nicht immer aktiviert, da ich das nicht immer will und geht nur im normalen mode, also mehrmals ESC und dann nochmal aktivieren in dired mit meinem Keymap und dann sollte das mit der Vorschau gehen!)
-  (use-package peep-dired
-    :after dired
-    :hook (evil-normalize-keymaps . peep-dired-hook)
-    :config
-      (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
-      (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-      (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-      (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
-  )
-  ;; (add-hook 'dired-mode-hook 'dired-hide-details-mode) ;wenn ich dired übersichtlicher haben mag kann ich es hier aktivieren
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+)
+;; (add-hook 'dired-mode-hook 'dired-hide-details-mode) ;wenn ich dired übersichtlicher haben mag kann ich es hier aktivieren
 
-  ;(evil-define-key 'normal dired-mode-map
-    ;(kbd "M-RET") 'dired-display-file     ;benutzen um Bildervorschau in Splitbuffer zu zeigen, aber weiter in dired navigieren
-    ;(kbd "h") 'dired-up-directory
-    ;(kbd "l") 'dired-open-file
-    ;(kbd "m") 'dired-mark                 ;Mit %m kann man nach einer regular expression bestimmte Dateien markieren
-    ;(kbd "u") 'dired-unmark               ;Mit U kann man alles unmarken
-    ;(kbd "t") 'dired-toggle-marks         ;wenn zuvor 2 Datein markiert waren kann man mit t diese unmarken und alle anderen die unmarked waren marken -> sinnvoll wenn man viele Dateien bis auf ein paar wenige markieren will
-    ;(kbd "H") 'dired-do-kill-lines        ;markierte Dateien ausblenden (werden nicht gelöscht, aber bei Bearbeitungen hilfreich) -> Mit <g r> - revert Buffer kann man sie sich wieder anzeigen lassen
-    ;(kbd "C") 'dired-do-copy
-    ;(kbd "D") 'dired-do-delete
-    ;(kbd "J") 'dired-goto-file
-    ;(kbd "M") 'dired-chmod
-    ;(kbd "O") 'dired-chown
-    ;(kbd "P") 'dired-do-print
-    ;(kbd "R") 'dired-rename (bzw. move file)
-    ;(kbd "+") 'dired-create-directory
-    ;(kbd "% l") 'dired-downcase
-    ;(kbd "% u") 'dired-upcase
-    ;(kbd "; d") 'epa-dired-do-decrypt
-    ;(kbd "; e") 'epa-dired-do-encrypt
-  ;)
+;(evil-define-key 'normal dired-mode-map
+  ;(kbd "M-RET") 'dired-display-file     ;benutzen um Bildervorschau in Splitbuffer zu zeigen, aber weiter in dired navigieren
+  ;(kbd "h") 'dired-up-directory
+  ;(kbd "l") 'dired-open-file
+  ;(kbd "m") 'dired-mark                 ;Mit %m kann man nach einer regular expression bestimmte Dateien markieren
+  ;(kbd "u") 'dired-unmark               ;Mit U kann man alles unmarken
+  ;(kbd "t") 'dired-toggle-marks         ;wenn zuvor 2 Datein markiert waren kann man mit t diese unmarken und alle anderen die unmarked waren marken -> sinnvoll wenn man viele Dateien bis auf ein paar wenige markieren will
+  ;(kbd "H") 'dired-do-kill-lines        ;markierte Dateien ausblenden (werden nicht gelöscht, aber bei Bearbeitungen hilfreich) -> Mit <g r> - revert Buffer kann man sie sich wieder anzeigen lassen
+  ;(kbd "C") 'dired-do-copy
+  ;(kbd "D") 'dired-do-delete
+  ;(kbd "J") 'dired-goto-file
+  ;(kbd "M") 'dired-chmod
+  ;(kbd "O") 'dired-chown
+  ;(kbd "P") 'dired-do-print
+  ;(kbd "R") 'dired-rename (bzw. move file)
+  ;(kbd "+") 'dired-create-directory
+  ;(kbd "% l") 'dired-downcase
+  ;(kbd "% u") 'dired-upcase
+  ;(kbd "; d") 'epa-dired-do-decrypt
+  ;(kbd "; e") 'epa-dired-do-encrypt
+;)
+(use-package dired-sidebar
+  :ensure t
+;;   :commands (dired-sidebar-toggle-sidebar)
+;;   :init
+;;   (setq dired-sidebar-theme 'nerd) ; Sie können das Thema anpassen
+;;   (setq dired-sidebar-use-term-integration t)
+;;   (setq dired-sidebar-use-custom-font t)
+)
+
+
 #+end_src
 * Erscheinungsbild
 ** Highlight Todo
@@ -826,26 +836,6 @@ Makros am besten in einer seperaten macro.el speichern und diese über config.el
 ;;   (global-set-key (kbd "C-c m p") 'mc/skip-to-previous-like-this)
 ;;   (define-key mc/keymap (kbd "<return>") nil))
 #+end_src
-* Neotree
-#+begin_src elisp
-(use-package neotree
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 30
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t
-        projectile-switch-project-action 'neotree-projectile-action) 
-        ;; truncate long file names in neotree
-        (add-hook 'neo-after-create-hook
-           #'(lambda (_)
-               (with-current-buffer (get-buffer neo-buffer-name)
-                 (setq truncate-lines t)
-                 (setq word-wrap nil)
-                 (make-local-variable 'auto-hscroll-mode)
-                 (setq auto-hscroll-mode nil)))))
-;; show hidden files
-#+end_src
 * Org
 ** Agenda
 #+begin_src elisp
@@ -1066,8 +1056,8 @@ https://github.com/yjwen/org-reveal/
   (define-key org-mode-map (kbd "M-t") #'org-clock-in)
   (define-key org-mode-map (kbd "M-T") #'org-clock-out)
   (define-key org-mode-map (kbd "M-r") #'org-clock-report)  ;; Fügt einen time tracking block ein für den Fall dass ich mit Clock Time (clock in und clock out die Arbeitszeit an einem Heading arbeite!)
-  (define-key org-mode-map (kbd "M-s") #'mane-presentation-mode)
-  (define-key org-mode-map (kbd "M-S") #'mane-writing-mode)
+  (define-key org-mode-map (kbd "M-m") #'mane-presentation-mode)
+  (define-key org-mode-map (kbd "M-M") #'mane-writing-mode)
   (define-key org-mode-map (kbd "M-+") #'logos-narrow-dwim)
   (define-key org-mode-map (kbd "M-<") #'logos-backward-page-dwim)
   (define-key org-mode-map (kbd "M--") #'logos-forward-page-dwim)
@@ -1119,9 +1109,9 @@ https://github.com/yjwen/org-reveal/
 ;;         org-roam-ui-update-on-save t
 ;;         org-roam-ui-open-on-start t))
 #+end_src
-** Schreib-/Präsentationsmodus
-- Schriftart und Spacing mit Fontaine und Spacious-Padding sind im Unterpunkt Erscheinungsbild festgelegt. Ich habe in fontaine die Variable pres auf die ich mich hier beziehen kann, um die Schriftart in einem Modus anzupassen und kann theoretisch auch anderen dort hinzufügen!?
-- Keybind zum togglen unter org-mode keybindings eingerichtet
+** Minor-Modes (Schreibmodus & Präsentationsmodus)
+- Schriftart und Spacing mit Fontaine und Spacious-Padding sind im Unterpunkt Erscheinungsbild festgelegt und können dort angepasst werden
+- Keybinds zum togglen unter org-mode keybindings eingerichtet ("M-m" oder "M-M" zusammen mit "M-+" "M--" "M-<")
 #+begin_src elisp
 ;; Modeline weniger nervig machen benötigt folgendes Paket
 (use-package hide-mode-line
@@ -1135,7 +1125,9 @@ https://github.com/yjwen/org-reveal/
 
 ;; Variable die mir beim Umschalten zwischen normalem und Schreibmodus hilft
 (defvar mane-writing-mode-active nil "Speichert den aktuellen Zustand des Schreib- und Präsentationsmodus.")
-
+#+end_src
+*** Schreibmodus
+#+begin_src elisp
 (defun mane-writing-mode ()
   "Aktivieren oder Deaktivieren des Schreibmodus."
   (interactive)
@@ -1167,7 +1159,9 @@ https://github.com/yjwen/org-reveal/
 	    )))
       (setq mane-writing-mode-active t)
       (message "Schreibmodus aktiviert."))))
-
+#+end_src
+*** Präsentationsmodus
+#+begin_src elisp
 (defun mane-presentation-mode ()
   "Aktivieren oder Deaktivieren des Präsentationsmodus."
   (interactive)

@@ -140,12 +140,11 @@
     ;; Dired & Decrypt
     "d" '(:ignore t :wk "Dired & Decrypt/Encrypt - Verschlüsselung")
     "d d" '(dired :wk "Open dired")
+    "d t" '(dired-sidebar-toggle-sidebar :wk "Dired als Sidebar")
     "d e" '(epa-dired-do-encrypt :wk "Dired markierte Datei verschlüsseln")
     "d E" '(epa-dired-do-decrypt :wk "Dired markierte Datei entschlüsseln")
     "d o" '(org-decrypt-entry :wk "Entry entschlüsseln")
     "d O" '(org-encrypt-entry :wk "Entry verschlüsseln")
-    "d j" '(dired-jump :wk "Dired jump to current")
-    "d n" '(neotree-dir :wk "Open directory in neotree")
     "d p" '(peep-dired :wk "Peep-dired")
     
     ;; Download
@@ -284,7 +283,6 @@
     "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
     "t L" '(visual-line-mode :wk "Toggle truncated lines")
     "t m" '(feebleline-mode :wk "Toggle minimal modeline")
-    "t n" '(neotree-toggle :wk "Toggle neotree file viewer")
     "t t" '(org-transclusion-mode :wk "org-transclusion-aktivieren")
     "t T" '(org-transclusion-add :wk "org-transclusion-aktivieren")
     "t v" '(vterm-toggle :wk "Toggle vterm")
