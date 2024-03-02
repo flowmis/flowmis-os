@@ -98,39 +98,13 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
 - Ich brauche eine .org mit Links, einen minor mode für den ich keybindings vergeben kann und eine Zeile die den minor-mode aktiviert sobald die .org aufgerufen wird. Zudem ist es hilfreich wenn die Startseite im read only Modus ist um nicht ungewollte Veränderungen vorzunehmen.
 
 #+begin_src elisp
-
-(use-package olivetti
-  :ensure t)
-
 (setq initial-buffer-choice "~/.config/emacs/start.org")
-(defun mane-start-mode-enable ()
-  "Funktionen, die beim Aktivieren von mane-start-mode ausgeführt werden."
-  (olivetti-mode 1)
-  (setq olivetti-body-width 180) ; Beispielwert für die Breite
-  ;; Anpassungen für Schriftarten und Größen
-  (setq-local face-remapping-alist                     ;;vielleicht sollte ich auch hier mit fontaine arbeiten wie bei meinem Schreib/-Präsentationsmodus?
-              '((default (:height 1.5))
-                (header-line (:height 4.5))
-                (org-document-title (:height 2.0) :weight bold)
-                (org-block-begin-line (:height 0.7))))
-  ;; Schriftart und Größe für mane-start-mode anpassen
-  (buffer-face-mode 1))
-
-(defun mane-start-mode-disable ()
-  "Funktionen, die beim Deaktivieren von mane-start-mode ausgeführt werden."
-  (olivetti-mode -1)
-  ;; Schriftart-Anpassungen rückgängig machen
-  (setq-local face-remapping-alist nil)
-  (buffer-face-mode -1))
 
 (define-minor-mode mane-start-mode
   "Ein eigener Minor Mode für personalisierte Startseite-Funktionen."
   :lighter " Mane-Start"
   :keymap (make-sparse-keymap)
-  :global nil
-  (if mane-start-mode
-      (mane-start-mode-enable)
-    (mane-start-mode-disable)))
+  :global nil)
 
 ;; Hinzufügen von Keybindings zu mane-start-mode unter Verwendung von evil
 (with-eval-after-load 'evil
@@ -385,15 +359,16 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
 (use-package spacious-padding
   :ensure t
   :custom
-  (spacious-padding-subtle-mode-line t)
   (spacious-padding-widths
-   '( :internal-border-width 1
-      :header-line-width 1
-      :mode-line-width 1
+   '( :internal-border-width 1  ;refers to the space between the boundaries of the Emacs frame and where the text contents start.
+      :header-line-width 4
+      :mode-line-width 6
       :tab-width 4
-      :right-divider-width 1
-      :scroll-bar-width 1
-      :fringe-width 200)))
+      :scroll-bar-width 8
+      :right-divider-width 20   ;is the space between two side-by-side windows.
+      :fringe-width 200 ;Padding on either side of the window. The more specific keys :left-fringe-width and :right-fringe-wdith can be used for finer control. If those are not specified (or set to a nil value), they fall back to :fringe-width.
+      ))
+)
 
 (use-package fontaine
   :ensure t
@@ -1163,7 +1138,6 @@ https://github.com/yjwen/org-reveal/
   (if mane-writing-mode-active
       ;; Wenn der Modus bereits aktiv ist, deaktivieren
       (progn
-        (hide-mode-line-mode -1)
         (feebleline-mode 1)
         (spacious-padding-mode -1)
         (fontaine-set-preset 'regular) ;; Zurück zu den Standard-Einstellungen
@@ -1177,8 +1151,8 @@ https://github.com/yjwen/org-reveal/
         (message "Schreib- und Präsentationsmodus deaktiviert."))
     ;; Modus aktivieren
     (progn
-      (hide-mode-line-mode 1)
       (feebleline-mode -1)
+      (hide-mode-line-mode 1)
       (spacious-padding-mode 1)
       (fontaine-set-preset 'large) ;; Zum Schreib-/Präsentations-Setup wechseln
       ;; Weitere Modi aktivieren
