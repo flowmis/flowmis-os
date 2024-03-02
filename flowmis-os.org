@@ -1,7 +1,6 @@
 :Einstellungen:
 #+TITLE: flowmis-os
-#+STARTUP: folded hideblocks shrink
-
+#+STARTUP: folded shrink
 #+begin_src shell
 rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/emacs/
 # rsync -av /home/flowmis/flowmis-os/flowmis/.config/qtile/ /home/flowmis/.config/qtile/
@@ -11,19 +10,14 @@ echo done
 #+end_src
 
 #+RESULTS:
-| sending   | incremental | file  | list     |         |       |           |           |
-|           |             |       |          |         |       |           |           |
-| sent      | 888         | bytes | received |      17 | bytes | 1.810,00  | bytes/sec |
-| total     | size        | is    | 828.878  | speedup | is    | 915,89    |           |
-| sending   | incremental | file  | list     |         |       |           |           |
-| ./        |             |       |          |         |       |           |           |
-| config.py |             |       |          |         |       |           |           |
-|           |             |       |          |         |       |           |           |
-| sent      | 11.751      | bytes | received |      38 | bytes | 23.578,00 | bytes/sec |
-| total     | size        | is    | 11.62    | speedup | is    | 0,99      |           |
-| done      |             |       |          |         |       |           |           |
-
-
+| sending    | incremental | file  | list     |         |       |            |           |
+| ./         |             |       |          |         |       |            |           |
+| config.org |             |       |          |         |       |            |           |
+| init.el    |             |       |          |         |       |            |           |
+|            |             |       |          |         |       |            |           |
+| sent       | 97.495      | bytes | received |      62 | bytes | 195.114,00 | bytes/sec |
+| total      | size        | is    | 832.475  | speedup | is    | 8,53       |           |
+| done       |             |       |          |         |       |            |           |
 :END:
 * TODO [#B] flowmis-os [0%]
   - [ ] Wechsel auf Nix OS!
