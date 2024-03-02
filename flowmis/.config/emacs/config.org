@@ -386,10 +386,19 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
       :variable-pitch-height 1.2
       :line-spacing 2)
      ;; Für meinen Schreib-/Präsentationsmodus habe ich mit large hiermit eine Möglichkeit die Schriftart in diesem Modus wenn ich mich hierauf beziehe anzupassen 
-     (large
+     (write
       :inherit regular
+      :default-family "Ubuntu"
+      :default-height 100
+      :line-spacing 2
+      :variable-pitch-height 1.3)
+     (pres
+      :inherit regular
+      :default-family "Ubuntu"
       :default-height 175
-      :variable-pitch-height 1.3)))
+      :line-spacing 4
+      :variable-pitch-height 1.3)
+     ))
   :config
   (fontaine-set-preset 'regular))
 
@@ -1057,8 +1066,9 @@ https://github.com/yjwen/org-reveal/
   (define-key org-mode-map (kbd "M-t") #'org-clock-in)
   (define-key org-mode-map (kbd "M-T") #'org-clock-out)
   (define-key org-mode-map (kbd "M-r") #'org-clock-report)  ;; Fügt einen time tracking block ein für den Fall dass ich mit Clock Time (clock in und clock out die Arbeitszeit an einem Heading arbeite!)
-  (define-key org-mode-map (kbd "M-s") #'mane-writing-and-presentation-mode)
-  (define-key org-mode-map (kbd "M-S") #'logos-narrow-dwim)
+  (define-key org-mode-map (kbd "M-s") #'mane-presentation-mode)
+  (define-key org-mode-map (kbd "M-S") #'mane-writing-mode)
+  (define-key org-mode-map (kbd "M-+") #'logos-narrow-dwim)
   (define-key org-mode-map (kbd "M-<") #'logos-backward-page-dwim)
   (define-key org-mode-map (kbd "M--") #'logos-forward-page-dwim)
 )
@@ -1110,30 +1120,24 @@ https://github.com/yjwen/org-reveal/
 ;;         org-roam-ui-open-on-start t))
 #+end_src
 ** Schreib-/Präsentationsmodus
-- Schriftart und Spacing mit Fontaine und Spacious-Padding sind im Unterpunkt Erscheinungsbild festgelegt. Ich habe in fontaine die Variable large auf die ich mich hier beziehen kann, um die Schriftart in einem Modus anzupassen und kann theoretisch auch anderen dort hinzufügen!?
+- Schriftart und Spacing mit Fontaine und Spacious-Padding sind im Unterpunkt Erscheinungsbild festgelegt. Ich habe in fontaine die Variable pres auf die ich mich hier beziehen kann, um die Schriftart in einem Modus anzupassen und kann theoretisch auch anderen dort hinzufügen!?
 - Keybind zum togglen unter org-mode keybindings eingerichtet
 #+begin_src elisp
-;; Schreibmodus Funktion
+;; Modeline weniger nervig machen benötigt folgendes Paket
 (use-package hide-mode-line
   :ensure t)
 
+;; Um im Präsentationsmodus auf einen Punkt zu fokussieren und mit keybinding zur nächsten Folie zu wechseln benötigt folgendes Paket
 (use-package logos
   :ensure t
   :custom
   (logos-outlines-are-pages t))
 
-(defun mane-dired-jump-sidebar ()
-  (interactive)
-  (display-buffer-in-side-window
-   (dired-noselect default-directory)
-   '((side . left))))
-
 ;; Variable die mir beim Umschalten zwischen normalem und Schreibmodus hilft
-
 (defvar mane-writing-mode-active nil "Speichert den aktuellen Zustand des Schreib- und Präsentationsmodus.")
 
-(defun mane-writing-and-presentation-mode ()
-  "Aktivieren oder Deaktivieren des Schreib- und Präsentationsmodus."
+(defun mane-writing-mode ()
+  "Aktivieren oder Deaktivieren des Schreibmodus."
   (interactive)
   (if mane-writing-mode-active
       ;; Wenn der Modus bereits aktiv ist, deaktivieren
@@ -1148,13 +1152,13 @@ https://github.com/yjwen/org-reveal/
               ;; (logos-focus-mode -1)
 	      )))
         (setq mane-writing-mode-active nil)
-        (message "Schreib- und Präsentationsmodus deaktiviert."))
+        (message "Schreibmodus deaktiviert."))
     ;; Modus aktivieren
     (progn
       (feebleline-mode -1)
       (hide-mode-line-mode 1)
       (spacious-padding-mode 1)
-      (fontaine-set-preset 'large) ;; Zum Schreib-/Präsentations-Setup wechseln
+      (fontaine-set-preset 'write) ;; Zum Schreib-Setup wechseln
       ;; Weitere Modi aktivieren
       (dolist (buf (buffer-list))
         (with-current-buffer buf
@@ -1162,7 +1166,39 @@ https://github.com/yjwen/org-reveal/
             ;; (logos-focus-mode 1)
 	    )))
       (setq mane-writing-mode-active t)
-      (message "Schreib- und Präsentationsmodus aktiviert."))))
+      (message "Schreibmodus aktiviert."))))
+
+(defun mane-presentation-mode ()
+  "Aktivieren oder Deaktivieren des Präsentationsmodus."
+  (interactive)
+  (if mane-writing-mode-active
+      ;; Wenn der Modus bereits aktiv ist, deaktivieren
+      (progn
+        (feebleline-mode 1)
+        (spacious-padding-mode -1)
+        (fontaine-set-preset 'regular) ;; Zurück zu den Standard-Einstellungen
+        ;; Weitere Modi deaktivieren
+        (dolist (buf (buffer-list))
+          (with-current-buffer buf
+            (when (derived-mode-p 'org-mode)
+              ;; (logos-focus-mode -1)
+	      )))
+        (setq mane-writing-mode-active nil)
+        (message "Präsentationsmodus deaktiviert."))
+    ;; Modus aktivieren
+    (progn
+      (feebleline-mode -1)
+      (hide-mode-line-mode 1)
+      (spacious-padding-mode 1)
+      (fontaine-set-preset 'pres) ;; Zum Präsentations-Setup wechseln
+      ;; Weitere Modi aktivieren
+      (dolist (buf (buffer-list))
+        (with-current-buffer buf
+          (when (derived-mode-p 'org-mode)
+            ;; (logos-focus-mode 1)
+	    )))
+      (setq mane-writing-mode-active t)
+      (message "Präsentationsmodus aktiviert."))))
 #+end_src
 ** Settings
 - Bei den Einstellungen hier eventuell darauf achten ob es bei init ~:after org~, also nach dem Laden von org-mode initial gesetzt werden, oder ob es Teil der :config ist!
