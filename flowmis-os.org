@@ -220,7 +220,7 @@ sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synapti
 cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
 # cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
 cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
-sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm emacs-nativecomp neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
+sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
 # eza: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht eza schreiben muss
 # starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
 # base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
@@ -321,7 +321,7 @@ src-blocks mit sudo Befehlen auszuführen:
 
     2) /sudo:: als dir angeben wie ich es im folgenden tue
     #+begin_src sh :dir /sudo::
-    sudo pacman -S qtile fish alacritty pcmanfm sddm emacs-nativecomp neovim fd ripgrep
+    sudo pacman -S qtile fish alacritty pcmanfm sddm neovim fd ripgrep
     #+end_src
 
 ** Yay + Yay Packages
@@ -330,7 +330,7 @@ In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs 
 
 #+begin_src sh
 sudo pacman -S base-devel
-cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S archlinux-tweak-tool-git termite otf-alegreya-sans onlyoffice mu && echo '###########################installed yay###########################'
+cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S archlinux-tweak-tool-git emacs-lucid termite otf-alegreya-sans onlyoffice mu && echo '###########################installed yay###########################'
 #+end_src
 
 ** Brave
@@ -618,7 +618,10 @@ _Mobiler Zugriff auf meine .org Dateien über:_
 _Emacs im Terminal über:_
 - Termux: run Emacs in terminal mode to have full Org Mode functionality.
 
-Für die Installation: Erst yay und yay Packages installieren! Fall Icons nicht richtig angezeigt werden in der doom-modeline und dired kann ich die Funktionen nach der Installation ausführen um die Icons zu installieren <M-x all-the-icons-install-fonts> <M-x nerd-icons-install-fonts> ->Dann folgendes:
+Für die Installation: 
+  - Erst yay und yay Packages installieren!  
+  - Emacs mit yay und emacs-lucid compilieren um GTK+ bugs zu vermeiden (kann es auch über arch, aber mit yay bekomme ich stabilere variante mit weniger Fehlern!)
+  - <M-x all-the-icons-install-fonts> <M-x nerd-icons-install-fonts> ->Dann folgendes:
 
 Die [[~/flowmis-os/config.org][config.org]] mit den zusätzlichen Ordnern und Dateien mit dem src-block zu Beginn dieser Datei an den richtigen Ort verschieben und den ~emacs --daemon~ starten um Pakete zu installieren etc. Danach sollte alles funktionieren. Kleinere Änderungen kann ich direkt unter /home/flowmis/.config/emacs/config.org vornehmen und wenn ich zufrieden mit den Ergebnissen bin kann ich es dann in die config.org hier integrieren!
 #+transclude: [[file:~/flowmis-os/config.org]] :lines 1-20
