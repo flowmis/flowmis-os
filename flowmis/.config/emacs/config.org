@@ -593,7 +593,13 @@ Export Ordner in ~/cloud/life/zeit/void/export/
     (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
     (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
 )
-(use-package magit)
+(use-package transient    ;kann sein dass ich es irgendwann nicht mehr brauche, aber hatte Problem mit magit und das hat es gelöst
+  :ensure t)
+
+;; Installiere und konfiguriere magit
+(use-package magit
+  :ensure t
+  :after transient)  ;; Stelle sicher, dass transient zuerst geladen wird - später mal wieder komplett ohne transient checken, denn dann sollte es eigentlich auch gehen
 #+end_src
 
 * GPT & LLMs
