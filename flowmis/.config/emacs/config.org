@@ -385,29 +385,27 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
   :custom
   (fontaine-presets
    '((regular
-      :default-family "JetBrains Mono"
-      :default-weight medium
-      :default-height 110
-      :fixed-pitch-family "JetBrains Mono"
-      :fixed-pitch-weight nil
-      :fixed-pitch-height 1.0
-      :variable-pitch-family "Ubuntu"
-      :variable-pitch-weight normal
-      :variable-pitch-height 1.2
-      :line-spacing 2)
+      :default-family "JetBrains Mono"    ;Schriftart, die standardmäßig für Text verwendet wird, es sei denn, für bestimmte Textelemente ist eine andere Schriftart festgelegt
+      :default-weight medium                 ;normal medium oder bold für die Strichdicke
+      :default-height 130                            ;Schrifthöhe und dadurch Schriftgtröße
+      :line-spacing 4)                                   ;Zeilenabstand 
      ;; Für meinen Schreib-/Präsentationsmodus habe ich mit large hiermit eine Möglichkeit die Schriftart in diesem Modus wenn ich mich hierauf beziehe anzupassen 
      (write
       :inherit regular
-      :default-family "Ubuntu"
-      :default-height 100
-      :line-spacing 2
-      :variable-pitch-height 1.3)
+      :default-family "times"
+      :default-height 230
+      :variable-pitch-family "JetBrains Mono"  ;brauche ich da sonst Tabellen verzerrt und nicht korrekt dargestellt werden
+      :variable-pitch-weight normal
+      :variable-pitch-height 1.0
+      :line-spacing 4)
      (pres
       :inherit regular
-      :default-family "Ubuntu"
-      :default-height 175
-      :line-spacing 4
-      :variable-pitch-height 1.3)
+      :default-family "alegreya sans"
+      :default-height 330
+      :variable-pitch-family "JetBrains Mono"  ;brauche ich da sonst Tabellen verzerrt und nicht korrekt dargestellt werden
+      :variable-pitch-weight normal
+      :variable-pitch-height 1.0
+      :line-spacing 4)
      ))
   :config
   (fontaine-set-preset 'regular))
@@ -455,7 +453,7 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
 ** Transparenz
 With Emacs version 29, true transparency has been added.
 #+begin_src elisp
-(add-to-list 'default-frame-alist '(alpha-background . 90)) ; For all new frames henceforth
+(add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
 #+end_src
 ** Zooming In/Out
 #+begin_src elisp
@@ -1136,6 +1134,7 @@ https://github.com/yjwen/org-reveal/
       (progn
         (feebleline-mode 1)
         (spacious-padding-mode -1)
+        (variable-pitch-mode -1)
         (fontaine-set-preset 'regular) ;; Zurück zu den Standard-Einstellungen
         ;; Weitere Modi deaktivieren
         (dolist (buf (buffer-list))
@@ -1144,12 +1143,15 @@ https://github.com/yjwen/org-reveal/
               ;; (logos-focus-mode -1)
 	      )))
         (setq mane-writing-mode-active nil)
-        (message "Schreibmodus deaktiviert."))
+	      (message "Schreibmodus deaktiviert.")
+        ;; Aktuellen Buffer automatisch neu laden
+        (revert-buffer :ignore-auto :noconfirm))
     ;; Modus aktivieren
     (progn
       (feebleline-mode -1)
       (hide-mode-line-mode 1)
       (spacious-padding-mode 1)
+      (variable-pitch-mode 1)
       (fontaine-set-preset 'write) ;; Zum Schreib-Setup wechseln
       ;; Weitere Modi aktivieren
       (dolist (buf (buffer-list))
@@ -1158,7 +1160,9 @@ https://github.com/yjwen/org-reveal/
             ;; (logos-focus-mode 1)
 	    )))
       (setq mane-writing-mode-active t)
-      (message "Schreibmodus aktiviert."))))
+      (message "Schreibmodus aktiviert.")
+      ;; Aktuellen Buffer automatisch neu laden
+      (revert-buffer :ignore-auto :noconfirm))))
 #+end_src
 *** Präsentationsmodus
 #+begin_src elisp
@@ -1170,6 +1174,7 @@ https://github.com/yjwen/org-reveal/
       (progn
         (feebleline-mode 1)
         (spacious-padding-mode -1)
+	      (variable-pitch-mode -1)
         (fontaine-set-preset 'regular) ;; Zurück zu den Standard-Einstellungen
         ;; Weitere Modi deaktivieren
         (dolist (buf (buffer-list))
@@ -1184,6 +1189,7 @@ https://github.com/yjwen/org-reveal/
       (feebleline-mode -1)
       (hide-mode-line-mode 1)
       (spacious-padding-mode 1)
+      (variable-pitch-mode 1)
       (fontaine-set-preset 'pres) ;; Zum Präsentations-Setup wechseln
       ;; Weitere Modi aktivieren
       (dolist (buf (buffer-list))
@@ -1500,7 +1506,7 @@ ICH SOLLTE NOCH EIN ABBREV HIERFÜR ERSTELLEN UND AM BESTEN SCHAUEN, DASS AUCH D
   :after org
   :init
   (setq reftex-default-bibliography '("/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib") ;Für Export zu Latex wichtig! Diese Einstellung definiert einen oder mehrere Pfade zu deinen BibTeX-Bibliografiedateien. RefTeX ist ein integriertes Paket in Emacs, das zusammen mit org-ref zur Verwaltung von Literaturverweisen verwendet wird. Diese Dateien enthalten deine Literaturdatenbank im BibTeX-Format. Wenn du in einem Dokument auf ein Werk verweisen möchtest, sucht RefTeX in diesen Dateien nach den entsprechenden Einträgen. 
-        org-ref-bibliography-notes "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T132208==mh--notizen__h_pkb_w.org" ;Wenn ich in einer .bib bin und dort auf einem Eintrag kann ich die Funktion <M-x org-ref-open-bibtex-notes> ausführen und springe dadurch zu dieser hier angegebenen Datei und dort befinden sich meine Notizen bzw. falls nicht wird ein Header für den entsprechenden bibtex eintrag erstellt!
+        org-ref-bibliography-notes "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T132208==mh--notizen-literatur__h_pkb_w.org" ;Wenn ich in einer .bib bin und dort auf einem Eintrag kann ich die Funktion <M-x org-ref-open-bibtex-notes> ausführen und springe dadurch zu dieser hier angegebenen Datei und dort befinden sich meine Notizen bzw. falls nicht wird ein Header für den entsprechenden bibtex eintrag erstellt!
         org-ref-default-bibliography '("/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib") ;Für die Funktionalität von org-ref wichtig! Ähnlich wie reftex-default-bibliography legt diese Einstellung den oder die Standardpfade zu deinen BibTeX-Bibliografiedateien für org-ref fest. Diese Dateien werden verwendet, um Literaturverweise in deinen Org-Dokumenten zu suchen und einzufügen.
         org-ref-pdf-directory "/home/flowmis/cloud/life/raum/pkb/literatur/") ;Diese Einstellung gibt den Speicherort an, an dem die PDF-Dateien deiner Literaturquellen gespeichert sind. org-ref kann diese PDFs direkt aus dem Org-Dokument heraus öffnen, was den Zugriff auf deine Quelldokumente erleichtert.
   :config
@@ -1519,7 +1525,7 @@ ICH SOLLTE NOCH EIN ABBREV HIERFÜR ERSTELLEN UND AM BESTEN SCHAUEN, DASS AUCH D
   ;; Pfad zu Ihrem PDF-Verzeichnis für ivy-bibtex
   (setq bibtex-completion-library-path "/home/flowmis/cloud/life/raum/pkb/literatur/"
         bibtex-completion-bibliography "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T175059==mh--literatur-sammlung__pkb.bib"
-        bibtex-completion-notes-path "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T132208==mh--notizen__h_pkb_w.org"))
+        bibtex-completion-notes-path "/home/flowmis/cloud/life/raum/pkb/literatur/20240214T132208==mh--notizen-literatur__h_pkb_w.org"))
 
 (defun mane-export-to-pdf-and-clean ()
   "Exportiert an Ort und Stelle, dass auch die Biber Dateien genutzt werden können und verschiebt dann in den Exportordner. Mit dieser Funktion muss kein Pfad mehr angegeben werden (#+export_file_name: blabla.pdf <- ohne Pfad reicht nun) und zudem werden unnötige Dateien vor Ort direkt nach dem Export gelöscht."

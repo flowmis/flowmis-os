@@ -16,7 +16,6 @@
     ("org3" .  "#77CBB9")
     ("org4" .  "#B89E97")
     ("org5" .  "#C492B1")
-    ("org6" .  "#C492B1")
     ("check" . "#FF0000")))
 
 (defun mane-get-color-d (name)  ;brauche ich hier glaub nicht da ich es ja schon in theme 1 habe
@@ -37,7 +36,7 @@
   `(font-lock-keyword-face ((t (:foreground ,(mane-get-color-d "org3"))))) ;org-header level 3
   `(font-lock-comment-face ((t (:foreground ,(mane-get-color-d "org4"))))) ;Kommentare und org-header-level 4
   `(font-lock-type-face ((t (:foreground ,(mane-get-color-d "org5"))))) ;org-header level 5
-  `(font-lock-constant-face ((t (:foreground ,(mane-get-color-d "org6"))))) ;org-header level 6
+  `(font-lock-constant-face ((t (:foreground ,(mane-get-color-d "org5"))))) ;org-header level 6
   `(org-link ((t (:foreground ,(mane-get-color-d "org2") :underline t)))) ;; Farbe und Stil für Links
   `(org-table ((t (:foreground ,(mane-get-color-d "org2") :background ,(mane-get-color-d "bg2"))))) ;; Farbe und Hintergrund für Tabellen
   `(org-drawer ((t (:foreground ,(mane-get-color-d "org2"))))) ;; Farbe für Drawers
