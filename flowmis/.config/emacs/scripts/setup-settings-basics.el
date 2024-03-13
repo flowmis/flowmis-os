@@ -111,6 +111,7 @@
     "<down>" '(evil-scroll-page-down :wk "Page down")
     
     ;; Buffer & Windows
+    "B" '(consult-buffer :wk "Switch to Buffer/File")
     "b" '(:ignore t :wk "Buffer-Keybindings")
     "b b" '(switch-to-buffer :wk "Switch Buffer")
     "b c" '(delete-window :wk "Close Window") ;Unterschied zu evil-window-delete?
@@ -172,9 +173,10 @@
     "f" '(:ignore t :wk "find-file bzw. go to file")
     "f c" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis/.config/emacs/config.org")) :wk "Gehe zur emacs config")
     "f C" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Gehe zur aktuellen emacs config")
-    "f f" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Gehe zu flowmis-os")
+    "f f" '(consult-find :wk "Find file")
+    "F" '((lambda () (interactive) (find-file "~/flowmis-os/flowmis-os.org")) :wk "Gehe zu flowmis-os")
     "f h" '((lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org")) :wk "Gehe zur emacs config")
-    "f r" '(counsel-recentf :wk "Find recent files")
+    "f r" '(consult-recent-file :wk "Find recent files")
     "f s" '((lambda () (interactive) (find-file "~/.config/emacs/start.org")) :wk "Gehe zur Startseite")
     "f w" '((lambda () (interactive) (find-file "/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org")) :wk "Gehe zur emacs config")
     
@@ -264,8 +266,9 @@
     
     ;; Suche & Ediff
     "s" '(:ignore t :wk "Search")
-    "s s" '(swiper :wk "Suche")
-    "s S" '(helm-swoop :wk "Komplexe Suche")
+    "S" '(consult-ripgrep t :wk "Search for line in files") ;geht auch mit consult-grep
+    "s s" '(consult-line :wk "Suche")
+    "s S" '(consult-outline :wk "Suche nach Headings/Funktionen,...")
     "s q" '(query-replace :wk "Finden und ersetzen")
     "s i" '(imenu :wk "imenu")
     "s l" '(imenu-list :wk "imenu-list")
@@ -313,36 +316,26 @@
                     (counsel-linux-app)
                     (delete-frame))))
 
-(defun disable-helm-temporarily ()
-  "Temporarily disable helm mode."
-  (helm-mode -1))
-
-(defun reenable-helm ()
-  "Re-enable helm mode."
-  (helm-mode 1))
-
-(use-package app-launcher
+(use-package app-launcher ;;ACHTUNG: Mit helm funktioniert es nicht mehr bzw. brauche ich dann zwei funktionen um es kurfristig zu deaktivieren und danach direkt wieder zu aktivieren und diese Funktionen muss ich dann in emacs-run-launcher einfügen - aktuell nutze ich kein helm!
   :ensure t
 '(app-launcher :host github :repo "SebastienWae/app-launcher"))
 ;; create a global keyboard shortcut with the following code
 ;; emacsclient -cF "((visibility . nil))" -e "(emacs-run-launcher)"
 
 (defun emacs-run-launcher ()
-  "Erstellt einen minibuffer der emacs-run-launcher heißt und die hier angegebene Größe hat.  Mit ihm kann man ähnlich zu rofi und dmenu Apps öffnen."
+  "Erstellt einen minibuffer der emacs-run-launcher heißt und die hier angegebene Größe hat. Mit ihm kann man ähnlich zu rofi und dmenu Apps öffnen."
   (interactive)
-  (disable-helm-temporarily) ; Deaktiviere helm vor dem Ausführen
   (with-selected-frame
-    (make-frame '((name . "emacs-run-launcher")
-                  (minibuffer . only)
-                  (fullscreen . 0) ; no fullscreen
-                  (undecorated . t) ; remove title bar
-                  (internal-border-width . 10)
-                  (width . 80)
-                  (height . 11)))
+      (make-frame '((name . "emacs-run-launcher")
+                    (minibuffer . only)
+                    (fullscreen . 0) ; no fullscreen
+                    (undecorated . t) ; remove title bar
+                    (internal-border-width . 10)
+                    (width . 80)
+                    (height . 11)))
     (unwind-protect
         (app-launcher-run-app)
-      (delete-frame)
-      (reenable-helm)))) ; Reaktiviere helm nach dem Ausführen
+      (delete-frame))))
 
 (use-package all-the-icons  ;This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
   :ensure t
