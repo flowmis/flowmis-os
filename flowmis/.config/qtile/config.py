@@ -103,6 +103,7 @@ keys = [
     Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
     Key([mod, "control"], "g", lazy.spawn("brave --app=https://chat.openai.com/"), desc='BraveApp-GPT'),
     Key([mod, "control"], "t", lazy.spawn("brave --app=https://de.tradingview.com/"), desc='Tradingview'),
+    Key([mod, "control"], "T", lazy.spawn("brave --app=https://twitter.com/home"), desc='Tradingview'),
     Key([mod, "control"], "1", lazy.spawn("brave --app=https://mbox1.belwue.de/"), desc='MailSeminarStuttgart'),
     Key([mod, "control"], "2", lazy.spawn("brave --app=https://bap.navigator.web.de/"), desc='MailWeb'),
     Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
