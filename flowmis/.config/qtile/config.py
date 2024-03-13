@@ -93,7 +93,6 @@ keys = [
     Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel'), desc="Wallpaperwechsel"),
     Key([mod, "shift"], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/hell'), desc="Wallpaperwechsel"),
     Key([mod], "e", lazy.spawn('emacsclient -c'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
-    Key([mod], "t", lazy.spawn('telegram-desktop'), desc='Telegram'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod], "space", lazy.spawn('emacsclient -c --eval "(eshell)"'), desc="Launch Eshell"),
     Key([mod, "shift"], "space", lazy.spawn('emacsclient -ce "(shell)"'), desc='shell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
     Key([mod, "control"], "space", lazy.spawn(terminal), desc="Launch terminal"),
@@ -102,8 +101,10 @@ keys = [
     Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
     Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
     Key([mod, "control"], "g", lazy.spawn("brave --app=https://chat.openai.com/"), desc='BraveApp-GPT'),
+    Key([mod], "t", lazy.spawn('telegram-desktop'), desc='Telegram'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod, "control"], "t", lazy.spawn("brave --app=https://de.tradingview.com/"), desc='Tradingview'),
-    Key([mod, "control"], "T", lazy.spawn("brave --app=https://twitter.com/home"), desc='Tradingview'),
+    Key([mod, "control"], "t", lazy.spawn("brave --app=https://de.tradingview.com/"), desc='Tradingview'),
+    Key([mod, "shift"], "t", lazy.spawn("brave --app=https://twitter.com/home"), desc='Tradingview'),
     Key([mod, "control"], "1", lazy.spawn("brave --app=https://mbox1.belwue.de/"), desc='MailSeminarStuttgart'),
     Key([mod, "control"], "2", lazy.spawn("brave --app=https://bap.navigator.web.de/"), desc='MailWeb'),
     Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
