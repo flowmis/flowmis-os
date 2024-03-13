@@ -111,9 +111,8 @@
     "<down>" '(evil-scroll-page-down :wk "Page down")
     
     ;; Buffer & Windows
-    "B" '(consult-buffer :wk "Switch to Buffer/File")
     "b" '(:ignore t :wk "Buffer-Keybindings")
-    "b b" '(switch-to-buffer :wk "Switch Buffer")
+    "b b" '(consult-buffer :wk "Switch to Buffer/File,... mit preview")
     "b c" '(delete-window :wk "Close Window") ;Unterschied zu evil-window-delete?
     "b f" '(delete-other-windows :wk "Fokus auf aktuelles Window")
     "b h" '(evil-window-left :wk "Window left")
