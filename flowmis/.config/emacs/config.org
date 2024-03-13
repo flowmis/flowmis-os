@@ -699,9 +699,8 @@ Export Ordner in ~/cloud/life/zeit/void/export/
 (use-package embark
   :ensure t
   :bind (("C-." . embark-act)
-         :map minibuffer-local-map
          ("C-c C-c" . embark-collect)
-         ("C-c C-e" . embark-export)))
+         ("C-c C-e" . embark-export))) ;die keybindings sind so sinnvoll vergeben und leader key mit spc für keybinding macht hier wenig Sinn!
 
 ;; The `embark-consult' package is glue code to tie together `embark'
 ;; and `consult'.
