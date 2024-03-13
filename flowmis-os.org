@@ -3,23 +3,25 @@
 #+STARTUP: folded shrink
 #+begin_src shell
 rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/emacs/
-# rsync -av /home/flowmis/flowmis-os/flowmis/.config/qtile/ /home/flowmis/.config/qtile/
+rsync -av /home/flowmis/flowmis-os/flowmis/.config/qtile/ /home/flowmis/.config/qtile/
 # rsync -av /home/flowmis/flowmis-os/flowmis/ /home/flowmis/
 # sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf #die Standardconfig falls ich lokal was ändern will aber eigentlich eher unnötig!
 echo done
 #+end_src
 
 #+RESULTS:
-| sending                          | incremental | file  | list     |         |       |            |           |
-| ./                               |             |       |          |         |       |            |           |
-| config.org                       |             |       |          |         |       |            |           |
-| init.el                          |             |       |          |         |       |            |           |
-| scripts/                         |             |       |          |         |       |            |           |
-| scripts/setup-settings-basics.el |             |       |          |         |       |            |           |
-|                                  |             |       |          |         |       |            |           |
-| sent                             | 119.331     | bytes | received |      92 | bytes | 238.846,00 | bytes/sec |
-| total                            | size        | is    | 832.464  | speedup | is    | 6,97       |           |
-| done                             |             |       |          |         |       |            |           |
+| sending   | incremental | file  | list     |         |       |           |           |
+|           |             |       |          |         |       |           |           |
+| sent      | 805         | bytes | received |      17 | bytes | 1.644,00  | bytes/sec |
+| total     | size        | is    | 833.911  | speedup | is    | 1.014,49  |           |
+| sending   | incremental | file  | list     |         |       |           |           |
+| ./        |             |       |          |         |       |           |           |
+| config.py |             |       |          |         |       |           |           |
+|           |             |       |          |         |       |           |           |
+| sent      | 11.917      | bytes | received |      38 | bytes | 23.910,00 | bytes/sec |
+| total     | size        | is    | 11.784   | speedup | is    | 0,99      |           |
+| done      |             |       |          |         |       |           |           |
+
 :END:
 * TODO [#B] flowmis-os [0%]
   - [ ] Wechsel auf Nix OS!
@@ -66,10 +68,10 @@ echo done
 
 
 - _Tool to see Ordner & Dateistruktur:_ =tree=
-   #+begin_src shell :dir /sudo:: :results none
-   sudo pacman -S tree
-   sudo tree -dCL 3 /
-   #+end_src
+#+begin_src shell :dir /sudo:: :results none
+sudo pacman -S tree
+sudo tree -dCL 3 /
+#+end_src
   - _Flags_:
     (siehe auch ~sudo man tree~)
     -d = nur Ordner ohne Dateien
@@ -153,6 +155,14 @@ Neuen Key erstellen:
 - Passphrase ist PIN
 
 * Installation
+Im Idealfall installiere ich ein System und erledige den Rest über Befehle die ich direkt nach der Installation von Emacs hier ausführen kann um mein System nach meinen Wünschen mit meinen Modulen zu konfigurieren!
+- Aus org-mode heraus kann ich auch sudo Befehle ausführen - Vergleiche hierzu die folgenden beiden sourc-blocks:
+#+BEGIN_SRC sh
+  whoami
+#+END_SRC
+#+BEGIN_SRC sh :dir /sudo::
+  whoami
+#+END_SRC
 
 - [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
 - _Problemlösung:_
@@ -220,7 +230,7 @@ sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synapti
 cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
 # cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
 cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
-sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm neovim fd ripgrep gnupg gpa keepassxc && echo 'Packete updated and installed'
+sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm neovim fd ripgrep gnupg gpa keepassxc telegram-desktop && echo 'Packete updated and installed'
 # eza: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht eza schreiben muss
 # starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
 # base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
@@ -453,6 +463,7 @@ keys = [
     Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel'), desc="Wallpaperwechsel"),
     Key([mod, "shift"], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/hell'), desc="Wallpaperwechsel"),
     Key([mod], "e", lazy.spawn('emacsclient -c'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
+    Key([mod], "t", lazy.spawn('telegram-desktop'), desc='Telegram'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
     Key([mod], "space", lazy.spawn('emacsclient -c --eval "(eshell)"'), desc="Launch Eshell"),
     Key([mod, "shift"], "space", lazy.spawn('emacsclient -ce "(shell)"'), desc='shell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
     Key([mod, "control"], "space", lazy.spawn(terminal), desc="Launch terminal"),
@@ -1263,10 +1274,11 @@ alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs 
 - Ich nutze Emacs (DoomEmacs)
 - Alternative: Pycharm, Vim & VS Code
 
-*** Mail
+*** Nachrichten
 
 - Wenn möglich über Emacs machen (mu4e etc.)
 - Alternative: Thunderbird, Protonmail
+- Telegram: ~sudo pacman -S telegram-desktop~
 
 *** Terminal/Konsole/Shell/CLI
 
