@@ -1317,7 +1317,8 @@ https://github.com/yjwen/org-reveal/
 
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((shell . t))) ;; Make sure shell is enabled brauch ich um einen src-block mit sh ausführen zu können innerhalb emacs
+ '((shell . t)  ;; Stelle sicher, dass Shell unterstützt wird
+   (python . t))) ;; Stelle sicher, dass Python unterstützt wird
 
 ;; The following prevents <> from auto-pairing when electric-pair-mode is on.
 ;; Otherwise, org-tempo is broken when you try to <s TAB...
