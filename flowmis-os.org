@@ -3,28 +3,22 @@
 #+STARTUP: folded shrink
 #+begin_src shell
 rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/emacs/
-rsync -av /home/flowmis/flowmis-os/flowmis/.config/qtile/ /home/flowmis/.config/qtile/
+# rsync -av /home/flowmis/flowmis-os/flowmis/.config/qtile/ /home/flowmis/.config/qtile/
 # rsync -av /home/flowmis/flowmis-os/flowmis/ /home/flowmis/
 # sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf #die Standardconfig falls ich lokal was ändern will aber eigentlich eher unnötig!
 echo done
 #+end_src
 
 #+RESULTS:
-| sending                                   | incremental | file  | list     |         |       |            |           |
-| ./                                        |             |       |          |         |       |            |           |
-| config.org                                |             |       |          |         |       |            |           |
-| init.el                                   |             |       |          |         |       |            |           |
-| scripts/                                  |             |       |          |         |       |            |           |
-| scripts/flycheck_setup-settings-basics.el |             |       |          |         |       |            |           |
-| scripts/setup-settings-basics.el          |             |       |          |         |       |            |           |
-|                                           |             |       |          |         |       |            |           |
-| sent                                      | 145.194     | bytes | received |     111 | bytes | 290.610,00 | bytes/sec |
-| total                                     | size        | is    | 858.361  | speedup | is    | 5,91       |           |
-| sending                                   | incremental | file  | list     |         |       |            |           |
-|                                           |             |       |          |         |       |            |           |
-| sent                                      | 83          | bytes | received |      12 | bytes | 190,00     | bytes/sec |
-| total                                     | size        | is    | 11.993   | speedup | is    | 126,24     |           |
-| done                                      |             |       |          |         |       |            |           |
+| sending                | incremental | file  | list     |         |       |          |           |
+| ./                     |             |       |          |         |       |          |           |
+| init.el                |             |       |          |         |       |          |           |
+| themes/                |             |       |          |         |       |          |           |
+| themes/mane-2-theme.el |             |       |          |         |       |          |           |
+|                        |             |       |          |         |       |          |           |
+| sent                   | 4.409       | bytes | received |      73 | bytes | 8.964,00 | bytes/sec |
+| total                  | size        | is    | 837.806  | speedup | is    | 186,93   |           |
+| done                   |             |       |          |         |       |          |           |
 
 :END:
 * TODO [#B] flowmis-os [0%]

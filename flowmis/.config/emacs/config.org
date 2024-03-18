@@ -11,6 +11,7 @@
   - [[#highlight-todo][Highlight Todo]]
   - [[#beacon-mode][Beacon Mode]]
   - [[#modeline][Modeline]]
+  - [[#moderner-look][Moderner Look]]
   - [[#hide-org-blocks][Hide Org-Blocks]]
   - [[#schrift-und-rahmen][Schrift und Rahmen]]
   - [[#theme][Theme]]
@@ -341,27 +342,52 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
   (feebleline-mode 1))  ; Aktiviert feebleline
 
 #+end_src
+** Moderner Look
+#+begin_src elisp
+(use-package org-modern
+  :ensure t
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
+  :config
+  ;; Grundlegende visuelle Anpassungen
+  (setq org-modern-todo t
+        org-modern-priority t
+        org-modern-tag t
+        org-modern-keyword t
+        org-modern-list '((43 . "➤") (45 . "•"))  ; Anpassen von Listen-Symbolen
+        org-modern-horizontal-rule t
+        org-modern-table t  ; Setzen Sie dies auf `t`, um Tabellen zu modernisieren
+  )
+  ;; Checkbox-Symbole anpassen
+  (setq org-modern-checkbox '((?X . "☑") (?- . "❍") (?\s . "☐")))
+)
+;; view-mode der Signalwörter, Propertie-Drawer etc. entfernt und die .org in einem view mode darstellt - ich finde org-modern ist ein gute Kompromiss zwischen reinem Markup Text und schöner Darstellung, sodass ich es aktuell nicht aktiviert habe! - siehe: https://github.com/amno1/org-view-mode
+;; (use-package org-view-mode
+  ;; :ensure t)
+#+end_src
 ** Hide Org-Blocks
 #+begin_src elisp
-(defvar mane-org-blocks-hidden nil "Status of org block delimiters visibility.")
-(defun mane-toggle-org-block-delimiters ()
-  "Toggle visibility of org block delimiters."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    ;; Entferne alle vorherigen Overlays
-    (remove-overlays (point-min) (point-max) 'mane-org-overlay t)
-    ;; Füge Overlays basierend auf dem aktuellen Status hinzu oder entferne sie
-    (if mane-org-blocks-hidden
-        (progn
-          (setq mane-org-blocks-hidden nil))
-      (progn
-        (while (re-search-forward "^#\\+\\(BEGIN\\|END\\)_\\([A-Za-z]+\\)" nil t)
-          (let ((ov (make-overlay (match-beginning 0) (line-end-position))))
-            (overlay-put ov 'invisible t)
-            (overlay-put ov 'mane-org-overlay t)))
-        (setq mane-org-blocks-hidden t)))))
-(add-hook 'org-mode-hook #'mane-toggle-org-block-delimiters)
+;; folgendes brauche ich nur wenn ich org-modern nicht aktiviert habe und will, dass die Blöcke ausgeblendet werden um org-mode schöner zu gestalten
+;; (defvar mane-org-blocks-hidden nil "Status of org block delimiters visibility.")
+;; (defun mane-toggle-org-block-delimiters ()
+  ;; "Toggle visibility of org block delimiters."
+  ;; (interactive)
+  ;; (save-excursion
+    ;; (goto-char (point-min))
+    ;; ;Entferne alle vorherigen Overlays
+    ;; (remove-overlays (point-min) (point-max) 'mane-org-overlay t)
+    ;; ;Füge Overlays basierend auf dem aktuellen Status hinzu oder entferne sie
+    ;; (if mane-org-blocks-hidden
+        ;; (progn
+          ;; (setq mane-org-blocks-hidden nil))
+      ;; (progn
+        ;; (while (re-search-forward "^#\\+\\(BEGIN\\|END\\)_\\([A-Za-z]+\\)" nil t)
+          ;; (let ((ov (make-overlay (match-beginning 0) (line-end-position))))
+            ;; (overlay-put ov 'invisible t)
+            ;; (overlay-put ov 'mane-org-overlay t)))
+        ;; (setq mane-org-blocks-hidden t)))))
+;; (add-hook 'org-mode-hook #'mane-toggle-org-block-delimiters)
 #+end_src
 ** Schrift und Rahmen
 #+begin_src elisp
@@ -1023,9 +1049,10 @@ Ist kein eigenes Paket sondern ein Modul in org das man aktivieren kann um '<s' 
 Org-bullets gives us attractive bullets rather than asterisks.
 
 #+begin_src elisp
-(add-hook 'org-mode-hook 'org-indent-mode)
-(use-package org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+;; brauche ich nur, wenn ich org-modern unter Erscheinungsbild nicht bereits aktiviert habe
+;; (add-hook 'org-mode-hook 'org-indent-mode)
+;; (use-package org-bullets)
+;; (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 
 ** Clock Time
@@ -1113,6 +1140,7 @@ https://github.com/yjwen/org-reveal/
   (define-key org-mode-map (kbd "M--") #'logos-forward-page-dwim)
 )
 #+end_src
+
 ** Open Links with Programm
 #+begin_src elisp
 (use-package openwith
@@ -1159,6 +1187,7 @@ https://github.com/yjwen/org-reveal/
 ;;         org-roam-ui-update-on-save t
 ;;         org-roam-ui-open-on-start t))
 #+end_src
+
 ** Minor-Modes (Schreibmodus & Präsentationsmodus)
 - Schriftart und Spacing mit Fontaine und Spacious-Padding sind im Unterpunkt Erscheinungsbild festgelegt und können dort angepasst werden
 - Keybinds zum togglen unter org-mode keybindings eingerichtet ("M-m" oder "M-M" zusammen mit "M-+" "M--" "M-<")
@@ -1312,13 +1341,13 @@ https://github.com/yjwen/org-reveal/
   :config
   ;; Konfiguration für orgtbl-aggregate, falls erforderlich
 )
-
-(use-package org-pretty-table
-  :ensure t
-  '(org-pretty-table :host github :repo "Fuco1/org-pretty-table")
-  :config
-  (global-org-pretty-table-mode t)
-)
+; folgendes brauche ich nur wenn ich unter Erscheinungsbild org-modern nicht verwende, denn dieses Paket kümmert sich automatisch auch um Tabellen, weshalb ich es hier vorerst deaktiviert habe
+;; (use-package org-pretty-table
+  ;; :ensure t
+  ;; '(org-pretty-table :host github :repo "Fuco1/org-pretty-table")
+  ;; :config
+  ;; (global-org-pretty-table-mode t)
+;; )
 #+end_src
 ** Transclusion
 https://github.com/nobiot/org-transclusion

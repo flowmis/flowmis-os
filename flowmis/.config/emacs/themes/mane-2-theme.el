@@ -16,7 +16,7 @@
     ("org3" .  "#77CBB9")
     ("org4" .  "#B89E97")
     ("org5" .  "#C492B1")
-    ("check" . "#FF0000")))
+    ("check" . "#C412FF")))
 
 (defun mane-get-color-d (name)  ;brauche ich hier glaub nicht da ich es ja schon in theme 1 habe
   "Retrieve a color value by name."
