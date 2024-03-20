@@ -1204,6 +1204,9 @@ https://github.com/yjwen/org-reveal/
   :custom
   (logos-outlines-are-pages t))
 
+(use-package focus
+  :ensure t) ;dimmt Text der nicht in der aktuellen Zeile sichtbar ist!
+
 ;; Variable die mir beim Umschalten zwischen normalem und Schreibmodus hilft
 (defvar mane-writing-mode-active nil "Speichert den aktuellen Zustand des Schreib- und Präsentationsmodus.")
 #+end_src
@@ -1216,6 +1219,7 @@ https://github.com/yjwen/org-reveal/
       ;; Wenn der Modus bereits aktiv ist, deaktivieren
       (progn
         (feebleline-mode 1)
+        (focus-mode -1)
         (spacious-padding-mode -1)
         (variable-pitch-mode -1)
         (fontaine-set-preset 'regular) ;; Zurück zu den Standard-Einstellungen
@@ -1232,6 +1236,7 @@ https://github.com/yjwen/org-reveal/
     ;; Modus aktivieren
     (progn
       (feebleline-mode -1)
+      (focus-mode 1)
       (hide-mode-line-mode 1)
       (spacious-padding-mode 1)
       (variable-pitch-mode 1)
