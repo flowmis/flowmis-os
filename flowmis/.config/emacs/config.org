@@ -303,15 +303,14 @@ Adding highlights to TODO and related words.
   :hook ((org-mode . hl-todo-mode)
          (prog-mode . hl-todo-mode))
   :config
-  (setq hl-todo-highlight-punctuation ":"
-        hl-todo-keyword-faces
-        `(("TODO"       warning bold)
-          ("FIXME"      error bold)
-          ("HACK"       font-lock-constant-face bold)
-          ("REVIEW"     font-lock-keyword-face bold)
-          ("NOTE"       success bold)
-          ("DEPRECATED" font-lock-doc-face bold))))
-
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))
+	hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces `(("TODO"        warning bold)
+				("WAITING"     error bold)
+				("BIN DRAN"    font-lock-constant-face bold)
+				("DELEGIERT"   font-lock-keyword-face bold)
+				("BEENDET"     success bold)
+				("ABGEBROCHEN" font-lock-doc-face bold))))
 #+end_src
 ** Beacon Mode
 #+begin_src elisp
@@ -920,7 +919,6 @@ Makros am besten in einer seperaten macro.el speichern und diese über config.el
 (with-eval-after-load 'org
   ;; Setzen von org-todo-keywords und anderen org-bezogenen Konfigurationen
   (setq 
-   org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "BIN DRAN(D)" "DELEGIERT(d@/!)" "|" "BEENDET(b@/!)" "ABGEBROCHEN(a@/!)"))
    org-agenda-files '("/home/flowmis/cloud/life/raum/pkb/20240207T133915==mh--home__crypt_h_pkb.org"
                       "/home/flowmis/cloud/life/raum/pkb/20240212T121907==mh--work__crypt_pkb_w.org"
                       "/home/flowmis/cloud/life/raum/pkb/20240105T114933==mh--unterrichtsplanung__ch_pkb.org"
@@ -1213,44 +1211,43 @@ https://github.com/yjwen/org-reveal/
 *** Schreibmodus
 #+begin_src elisp
 (defun mane-writing-mode ()
-  "Aktivieren oder Deaktivieren des Schreibmodus."
+  "Toggle the writing mode."
   (interactive)
   (if mane-writing-mode-active
-      ;; Wenn der Modus bereits aktiv ist, deaktivieren
       (progn
-        (feebleline-mode 1)
-        (focus-mode -1)
-        (spacious-padding-mode -1)
-        (variable-pitch-mode -1)
-        (fontaine-set-preset 'regular) ;; Zurück zu den Standard-Einstellungen
-        ;; Weitere Modi deaktivieren
-        (dolist (buf (buffer-list))
-          (with-current-buffer buf
-            (when (derived-mode-p 'org-mode)
-              ;; (logos-focus-mode -1)
-	      )))
+        ;; Deaktivieren
         (setq mane-writing-mode-active nil)
-	      (message "Schreibmodus deaktiviert.")
-        ;; Aktuellen Buffer automatisch neu laden
-        (revert-buffer :ignore-auto :noconfirm))
-    ;; Modus aktivieren
-    (progn
-      (feebleline-mode -1)
-      (focus-mode 1)
-      (hide-mode-line-mode 1)
-      (spacious-padding-mode 1)
-      (variable-pitch-mode 1)
-      (fontaine-set-preset 'write) ;; Zum Schreib-Setup wechseln
-      ;; Weitere Modi aktivieren
-      (dolist (buf (buffer-list))
-        (with-current-buffer buf
-          (when (derived-mode-p 'org-mode)
-            ;; (logos-focus-mode 1)
-	    )))
-      (setq mane-writing-mode-active t)
-      (message "Schreibmodus aktiviert.")
-      ;; Aktuellen Buffer automatisch neu laden
-      (revert-buffer :ignore-auto :noconfirm))))
+        (message "Schreibmodus deaktiviert."))
+    ;; Aktivieren
+    (setq mane-writing-mode-active t)
+    (message "Schreibmodus aktiviert."))
+  ;; Modi für alle org-mode Buffers umschalten
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (when (derived-mode-p 'org-mode)
+        (if mane-writing-mode-active
+            (progn
+              (focus-mode 1)
+              (logos-narrow-dwim))
+          (focus-mode -1)
+          ;; Rufen Sie logos-narrow-dwim erneut auf, wenn nötig, um den Effekt rückgängig zu machen
+          ))))
+  ;; Weitere Aktionen, die für beide Zustände gelten
+  (if mane-writing-mode-active
+      (progn
+        ;; Aktionen bei Aktivierung
+        (feebleline-mode -1)
+        (hide-mode-line-mode 1)
+        (spacious-padding-mode 1)
+        (variable-pitch-mode 1)
+        (fontaine-set-preset 'write))
+    ;; Aktionen bei Deaktivierung
+    (feebleline-mode 1)
+    (spacious-padding-mode -1)
+    (variable-pitch-mode -1)
+    (fontaine-set-preset 'regular))
+  ;; Aktuellen Buffer automatisch neu laden
+  (revert-buffer :ignore-auto :noconfirm))
 #+end_src
 *** Präsentationsmodus
 #+begin_src elisp
