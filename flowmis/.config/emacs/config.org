@@ -25,7 +25,7 @@
   - [[#zusatzinfo][Zusatzinfo]]
 - [[#git][Git]]
 - [[#gpt--llms][GPT & LLMs]]
-- [[#minibuffer-und-complete-anything-company][Minibuffer und Complete Anything (Company)]]
+- [[#minibuffer---vertico-marginalia-consult-embark-orderless-company-complete-anything][Minibuffer - vertico, marginalia, consult, embark, orderless, company (complete anything)]]
 - [[#kalender][Kalender]]
 - [[#mail][Mail]]
 - [[#makros][Makros]]
@@ -521,7 +521,7 @@ With Emacs version 29, true transparency has been added.
 
 (use-package vterm
 :config
-(setq shell-file-name "/bin/sh"
+(setq shell-file-name "/bin/fish"
       vterm-max-scrollback 5000))
 
 (use-package vterm-toggle
@@ -634,9 +634,10 @@ Export Ordner in ~/cloud/life/zeit/void/export/
  :config
  (setq gptel-api-key ""))
 #+end_src
-* Minibuffer und Complete Anything (Company)
-- Alternativen: company, company-box, counsel, orderless, ivy, all-the-icons-ivy-rich, ivy-rich, helm,... -> aktuell ist es wie [[https://www.youtube.com/watch?v=d3aaxOqwHhI][hier]] 
+* Minibuffer - vertico, marginalia, consult, embark, orderless, company (complete anything)
 - [[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything".  Completion will start automatically after you type a few letters. Use M-n and M-p to select, <return> to complete or <tab> to complete the common part. Muss ich mir noch einrichten
+- Die weiteren Pakete sind über dem Code beschrieben!
+- Alternativen: ivy, all-the-icons-ivy-rich, ivy-rich, helm, helm-swoop, counsel?... -> aktuell ist es wie [[https://www.youtube.com/watch?v=d3aaxOqwHhI][hier]], da dies sehr minimalistisch, funktional un wenig eingreifend in andere Dinge ist
 #+begin_src elisp
 (use-package company
   :defer 2
@@ -651,6 +652,7 @@ Export Ordner in ~/cloud/life/zeit/void/export/
 (use-package company-box
   :after company
   :hook (company-mode . company-box-mode))
+
 ;; The `vertico' package applies a vertical layout to the minibuffer.
 ;; It also pops up the minibuffer eagerly so we can see the available
 ;; options without further interactions.  This package is very fast

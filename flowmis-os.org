@@ -8,6 +8,17 @@ rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/
 # sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf #die Standardconfig falls ich lokal was ändern will aber eigentlich eher unnötig!
 echo done
 #+end_src
+
+#+RESULTS:
+| sending    | incremental | file  | list     |         |       |            |           |
+| ./         |             |       |          |         |       |            |           |
+| config.org |             |       |          |         |       |            |           |
+| init.el    |             |       |          |         |       |            |           |
+|            |             |       |          |         |       |            |           |
+| sent       | 102.448     | bytes | received |      62 | bytes | 205.020,00 | bytes/sec |
+| total      | size        | is    | 837.808  | speedup | is    | 8,17       |           |
+| done       |             |       |          |         |       |            |           |
+
 :END:
 * TODO [#B] flowmis-os [0%]
   - [ ] Wechsel auf Nix OS!
