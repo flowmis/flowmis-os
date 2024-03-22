@@ -1,0 +1,1855 @@
+:Einstellungen:
+#+TITLE: flowmis-os-arch
+#+STARTUP: folded shrink
+#+begin_src shell
+rsync -av /home/flowmis/flowmis-os/flowmis/.config/emacs/ /home/flowmis/.config/emacs/
+# rsync -av /home/flowmis/flowmis-os/flowmis/.config/qtile/ /home/flowmis/.config/qtile/
+# rsync -av /home/flowmis/flowmis-os/flowmis/ /home/flowmis/
+# sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf #die Standardconfig falls ich lokal was ändern will aber eigentlich eher unnötig!
+echo done
+#+end_src
+
+:END:
+* TODO [#B] flowmis-os [0%]
+  - [ ] Kompletter Wechsel auf Nix OS?!
+  - [ ] Nameing Konvention auf alle Dateien anwenden und alle vorhandenen Links anpassen.
+  - [ ] Repo privat hosten
+  - [ ] Widgets überarbeiten (volumeicon für Lautstärkeregulation im Systray,...) 
+  - [ ] Docker Container erstellen?
+  - [ ] Windowsinstallation?: https://www.youtube.com/watch?v=h0Wg_aknGdc
+* Linux & Arch
+ 1. ~Arch~ mit ~Linux-Kernel~ und der Paketverwaltung ~Pacman~ ist die Grundlage auf dem flowmis-os aufbaut (ein Desktop Betriebssystem dass auf allen x86_64 kompatiblen Machinen mit circa 1 GiB Ram und etwa 2 GiB Speicher installiert werden kann)
+ 2. ~Bootstick/Iso~ mit ~Arch~ ist nötig um in ein ~live system~ booten zu können von dem aus man Arch, die gewollten Programme und Konfigurationsdateien installieren kann. Es ist machbar die heruntergeladene ISO zu bearbeiten (Iso Master - Linux) und ihr direkt ein Installationsskript mitzugeben, sodass man nach dem booten eigentlich nur noch das Installationsskript in der virtuellen zshell ausführen muss.
+** Data
+
+*** Dateistruktur und Dateiorganisation
+- Es gibt unterschiedliche Systeme, die hier kurz zusammengefasst dargestellt sind:
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-überblick.png]]
+
+  - PARA
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-para.png]]
+
+  - ACCESS bzw. EACCESS
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-access.png]]
+
+  - Johnny Decimal
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-johnny.png]]
+
+  - GTD und [[id:a738d2f8-7f0c-4845-9157-d24f44a8a52d][Zettelkasten]]
+
+    [[ ~/cloud/life/raum/.org/bilder/org-download/2023-08-01-dateiorga-flat.png]]
+
+- Ich nutze eine Mischung aus unterschiedlichem Methoden mit der richtigen Mischung aus fester und flüssiger Struktur und der richtigen Mischung aus Handlung und Theorie
+ #+DOWNLOADED: screenshot @ 2023-08-22 09:49:17
+ [[file:../cloud/life/raum/.org/bilder/org-download/2023-08-22-09-49-17-screenshot.png]]
+
+- _Regeln:_
+  - Ein Backup ist kein Backup - min 2 Backups um bei Wiederherstellung bzw. bei der Arbeit mit dem Backupspeicher keine Gefahr einzugehen (durch Fehler im Skript zur Wiederherstellung oder ähnlichen tut man schonmal etwas unbeabsichtigt löschen! - bei 3 Backups muss man weniger vorsichtig sein und kann beim Backupprozess auch mal ein Fehler machen - dann jedoch muss alles an Alramglocken losgehen und es darf bei Backup 3 kein Fehler gemacht werden!)
+  - Im Zweifel sollte ein Link einem Ordner vorgezogen werden - sei sehr vorsichtig und sparsam beim Einsatz von Ordnern (starre und unfreie Gebilde, die Information verstecken indem diese in Schubladen gelegt werden)
+  - Links verbinden Ideen, helfen bei der Navigation
+  - Tags sind hilfreich wenn man keine Indexnote für einen Bereich erstellen möchte, einen bestimmten Status an eine Notiz anheften will (completed, work in progress, atomic note,...), oder um Notizen einen speziellen Character zu verleihen (Buchnotiz, Zitat, Konzept,...)
+
+
+- _Tool to see Ordner & Dateistruktur:_ =tree=
+#+begin_src shell :dir /sudo:: :results none
+sudo pacman -S tree
+sudo tree -dCL 3 /
+#+end_src
+  - _Flags_:
+    (siehe auch ~sudo man tree~)
+    -d = nur Ordner ohne Dateien
+    -L = zeigt Ordner nur bis zu dem Level das man angibt, also bei -L 2 zeigt es die Ordner im aktuellen Verzeichnis + die darunter, aber nicht weiter
+    -C = gibt dem Output Farbe
+- _Linux Standard Dateisystem erklärt:_
+  - mit dem Tool tree kann man sich die unterste Ordnerstruktur von Linux, also die Wurzel des Baums, bzw. den root Ordner anzeigen lassen (/):
+                                                    #+ATTR_HTML: :width 300
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-linux.png]]
+  - _Bedeutung der Ordner:_
+    - /bin - binaries = essentielle asuführbare Dateien (ls, curl, gzip,... ~which curl~ um zu sehen wo die binaries von beispielsweise curl liegen)
+    - /sbin - system binaries = system binaries für root und superuser (mount, mkswap,...)
+    - /usr/bin - nicht essentielle vom Nutzer hinzugefügte binaries
+    - $PATH - umgebungsvariable die alle binaries bzw. ausführbare Dateien enthält (~echo $PATH~ um diese anzuzeigen)
+    - /lib - libaries = enthält code etc. um binaries ausführen zu können (geteilter Code zwischen binaries, system binaries, user binaries)
+    - /etc - et cetera oder auch editable text config genannt = human readable textbasierete Konfigurationsdateien um bestimmt Systemeinstellungen zu setzen
+    - /home - Linux kann mehrere Nutzer enthalten, die man hier finden kann und deren spezifische Nutzerdaten/Konfigurationen dort unter dem Nutzername gespeichert werden -> nicht jeder soll Daten von anderen sehen können und auf Systemkonfigurationen etc. die unterhalb liegen zugreifen können
+    - /boot - enthält Dateien die für den Bootvorgang nötig sind wie z.B. den Linux Kernel
+    - /dev - device files = Ort um mit interner verbauter oder externer angeschlossener Hardware und deren Treiber zu agieren
+    - /var - variablen bzw. variable Dateien = enthält Dateien die sich während der Nutzung ändern (log-files, cache-files etc.)
+    - /tmp - temporary files = nach reboot oder ähnlichem sind diese nicht mehr vorhanden
+    - /proc - eingebildetes Dateisystem = existiert nicht wirklich bzw. wird kurzzeitig im RAM erstellt/genutzt wenn Kernel bestimmte Dinge machen muss, oder bestimmte Prozesse verfolgt
+    - /opt - optionale Software und Dateien = wird man wenig drin machen
+- _Meine Struktur:_ /  root  OS(Windows, Linux,...)  -->  /home/user  -->  "falls vorhanden: Ein mit VM geteilter Ordner oder ein Festplattenordner"  --> folgende Ordnerstruktur (2 Ebenen tief):
+                                                    #+ATTR_HTML: :width 500
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine1.png]]
+                                                    #+ATTR_HTML: :width 350
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine2.png]]
+                                                    #+ATTR_HTML: :width 500
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-ordner-struktur-meine3.png]]
+
+- _Mein 2nd-brain:_
+                                                    #+ATTR_HTML: :width 333
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-2nd-brain-2d.png]]
+                                                    #+ATTR_HTML: :width 333
+                                                    [[file:../cloud/life/raum/.org/bilder/org-download/2022-12-20-2nd-brain-3d.png]]
+
+*** Namensgebung
+
+- Alle Dateien ausschließlich mit kleinen Buchstaben benennen -> Windows versteht kein Unterschied zwischen Groß- und Kleinschreibung aber Linux schon und das kann dann eventuell zu Problemen führen
+  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/A-Z/a-z/' *~
+- Wörter nicht mit Leerzeichen trennen, sondern mit - weil das bei einem Datum Standard ist und es damit am wenigsten zu Problemen kommt
+  - Nützlicher Befehl: Erst perl-rename in Arch als Paket installieren und dann in dem gewünschten Verzeichnis diesen Befehl ausführen ~perl-rename 'y/ //-/' *~
+- Keinerlei Sonderzeichen im Dateiname verwenden und vorallem nicht $&/
+- unique nameing identifier im Verbund mit Datum und Uhrzeit
+- Nur mit . beginnen wenn die Datei nicht überall sichtbar sein soll
+Gutes Beispiel: 20220610T043241--initial-thoughts-on-the-zettelkasten-method__notetaking.org -> Genauere Erklärung siehe [[https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d][hier]]
+#+begin_center
+DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION
+#+end_center
+
+*** Sicherung/Backups
+
+- Backups von was, wie und wo hin?
+- Systemsicherung mache ich bisher nicht, aber da meine Daten gesichert sind/werden kann ich jederzeit ein neues System aufsetzen - kritische Dinge sollte ich eh immer in einer VM machen, sodass es nicht passier dass mir das ganze System abschmiert
+- Meine Backup der Daten erfolgt wie hier erklärt (Alternativ kann ich es auch mit Versionskontrolle und git machen - siehe [[file:~/flowmis-os/flowmis-os.org::Backup Data on Cold-Storage (Festplatte)][git]]):
+
+**** rsync
+
+Vorteil gegenüber git ist dass man sich commits sparen kann und es einfach zu handhaben ist als git. Es gibt auch eine gui Variante wenn man nicht das cli nutzen will (heißt =grsync=)
+- ~sudo pacman -S rsync~
+- ~sudo man rsync~ (rsync "Optionen/Flags" "Source" "Ziel")
+- wichtige commands:
+  - Backup erstellen: ~rsync -arv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (a = archive - sollte man machen um alles vollständig mit Attributen zu übertragen; v = verbose - zeigt an was gemacht wird)
+  - Backup auf Server/Remote: ~rsync -arv "/Pfad/Ordner mit Dateien" "flowmis@192.168.10.127:/home/flowmis/Backup-Ordner"~ (IP etc. halt anpassen - geht easy mit ssh)
+  - Sicheres Update des Backups nachdem Änderungen vorgenommen wurden (gelöschte Dateien werden beim Backup nicht gelöscht! - namentlich geänderte Dateien sind dann doppelt vorhanden?):  ~rsync -aurnv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~ (u = update - nur neue und inhaltlich geänderte Dateien werden übertragen; n = dry run - *ACHTUNG:* macht die Aktion nicht wirklich und zeigt nur an was es machen würde -> wenn ich damit zufrieden bin gleichen Befehl nun einfach ohne n und dann macht updated es das Backup)
+  - Schnelles Update Backup:  ~rsync -aurv "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+  - Schnelles Update Backup + Löschen im Backup falls was gelöscht wurde:  ~rsync -aurv --delete "/Pfad/Ordner mit Dateien" "/Pfad/Backup-Ordner"~
+
+*** Ver-/Entschlüsselung
+**** SSH & GPG/PGP
+Vorhandene Keys hinzufügen:
+- id_rsa (privater ssh key) in =~/.ssh= kopieren (bzw. erstellen und aus passwortmanager den inhalt hineinkopieren) + der Datei die wichtigen Rechte geben mit ~chmod 600 ~~/.ssh/id_rsa~
+- id_rsa.pub ebenfalls in =~/.ssh= einfügen und schauen dass er mit dem auf github oder wo auch immer übereinstimmt - mit der .gitconfig wo user und mail angegeben ist sollte nun alles gehen und der Befehl ~ssh-agent~ eine id ausgeben und damit zeigen dass es funktioniert
+Neuen Key erstellen:
+- Installation der nötigen Pakete: ~sudo pacman -S openssh gnupg gpa~
+  - openssh braucht man um ssh keys zu erstellen
+  - gnupg ist die library des OpenPGP Standards
+  - gpa ist einfache grafische Applikation um die gpg keys zu verwalten und zu en-/decrypten
+- Erstellen eine ssh Keys: ssh-keygen oder ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~
+- Passphrase ist PIN
+
+* Installation
+Im Idealfall installiere ich ein System und erledige den Rest über Befehle die ich direkt nach der Installation von Emacs hier ausführen kann um mein System nach meinen Wünschen mit meinen Modulen zu konfigurieren!
+- Aus org-mode heraus kann ich auch sudo Befehle ausführen - Vergleiche hierzu die folgenden beiden sourc-blocks:
+#+BEGIN_SRC sh
+  whoami
+#+END_SRC
+#+BEGIN_SRC sh :dir /sudo::
+  whoami
+#+END_SRC
+
+- [ ] Booted man auf den Stick wird man in eine virtuelle Konsole (handelt sich um eine Zsh Shell) als root eingeloggt, von der aus man die gewünschte Installation durchführen kann. Theoretisch kann man ein Autoinstallationsskript in die ISO mit einbauen und dann über die Zsh ausführen
+- _Problemlösung:_
+  - [[https://wiki.archlinux.org/title/Installation_guide][Arch InstallGuide]] bei Fragen/Problemen
+  - Wenn ich feststecke, kann ich mit <C-M-F2> in die tty wechseln und mit root und cli Einstellungen rückgängig machen -> C=Strg, M=Alt, F2 muss eventuell mit Fn zusammen gedrückt werden!
+  - Etwas vergessen: kann nach der Installation erneut auf Bootstick booten und von diesem die Linux-Filesystem partition mounten und mit arch-chroot auf diese gehen und Dinge installieren (im root Modus und mit hoffentlich funktionierendem Internet)
+
+** Installationsdateien
+
+- Locales:
+
+#+begin_src shell :tangle locale.conf
+LANG=de_DE.UTF-8
+LC_CTYPE=de_DE.UTF-8
+#+end_src
+
+- Localhost und die localdomain festlegen:
+
+#+begin_src shell :tangle hosts
+# Static table lookup for hostnames.
+# See hosts(5) for detailsh
+127.0.0.1    localhost
+::1          localhost
+127.0.1.1    FlowmisPC.localdomain    FlowmisPC
+#+end_src
+
+** Installation
+Arch iso downloaden:
+- Check ob Datei original und unverändert ist:
+#+begin_src shell
+gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig     # Befehl PGP check
+pacman-key -v archlinux-version-x86_64.iso.sig                                          # Alternativer Befehl von ArchSystem aus
+#+end_src
+Falls VM: ISO in die VM laden + Speicher, CPU, RAM, GPU etc. der virtuellen Maschine zuweisen und mit funktionsfähigem Internet (auf dem Hostsystem) die VM booten
+- Standardmäßig Skript install-vm verwenden. Falls ich Installation in VM lieber step by step (wie bei Hardware machen will) um alles selbst zu konfigurieren, muss ich das untere Skript install-hardware-modified verwenden.
+- Zusätzliche Infos für Copy-and-paste und geteilten Ordner hier: [[~/flowmis-os/flowmis-os.org::VirtualBox][VirtualBox]]
+#+begin_src shell :tangle install-vm-mit-skript.sh
+# 1. ~python -m archinstall~
+#    Einstellungen:
+#    - Sprache auf de & locale-lang auf de.DE
+#    - Grub als Bootloader wählen
+#    - Root Passwort vergeben + Account/User mit Passwort erstellen
+#    - Profil auf xorg ändern
+#    - Dem Gerät entsprechende Grafiktreiber wählen
+#    - pulseaudio wählen
+#    - NetworkManager wählen
+#    - Timezone auf Europe-Berlin
+#    - Zusatzpakete angeben: git sudo networkmanager
+#    - Festplatte wählen, alles wipen + ext4 filesystem konfigurieren
+#    - Installation starten
+# 2. shutdown, iso/installationsmedium entfernen, boot & login -> Internet sollte gehen und arch-minimal ist fertig installiert!
+# 3. Falls kein Internet - mit nmcli im Wlan anmelden
+# 4. VM konfigurieren:
+# - sudo pacman -S virtualbox-guest-utils openssh
+# - sudo VBoxClient-all
+# - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Erweitert -> Gemeinsame Zwischenablage & Drag'n'Drop auf bidirektional stellen
+# - In VirtualBox Einstellungen der jeweiligen VM  -> Allgemein -> Gemeinsame Ordner -> "Hinzufügen" drücken unter: Ordner der virtuellen Maschine -> Pfad Ordnername etc beispielsweise wie folgt angeben (Ordner sollte vorab auf beiden Systemen erstellt werden): <C:\Users\manem\Desktop\share -- share -- automatisch einbinden -- Einbindungspunkt leer lassen>
+# - Ordner einhängen und checken ob es geht: sudo mount -t vboxsf share /home/flowmis/share
+# - fstab um folgende Linie ergänzen dass geteilter Ordner automatisch eingehängt wird:
+    # cloud						/home/flowmis/cloud	vboxsf		defaults 	0 0
+# - .ssh nach ~ kopieren + cd in .ssh und chmod 0700 id_rsa sodass anschließend mit git clone git@github.com:flowmis/flowmis-os.git mein Repo geklont werden kann
+# 5. Dieses Skript ausführen + rebooten + Qtile statt Wayland wählen und anmelden - fertig ist flowmis-os-minimal und weitere Module direkt aus Emacs installieren:
+mkdir -p ~/.config/{alacritty,fish,picom} && echo 'Ordner erstellt'
+sudo cp -r ~/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf && echo '###########################Touchpad sollte funktionieren###########################'
+cp -r ~/flowmis-os/tangle/alacritty.yml ~/.config/alacritty/alacritty.yml && cp -r ~/flowmis-os/tangle/config.fish ~/.config/fish/config.fish && echo '###########################Terminals ready###########################'
+# cp -r ~/flowmis-os/tangle/.xprofile ~/.xprofile
+cp -r ~/flowmis-os/tangle/.bashrc ~/.bashrc && cp -r ~/flowmis-os/tangle/.gitconfig ~/.gitconfig && cp -r ~/flowmis-os/tangle/picom.conf ~/.config/picom/picom.conf && echo '###########################Starteinstellungen vorhanden###########################'
+sudo pacman -Syu && sudo pacman -S qtile picom fish eza starship alacritty pcmanfm nitrogen sddm neovim fd ripgrep gnupg gpa keepassxc telegram-desktop && echo 'Packete updated and installed'
+# eza: Der Befehl ls gibt schönerer/funktionalere Darstellung aus -> meine aliase ändern machen dass ich ls weiterhin verwenden kann und nicht eza schreiben muss
+# starship: Shell wird übersichtlicher: < und > statt sinnloser Angabe vom Standardpfad
+# base-devel: ermöglicht <makepkg -si> um aus Binaries ein Paket zu machen das im Anschluss installiert werden kann
+# ripgrep: für Doom Emacs (ebenso wie gnu find und fd (sollten jedoch bereits installiert sein - siehe auch github von doom emacs)
+sudo systemctl enable sddm
+#+end_src
+#+begin_src shell :tangle install-hardware.sh
+###Achtung: Auf Hardware machen mehrere Partitionen Sinn
+# fdisk -l                                                                    # Alternativ: <lsblk>
+# fdisk /dev/sda                                                              # mit fdisk in Partition gehen -> Partitionen löschen <d>/neue erstellen <n> -> <m> mögliche Befehle zeigen
+# <g><n><1><Enter><+550M>                                                     # EFI Partition erstellen: <g> kreiert Label - GPT disk label (Achtung falls MBR verwendet wurde) <n> neue Partition mit Nummer <1>  und first sector default <Enter> und second sector 550MiB <+550M>
+# <n><2><Enter><+2G>                                                          # Swap Partition mit Nummer 2 und mindesten 1GiB (oder wie hier 2GiB) erstellen
+# <n><3><Enter><Enter>                                                        # Linux Filesystem Partition mit restlichem Speicher erstellen
+# <t><1><L><1>                                                                # Partition 1 zu EFI ändern (<L> zeigt mögliche Partitionstypen und <1>=EFI)
+# <t><2><19>                                                                  # Partition 2 zu Swap ändern -> Partition 3 muss man nicht ändern da Standard Linux Filesystem passt
+# <w>                                                                         # write changes und fdisk verlassen
+# mkfs.fat -F32 /dev/sda1
+# mkswap /dev/sda2
+# swapon /dev/sda2
+# mkfs.ext4 /dev/sda3
+# mount /dev/sda3 /mnt
+###Einfache Variante ohne mehrere Partitionen
+# fdisk /dev/sda + <n> + <p> + <Enter> + <Enter> + <Enter> <w>
+# fdisk -l                                                                  # check Partionen -> Alternativ: lsblk
+# mkfs.ext4 /dev/sda1
+##System einrichten
+# mount /dev/sda1 /mnt
+# pacstrap /mnt base linux linux-firmware                                   # Installiert die grundlegendsten Komponenten die man benötigt um mit dem Linux Kernel arbeiten zu können
+# genfstab -U /mnt >> /mnt/etc/fstab                                        # generiert FileSystemTable
+# arch-chroot /mnt                                                          # Mit root in /mnt gehen
+# pacman -S neovim sudo git
+# passwd
+# useradd -m flowmis
+# passwd flowmis
+# usermod -aG wheel,audio,video,optical,storage flowmis                     # Erteilen der Rechte bzw. in welcher Gruppe der User ist
+# pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager sddm
+# cd /home/flowmis/ && git clone https://github.com/flowmis/flowmis-os.git
+# . /home/flowmis/flowmis-os/tangle/install-hardware-modified.sh
+cd /home/flowmis/ && chown flowmis flowmis-os/ && chgrp flowmis flowmis-os/   # Mit root geclonte Repo auf richtigen Nutzer mit richtigen Rechten geändert
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+hwclock --systohc                                                           # setzt Zeit
+mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+locale-gen                                                                  # generiert die locales
+echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+##Grafiktreiber wählen - bei 2 sollte man nur die Treiber der guten Grafikkarte installieren
+pacman -S xf86-video-fbdev                                                # Grafiktreiber VM
+##Sonstiges
+# mkdir /boot/EFI                                                           # Erstellung des Bootdirectories
+# mount /dev/sda boot/EFI                                                   # was ist die EFI ppartition in der VM - habe ich ja nicht angelegt???
+# grub-install                                                              # Eventuell muss Pfad mit angegeben werden: grub-install /dev/sda
+# grub-mkconfig -o /boot/grub/grub.cfg                                      # Ohne diese wird es zu Problemen beim booten kommen
+# EDITOR=nvim visudo                                                        # uncomment #%wheel ALL=(ALL) ALL
+# systemctl enable NetworkManager
+# systemctl enable sddm
+# exit
+# umount -l /mnt
+# reboot & login
+# sudo NetworkManager                                                       # keine Fehlermeldung = past alles
+# sudo nmcli device wifi list                                               # nmcli wird mit NetworkManager installiert und zeigt vorhandene Wlan Netzwerke an
+# sudo nmcli device wifi connect "Name Wlan" password "Passwort Wlan"       # Verbindet mit Wlan (https://wiki.archlinux.org/title/NetworkManager)
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime                     # Link zur Zeitzone um richtige Uhrzeit etc. zu hinterlegen. Manche Programme funktionieren ohne richtige locales nicht
+hwclock --systohc                                                           # setzt Zeit
+mv /home/flowmis/flowmis-os/tangle/locale.conf /etc/locale.conf              # verschiebt vorab erstellte Datei
+sed -i 's/#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen           # sucht einen String und ersetzt ihn
+locale-gen                                                                  # generiert die locales
+echo FlowmisPC | cat > /etc/hostname                                        # schreibt neue Datei an gewünschten Ort mit gewünschtem Inhalt
+mv /home/flowmis/flowmis-os/tangle/hosts /etc/hosts                          # verschiebt vorab erstellte Datei
+# localectl --no-convert set-keymap de-latin1-nodeadkeys && localectl --no-convert set-x11-keymap de pc105 deadgraveacute && localectl status
+# setxkbmap -layout de                                                      # Tastaturlayout auf Deutsch
+# timedatectl set-ntp true && timedatectl status                            # Zeit und Datum über das network transfer protocol einholen
+#+end_src
+3. _Falls Hardware:_ Bootstick erstellen (Achtung Bootstick der mir balena etcher erstellt wurde macht Probleme ⇾ Mit Rufus erstellen und bei Partitionsschema GPT statt MBR wählen um mit grub-install bei manueller Installation keine Probleme zu bekommen, weil falsches Partitionsschema vorliegt). BIOS Bootreihenfolge ändern, UEFI auswählen (nicht CMS) und secureboot disablen ⇾ Booten
+   - Checken, ob Installationsmedium richtig funktioniert
+        ~ls /sys/firmware/efi/efivars~ # kein Error = System hat in UEFI mode gebooted. Error (dir existiert nicht) = System im BIOS (or CSM) mode?
+   - Internet über Lankabel oder iwctl aktivieren und checken, ob es geht
+        ~ip link~ # Zeigt einem an ob Netzwerkkarte/Hardware gefunden wird und mit welchem Namen weitergemacht werden kann - oft wlan0 (Achtung, dass rfkill die Karte nicht blockiert)
+        ~iwctl~ # Einloggen WLAN (Ethernet eigentlich zu bevorzugen) ⇾ siehe auch https://wiki.archlinux.org/title/Iwd#iwctl
+        ~device list~ # zeigt Netzwerkkarten ⇾ ist hier nichts gelistet dann fucked
+        ~station "" scan~ # "" durch WLAN Karte ersetzen (meist wlan0) ⇾ scant nach vorhandenen WLANs die durch WLAN Karte gefunden werden
+        ~station "" get-networks~ # Listet gefundene WLAN Netzwerke auf
+        ~station "" connect "Name WLAN"~ # Verbindung zu WLAN herstellen
+        ~exit~ # Verlassen von iwctl
+        ~ping google.de~ # Internet check
+   - Keyboardlayout wählen
+        ~ls /usr/share/kbd/keymaps/**/*.map.gz~ # Läd alle vorhandenen Tastaturlayouts
+        ~loadkeys de-latin1~ # Standard Tastaturlayout auf Deutsch (nur für Installationsprozess)
+
+* Module installieren & konfigurieren
+
+src-blocks mit sudo Befehlen auszuführen:
+
+    1) einzelne Befehle indem man eine Variable mitgibt
+    #+begin_src sh :var Passw=(read-passwd "112123")
+    echo ${Passw} | sudo pacman -Syu & echo 'Packete updated'
+    #+end_src
+
+    2) /sudo:: als dir angeben wie ich es im folgenden tue
+    #+begin_src sh :dir /sudo::
+    sudo pacman -S qtile fish alacritty pcmanfm sddm neovim fd ripgrep
+    #+end_src
+
+** Yay + Yay Packages
+
+In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs zwischendrin sudo legitmation braucht und auf Fragen geantwortet werden was Probleme verursacht wenn man mit org-src block nicht interaktiv agieren kann
+
+#+begin_src sh
+sudo pacman -S base-devel
+cd ~ && git clone https://aur.archlinux.org/yay-git.git && cd ~/yay-git/ && makepkg -si && cd ~ && rm -rf ~/yay-git/ && yay -Syu && yay -S archlinux-tweak-tool-git emacs-lucid termite otf-alegreya-sans onlyoffice mu && echo '###########################installed yay###########################'
+#+end_src
+
+** Brave
+
+In Terminal/Eshell ausführen (Befehl um es an Eshell repl zu senden?) da Emacs zwischendrin sudo legitmation braucht und auf Fragen geantwortet werden was Probleme verursacht wenn man mit org-src block nicht interaktiv agieren kann
+
+#+begin_src sh
+cd ~ && git clone https://aur.archlinux.org/brave-bin.git && cd ~/brave-bin/ && makepkg -si && cd ~ && rm -rf ~/brave-bin/ && echo '###########################installed brave###########################'
+#+end_src
+
+** Qtile
+#+begin_src sh  :dir /sudo::
+sudo pacman -S python-iwlib python-dbus-next qt5ct mypy && echo 'Pyhton Zeug installiert'
+sudo pacman -S python-utils && qtile check && echo 'Qtile dependencies installiert'
+#+end_src
+
+- https://docs.qtile.org
+- Muss Python installiert sein und gibt es weitere Dependencies dass dieser WM läd und richtig funktioniert?
+- Wenn eigene Config probleme macht fällt es normal auf default config zurück -> sollte es sich aufhängen lohnt sich <Strg Alt F2> um ins Terminal zu kommen und von dort aus kann man eigene config löschen, sodass die Standard config dort beim nächsten Boot erscheint und an dieser kann man dann weiterarbeiten.
+  | Keybinding in Standard Config | Beschreibung                                         |
+  |-------------------------------+------------------------------------------------------|
+  | M Strg q                      | beendet qtile und man muss sich neu anmelden         |
+  | M Strg e(oder r?)             | refresh qtile (Änderungen an config werden sichtbar) |
+  | M r                           | spawn prompt -> öffnen von Programmen                |
+  | M Space                       | öffnet Terminal                                      |
+  
+#+begin_src python :tangle flowmis/.config/qtile/config.py
+from libqtile import bar, layout, widget
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.lazy import lazy
+from libqtile.utils import guess_terminal
+
+mod = "mod4"
+terminal = guess_terminal()
+
+##################################################################################### Farben
+
+colors = [["#FBF1C7", "#FBF1C7"],   #0
+          ["#F2E5BC", "#F2E5BC"],   #1
+          ["#00606B", "#00606B"],   #2
+          ["#613E53", "#613E53"],   #3
+          ["#C27DA7", "#C27DA7"],   #4
+          ["#00606B", "#00606B"],   #5
+          ["#613E53", "#613E53"],   #6
+          ["#C275A7", "#C275A7"],   #7
+          ["#D65D0E", "#D65D0E"],   #8
+          ["#9D0006", "#9D0006"],   #9
+          ["#000000", "#000000"],   #10
+          ["#FFFFFF", "#FFFFFF"],   #11
+          ["#7F001E", "#7F001E"],   #12
+          ["#F0F0F0", "#F0F0F0"],   #13
+          ["#EBDBB2", "#EBDBB2"],   #14
+          ["#D5C4A1", "#D5C4A1"],   #15
+          ["#BDAE93", "#BDAE93"],   #16
+          ["#A89584", "#A89584"],   #17
+          ["#504945", "#504945"],   #18
+          ["#3C3836", "#3C3836"],   #19
+          ["#282828", "#282828"],   #20
+          ["#1D2021", "#1D2021"],   #21
+          ["#B16286", "#B16286"]]   #22
+
+##################################################################################### Keybindings
+floating_window_index = 0
+
+def float_cycle(qtile, forward: bool):
+    global floating_window_index
+    floating_windows = []
+    for window in qtile.current_group.windows:
+        if window.floating:
+            floating_windows.append(window)
+    if not floating_windows:
+        return
+    floating_window_index = min(floating_window_index, len(floating_windows) -1)
+    if forward:
+        floating_window_index += 1
+    else:
+        floating_window_index += 1
+    if floating_window_index >= len(floating_windows):
+        floating_window_index = 0
+    if floating_window_index < 0:
+        floating_window_index = len(floating_windows) - 1
+    win = floating_windows[floating_window_index]
+    win.cmd_bring_to_front()
+    win.cmd_focus()
+@lazy.function
+def float_cycle_backward(qtile):
+    float_cycle(qtile, False)
+@lazy.function
+def float_cycle_forward(qtile):
+    float_cycle(qtile, True)
+
+keys = [
+    ### Fenster bewegen und layout wählen
+    Key([mod], "period", float_cycle_forward, desc='FloatingWindow vor/hinter ein anderes bringen'),
+    Key([mod], "comma", float_cycle_backward, desc='FloatingWindow vor/hinter ein anderes bringen'),
+    Key([mod], "o", lazy.spawn('emacsclient -cF "((visibility . nil))" -e "(emacs-run-launcher)"'), desc="Emacs as run launcher"),
+    Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "Return", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
+    Key([mod, "shift"], "Left", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([mod, "shift"], "Right", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "shift"], "Down", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([mod, "shift"], "Up", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod], "Left", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod], "Right", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod], "Down", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod], "Up", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod, "shift"], "Return", lazy.layout.toggle_split(), desc="Wechsel zwischen solit und full stack"), #Vergößerung/Verkleinerung einers Fensters im Stack (wenn dieses gesplitet ist)
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod, "shift"], "space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    ### Programme starten
+    Key([], "print", lazy.spawn('flameshot gui'), desc='Screenshot2'),
+    Key([mod], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel'), desc="Wallpaperwechsel"),
+    Key([mod, "shift"], "w", lazy.spawn('nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/hell'), desc="Wallpaperwechsel"),
+    Key([mod], "e", lazy.spawn('emacsclient -c'), desc='EMACS'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
+    Key([mod], "space", lazy.spawn('emacsclient -c --eval "(eshell)"'), desc="Launch Eshell"),
+    Key([mod, "shift"], "space", lazy.spawn('emacsclient -ce "(shell)"'), desc='shell in neuem Frame'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
+    Key([mod, "control"], "space", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "p", lazy.spawn('keepassxc /home/flowmis/cloud/life/energie/self-sovereignity/privacy-security/passwörter/hotpassw.kdbx'), desc='Passwortmanager'),    #'emacs ~/cloud/life/raum/home.org' wenn man bestimmte Datei beim Start öffnen will
+    Key([mod], "s", lazy.spawn('spotify-launcher'), desc="Spotify"),
+    Key([mod], "d", lazy.spawn('pcmanfm'), desc='Explorer'),
+    Key([mod], "b", lazy.spawn("brave"), desc='Bravebrowser'),
+    Key([mod, "control"], "g", lazy.spawn("brave --app=https://chat.openai.com/"), desc='BraveApp-GPT'),
+    Key([mod], "t", lazy.spawn('telegram-desktop'), desc='Telegram'),    #'emacs  ~/cloud/life/raum/.org/home.org' wenn man bestimmte Datei beim Start öffnen will
+    Key([mod, "control"], "t", lazy.spawn("brave --app=https://de.tradingview.com/"), desc='Tradingview'),
+    Key([mod, "control"], "t", lazy.spawn("brave --app=https://de.tradingview.com/"), desc='Tradingview'),
+    Key([mod, "shift"], "t", lazy.spawn("brave --app=https://twitter.com/home"), desc='Tradingview'),
+    Key([mod, "control"], "1", lazy.spawn("brave --app=https://mbox1.belwue.de/"), desc='MailSeminarStuttgart'),
+    Key([mod, "control"], "2", lazy.spawn("brave --app=https://bap.navigator.web.de/"), desc='MailWeb'),
+    Key([mod], "n", lazy.spawn('emacsclient -ne "(+org-capture/open-frame)"'), desc='Capture Templates'), #erlaubt mir mit Shortcut schnell Einträge in Einkaufsliste etc. zu machen durch capture templates
+]
+
+##################################################################################### Desktop-Einstellungen
+groups = [Group(i) for i in "123"]
+
+for i in groups:
+    keys.extend(
+        [
+            # mod + Zahl -> wechselt den "Desktop"
+            Key(
+                [mod],
+                i.name,
+                lazy.group[i.name].toscreen(),
+                desc="Switch to group {}".format(i.name),
+            ),
+            # mod + shift + Zahl -> verschiebt aktives Fenster auf anderen "Desktop"
+            Key(
+                [mod, "shift"],
+                i.name,
+                lazy.window.togroup(i.name, switch_group=True),
+                desc="Switch to & move focused window to group {}".format(i.name),
+            ),
+            # Or, use below if you prefer not to switch to that group.
+            # # mod1 + shift + letter of group = move focused window to group
+            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            #     desc="move focused window to group {}".format(i.name)),
+        ]
+    )
+
+layouts = [
+    layout.Columns(border_focus=colors[2], border_width = 3, margin = 8),
+    layout.Max(border_focus=colors[2], border_width = 3, margin = 8),
+    # layout.Stack(num_stacks=2),
+    layout.Bsp(border_focus=colors[2], border_width = 3, margin = 8),
+    # layout.Matrix(),
+    # layout.MonadTall(),
+    # layout.MonadWide(),
+    # layout.RatioTile(),
+    # layout.Tile(),
+    layout.TreeTab(border_focus=colors[2], border_width = 3),
+    # layout.VerticalTile(),
+    # layout.Zoomy(),
+    # layout.Floating()
+]
+
+widget_defaults = dict(
+    font="Ubuntu Bold",
+    fontsize=13,
+    padding=6,
+    background=colors[20],
+    foreground = colors[1],
+)
+extension_defaults = widget_defaults.copy()
+
+screens = [
+    Screen(
+        top=bar.Bar(
+            [
+                widget.CurrentLayoutIcon(padding = 1),
+                widget.TextBox(text = '|', padding = 10),
+                widget.WindowCount(),
+                widget.TextBox(text = '|', padding = 10),
+                widget.Clock(format = "%A, %B %d - %H:%M ", padding = 10),
+                widget.GroupBox(
+                    active = colors[2],
+                    inactive = colors[6],
+                    highlight_color = colors[1],
+                    highlight_method = "line",
+                    this_current_screen_border = colors[6],
+                    this_screen_border = colors [4],
+                    other_current_screen_border = colors[6],
+                    other_screen_border = colors[4],
+                    foreground = colors[6],
+                    background = colors[10]),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Net(),
+                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+                # widget.StatusNotifier(),
+                widget.Systray(),
+                widget.QuickExit(default_text = '⏻'),
+            ],
+            24,
+            border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
+    ),
+]
+
+# Drag floating layouts.
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front()),
+]
+
+dgroups_key_binder = None
+dgroups_app_rules = []  # type: list
+follow_mouse_focus = True
+bring_front_click = False
+cursor_warp = False
+floating_layout = layout.Floating(
+    float_rules=[
+        # Run the utility of `xprop` to see the wm class and name of an X client.
+        ,*layout.Floating.default_float_rules,
+        Match(wm_class="confirmreset"),  # gitk
+        Match(wm_class="makebranch"),  # gitk
+        Match(wm_class="maketag"),  # gitk
+        Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(title="branchdialog"),  # gitk
+        Match(title="pinentry"),  # GPG key password entry
+    ]
+)
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+floating_layout = layout.Floating(
+    border_focus=colors[2],  # Hier die gewünschte Rahm(en)farbe angeben
+    border_width = 4,  # Hier die gewünschte Rahm(en)farbe angeben
+    float_rules=[*layout.Floating.default_float_rules, Match(title='emacs-run-launcher'), Match(title='Confirmation'), Match(title='Alacritty'), Match(title='Keepassxc'),
+                 ]
+)
+
+
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
+
+# When using the Wayland backend, this can be used to configure input devices.
+wl_input_rules = None
+
+# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+# string besides java UI toolkits; you can see several discussions on the
+# mailing lists, GitHub issues, and other WM documentation that suggest setting
+# this string if your java app doesn't work correctly. We may as well just lie
+# and say that we're a working one by default.
+#
+# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
+# java that happens to be on java's whitelist.
+wmname = "LG3D"
+#+end_src
+
+** Emacs
+_Mobiler Zugriff auf meine .org Dateien über:_
+- Organice: https://organice.200ok.ch/
+- Orgzly: https://orgzly.com/
+- Orgro: https://orgro.org/
+- official Emacs build for Android - still a little bit rough: https://f-droid.org/packages/org.gnu.emacs/
+
+_Emacs im Terminal über:_
+- Termux: run Emacs in terminal mode to have full Org Mode functionality.
+
+Für die Installation: 
+  - Erst yay und yay Packages installieren!  
+  - Emacs mit yay und emacs-lucid compilieren um GTK+ bugs zu vermeiden (kann es auch über arch, aber mit yay bekomme ich stabilere variante mit weniger Fehlern!)
+  - <M-x all-the-icons-install-fonts> <M-x nerd-icons-install-fonts> ->Dann folgendes:
+
+Die [[~/flowmis-os/config.org][config.org]] mit den zusätzlichen Ordnern und Dateien mit dem src-block zu Beginn dieser Datei an den richtigen Ort verschieben und den ~emacs --daemon~ starten um Pakete zu installieren etc. Danach sollte alles funktionieren. Kleinere Änderungen kann ich direkt unter /home/flowmis/.config/emacs/config.org vornehmen und wenn ich zufrieden mit den Ergebnissen bin kann ich es dann in die config.org hier integrieren!
+#+transclude: [[file:~/flowmis-os/config.org]] :lines 1-20
+** Terminal/Shell/CLI
+
+Qtile startet Alacritty da es der effizienteste Terminal Emulator ist. In der Alacritty Config habe ich alle bash aliases die in der .bashrc stehen. Allerdings habe ich in die alacritty config geschrieben dass sofort fish gestartet wird und ich dadurch die coolen autofilldinge von fish habe. Bei fish muss ich dann aber in der config zu fish die aliase extra setzen, also wenn es zu Problemen kommt ist es nicht ganz einfach durchzusteigen, aber an sich ist das Setup geil da es das beste von allem hat. Themes muss ich in der Alacritty config ändern wenn ich will.
+Mit ESC im Terminal komm ich in den vim Mode und kann dort dann wie in emacs markieren kopieren etc.! Mit i komme ich wieder in den insert Mode. < und > am Anfang im Terminal kennzeichnen den Modus.
+
+*** Bash
+
+#+begin_src bash :tangle flowmis/.bashrc
+### EXPORT
+export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
+export ALTERNATE_EDITOR=""                        # setting for emacsclient
+export QT_QPA_PLATFORMTHEME=qt5ct
+export EDITOR="emacsclient -t -a ''"              # $EDITOR use Emacs in terminal
+export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
+export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini #brauche ich für die nextcloud
+###Virtualenvwrapper settings
+# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+# export WORKON_HOME=$HOME/.virtualenvs
+# export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
+# source ~/.local/bin/virtualenvwrapper.sh
+
+### SET VI MODE ###
+# Comment this line out to enable default emacs-like bindings
+set -o vi
+bind -m vi-command 'Control-l: clear-screen'
+bind -m vi-insert 'Control-l: clear-screen'
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+### PROMPT
+# This is commented out if using starship prompt
+# PS1='[\u@\h \W]\$ '
+
+### PATH
+if [ -d "$HOME/.bin" ] ; then
+  PATH="$HOME/.bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/Applications" ] ; then
+  PATH="$HOME/Applications:$PATH"
+fi
+
+if [ -d "$HOME/.config/emacs/bin" ] ; then
+  PATH="$HOME/.config/emacs/bin:$PATH"
+fi
+
+### CHANGE TITLE OF TERMINALS
+case ${TERM} in
+  xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|alacritty|st|konsole*)
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+        ;;
+  screen*)
+    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
+    ;;
+esac
+
+### SHOPT
+shopt -s autocd # change to named directory
+shopt -s cdspell # autocorrects cd misspellings
+shopt -s cmdhist # save multi-line commands in history as single line
+shopt -s dotglob
+shopt -s histappend # do not overwrite history
+shopt -s expand_aliases # expand aliases
+shopt -s checkwinsize # checks term size when bash regains control
+
+#ignore upper and lowercase when TAB completion
+bind "set completion-ignore-case on"
+
+### ARCHIVE EXTRACTION
+# usage: ex <file>
+ex ()
+{
+  if [ -f "$1" ] ; then
+    case $1 in
+      ,*.tar.bz2)   tar xjf $1   ;;
+      ,*.tar.gz)    tar xzf $1   ;;
+      ,*.bz2)       bunzip2 $1   ;;
+      ,*.rar)       unrar x $1   ;;
+      ,*.gz)        gunzip $1    ;;
+      ,*.tar)       tar xf $1    ;;
+      ,*.tbz2)      tar xjf $1   ;;
+      ,*.tgz)       tar xzf $1   ;;
+      ,*.zip)       unzip $1     ;;
+      ,*.Z)         uncompress $1;;
+      ,*.7z)        7z x $1      ;;
+      ,*.deb)       ar x $1      ;;
+      ,*.tar.xz)    tar xf $1    ;;
+      ,*.tar.zst)   unzstd $1    ;;
+      ,*)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+### ALIASES ###
+
+# root privileges
+alias doas="doas --"
+
+# navigation
+up () {
+  local d=""
+  local limit="$1"
+
+  # Default to limit of 1
+  if [ -z "$limit" ] || [ "$limit" -le 0 ]; then
+    limit=1
+  fi
+
+  for ((i=1;i<=limit;i++)); do
+    d="../$d"
+  done
+
+  # perform cd. Show error if cd fails
+  if ! cd "$d"; then
+    echo "Couldn't go up $limit dirs.";
+  fi
+}
+
+# vim and emacs
+alias vim="nvim"
+
+# Change Wallpaper
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
+
+# Changing "ls" to "eza"
+alias ls='eza -al --color=always --group-directories-first' # my preferred listing
+alias la='eza -a --color=always --group-directories-first'  # all files and dirs
+alias ll='eza -l --color=always --group-directories-first'  # long format
+alias lt='eza -aT --color=always --group-directories-first' # tree listing
+alias l.='eza -a | egrep "^\."'
+
+# pacman and yay
+alias pu='sudo pacman -Syu'                  # update only standard pkgs
+alias pua='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
+alias pi='sudo pacman -S'
+alias ps='sudo pacman -Ss'
+alias pd='sudo pacman -R'
+alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
+alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
+alias pc='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages
+
+# Sleeptimer
+alias sleep='systemctl suspend'
+
+# activate/mount VM shared Folder
+alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
+
+# get fastest mirrors
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# confirm before overwriting something
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+
+### BASH INSULTER ###
+if [ -f /etc/bash.command-not-found ]; then
+    . /etc/bash.command-not-found
+fi
+#+end_src
+
+*** Alacritty
+
++ Alacritty ist auf allen wichtigen Plattformen vorhanden. Nutzt GPU für rendern -> sehr schneller Terminal Emulator (je nach Befehl kann man sich hier echt einige Minuten sparen!)!
++ Achtung config File ist sehr anfällig für falsch gesetzte Leerzeichen, Spacing etc.! -> gibt es ein in Python programmierten Terminal Emulator?
+- Mit shell: und dann program: /bin/fish mach ich dass alacritty gleich mit fish startet -> fish hilft mir bessere Vorschläge zu bekommen etc.
+
+
+#+begin_src sh :tangle flowmis/.config/alacritty/alacritty.toml
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 12.0
+
+[font.bold]
+family = "Source Code Pro"
+style = "Bold"
+
+[font.bold_italic]
+family = "Source Code Pro"
+style = "Bold Italic"
+
+[font.italic]
+family = "Source Code Pro"
+style = "Italic"
+
+[font.normal]
+family = "Source Code Pro"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 1
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "PasteSelection"
+key = "Insert"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Paste"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "Copy"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ClearLogNotice"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\f"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "PageUp"
+mode = "~Alt"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "PageDown"
+mode = "~Alt"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key = "Home"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key = "End"
+mode = "~Alt"
+mods = "Shift"
+
+[scrolling]
+history = 5000
+
+[shell]
+program = "/bin/fish"
+
+[window]
+dynamic_padding = false
+title = "Alacritty"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.padding]
+x = 6
+y = 6
+#+end_src
+
+*** Fish
+
+- Fish ist eine recht moderne Shell, mit einer eigenen Skriptsprache die etwas von der bash scripting language abweicht -> hat positives, aber da bash der Standard ist leider auch negatives -> Fish ist für Anfänger aber ziemlich geil und hat auch eingebaute Funktion -> ~builtin --names~ zeigt sie einem an -> auch Keybindings für die Funktionen innerhalb fish sind vorhanden und so kann man mit =Alt <-/->= zwischen den Pfaden die man besucht hat hin und her springen (keybindings zu den Funktionen =nextd= und =prevd=)!
+- =count, math, random= sind ebenfalls nützliche eingebaute Funktionen
+- =ALT w= ist auch cooles keybinding das einem sagt was es ist - teste den Befehl ls und dann ohne Enter =Alt w=
+
+#+begin_src sh :tangle flowmis/.config/fish/config.fish
+### ADDING TO THE PATH
+# First line removes the path; second line sets it.  Without the first line,
+# your path gets massive and fish becomes very slow.
+set -e fish_user_paths
+set -U fish_user_paths $HOME/.local/bin $HOME/Applications $HOME/.config/emacs/bin $fish_user_paths
+
+### EXPORT ###
+set fish_greeting                                 # Supresses fish's intro message
+set TERM "xterm-256color"                         # Sets the terminal type
+set EDITOR "emacsclient -t -a ''"                 # $EDITOR use Emacs in terminal
+set VISUAL "emacsclient -c -a emacs"              # $VISUAL use Emacs in GUI mode
+
+### SET MANPAGER
+### Uncomment only one of these!
+
+### "bat" as manpager
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+
+### "vim" as manpager
+# set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
+
+### "nvim" as manpager
+# set -x MANPAGER "nvim -c 'set ft=man' -"
+
+### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
+function fish_user_key_bindings
+  # fish_default_key_bindings
+  fish_vi_key_bindings
+end
+### END OF VI MODE ###
+
+### AUTOCOMPLETE AND HIGHLIGHT COLORS ###
+set fish_color_normal brcyan
+set fish_color_autosuggestion '#7d7d7d'
+set fish_color_command brcyan
+set fish_color_error '#ff6c6b'
+set fish_color_param brcyan
+
+### SPARK ###
+set -g spark_version 1.0.0
+
+complete -xc spark -n __fish_use_subcommand -a --help -d "Show usage help"
+complete -xc spark -n __fish_use_subcommand -a --version -d "$spark_version"
+complete -xc spark -n __fish_use_subcommand -a --min -d "Minimum range value"
+complete -xc spark -n __fish_use_subcommand -a --max -d "Maximum range value"
+
+function spark -d "sparkline generator"
+    if isatty
+        switch "$argv"
+            case {,-}-v{ersion,}
+                echo "spark version $spark_version"
+            case {,-}-h{elp,}
+                echo "usage: spark [--min=<n> --max=<n>] <numbers...>  Draw sparklines"
+                echo "ezamples:"
+                echo "       spark 1 2 3 4"
+                echo "       seq 100 | sort -R | spark"
+                echo "       awk \\\$0=length spark.fish | spark"
+            case \*
+                echo $argv | spark $argv
+        end
+        return
+    end
+
+    command awk -v FS="[[:space:],]*" -v argv="$argv" '
+        BEGIN {
+            min = match(argv, /--min=[0-9]+/) ? substr(argv, RSTART + 6, RLENGTH - 6) + 0 : ""
+            max = match(argv, /--max=[0-9]+/) ? substr(argv, RSTART + 6, RLENGTH - 6) + 0 : ""
+        }
+        {
+            for (i = j = 1; i <= NF; i++) {
+                if ($i ~ /^--/) continue
+                if ($i !~ /^-?[0-9]/) data[count + j++] = ""
+                else {
+                    v = data[count + j++] = int($i)
+                    if (max == "" && min == "") max = min = v
+                    if (max < v) max = v
+                    if (min > v ) min = v
+                }
+            }
+            count += j - 1
+        }
+        END {
+            n = split(min == max && max ? "▅ ▅" : "▁ ▂ ▃ ▄ ▅ ▆ ▇ █", blocks, " ")
+            scale = (scale = int(256 * (max - min) / (n - 1))) ? scale : 1
+            for (i = 1; i <= count; i++)
+                out = out (data[i] == "" ? " " : blocks[idx = int(256 * (data[i] - min) / scale) + 1])
+            print out
+        }
+    '
+end
+### END OF SPARK ###
+
+
+### FUNCTIONS ###
+# Spark functions
+function letters
+    cat $argv | awk -vFS='' '{for(i=1;i<=NF;i++){ if($i~/[a-zA-Z]/) { w[tolower($i)]++} } }END{for(i in w) print i,w[i]}' | sort | cut -c 3- | spark | lolcat
+    printf  '%s\n' 'abcdefghijklmnopqrstuvwxyz'  ' ' | lolcat
+end
+
+function commits
+    git log --author="$argv" --format=format:%ad --date=short | uniq -c | awk '{print $1}' | spark | lolcat
+end
+
+# Functions needed for !! and !$
+function __history_previous_command
+  switch (commandline -t)
+  case "!"
+    commandline -t $history[1]; commandline -f repaint
+  case "*"
+    commandline -i !
+  end
+end
+
+function __history_previous_command_arguments
+  switch (commandline -t)
+  case "!"
+    commandline -t ""
+    commandline -f history-token-search-backward
+  case "*"
+    commandline -i '$'
+  end
+end
+# The bindings for !! and !$
+if [ $fish_key_bindings = "fish_vi_key_bindings" ];
+  bind -Minsert ! __history_previous_command
+  bind -Minsert '$' __history_previous_command_arguments
+else
+  bind ! __history_previous_command
+  bind '$' __history_previous_command_arguments
+end
+
+# Function for creating a backup file
+# ex: backup file.txt
+# result: copies file as file.txt.bak
+function backup --argument filename
+    cp $filename $filename.bak
+end
+
+# Function for copying files and directories, even recursively.
+# ex: copy DIRNAME LOCATIONS
+# result: copies the directory and all of its contents.
+function copy
+    set count (count $argv | tr -d \n)
+    if test "$count" = 2; and test -d "$argv[1]"
+	set from (echo $argv[1] | trim-right /)
+	set to (echo $argv[2])
+        command cp -r $from $to
+    else
+        command cp $argv
+    end
+end
+
+# Function for printing a column (splits input on whitespace)
+# ex: echo 1 2 3 | coln 3
+# output: 3
+function coln
+    while read -l input
+        echo $input | awk '{print $'$argv[1]'}'
+    end
+end
+
+# Function for printing a row
+# ex: seq 3 | rown 3
+# output: 3
+function rown --argument index
+    sed -n "$index p"
+end
+
+# Function for ignoring the first 'n' lines
+# ex: seq 10 | skip 5
+# results: prints everything but the first 5 lines
+function skip --argument n
+    tail +(math 1 + $n)
+end
+
+# Function for taking the first 'n' lines
+# ex: seq 10 | take 5
+# results: prints only the first 5 lines
+function take --argument number
+    head -$number
+end
+
+# Function for org-agenda
+function org-search -d "send a search string to org-mode"
+    set -l output (/usr/bin/emacsclient -a "" -e "(message \"%s\" (mapconcat #'substring-no-properties \
+        (mapcar #'org-link-display-format \
+        (org-ql-query \
+        :select #'org-get-heading \
+        :from  (org-agenda-files) \
+        :where (org-ql--query-string-to-sexp \"$argv\"))) \
+        \"
+    \"))")
+    printf $output
+end
+
+### END OF FUNCTIONS ###
+
+
+### ALIASES ###
+# \x1b[2J   <- clears tty
+# \x1b[1;1H <- goes to (1, 1) (start)
+alias clear='echo -en "\x1b[2J\x1b[1;1H" ; echo; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo; echo'
+
+# root privileges
+alias doas="doas --"
+
+# navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+# Sleeptimer
+alias sleep='systemctl suspend'
+
+# Change Wallpaper
+alias wallpaper='nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds'
+
+# vim and emacs
+alias vim='nvim'
+
+# Changing "ls" to "eza"
+alias ls='eza -al --color=always --group-directories-first' # my preferred listing
+alias la='eza -a --color=always --group-directories-first'  # all files and dirs
+alias ll='eza -l --color=always --group-directories-first'  # long format
+alias lt='eza -aT --color=always --group-directories-first' # tree listing
+alias l.='eza -a | egrep "^\."'
+
+# activate/mount VM shared Folder
+alias share='sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/'
+
+# pacman and yay
+alias pu='sudo pacman -Syyu'                  # update only standard pkgs
+alias pi='sudo pacman -S'
+alias ps='sudo pacman -Ss'
+alias pd='sudo pacman -R'
+alias yu='yay -Sua --noconfirm'              # update only AUR pkgs (yay)
+alias yua='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs (yay)
+alias pc='sudo pacman -Rns (pacman -Qtdq)' # remove orphaned packages
+
+# get fastest mirrors
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# confirm before overwriting something
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+
+# Play video files in current dir by type
+alias playavi='vlc *.avi'
+alias playmov='vlc *.mov'
+alias playmp4='vlc *.mp4'
+
+### SETTING THE STARSHIP PROMPT ###
+starship init fish | source
+#+end_src
+
+*** Eshell
+
+#+begin_src sh :tangle flowmis/.config/emacs/eshell/aliases
+# Aliases for emacs commands
+alias ff find-file $1
+alias sleep systemctl suspend
+
+# Changing "ls" to "eza"
+alias ls eza -al --color=always --group-directories-first $*  # my preferred listing
+alias la eza -a --color=always --group-directories-first $*   # all files and dirs
+alias ll eza -l --color=always --group-directories-first $*   # long format
+alias lt eza -aT --color=always --group-directories-first $*  # tree listing
+alias l. eza -a1 $* | grep "^\."                              # list hidden files
+
+# Confirm before overwriting something
+alias cp cp -i $1
+alias mv mv -i $1
+alias rm rm -i $1
+
+# activate/mount VM shared Folder
+alias share sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
+
+# Pacman
+alias pi sudo pacman -S
+alias pu sudo pacman -Syyu
+alias ps sudo pacman -Ss
+alias pd sudo pacman -R
+alias pc sudo pacman -Rns (pacman -Qtdq)    # remove orphaned packages
+alias yu yay -Sua --noconfirm               # update only AUR pkgs (yay)
+alias yua yay -Syu --noconfirm              # update standard pkgs and AUR pkgs (yay)
+#+end_src
+
+** weitere Programme
+- Prinzipielle Philosophie: Möglichst wenige aber dafür geile Programme auf dem Gerät installieren und alle kleinen Anwendungsfälle über Browser-/Webanwendungen
+*** Login Manager
+
+- Aktuell nutze ich sddm (weg von ligthdm, da sddm mehr entiwckelt wird und mehr Möglichkeiten bietet)
+
+*** Window Manager
+
+- qtile
+- Alternative: xmonad
+
+*** Text Editor + IDE
+
+- Ich nutze Emacs (DoomEmacs)
+- Alternative: Pycharm, Vim & VS Code
+
+*** Nachrichten
+
+- Wenn möglich über Emacs machen (mu4e etc.)
+- Alternative: Thunderbird, Protonmail
+- Telegram: ~sudo pacman -S telegram-desktop~
+
+*** Terminal/Konsole/Shell/CLI
+
+| Terminal                                                                                    | Console                                                                                                                                          | Shell                                                                                                     | Command-line                                                                                                                                     |
+| <35>                                                                                        | <35>                                                                                                                                             | <35>                                                                                                      | <35>                                                                                                                                             |
+|---------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------|
+| gnome-terminal, command prompt,...                                                          | Xbox, Playstation, Wii, Switch,...                                                                                                               | bash, fish, zsh,sh,cmd,Power Shell,...                                                                    | DOS Shell,...                                                                                                                                    |
+| text input and output environment                                                           | physical terminal = console                                                                                                                      | command-line interpreter                                                                                  | command line = command prompt = type of interface                                                                                                |
+| wrapper program that runs a shell & allows to enter commands                                | -                                                                                                                                                | shell = program that actually processes commands and outputs results                                      | command-line interface = any type of interface that is used to enter (textual) commands. One of these is the terminal, but some programs have their own command-line interfaces |
+| a program that displays a graphical interface and allows you to interact with the shell     | consisted of a single keyboard and monitor plugged into a dedicated serial console port on a computer for low-level direct communication with the operating system | is a user interface for accessing the services of an operating system                                     | a computer program that processes commands in the form of lines of text - user typically interacts with the shell via a command-line interface (CLI) |
+| a device that allows users to interact with computers, typically via a keyboard and display | a physical terminal that is the primary terminal that is directly connected to a machine - it is recognized by the operating system as a (kernel-implemented) terminal | a primary interface that users see when they log in, and its primary function is to launch other programs | an interface that allows a user to type a command (which is expressed as a sequence of characters — typically a command name followed by some parameters) and then press the Return key to execute that command |
+
+- fish, alacritty, aber auch einfach bash sind gut genug für mich mit wenigen Einstellungen
+- longterm will ich auf eshell switchen
+- Alternative: zsh
+
+*** Browser
+
+- bin mit Brave zufrieden
+- Alternative: Firefox https://www.mozilla.org/
+
+*** Passwortmanager
+
+- bin mit KeepassXC zufrieden
+- Alternative: Pass (standard unix tool)
+
+*** Git
+
+- Git kann für dein Eigengebrauch sowie für kollektive Bearbeitung von Dateien genutzt werden, da es Veränderungen über die Zeit zu dokumentieren vermag
+    #+CAPTION: Git Overview
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-5.png]]
+- Git nutzt Kryptographie und die die Integrität der Daten sicherzustellen. Jede Datei und jeder Commit der in ein Repo eingeht und verändert wird, wird mit in einem Hashfunktion gegeben und führt zu einer checksum. Jeder geänderter Bit würde die Checksum verändern und dadurch wird sichergestellt, dass keine Bits verloren gehen. Jede Änderung einer Datei, eines Commits,... führt dazu dass sich die ID und die IDs aller darauf folgenden Sicherungspunkte ändern. Bei einer Commit ID kann man sicher sein dass das Projekt exakt dem Inhalt des zuvor gemachten Commits entspricht und am Commit selbst nichts verändert wurde und zudem, dass nichts in der Geschichte bis zu diesem Commit verändert wurde, da auch das die aktuelle Commit ID ändern würde.
+
+**** Tipps
+
+- _Commit:_
+  1. Add the _right_ changes
+     - Nicht einfach alles was verändert wurde in einen commit packen - nur das stagen was inhaltlich gut in einen aussagekräftigen commit passt
+     - große commits lieber aufteilen und mehrmals nach unterschiedlichen Themen stagen
+     - auch innerhalb einer Datei kann man auswählen welche von mehreren Änderungen man stagen will: ~git add -p "Dateiname"~ + mit y und n wählen was gestaged werden soll -> git status sollte dann die Datei bei staged und unstaged aufführen
+  2. Compose _good_ commit messages
+     - Zeile 1: Subject - Kurzbeschreibung (sollte gewisse Länge nicht unterschreiten)
+     - Zeile 3 (durch leere Zeile 2 erkennt git das nun der Body kommt): Body - more detailed (was wurde geändert und warum, auf was muss weiter geachtet werden...)
+  3. check the subject and body of commits with ~git log~
+- _Branching Strategies:_
+    #+CAPTION: Git Overview
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-1.png]]
+  1. Da git es einem nicht vorschreibt sollte im Team ein branching workflow schriftlich im Repo ausgemacht werden (avoid collisions and mistakes) - Abhängig von Größe des Teams/Projekts und wie Veröffentlichungen etc. gehandhabt werden -> erlaubt neuen Teilnehmern schnellen Einstieg
+  2. Sinnvoll ist beispielsweise eine funktionelle Aufteilung in feature (short-lived branch die in develop branch münden), develop (mündet nach gewisser Testphase in main branch) & main (long-running branch) branches!
+  3. Unterschiedliche Workflows:
+    #+CAPTION: Subversion-Style Workflow
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-2.png]]
+    A centralized workflow is very common, especially from people transitioning from a centralized system. Git will not allow you to push if someone has pushed since the last time you fetched, so a centralized model where all developers push to the same server works just fine.
+    #+CAPTION: Integration Manager Workflow
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-3.png]]
+    integration manager — person who commits to the 'blessed' repository. A number of developers then clone from that repository, push to their own independent repositories, and ask the integrator to pull in their changes. This is the type of development model often seen with open source or GitHub repositories.
+    #+CAPTION: Dictator and Lieutenants Workflow
+    #+ATTR_HTML: :width 800
+    [[file:bilder/2022-12-15-git-4.png]]
+    workflow like that of the Linux kernel. People ('lieutenants') are in charge of a specific subsystem of the project and they merge in all changes related to that subsystem. Another integrator (the 'dictator') can pull changes from only his/her lieutenants and then push to the 'blessed' repository that everyone then clones from again.
+- _Pull Request:_
+  1. Sinnvoll wenn man will das eine andere Person über bestimmt Comits drüber schaut bevor diese in den Branch aufgenommen werden
+  2. Es lädt andere Leute dazu ein Feedback zu geben bevor der Merge stattfindet - wenn es noch nicht gut genug ist wird der request nicht akzeptiert
+  3. Ist die Änderung von der oder den anderen Personen akzeptiert kann ein pull request gemerged werden in den branch
+  4. Pull Requests sind die Methode um Code etc. zu anderen Repos beizusteuern, auf die man keine ausreichenden Zugriffsrechte hat um es selbst zu mergen
+  5. Standard Workflow: Man forkt sich eine Repo. Man nimmt Änderungen vor und wenn man zufrieden ist macht man einen Pull Request. Je nach Interface Github/Gitlab/... sieht es leicht unterschiedlich aus, aber vom Prinzip geht man hin auf beispielsweise Github und schaut sich eine Repo an. Nun will man etwas ändern. Hierzu drückt man fork und wählt den Ort aus wo der Fork hin soll. Nun kann man den fork auf das eigene System clonen (~git clone~) und mit ~checkout~ auf den Branch wechseln um diesen zu bearbeiten. Ist man mit den Änderungen zufrieden commited man und pusht alles in den Fork. Nun geht man auf github um dort einen Pull Request zu erstellen. Nun liegt es am Maintainer ob die Änderungen akzeptiert werden
+- _Merge Conflicts:_
+  - Sollen Commits aus unterschiedlichen Quellen integriert werden, kann es zu Konfilkten kommen
+  - meistens kommt es nicht zu ernsten Konflikten und git kann erkennen was gewollt ist, aber wenn 2 Quellen die gleiche Datei unterschiedlich bearbeiten und dann pushen, ohne die Änderungen von dem der zuerst gepusht hat zu pullen kommt es zu einem Konflikt, da git nicht wissen kann ob der zweite push stattgefunden hätte wenn derjenige zuvor die Änderung gesehen hätte indem er die Änderungen gepulled hätte. Ebenso kommt es zum Konflikt wenn eine Quelle eine Datei löscht und die andere die Datei bearbeitet pushen will
+  - git status zeigt uns dass beim mergen etwas schief ging und welches die Pfade bzw. Dateien sind die nicht gemerged werden konnten
+  - Man muss Konflikte nicht zwingend auflösen, aber man muss sich darum kümmern, da git sonst durchgehend nervt -> Man kann Konflikte rückgängig machen indem man zu dem Punkt geht der vor dem Konflikt war. ~git merge --abort~ (oder ~git rebase --abort~ wenn beim rebase ein Konflikt aufkommt)
+  - tritt ein merge Konflikt auf, markiert git dies in der Datei die Probleme verursacht hat:
+     <<<<<<< - zeigt den Start des Problems im aktuellen Branch
+     ======= = - trennt es von der andern Ursache für den Konflikt(kommt davor oder danach nichts wurde es gelöscht und man muss entscheiden ob man es nun löschen oder behalten will - gegebenenfalls muss Rücksprache gehalten werden, ob er es beispielsweise ergänzt oder ich es lösche sodass unsere Dateien gleich sind)
+     >>>>>>> - zeigt das Ende des Problems
+  - nach dem Lösen des Konflikt muss man erneut die von den Konflikten befreite Datei committen
+  - *Fast-Forward-Merge* - kann man machen wenn man geforked ist etwas geändert hat und dieses nun ohne das Konflikte entstehen wieder in den Hauptbranch merged -> Beide Branches teilen dann wieder die selbe History. Meistens ist es jedoch der Fall dass der Branch von dem geforked wurde sich zwischenzeitlich auch geändert hat! Hierfür braucht man dann einen Merge Commit
+  - *Merge Commmit* - wird automatisch von git erstellt wird wenn zwei branches gemerged werden. Die History zeigt dann auch an dass es zwischenzeitlich zwei oder mehr als zwei unterschiedliche Branches gab! Das wollen nicht alle Projekte, da eine gerade History einfacher nachzuvollziehen ist -> Hier kann man eine Rebase Aktion durchführen
+  - In Magit kann ich mir auch innerhalb einer Datei bestimmte Änderungen stagen und commiten und Probleme nach und nach lösen?
+- _Rebase:_
+  - Bei min 2 Branches (Branch A & Branch B) die zwischenzeitlich unterschiedliche Historie haben und bei denen man einen Merge Commit vermeiden möchte, kann man beispielsweise Branch A quasi bis zum letzten commit bei dem die History noch gleich war wie bei Branch B "löschen/parken", dann alle Änderungen von Branch B übernehmen und nun schauen ob im Anschluss die anderen Änderungen des Branch A ohne Konflikte angehängt werden können. Dadurch ändert man die Historie von Branch A, da man ja quasi die Änderungen von Branch B im Nachhinein zwischen rein schiebt. Wenn noch nicht gepusht wurde wird einfach ein neuer commit erstellt. Hat man jedoch bereits gepusht/gepublished hat man ein Problem und kann nicht so leicht rebasen, da ja zwischenzeitlich jemand anderes an Branch A weitergearbeitet haben kann, den es nun mit der vorherigen Historie nicht mehr gibt! -> Es gilt also: DO NOT USE REBASE ON COMMITS THAT YOU'VE ALREADY PUSHED/SHARED ON A REMOTE REPOSITORY - nur lokal rebasen um aufzuräumen bevor man pushed ;)
+
+| Befehl                  | Beschriebung                                                                                                      |
+|-------------------------+-------------------------------------------------------------------------------------------------------------------+
+| git diff                | zeigt Unterschiede an                                                                                             |
+| git branch              | zeigt die Branches                                                                                                |
+| git branch -M main      | benennt Hauptbranch um von master zu main - wegen neuen Sprachregeln wo es kein Master und Slave geben soll       |
+| git branch r/a          | r zeigt remote branches und a zeigt alle branches                                                                 |
+| git branch feature-a    | macht neuen branch mit Name feature a -> hier kann man ohne Hauptbranch zu gefährden beliebig herumspielen        |
+| git checkout feature-a  | wechselt auf feature-a branch                                                                                     |
+| git checkout -          | wechselt auf main branch bzw. auf einen anderen                                                                   |
+| git log                 | zeigt die commits an                                                                                              |
+| git add ./*/Dateiname   | Staging von veränderten Dateien                                                                                   |
+| git commit -m "Text"    | richtet Checkpoints ein und hier sollte genau beschrieben werden was geändert wurde da man vll wieder zurück will |
+| git push -u origin main | Pusht die locale Repo hoch (falls sie master statt main hat muss dass noch ändern)                                |
+| git push                | Pusht veränderungen hoch                                                                                          |
+| git status              | zeigt momentanen Status des Branches an und sagt was zu machen ist                                                |
+| git pull                | holt alles runter falls sich etwas verändert hat und man es local noch nicht hat                                  |
+| git branch -d Name      | Köscht Brach der Name heissttxt                                                                                   |
+
+**** config und credentials
+
+#+begin_src shell :tangle flowmis/.gitconfig
+[user]
+name = flowmis
+email = hedwig.lanter@gmx.de
+[credential]
+helper = store
+#+end_src
+
+1. Neuer Token(ist als Passw. für remote zugriff auf Repo nötig): UserIcon oben rechts auf Hompage -> Settings -> Developer --> Neuer Token (Ablaufdatum eingeben und repo ankreuzen - sollte als Rechtevergabe ausreichen)
+2. Git installieren: sudo pacman -S git
+3. Git credentials einrichten:
+        git config --global user.name flowmis                   -> Global user config
+        git config --global user.email hedwig.lanter@gmx.de     -> Global user config
+        git config -l                                           -> Status überprüfen
+        git config --global credential.helper store             -> keine ständige Neuanmeldung (Geht auch über SSH-Verbindung)
+4. Git Initialisierung:
+        In Verzeichnis für Repo navigieren
+        git init .                                              -> Neues git initiieren (nur falls nötig)
+        oder: git clone "Link zur Repo"                         -> Files werden heruntergeladen
+        oder: git pull und git merge je nachdem was der Stand ist
+
+**** SSH & Github
+
+- SSH-Key erstellen siehe [[file:~/flowmis-os/flowmis-os.org::SSH & GPG/PGP][hier]]
+- Bei Github anmelden und Public SSH-Key dort hinzufügen
+- Nun kann ich Repo etc über ssh statt https downloaden und brauche keine git-credential Datei für private Repos!
+- Wenn ich meine Daten von der Festplatte ziehe kann ich auch meinen SSH-Key mit kopieren statt neue zu erstellen kann ich dann direkt auf Github zugreifen?
+- git clone mit ssh link (Achtung nicht mit https:// link!) und ssh keys in github hinzufügen und in home/flowmis/.ssh erstellen mit dem Befehl: ~ssh-keygen -t rsa -b 4096 -C "hedwig.lanter@gmx.net"~ -> Passphrase etc. einfach weglassen und dann mit ~cat~ den pub Key auslesen und komplett kopieren um ihn in Github hinzuzufügen
+- [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent][Key lokal hinzufügen]]
+- [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account][Key auf Github hinzufügen]]
+
+**** Backup Data on Cold-Storage (Festplatte)
+
+  1. in Ordner 1 gehen von dem Backup gemacht werden soll und git repo initiieren ~git init~ (alternativ in leerem Ornder ~git init~ und dann alle Dateien in diesen Ordner kopieren)
+  2. ~git status~ um die vorhandenen Dateien und Ordner anzuzeigen
+  3. ~vim .gitignore~ und ergänzen um Name von Dateien/Ordner, die nicht gestaged, gecloned,... werden sollen -> nun nochmals ~git status~ und Dateien/Ordner sollten nun nicht mehr angezeigt werden
+  4. ~git add .~
+  5. ~git status~ (Dateien sollten nun grün, also gestaged sein)
+  6. ~git commit -m "erster commit"~
+  7. in den Ornder 2 gehen wo das Backup rein soll und dort ~git init~ + ~git remote add origin "Pfad zum Ordner 1"~
+  8. zurück in Ordner 1 gehen und ~git remote add origin "Pfad zum Ordner 2"~ die beiden Ordner koppeln
+  9. In Ordner 2 gehen und Dateien laden mit ~git pull origin master~
+  10. Nun ein Skript erstellen das aus Ordner 2 ~git pull~ ausführt und regelmäßig und vorallem vor dem update des backups mit git pull in Ordner 1 die Änderungen committen!
+  11. _Alternativ git bundle oder git mirror:_
+    ~git bundle~ - 1 Datei die man leicht kopieren kann oder per Mail verschicken
+      - See [[https://git-scm.com/book/en/v2/Git-Tools-Bundling][bundle]] - also [[https://stackoverflow.com/questions/2545765/how-can-i-email-someone-a-git-repository/2545784#2545784]["How can I email someone a git repository?"]] with the command: ~git bundle create /tmp/foo-all --all~
+      - using that bundle, you can clone it, specifying a non-existent folder (outside of any git repo): ~git clone /tmp/foo-all newFolder~
+    ~git clone --mirror other/repo.git~
+  12. _Unterschied mirror & bundle:_
+    ~git bundle --all~
+      - docs: man git-bundle, man git-rev-list
+      - Atomic = "Hot-Copy"
+      - Bundles are dump files and can be directly used with git (verify, clone, etc.).
+      - Supports incremental extraction.
+      - Verifiable via git bundle verify.
+    ~git clone --mirror~
+      - docs: man git-clone, man git-fsck, What's the difference between git clone --mirror and git clone --bare
+      - Atomic = "Hot-Copy"
+      - Mirrors are real git repositories.
+      - Primary intention of this command is to build a full active mirror, that periodically fetches updates from the original repository.
+      - Supports hardlinks for mirrors on same file system to avoid wasting space.
+      - Verifiable via git fsck.
+      - Mirrors can be used as a basis for a full file backup script.
+
+*** Pacman
+
+https://wiki.archlinux.de/title/Pacman
+- Spiegelserver richtig einrichten dass hier keine Probleme entstehen
+
+| man pacman             | Manual                                                                        |
+| <30>                   | <120>                                                                         |
+|------------------------+-------------------------------------------------------------------------------|
+| pacman -S              | Packet installieren                                                           |
+|                        | sudo pacman -S emacs -> installiert EMACS                                     |
+| pacman -Sy             | nur sync (=apt-get update)                                                    |
+| pacman -Syu            | sync und update (=apt-get update + apt-get upgrade)                           |
+| pacman -Ss emacs       | sucht nach Paketen zu EMACS                                                   |
+| pacman -Ss ^emacs      | sucht nach Paketen die mit emacs beginnen                                     |
+| pacman -R emacs        | Remove package EMACS                                                          |
+| pacman -Rs emacs       | Remove package EMACS + Dependencies                                           |
+| pacman -Rns emacs      | Remove Paket + Dependencies + Configfiles des Programms -> vollst. deinstall. |
+| pacman -Q              | zeigt alle installierten Pakete an                                            |
+| pacman -Qe             | zeigt nur die Programme an die man selbst installiert hat                     |
+| pacman -Qdt            | zeigt nicht mehr benötigte dependencies                                       |
+| pacman -U emacs.tar.gz | installiert lokale Datei emacs.tar.gz                                         |
+
+*** PDF Reader
+- ~sudo pacman -S zathura zathura-pdf-mupdf~
+- [[https://pwmt.org/projects/zathura/][Infos]]
+- [[https://www.maketecheasier.com/cheatsheet/zathura-keyboard-shortcuts/][Shortcuts]]
+| Category             | Shortcut                              | Function                                                                    |
+|----------------------+---------------------------------------+-----------------------------------------------------------------------------|
+| Document Navigation  | J                                     | Move the document display window one line down.                             |
+|                      | K                                     | Move the document display window one line up.                               |
+|                      | L                                     | Move the document display window one column to the right.                   |
+|                      | H                                     | Move the document display window one column to the left.                    |
+|                      | Ctrl + D                              | Move the document display window half a page down.                          |
+|                      | Ctrl + U                              | Move the document display window half a page up.                            |
+|                      | Ctrl + Y                              | Move the document display window half a page to the right.                  |
+|                      | Ctrl + T                              | Move the document display window half a page to the left.                   |
+|                      | Ctrl + B                              | Move the document display window a full page down.                          |
+|                      | Ctrl + F                              | Move the document display window a full page up.                            |
+|                      | Y                                     | Move the document display window an entire page to the left.                |
+|                      | T                                     | Move the document display window a full page to the left.                   |
+|                      | G, then G                             | Go to the first page of the current document.                               |
+|                      | Shift + G                             | Go to the last page of the current document.                                |
+|                      | 5, then Shift + G                     | Go to the fifth page of the current document.                               |
+|                      | Shift + P                             | Go to the currently selected page.                                          |
+|                      | Shift + H                             | Go to the top of the currently selected page.                               |
+|                      | Shift + L                             | Go to the bottom of the currently selected page.                            |
+|                      | /                                     | Open Zathura’s forward search prompt.                                       |
+|                      | Shift + /                             | Open Zathura’s reverse search prompt.                                       |
+|                      | N                                     | Go to the next occurrence of the current search term.                       |
+|                      | Shift + N                             | Go back to the previous occurrence of the current search term.              |
+| Interface Navigation | A                                     | Fit the height of the current page to the display window.                   |
+|                      | S                                     | Fit the width of the current page to the display window.                    |
+|                      | D                                     | Redraw the current document in a booklet format.                            |
+|                      | R                                     | Rotate the current document by 90 degrees clockwise.                        |
+|                      | Ctrl + N                              | Toggle Zathura’s information bar.                                           |
+|                      | Ctrl + M                              | Toggle Zathura’s input field bar.                                           |
+|                      | Shift + Equal (=)                     | Zoom in the document at currently selected page.                            |
+|                      | Minus (-)                             | Zoom out of the currently selected page.                                    |
+|                      | Equal (=)                             | Revert the zoom level of the document at the currently selected page.       |
+|                      | 60 + Equal (=)                        | Set the current zoom level of the document to 60%.                          |
+|                      | Ctrl + R                              | Invert the colors of the current document.                                  |
+|                      | Shift + R                             | Refresh and redraw the current document.                                    |
+|                      | F5                                    | Go to Zathura’s presentation mode.                                          |
+|                      | F11                                   | Go to Zathura’s fullscreen mode.                                            |
+|                      | Q                                     | Terminate the current Zathura session.                                      |
+| Linking and Indexing | Shift + F                             | Show all link hints in the current page.                                    |
+|                      | F                                     | Load a link hint’s page to the document viewer.                             |
+|                      | C                                     | Copy a link hint’s page to the system clipboard.                            |
+|                      | M + 1                                 | Create a new bookmark on the current page and save it to the character “1.” |
+|                      | Apostrophe (‘) + 1                    | Load the bookmark that is currently stored in the character “1.”            |
+|                      | Tab                                   | Display the document’s content index.                                       |
+|                      | J                                     | Scroll one item down in the document’s content index.                       |
+|                      | K                                     | Scroll one item up in the document’s content index.                         |
+|                      | L                                     | Display the current index item’s subitems.                                  |
+|                      | H                                     | Hide the current index item’s subitems.                                     |
+|                      | Shift + L                             | Display all the subitems in the document’s content index.                   |
+|                      | Shift + H                             | Hide all the subitems in the document’s content index.                      |
+|                      | Enter                                 | Load the page of the currently selected index entry.                        |
+| Presentation Mode    | Space                                 | Go to the next document slide.                                              |
+|                      | Shift + Space                         | Go back to the previous document slide.                                     |
+|                      | Esc                                   | Cancel any currently running presentation mode task.                        |
+|                      | F5                                    | Go back to the default Zathura mode.                                        |
+| Fullscreen Mode      | Shift + J                             | Move the document display window a full page down.                          |
+|                      | Shift + K                             | Move the document display window a full page up.                            |
+|                      | Z, then Shift + I                     | Zoom in the currently selected page.                                        |
+|                      | Z, then Shift + O                     | Zoom out of the current selected page.                                      |
+|                      | Z + 0                                 | Reset the current zoom level.                                               |
+|                      | 60 + Equal (=)                        | Set the zoom level of the document to 60%.                                  |
+|                      | Esc                                   | Cancel any currently running fullscreen mode task.                          |
+|                      | F11                                   | Go back to the default Zathura mode.                                        |
+| Command Mode         | Shift + Semicolon (;)                 | Open Zathura’s command prompt.                                              |
+|                      | Shift + Semicolon (;), then “close”   | Exit the current document without exiting Zathura.                          |
+|                      | Shift + Semicolon (;), then “open”    | Open a new document on the current Zathura window.                          |
+|                      | Shift + Semicolon (;), then “blist”   | List all the available bookmarks for the current session.                   |
+|                      | Shift + Semicolon (;), then “badd”    | Add the current page to the session’s bookmark index.                       |
+|                      | Shift + Semicolon (;), then “bdelete” | Open Zathura’s bookmark deletion prompt.                                    |
+|                      | Shift + Semicolon (;), then “exec”    | Run an external shell command on the current document.                      |
+|                      | Shift + Semicolon (;), then “info”    | Print the document’s internal properties.                                   |
+|                      | Shift + Semicolon (;), then “print”   | Send the current document to the machine’s print spool.                     |
+
+
+*** Weitere Programme
+
+- Programme öffnen:
+- [[https://www.cerebroapp.com/][cerebro]] Suche ([[https://github.com/cerebroapp/cerebro][github]]), App-Launcher,... (rofi und dmenu mit mehr Funktionen ohne etwas dafür konfigurieren zu müssen) (~yay -S cerebro-bin~)
+- ScreenRecorder: deepin-screen-recorder
+- Screenshots: flameshot (ähnlich zu snipping tool) -> Alternative: spectacle od. maim (Nachfolger von scrot)
+- System optimzer and application monitor: Stacer https://github.com/oguzhaninan/Stacer
+- Task-Manger: stacer oder simpler htop -> Alternative: interactive process viewer
+- Backup: Timeshift, Git, rsync, VM-Snapshot bzw. Art Image
+- Office: onlyoffice oder [[https://www.libreoffice.org/][LibreOffice]]
+- Videoplayer: VLC https://www.videolan.org/vlc/index.html
+- Zeichenprogramm: Pinta Paint ersatz
+- Musikplayer: Clementine (+ Spotify Plugin) braucht Premium Account
+- Musik hören/downloaden ohne Werbung: Nuclear Music Streaming App for Windows, Linux, Mac  bissl im Graubereich aber nicer shit (siehe Video von DT)
+- Videokonverter: Handbrake
+- Bildbearbeitung: Gimp https://www.gimp.org/ -> geiles Tool (kann auch screenshots)
+- Videobearbeitungsprogramm: Kdenlive
+- Inkscape is a vector graphics editor: Inkscape https://inkscape.org/
+- Virtual Box: VirtualMachine https://www.virtualbox.org/
+- Spiele: Steam
+- Multimediaplattform: Kodi Filme, Serien, Musik, Fernsehen und vieles mehr
+- Ebook Manager und Reader: Calibre
+- Audio Konverter: DeaDBeeF https://deadbeef.sourceforge.io/
+- Kommunikationstool/Hub unterschiedlicher Messenger Apps: Rambox https://rambox.pro/#home
+- Files zwischen Betriebssystemen tauschen: NitroShare Daten übertragen auf Handy oder zwischen PCs
+- video conferencing: Jitsi https://jitsi.org/
+- Programminstaller: Appstore https://app-outlet.github.io/
+- Paketverwaltung: Synaptics (sudo apt install synaptic)
+- Desktopaussehen verändern: Gnome Tweak Tool Alternative: arch-tweak-tool (sinnvoll bei qtile?)
+
+**** Sonstige Programme
+
+#+begin_src sh  :dir /sudo::
+sudo pacman -S viewnior deepin-screen-recorder flameshot gimp pinta vlc kdenlive thunderbird virtualbox gpa ditaa
+#+end_src
+
+**** VirtualBox
+- Mit Arch als Host System: https://www.youtube.com/watch?v=vQUOf2E6XZw&list=WL&index=21 (Achtung nachdem ich meine Backups hinzugefügt habe muss ich unter Einstellungen bei Display die 3D Accelaration unchecken, da es sonst nicht richtig hochfährt)
+- Mit rechter Strg Taste + f oder + c kann man in sklaierten Modus oder Fullscreen Modus wechseln
+- =Neu= -> je nach Name den man der Maschine gibt sucht es automatisch richtige Version und Typ - ansonsten manuell wählen -> Einstellungen folgen bis Maschine erstellt wurde -> Maschine auswählen und =Ändern= drücken -> =System= -> uncheck =Diskettenlaufwerk= -> check =EFI aktivieren= -> =Prozessor= -> Einstellen wie viele Prozessoren ich geben will -> =Massenspeicher= -> Unter =Controller:IDE= die .iso Datei reinladen -> =Starten= der Maschine -> Maschine nach der Installation herunterfahren ->  =Massenspeicher=  und .iso entfernen -> Maschine nun fertig und kann gestartet werden
+- Extension Pack und VirtualBox von [[https://www.virtualbox.org/wiki/Downloads][hier]] (in Arch durch Packetmanager) downloaden + installieren
+
+- virtualbox-guest-utils mit pacman installieren + VBoxClient-all als cmd in Startupskript um clipboard dragandrop etc. zu aktivieren + Einstellungen der VM -> Allgeimen -> Erweiterte -> Gemeinsame Zwischenablage auf bidirektional -> Drag'n'Drop auf bidirektional
+  siehe [[https://wiki.archlinux.org/title/VirtualBox/Install_Arch_Linux_as_a_guest][HIER]]
+- Gemeinsamer Ordner host & guest: sudo mount -t vboxsf sharewinarch /home/flowmis/sharewinarch/
+- Achtung bei VirtualBox kann es zu Problemen mit Kernel kommen - installiere: sudo pacman -S virtualbox-host-modules-arch (kann sein dass andere bereits installiert sind dann fragt pacman ob diese gelöscht werden sollen und man muss es bestätigen)
+- _Extension pack installieren:_
+  - in Arch?
+  - Windows
+    - check virtualbox for updates & update
+    - download Extension pack and check if version is the same than virtual box
+    - Einstellungen -> Zusatzpakete -> Paket das gedownloaded wurde installieren
+
+* Systemkonfigurationen
+** Aussehen
+
+Themes werden bei Linux meist mit GTK und Qt angefertigt und eingestellt -> folgende Programme sind nötig: sudo pacman -S lxappearance qt5ct -> Hier kann man nach Themes suchen: https://archlinux.org/packages
+Es kann das meiste eingestellt werden mit: qt5ct (qt5 settings), lxappearance, grub-customizer (mit sudo ausführen)
+Downloaden kann man vieles [[https://www.gnome-look.org/][HIER]]
+- ~pacman -Ss gtk-theme~
+- ~yay -Ss gtk-theme~
+- ~pacman -Ss icon-theme~
+- ~yay -Ss icon-theme~
+Aktuell:
+- yay -S papirus-icon-theme
+- yay -S materia-gtk-theme
+- yay -S bibata-cursor-theme (restart sollte es dann regeln)
+
+** Login Manager
+
+- für auto-login: ~sudo nvim sddm.conf~ und folgenden Inhalt rein kopieren:
+[Autologin]
+User=flowmis
+Session=qtile.desktop
+- Ich verwende aktuell sddm mit sugar-candy als theme
+- Nach der Installation ist der Standard Login Screen aktiviert und (hier: sudo nvim /etc/sddm.conf.d/kde_settings.conf) noch keine config vorhanden
+- Um die config zu schreiben einfach das arch-tweak-tool installieren und in den su Modus wechseln und vom Terminal aus im su Modus mit ~archlinux-tweak-tool~ das Tool starten -> in Login wechseln und das zuvor installierte Theme (mit yay installiert) auswählen -> auto-login aktivieren und Desktop Session auf qtile stellen -> Apply Settings -> im Terminal oder in der Gui sollte nun erscheinen dass Theme aktiviert wurde!
+
+#+begin_src sh
+yay -S sddm-sugar-dark sddm-sugar-candy-git     #Achtung: Geht nur im Terminal wegen Bestätigungen und sudo-privileges
+#+end_src
+
+- Anschließend sollte die config vorhanden sein und man kann Themes auch ohne das Tool wechseln indem man ([[/etc/sddm.conf.d/kde_settings.conf][hier]]: ~sudo nvim /etc/sddm.conf.d/kde_settings.conf~) unter Current das Theme angibt das man haben will -> wie z.B. hier: Current=sugar-dark oder Current=Sugar-Candy
+- Einstellungen zum Theme kann man hier vornehmen:
+  - [[/usr/share/sddm/themes/sugar-dark/theme.conf][sugar-dark Theme]]:
+
+#+begin_src  :dir /sudo::
+sudo cp -r /home/flowmis/flowmis-os/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-dark/Hintergrund.jpg
+sudo sed -i 's/Background="Background.jpg"/Background="Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-dark/theme.conf
+#+end_src
+
+  - [[/usr/share/sddm/themes/sugar-candy/theme.conf][sugar-candy-Theme]]
+
+#+begin_src sh  :dir /sudo::
+sudo cp -r /home/flowmis/flowmis-os/Backgrounds/Hintergrund.jpg /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
+sudo chmod +666 /usr/share/sddm/themes/sugar-candy/Backgrounds/Hintergrund.jpg
+sudo sed -i 's/Mountain.jpg"/Hintergrund.jpg"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/BlurRadius="100"/BlurRadius="35"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/HeaderText="Welcome!"/HeaderText="Hi Mane!"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslatePlaceholderUsername=""/TranslatePlaceholderUsername="Benutzername"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslatePlaceholderPassword=""/TranslatePlaceholderPassword="Passwort"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslateShowPassword=""/TranslateShowPassword="Passwort anzeigen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslateLogin=""/TranslateLogin="Anmelden"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslateLoginFailedWarning=""/TranslateLoginFailedWarning="Anmeldung fehlgeschlagen"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslateCapslockWarning=""/TranslateCapslockWarning="Capslock aktiv"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslateReboot=""/TranslateReboot="Neu starten"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+sudo sed -i 's/TranslateShutdown=""/TranslateShutdown="Herunterfahren"/g' /usr/share/sddm/themes/sugar-candy/theme.conf
+#+end_src
+
+    #+RESULTS:
+
+** Externe Geräte
+*** Speicher
+
+Festplatten anzeigen - wenn ich alles wie hier beschrieben installiert habe sollte es ausreichen folgendes zu installieren und pacman übernimmt das mounten von selbst
+  - ~pacman -Syu~
+  - ~pacman -S ntfs-3g~
+
+Arch mit mehreren fest verbauten Festplatten:
+1. ~fdisk -l~ zeigt mir den Namen der erkannten Festplatten
+2. ~fdisk /dev/sdb~ Achtung: Name anpassen falls nicht sdb ist
+3. Mit ~d~ alle Partitionen etc. löschen + mit ~g~ eine GPT Partitionstabelle erstellen + ~w~ zum schreiben
+4. ~sudo mkfs -t ext4 /dev/sdb/~ um Dateisystemtyp und Lesbarkeit bzw. mount Prozess zu ermöglichen - quasi eine Formatierung
+5. das es automatisch gemounted wird kann man /etc/fstab bearbeiten mit ~sudo nvim /etc/fstab~ -> sollte etwa so aussehen dann:
+    #+begin_src sh
+    # <file system> <dir> <type> <options> <dump> <pass>
+    # /dev/sda3
+    UUID=fa0743cf-60bb-4f21-8c85-09079ca46fbf       /                               ext4    rw,relatime         0 1
+
+    # /dev/sda2
+    UUID=064d6fb6-aa09-461b-9601-d1c0c1e24a39       none                            swap    defaults            0 2
+
+    # /dev/sdb
+    /dev/sdb                                        /home/flowmis/speicher-haupt    auto    user,exec           0 0
+    #+end_src
+
+*** Eingabegeräte Tastatur/Maus
+**** Keyboard
+
+1. Befehl "localectl status" --> Abfrage momentane Keyboardeinstellungen
+2. System Locales sollte bereits bei Locales eingestellt worden sein sodass nun nur noch folgende 2 Befehle ausgeführt werden müssen
+   - localectl --no-convert set-keymap de-latin1-nodeadkeys
+   - localectl --no-convert set-x11-keymap de pc105 deadgraveacute
+3. Status erneut abfragen und nun sollte folgendes erscheinen
+    >localectl status
+        System Locale: LANG=de_DE.UTF-8
+            VC Keymap: de-latin1-nodeadkeys
+            X11 Layout: de
+            X11 Model: pc105
+            X11 Variant: deadgraveacute
+4. Reboot!! (sonst sieht man keine Änderung)
+5. Wenn locales alle passen es aber immer noch nicht geht probiere: setxkbmap -layout de
+
+_Logitech G910-Tastatur:_
+  - Installation: ~yay -S g810-led-git~ (alternativ siehe [[https://github.com/MatMoul/g810-led/blob/master/INSTALL.md][hier]])
+  - Einrichtung:
+    - ~sudo g810-led -p /etc/g810-led/profile~ # Load a profile
+    - ~sudo g810-led -a 00ff00~ # Set color of all keys
+    - ... weitere Beispiele sieher [[https://github.com/MatMoul/g810-led][hier]]
+  - GKeys & Treiber - siehe [[https://github.com/JSubelj/g910-gkey-macro-support/wiki/Detailed-installationhttps://github.com/JSubelj/g910-gkey-macro-support/wiki/Detailed-installation][hier]]:
+    1. ~sudo modprobe uinput~
+    2. ~wget https://github.com/JSubelj/g910-gkey-macro-support/archive/refs/heads/master.zip; unzip master.zip~
+    3. ~cd g910-gkey-macro-support-master/~
+    4. ~chmod +x installer.sh; sudo ./installer.sh~
+    5. ~systemctl status g910-gkeys~ - check if it worked (in Texteingabe gehen und G1 drücken - sollte *Its WORKING!!!* automatisch tippen)
+    6. ~sudo systemctl enable --now g910-gkeys.service~
+    7. Konfiguration siehe [[https://github.com/JSubelj/g910-gkey-macro-support/wiki/Configuration][hier]]: ~sudo nvim /etc/g910-gkeys/config.json~
+    8. ~su~
+    9. echo uinput > /etc/modules-load.d/uinput.conf
+    10. Restart - check GKeys und wenn sie nicht geben bei 1 beginnen und schauen was nach 6. wenn es noch geht falsch lief und beim Start nicht automatisch aktiviert ist dass es geht
+
+**** Touchpad einrichten
+
+https://wiki.archlinux.org/title/Touchpad_Synaptics habe aber auch eine Datei die ich hier erstelle und die direkt mit meinen Einstellungen an die richtige Stelle kopiert wird -> siehe Installskript
+
+#+begin_src shell :dir "/sudo::" :cache no
+sudo cp -r /home/flowmis/flowmis-os/tangle/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf
+#+end_src
+
+#+RESULTS:
+
+#+begin_src shell :tangle 70-synaptics.conf
+# Example xorg.conf.d snippet that assigns the touchpad driver
+# to all touchpads. See xorg.conf.d(5) for more information on
+# InputClass.
+# DO NOT EDIT THIS FILE, your distribution will likely overwrite
+# it when updating. Copy (and rename) this file into
+# /etc/X11/xorg.conf.d first.
+# Additional options may be added in the form of
+#   Option "OptionName" "value"
+#
+Section "InputClass"
+        Identifier "touchpad catchall"
+        Driver "synaptics"
+        MatchIsTouchpad "on"
+        Option "TapButton1" "1"
+        Option "TapButton2" "3"
+        Option "TapButton3" "2"
+        Option "VertEdgeScroll" "on"
+        Option "VertTwoFingerScroll" "on"
+        Option "HorizEdgeScroll" "on"
+        Option "HorizTwoFingerScroll" "on"
+        Option "CircularScrolling" "on"
+        Option "CircScrollTrigger" "2"
+        Option "EmulateTwoFingerMinZ" "40"
+        Option "EmulateTwoFingerMinW" "8"
+        Option "CoastingSpeed" "0"
+        Option "FingerLow" "30"
+        Option "FingerHigh" "50"
+        Option "MaxTapTime" "125"
+# This option is recommend on all Linux systems using evdev, but cannot be
+# enabled by default. See the following link for details:
+# http://who-t.blogspot.com/2010/11/how-to-ignore-configuration-errors.html
+#       MatchDevicePath "/dev/input/event*"
+EndSection
+
+Section "InputClass"
+        Identifier "touchpad ignore duplicates"
+        MatchIsTouchpad "on"
+        MatchOS "Linux"
+        MatchDevicePath "/dev/input/mouse*"
+        Option "Ignore" "on"
+EndSection
+
+# This option enables the bottom right corner to be a right button on clickpads
+# and the right and middle top areas to be right / middle buttons on clickpads
+# with a top button area.
+# This option is only interpreted by clickpads.
+Section "InputClass"
+        Identifier "Default clickpad buttons"
+        MatchDriver "synaptics"
+        Option "SoftButtonAreas" "50% 0 82% 0 0 0 0 0"
+        Option "SecondarySoftButtonAreas" "58% 0 0 15% 42% 58% 0 15%"
+EndSection
+
+# This option disables software buttons on Apple touchpads.
+# This option is only interpreted by clickpads.
+Section "InputClass"
+        Identifier "Disable clickpad buttons on Apple touchpads"
+        MatchProduct "Apple|bcm5974"
+        MatchDriver "synaptics"
+        Option "SoftButtonAreas" "0 0 0 0 0 0 0 0"
+EndSection
+#+end_src
+
+*** Bluetooth
+
+- bluez etc. mit pacman installieren
+- check status: ~sudo systemctl status bluetooth.service~ (damit scan und connect klappt muss hier enabled kommen)
+- enable bluetooth.service: ~sudo systemctl enable bluetooth.service~
+- Einstellungen vornhemen:
+  - ~bluetoothctl~
+  - ~power on~ (bluetoth an und aus ~power off~)
+  - ~scan~ (zeigt pairable devices)
+  - ~pair "devicename"~ (baut Verbindung auf)
+  - ~connect "devicename"~ (verbindet zu einem Gerät)
+  - ~trust "devicename"~ (ermöglicht automatisch eine Verbindung herzustellen)
+  - ... - use Tab to see option or to fill with name of device etc.
+*** Drucker
+- ~sudo pacman -S usbutils system-config-printer cups~
+- ~lsusb~ check ob er erkannt wird
+- ~yay -Ss brother~ bzw. anderer Namen und dann schauen ob man den Treiber für sein Gerät findet und diesen dann installieren
+- ~sudo systemctl start cups.service~
+- http://localhost:631 öffnen und in der cups Oberfläche ganz oben auf Verwaltung gehen. Dort mit Benutzerdaten anmelden und den Drucker hinzufügen. Im Anschluss kann ich system-config-printer öffnen und dort sollte nun der Drucker sein und konfiguriert werden können. Zudem findet nun auch libre office etc. den Drucker.
+
+** .xprofile
+
+- Wenn man Programme wie networmanager, volumemanager, Dropbox etc beim Start direkt laufen lassen will kann man die jeweiligen .desktop Dateien einfach in ~/.config/autostart kopieren (Ist dann Nutzerspezifisch! Andere Nutzer spawnen andere Programme automatisch je nachdem was sie im Ordner haben)
+  -> um sie zu finden eignet sich der Befehl: sudo find / -iname "*.desktop"
+
+#+begin_src sh :tangle flowmis/.xprofile
+## uncomment in VM
+# setxkbmap -layout de -option 'ctrl:nocaps' &
+sleep 1 && setxkbmap -option 'ctrl:nocaps' &          # Caps ersetzt Control
+# xrandr -s 1920x1080 &                               # In VM aktivieren
+# VBoxClient-all &                                    # DragDrop und gmeinsames Clipboars in VM aktivieren
+## uncomment auf Tower-PC
+export QT_QPA_PLATFORMTHEME=qt5ct &
+nitrogen --random --set-scaled /home/flowmis/flowmis-os/Backgrounds/dunkel &
+nitrogen --restore &                                # setzt letztes Wallpaper -> mit & lauft es im Hintergrund?
+picom -f &                                          # setzt Einstellungen des Compositors for Windows
+nextcloud &
+blueman-applet &
+emacs --daemon &
+/usr/bin/xset r rate 200 50 &           #hier gerne noch etwas herumspielen -> stellt den Cursor Speed ein in Emacs und anderswo
+# g810-led -s color all ff0000 #startup effect
+# g810-led -fx color all 880000 #ganzes Keyboard Farbe ändern
+# g810-led -g keys 723535
+# g810-led -k logo 987bfe
+# g810-led -k g1 ce7ea2 && g810-led -k g2 ce7ea2 && g810-led -k g3 ce7ea2 && g810-led -k g4 ce7ea2 && g810-led -k g5 ce7ea2 && g810-led -k g6 ce7ea2 && g810-led -k g7 ce7ea2 && g810-led -k g8 ce7ea2 && g810-led -k g9 ce7ea2     # setzt Farbeinstellungen für meine Logitech Tastatur
+# g810-led -g functions ff00ff
+# g810-led -g multimedia ff00ff
+# loadkeys de-latin1 &
+#+end_src
+
+** Picom
+- picom ist ein Fork von compton (Compositor)
+- Beispielconfig die mit installiert wird kann durch mich modifiziert werden um Fenster transparent zu machen etc.: ~sudo cp /etc/xdg/picom.conf /home/flowmis/.config/picom/picom.conf~
+- picom in Terminal eingeben um zu aktivieren (oder picom -f)
+
+** Audio, Wlan, Helligkeit, mehrere Anzeigen, HDMI etc.
+
+- Sound: ALSA ist in Linux vorinstalliert und checkt I/O nach Soundkarte etc. pulseaudio ist die Ebene higher und macht dass man die von Programmen erhaltene Audio an Karte gegeben wird und man steuern kann welcher Output etc. Pavucontrol ist das grafische Interface/der Client den ich nehme um alles zu steuern(Micro, Ton etc.) und Zeug wie bluez brauche ich um in pavucontrol auch Bluetooth zu haben. Bluetoothdevices verbinden etc mach ich mit Skript oder Shell und bluetoothctl (https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/  <- wenn es nicht geht muss ich Bluetooth noch anmachen mit bluetoothctl power on)
+- *arandr* als Programm um Auflösung, Anordnung etc. von einem Beamer oder einem weiteren Display einzustellen -> ist eine grafische Oberfläche von xrandr
+
+#+begin_src sh  :dir /sudo::
+sudo pacman -S mtools base-devel networkmanager nm-connection-editor network-manager-applet brightnessctl i3lock pulseaudio pavucontrol bluez bluez-utils pulseaudio-bluetooth pulseaudio-alsa man-pages-de xorg xorg-xbacklight acpi xfce4-power-manager systemd aspell aspell-de aspell-en pandoc or1k-elf-binutils texlive-core adapta-gtk-theme otf-fira-sans neofetch dunst bind bmon jq gvfs arandr
+#+end_src
+
+# Local Variables:
+# languagetool-local-disabled-rules: ("LEERZEICHEN_HINTER_DOPPELPUNKT")
+# End:
+
+#  LocalWords:  :dir   
