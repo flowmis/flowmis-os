@@ -342,8 +342,8 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
 
 #+end_src
 ** Moderner Look
-
 #+begin_src elisp
+(setq org-hide-emphasis-markers t)
 (use-package org-modern
   :ensure t
   :hook
