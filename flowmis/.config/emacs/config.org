@@ -9,7 +9,7 @@
 - [[#dired][Dired]]
 - [[#erscheinungsbild][Erscheinungsbild]]
   - [[#highlight-todo][Highlight Todo]]
-  - [[#beacon-mode][Beacon Mode]]
+  - [[#beacon-mode--adaptive-wrap][Beacon Mode + Adaptive Wrap]]
   - [[#modeline][Modeline]]
   - [[#moderner-look][Moderner Look]]
   - [[#hide-org-blocks][Hide Org-Blocks]]
@@ -130,39 +130,18 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
    (add-hook 'mane-start-mode-hook 'read-only-mode) ;read-only-mode disablen wenn ich etwas ändern will (C-x C-q).
    (provide 'mane-start-mode)
 #+end_src
-* Denote
-Siehe: https://protesilaos.com/emacs/denote#h:f3bdac2c-4704-4a51-948c-a789a2589790
--> Installation: ~cd ~/.config/emacs/scripts/~ + ~git clone https://git.sr.ht/~protesilaos/denote denote~ + 
-~(add-to-list 'load-path "~/.config/emacs/scripts/denote")~ bei ausgelagerter Skripte angeben und dann die folgenden Konfigurationen vornehmen (Update mit git pull):
-- Wichtige Features:
+* [[https://protesilaos.com/emacs/denote][Denote]]
+- Lernen:
   - [[https://www.youtube.com/watch?v=gMq-703ZVZQ][Sorting and org-dynamic-blocks]] für Meta Notes (siehe auch [[https://www.youtube.com/watch?v=zzXcav0yb50][hier]])
-- Link zu org-header mit <M-x org-stroe-link> unter dem org-header speichert den Link dazu -> in der anderen Datei dann <M-x org-insert-link> um den Link einzufügen -> Beispiel: [[file:~/flowmis-os/flowmis-os.org::*Emacs][Emacs-Header in flowmis-os]]
+  - Link zu org-header mit <M-x org-stroe-link> unter dem org-header speichert den Link dazu -> in der anderen Datei dann <M-x org-insert-link> um den Link einzufügen -> Beispiel: [[file:~/flowmis-os/flowmis-os.org::*Emacs][Emacs-Header in flowmis-os]]
 - Geht auch über eine Funktion, aber bei mir sind noch nicht alle aktiv, sondern nur die basics! Zudem kann ich ein org-header zu einer neuen denote notiz machen mit einer Funktion!
 #+begin_src elisp
-(require 'denote)
-;; Remember to check the doc strings of those variables.
+(use-package denote
+  :ensure t)
 (setq denote-directory (expand-file-name "~/cloud/life/raum/pkb/"))
-(setq denote-known-keywords '("kl8" "kl9" "kl10" "ch" "spo" "nwt" "crypt" "pkb" "del" "h" "w" "vb" "hb" "fb" "bb" "ts" "bag" "lsw"))
-;; kl8 = Klasse 8; kl9 = Klasse 9; kl10 = Klasse 10; ch = Chemie; spo = Sport; nwt = Naturwissenschaft und Technik; crypt = verschlüsselte Inhalte; pkb = persönliche Knowledgebasis (longterm relevant); del = delete soon (kurzfristig relevant); h = Home; w = Work; vb,hb,fb,bb,ts,bag,lsw = Volleyball, Handball, Fußball, Basketball, Trendsportarten wie Tanzen und Kämpfen sowie Rollen Gleiten etc., Bewegen an Geräten, Laufen Springen Werfen))
-(setq denote-infer-keywords t)
-(setq denote-sort-keywords t)
+;; kl8 = Klasse 8; kl9 = Klasse 9; kl10 = Klasse 10; ch = Chemie; spo = Sport; nwt = Naturwissenschaft und Technik; crypt = verschlüsselte Inhalte; h = Home; w = Work; vb,hb,fb,bb,bag,lsw = Volleyball, Handball, Fußball, Basketball, Bewegen an Geräten, Laufen Springen Werfen))
+(setq denote-known-keywords '("kl8" "kl9" "kl10" "ch" "spo" "nwt" "tauchen" "crypt" "vb" "hb" "fb" "bb" "bag" "lsw" "projekt" "archiv"))
 (setq denote-file-type nil) ; Org is the default, set others here
-(setq denote-prompts '(title keywords))
-(setq denote-excluded-directories-regexp nil)
-(setq denote-excluded-keywords-regexp nil)
-
-;; Pick dates, where relevant, with Org's advanced interface:
-(setq denote-date-prompt-use-org-read-date t)
-
-
-;; Read this manual for how to specify `denote-templates'.  We do not
-;; include an example here to avoid potential confusion.
-
-
-(setq denote-date-format nil) ; read doc string
-
-;; By default, we do not show the context of links.  We just display
-;; file names.  This provides a more informative view.
 (setq denote-backlinks-show-context t)
 
 #+end_src
@@ -296,7 +275,7 @@ Anstatt ein weiteres Paket zu verwenden um Programme außerhalb Emacs mit einem 
 
 #+end_src
 * Erscheinungsbild
-** Highlight Todo
+** [[https://github.com/tarsius/hl-todo][Highlight Todo]]
 Adding highlights to TODO and related words.
 #+begin_src elisp
 (use-package hl-todo
@@ -312,28 +291,32 @@ Adding highlights to TODO and related words.
 				("BEENDET"     success bold)
 				("ABGEBROCHEN" font-lock-doc-face bold))))
 #+end_src
-** Beacon Mode
+** [[https://github.com/Malabarba/beacon][Beacon Mode]] + [[https://github.com/emacs-straight/adaptive-wrap/blob/master/adaptive-wrap.el][Adaptive Wrap]]
 #+begin_src elisp
 (use-package beacon
   :ensure t
   :config
   (beacon-mode 1))
+
+(use-package adaptive-wrap
+  :ensure t
+  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
 #+end_src
-** Modeline
+** [[https://github.com/tautologyclub/feebleline][Modeline]]
 Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-fonts> ausführen und neu starten - siehe auch: https://github.com/seagle0128/doom-modeline
 #+begin_src elisp
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1)
-  :config
-  (setq doom-modeline-height 25     ;sets modeline height
-	    doom-modeline-bar-width 10  ;sets right bar width
-        doom-modeline-persp-name t  ;adds perspective name to modeline
-        doom-modeline-persp-icon t  ;adds folder icon next to persp name
-	    display-time-day-and-date t
-        display-time-24hr-format t)
-  (display-time-mode 1)
-)
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :init (doom-modeline-mode 1)
+;;   :config
+;;   (setq doom-modeline-height 25     ;sets modeline height
+;; 	doom-modeline-bar-width 10  ;sets right bar width
+;;         doom-modeline-persp-name t  ;adds perspective name to modeline
+;;         doom-modeline-persp-icon t  ;adds folder icon next to persp name
+;; 	display-time-day-and-date t
+;;         display-time-24hr-format t)
+;;   (display-time-mode 1)
+;; )
 
 (use-package feebleline
   :ensure t  ; Stellt sicher, dass feebleline automatisch installiert wird, falls es noch nicht installiert ist
@@ -341,9 +324,8 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
   (feebleline-mode 1))  ; Aktiviert feebleline
 
 #+end_src
-** Moderner Look
+** [[https://github.com/minad/org-modern][Moderner Look]]
 #+begin_src elisp
-(setq org-hide-emphasis-markers t)
 (use-package org-modern
   :ensure t
   :hook
@@ -358,15 +340,10 @@ Falls die Icons nicht richtig angezeigt werden muss ich <M-x nerd-icons-install-
         org-modern-list '((43 . "➤") (45 . "•"))  ; Anpassen von Listen-Symbolen
         org-modern-horizontal-rule t
         org-modern-table t  ; Setzen Sie dies auf `t`, um Tabellen zu modernisieren
-  )
-  ;; Checkbox-Symbole anpassen
-  (setq org-modern-checkbox '((?X . "☑") (?- . "❍") (?\s . "☐")))
+	org-hide-emphasis-markers t
+	org-modern-checkbox '((?X . "☑") (?- . "❍") (?\s . "☐")))
 )
-;; view-mode der Signalwörter, Propertie-Drawer etc. entfernt und die .org in einem view mode darstellt - ich finde org-modern ist ein gute Kompromiss zwischen reinem Markup Text und schöner Darstellung, sodass ich es aktuell nicht aktiviert habe! - siehe: https://github.com/amno1/org-view-mode
-;; (use-package org-view-mode
-  ;; :ensure t)
 #+end_src
-
 ** Hide Org-Blocks
 #+begin_src elisp
 ;; folgendes brauche ich nur wenn ich org-modern nicht aktiviert habe und will, dass die Blöcke ausgeblendet werden um org-mode schöner zu gestalten
@@ -1653,9 +1630,3 @@ Komplette Einrichtung noch machen, wobei es eigentlich bereits integriert ist. M
 * TESTING
 #+begin_src elisp
 #+end_src
-
-
-
-
-
-
