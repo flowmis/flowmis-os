@@ -147,6 +147,77 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
 #+end_src
 
 * Dired
+#+begin_src elisp
+(setq dired-guess-shell-alist-user
+      '(("\\.\\(png\\|jpe?g\\|tiff\\)" "viewnior" "gimp" "xdg-open")  ;xdg-open heißt Standardprogramm verwenden
+	("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "vlc" "xdg-open")
+		(".*" "xdg-open")))
+(use-package dired-open
+  :config
+  (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+  (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+  (setq dired-open-extensions '(("gif" . "vlc") ;Mit Enter (bzw. l) in Dired mit dem Cursor auf einer Datei führt zum öffnen mit dem hier festgelegten Programm
+				("pdf" . "zathura")
+				("docx" . "onlyoffice-desktopeditors")
+				("doc" . "onlyoffice-desktopeditors")
+				("odt" . "onlyoffice-desktopeditors")
+				("xlsx" . "onlyoffice-desktopeditors")
+				("pptx" . "onlyoffice-desktopeditors")
+				("ppt" . "onlyoffice-desktopeditors")
+				("jpg" . "viewnior")
+				("png" . "viewnior")
+				("mkv" . "vlc")
+				("mp4" . "vlc"))))
+;; peep-dired aktivieren wenn ich live Vorschau von Bildern oder Textdateien aktivieren will, dann sehe ich wenn ich mit j und k in dired durch die Dateien scrolle im Split-View die entsprechende Vorschau zur Datei! (ist nicht immer aktiviert, da ich das nicht immer will und geht nur im normalen mode, also mehrmals ESC und dann nochmal aktivieren in dired mit meinem Keymap und dann sollte das mit der Vorschau gehen!)
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :config
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+)
+(add-hook 'dired-mode-hook 'dired-hide-details-mode) ;wenn ich dired übersichtlicher haben mag kann ich es hier aktivieren
+
+(defun my-dired-refresh-on-focus ()    ;Änderungen außerhalb emacs werden in dired sichtbar sobald der focus für das aktuelle Fenster wieder auf dired ist!
+  (when (eq major-mode 'dired-mode)
+    (revert-buffer)))
+
+(add-hook 'focus-in-hook 'my-dired-refresh-on-focus)
+
+;(evil-define-key 'normal dired-mode-map
+  ;(kbd "M-RET") 'dired-display-file     ;benutzen um Bildervorschau in Splitbuffer zu zeigen, aber weiter in dired navigieren
+  ;(kbd "h") 'dired-up-directory
+  ;(kbd "l") 'dired-open-file
+  ;(kbd "m") 'dired-mark                 ;Mit %m kann man nach einer regular expression bestimmte Dateien markieren
+  ;(kbd "u") 'dired-unmark               ;Mit U kann man alles unmarken
+  ;(kbd "t") 'dired-toggle-marks         ;wenn zuvor 2 Datein markiert waren kann man mit t diese unmarken und alle anderen die unmarked waren marken -> sinnvoll wenn man viele Dateien bis auf ein paar wenige markieren will
+  ;(kbd "H") 'dired-do-kill-lines        ;markierte Dateien ausblenden (werden nicht gelöscht, aber bei Bearbeitungen hilfreich) -> Mit <g r> - revert Buffer kann man sie sich wieder anzeigen lassen
+  ;(kbd "C") 'dired-do-copy
+  ;(kbd "D") 'dired-do-delete
+  ;(kbd "J") 'dired-goto-file
+  ;(kbd "M") 'dired-chmod
+  ;(kbd "O") 'dired-chown
+  ;(kbd "P") 'dired-do-print
+  ;(kbd "R") 'dired-rename (bzw. move file)
+  ;(kbd "+") 'dired-create-directory
+  ;(kbd "% l") 'dired-downcase
+  ;(kbd "% u") 'dired-upcase
+  ;(kbd "; d") 'epa-dired-do-decrypt
+  ;(kbd "; e") 'epa-dired-do-encrypt
+;)
+(use-package dired-sidebar
+  :ensure t
+;;   :commands (dired-sidebar-toggle-sidebar)
+;;   :init
+;;   (setq dired-sidebar-theme 'nerd) ; Sie können das Thema anpassen
+;;   (setq dired-sidebar-use-term-integration t)
+;;   (setq dired-sidebar-use-custom-font t)
+)
+
+
+#+end_src
 - Mit ( in die simple Ansicht wechseln (normale Ansicht - gibt ls Befehl samt dessen Flags/Configs aus)
 - Mit ) kann man Git commits ein/ausblenden
 - Ist man in einer Datei auf einem angegebenen Pfad kann man mit <SPC .> oder <C-x C-f> find-file öffnen und mit <Meta-n> den Pfad unter dem cursor öffnen
@@ -171,10 +242,8 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
     drwx  -rwx  -rwx   (hier können alle r = read/ lesen, w = write/ schreiben/ bearbeiten und x = execute/ ausführen)
      USER GROUP OTHERS
     drwx  -r--  -r--   (hier hat nur der angegebene User die Möglichkeit zum lesen, schreiben und ausführen und die anderen können nur lesen)
-
     r hat die Nummer 4, w hat die Nummer 2 und x die Nummer 1 -> Die Summe gibt die Rechte: +7 = nur der User hat alle Rechte -> +744 der user hat alle Rechte und die anderen haben nur Leserecht,
   - Mit +x kann man allen die Funktion ausführen geben (geht auch mit +111)
-  -
 - t = kehrt markierung um und so kann aus markiertem das nicht markierte gemacht werden - sinnvoll wenn nur wenig nicht markiert werden soll
 - Alt + Enter = gute und schnelle/einfach Vorschau der Datei/Bild etc. in Buffern nebenan ohne Cursor in neuen Buffer yu wechseln
 - Dateien nach Inhalt durchsuchen: Mit m mehrere Dateien auswählen + A -> Wort eingeben das in den markierten Dateien gesucht werden soll
@@ -209,71 +278,6 @@ _Find File:_
   
 Anstatt ein weiteres Paket zu verwenden um Programme außerhalb Emacs mit einem bestimmten Programm zu öffnen (Beispielsweise die Pakete: open-with oder dired-open) kann ich mir auch Programme vorschlagen lassen (Öffnen mit !=synchron oder &=asynchron) -> Mit <M-n> und <M-p> kann ich zwischen den Vorschlägen wechseln.
 
-#+begin_src elisp
-(setq dired-guess-shell-alist-user
-      '(("\\.\\(png\\|jpe?g\\|tiff\\)" "viewnior" "gimp" "xdg-open")  ;xdg-open heißt Standardprogramm verwenden
-	("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "vlc" "xdg-open")
-		(".*" "xdg-open")))
-(use-package dired-open
-  :config
-  (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
-  (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-  (setq dired-open-extensions '(("gif" . "vlc") ;Mit Enter (bzw. l) in Dired mit dem Cursor auf einer Datei führt zum öffnen mit dem hier festgelegten Programm
-				("pdf" . "zathura")
-				("docx" . "onlyoffice-desktopeditors")
-				("doc" . "onlyoffice-desktopeditors")
-				("odt" . "onlyoffice-desktopeditors")
-				("xlsx" . "onlyoffice-desktopeditors")
-				("pptx" . "onlyoffice-desktopeditors")
-				("ppt" . "onlyoffice-desktopeditors")
-				("jpg" . "viewnior")
-				("png" . "viewnior")
-				("mkv" . "vlc")
-				("mp4" . "vlc"))))
-;; peep-dired aktivieren wenn ich live Vorschau von Bildern oder Textdateien aktivieren will, dann sehe ich wenn ich mit j und k in dired durch die Dateien scrolle im Split-View die entsprechende Vorschau zur Datei! (ist nicht immer aktiviert, da ich das nicht immer will und geht nur im normalen mode, also mehrmals ESC und dann nochmal aktivieren in dired mit meinem Keymap und dann sollte das mit der Vorschau gehen!)
-(use-package peep-dired
-  :after dired
-  :hook (evil-normalize-keymaps . peep-dired-hook)
-  :config
-    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
-    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
-)
-;; (add-hook 'dired-mode-hook 'dired-hide-details-mode) ;wenn ich dired übersichtlicher haben mag kann ich es hier aktivieren
-
-;(evil-define-key 'normal dired-mode-map
-  ;(kbd "M-RET") 'dired-display-file     ;benutzen um Bildervorschau in Splitbuffer zu zeigen, aber weiter in dired navigieren
-  ;(kbd "h") 'dired-up-directory
-  ;(kbd "l") 'dired-open-file
-  ;(kbd "m") 'dired-mark                 ;Mit %m kann man nach einer regular expression bestimmte Dateien markieren
-  ;(kbd "u") 'dired-unmark               ;Mit U kann man alles unmarken
-  ;(kbd "t") 'dired-toggle-marks         ;wenn zuvor 2 Datein markiert waren kann man mit t diese unmarken und alle anderen die unmarked waren marken -> sinnvoll wenn man viele Dateien bis auf ein paar wenige markieren will
-  ;(kbd "H") 'dired-do-kill-lines        ;markierte Dateien ausblenden (werden nicht gelöscht, aber bei Bearbeitungen hilfreich) -> Mit <g r> - revert Buffer kann man sie sich wieder anzeigen lassen
-  ;(kbd "C") 'dired-do-copy
-  ;(kbd "D") 'dired-do-delete
-  ;(kbd "J") 'dired-goto-file
-  ;(kbd "M") 'dired-chmod
-  ;(kbd "O") 'dired-chown
-  ;(kbd "P") 'dired-do-print
-  ;(kbd "R") 'dired-rename (bzw. move file)
-  ;(kbd "+") 'dired-create-directory
-  ;(kbd "% l") 'dired-downcase
-  ;(kbd "% u") 'dired-upcase
-  ;(kbd "; d") 'epa-dired-do-decrypt
-  ;(kbd "; e") 'epa-dired-do-encrypt
-;)
-(use-package dired-sidebar
-  :ensure t
-;;   :commands (dired-sidebar-toggle-sidebar)
-;;   :init
-;;   (setq dired-sidebar-theme 'nerd) ; Sie können das Thema anpassen
-;;   (setq dired-sidebar-use-term-integration t)
-;;   (setq dired-sidebar-use-custom-font t)
-)
-
-
-#+end_src
 * Erscheinungsbild
 ** [[https://github.com/tarsius/hl-todo][Highlight Todo]]
 Adding highlights to TODO and related words.
@@ -1365,20 +1369,7 @@ Das Paket password-store ist bisher nicht nativ in Emacs. Es kann für die Integ
 - Aktuell so konfiguriert, dass die Dateien im Papierkob meiner Cloud landen! Alternativ sollte ich es so konfigurieren, dass sie in ~/.local/share/files/ landen!
 - Ich werde aktuell nicht mehr gefragt ob ich etwas speichern will, aber alle ungespeicherten Änderungen bleiben solange ich den daemon nicht kille mit ~killall emacs~ erhalten. Ich kann also einen neuen Client öffnen und dann speichern. Wenn ich Emacs mit <C-x C-c> schließe werde ich dank der Funktion hier auch gefragt ob ich etwas ungespeichertes speichern will. Sollte ich vergessen etwas zu speichern und den daemon killen, dann wird eine Backup Datei vom Autosafe erstellt wo die Änderungen noch enthalten sind, aber der ungespeicherte Fortschritt ist im nächsten Client dann nicht mehr sichtbar und kann dort somit später nicht noch gespeichert werden. Da ich es mir ganz gut angewöhnt habe wichtige Änderungen zu speichern ist es auf diese Art sinnvoll, da unbeabsichtigte Speicherprozesse nicht passieren, aber kann schon sein, dass dann mal was nicht gespeichert wird und es mir auch nicht auffällt!!! Eventuell bekomme ich es daher noch hin auch eine Nachfrage im Buffer zu erhalten, ob der Client geschlossen werden soll mit oder ohne zu speichern wenn ich den Client nicht mit <C-x C-c> sondern über Qtile schließe!
 - Undo Tree vll nicht das geilste Werkzeug und Git zusammen mit autosafe und der git timemachine die bessere Version Control!
-
-- (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
 #+begin_src elisp
-(defun confirm-save-buffers-then-kill-emacs ()
-  "Fragt nach dem Speichern von Buffern, dann ob Emacs wirklich geschlossen werden soll."
-  (interactive)
-  (if (save-some-buffers nil t) ; Änderungen wurden gespeichert oder keine Änderungen vorhanden.
-      (when (yes-or-no-p "Emacs wirklich schließen? ")
-        (kill-emacs))
-    (when (yes-or-no-p "Ungespeicherte Änderungen vorhanden. Emacs dennoch schließen? ")
-      (kill-emacs))))
-
-(setq confirm-kill-emacs 'confirm-save-buffers-then-kill-emacs)
-
 (defun copy-current-path-to-clipboard ()
   "Kopiert den Pfad der im aktuellen Buffer geöffneten Datei oder des aktuellen Dired-Verzeichnisses in die Zwischenablage."
   (interactive)
