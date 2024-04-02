@@ -18,12 +18,13 @@
   - [[#transparenz][Transparenz]]
   - [[#zooming-inout][Zooming In/Out]]
 - [[#eshell--vterm][Eshell & vterm]]
+- [[#excalidraw][Excalidraw]]
 - [[#export][Export]]
   - [[#präsentationen-und-pdfs][Präsentationen und PDFs]]
   - [[#html][Html]]
   - [[#diagramme-etc][Diagramme etc.]]
   - [[#zusatzinfo][Zusatzinfo]]
-- [[#git][Git]]
+- [[#magit--timemachine][Magit + Timemachine]]
 - [[#gpt--llms][GPT & LLMs]]
 - [[#minibuffer---vertico-marginalia-consult-embark-orderless-company-complete-anything][Minibuffer - vertico, marginalia, consult, embark, orderless, company (complete anything)]]
 - [[#kalender][Kalender]]
@@ -135,14 +136,20 @@ Die Teile der Konfiguration die ich wenig ändere und die ich als Skripte in For
   - [[https://www.youtube.com/watch?v=gMq-703ZVZQ][Sorting and org-dynamic-blocks]] für Meta Notes (siehe auch [[https://www.youtube.com/watch?v=zzXcav0yb50][hier]])
   - Link zu org-header mit <M-x org-stroe-link> unter dem org-header speichert den Link dazu -> in der anderen Datei dann <M-x org-insert-link> um den Link einzufügen -> Beispiel: [[file:~/flowmis-os/flowmis-os.org::*Emacs][Emacs-Header in flowmis-os]]
 - Geht auch über eine Funktion, aber bei mir sind noch nicht alle aktiv, sondern nur die basics! Zudem kann ich ein org-header zu einer neuen denote notiz machen mit einer Funktion!
+- Denote consult
+- [[https://lucidmanager.org/productivity/denote-explore/][Denote explore]]
 #+begin_src elisp
 (use-package denote
   :ensure t)
+
 (setq denote-directory (expand-file-name "~/cloud/life/raum/pkb/"))
 ;; kl8 = Klasse 8; kl9 = Klasse 9; kl10 = Klasse 10; ch = Chemie; spo = Sport; nwt = Naturwissenschaft und Technik; crypt = verschlüsselte Inhalte; h = Home; w = Work; vb,hb,fb,bb,bag,lsw = Volleyball, Handball, Fußball, Basketball, Bewegen an Geräten, Laufen Springen Werfen))
-(setq denote-known-keywords '("kl8" "kl9" "kl10" "ch" "spo" "nwt" "tauchen" "crypt" "vb" "hb" "fb" "bb" "bag" "lsw" "projekt" "archiv"))
+(setq denote-known-keywords '("kl8" "kl9" "kl10" "ch" "spo" "nwt" "tauchen" "crypt" "vb" "hb" "fb" "bb" "bag" "lsw" "projekt" "archiv" "eigvid"))
 (setq denote-file-type nil) ; Org is the default, set others here
 (setq denote-backlinks-show-context t)
+
+(use-package denote-explore
+:ensure t)
 
 #+end_src
 
@@ -524,6 +531,12 @@ With Emacs version 29, true transparency has been added.
                   (reusable-frames . visible)
                   (window-height . 0.3))))
 #+end_src
+* TODO [[https://github.com/wdavew/org-excalidraw][Excalidraw]]
+#+begin_src elisp
+;; (use-package org-excalidraw
+  ;; :ensure t
+  ;; '(org-excalidraw :host github :repo "wdavew/org-excalidraw"))
+#+end_src
 * Export
 Export Ordner in ~/cloud/life/zeit/void/export/
 ** Präsentationen und PDFs
@@ -587,9 +600,9 @@ Export Ordner in ~/cloud/life/zeit/void/export/
 *** Sonstige Formate
 + Falls wie auf dem Bild bei pandoc z.B. das Powerpointformat pptx nicht angezeigt wird kann man es immer auch exportieren mit <M-x org-pandoc-export-to-...>
   + Bei Powerpoint: <M-x org-pandoc-export-to-pptx>
-* Git
-- [[https://github.com/emacsmirror/git-timemachine][git-timemachine]] ein Programm um einfach in der git Historie hin und her zu wechseln. 'SPC g t' open the time machine on a file if it is in a git repo. 'CTRL-j' and 'CTRL-k' to move backwards and forwards through the commits.
-- [[https://magit.vc/manual/][Magit]] git client for Emacs.
+* [[https://magit.vc/manual/][Magit]] + [[https://github.com/emacsmirror/git-timemachine][Timemachine]] 
+Timemachine in einem offenen file aktivieren mit 'SPC g t' (muss git repo sein)
+Mit 'CTRL-j' and 'CTRL-k' durch die commits hindurch switchen und nehmen was man will und es dann speichern und neu commiten etc.
 
 #+begin_src elisp
 (use-package git-timemachine
@@ -608,7 +621,7 @@ Export Ordner in ~/cloud/life/zeit/void/export/
   :after transient)  ;; Stelle sicher, dass transient zuerst geladen wird - später mal wieder komplett ohne transient checken, denn dann sollte es eigentlich auch gehen
 #+end_src
 
-* GPT & LLMs
+* TODO GPT & LLMs
 - Ich will llama oder etwas das lokal als server bei mir zuhause läuft und gut in emacs integriert ist und mit dem text in meinen dateien (meinem 2nd brain) zusammenarbeiten kann!
 #+begin_src elisp
 (use-package gptel   ;id-tranclusion-gpt
@@ -780,7 +793,7 @@ Mit [[https://github.com/kiwanami/emacs-calfw][calfw]] erhält man einen schöne
 			     "/home/flowmis/cloud/life/raum/pkb/20240214T202735==mh--büro__projekt.org"
 			     "/home/flowmis/cloud/life/raum/pkb/20240214T203339==mh--projekte__projekt.org"
                            )
-	  org-caldav-save-directory "~/cloud/life/zeit/archiv/kalender/"     ; um sync von mehreren Geräten zu ermöglichen brauchen sie die gleiche historie (mit org-caldav-delete-everything kann ich die vorhergehende historie löschen)
+	  org-caldav-save-directory "~/cloud/life/zeit/archiv/"     ; um sync von mehreren Geräten zu ermöglichen brauchen sie die gleiche historie (mit org-caldav-delete-everything kann ich die vorhergehende historie löschen)
 	  ) ;hier kann ich weitere hinzfügen, aber irgendwie werden schon ein paar erkannt ohne dass ich sie hier angebe - verlinkte Dateien?
 )
 #+end_src
